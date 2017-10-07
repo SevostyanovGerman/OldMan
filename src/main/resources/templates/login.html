@@ -1,0 +1,55 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body  onload='document.loginForm.username.focus();'>
+
+<div class="col-md-4"></div>
+<div class="col-xs-12  col-md-4">
+
+    <div class="center-block" ></div>
+    <div class="container-fluid" >
+        <div id="login-box" class="form-group">
+
+            <h2>Sing in</h2>
+
+
+            <p th:if="${error}" class="error">Wrong user or password</p>
+            <p th:if="${msg}" class="error">You've been logged out successfully.</p>
+            <form th:action="@{/login}" method="post">
+
+                <DIV class="form-group">
+                    <label>Login</label>
+                    <input class="form-control" type='text' name='username' value=''>
+                </DIV>
+                <DIV class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" type='password' name='password' />
+                </DIV>
+
+                <input class="btn btn-primary btn-block" name="submit" type="submit" value="submit"  />
+
+
+
+                <input type="hidden" name="${_csrf.parameterName}"
+                       value="${_csrf.token}" />
+
+            </form>
+
+        </div>
+        <div class="col-md-4"></div>
+
+    </div>
+</div>
+
+</body>
+</html>
