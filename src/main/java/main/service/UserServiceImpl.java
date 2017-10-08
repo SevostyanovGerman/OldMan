@@ -17,6 +17,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getName(String name) {
-        return userRepository.findUserByName(name);
+        return userRepository.findUserByNameAndDeletedAndDisable(name, 0, 0);
     }
 }

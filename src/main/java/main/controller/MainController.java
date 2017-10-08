@@ -1,5 +1,9 @@
 package main.controller;
 
+import main.model.User;
+import main.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,10 +17,16 @@ import java.io.IOException;
 
 @Controller
 public class MainController {
+    @Autowired
+    UserService userService;
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView main() {
+
         ModelAndView model = new ModelAndView("main");
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getName(name);
+        model.addObject("user",user);
         return model;
     }
 

@@ -2,9 +2,28 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Profile</title>
 </head>
 <body>
-main page
+
+<table>
+    <tr><td>Name</td>
+        <td>First Name</td>
+        <td>Second Name</td>
+        <td>Position</td>
+        <td>Created</td>
+        <td>Creator</td>
+        <td>Roles</td>
+    </tr>
+    <tr>
+<td th:text="${user.getName()}"></td>
+<td th:text="${user.getFirst_name()}"></td>
+<td th:text="${user.getSec_name()}"></td>
+<td th:text="${user.getPosition()}"></td>
+<td th:text="${user.getCreated()}"></td>
+<td th:text="${user.getCreator()}"></td>
+<td th:text="${user.getRoles()}"></td>
+    </tr>
+</table>
 </body>
 </html>
