@@ -68,7 +68,11 @@ public class Order {
             inverseJoinColumns = {@JoinColumn(name = "customer_id")})
     private Customer customer;
 
-    //private List<History> histories;
+    @OneToMany (fetch = FetchType.LAZY, targetEntity = History.class)
+    @JoinTable(name = "keys_order_history",
+            joinColumns = {@JoinColumn(name = "order_id")},
+            inverseJoinColumns = {@JoinColumn(name = "history_id")})
+    private List<History> histories;
 
     @Column(name = "designer")
     private String designer;
@@ -87,6 +91,7 @@ public class Order {
 
     @Column(name = "to")
     private String to;
+
 
     public Long getId() {
         return id;
@@ -248,6 +253,14 @@ public class Order {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List <History> getHistories() {
+        return histories;
+    }
+
+    public void setHistories(List <History> histories) {
+        this.histories = histories;
     }
 
 

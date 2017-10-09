@@ -30,6 +30,7 @@ public class MainController {
     public ModelAndView main() {
 
         Order order = orderService.get(1l);
+
         ModelAndView model = new ModelAndView("main");
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getByName(name);
@@ -75,6 +76,8 @@ public class MainController {
 
         ModelAndView model = new ModelAndView("manager");
         model.addObject("orders", orderService.get(1l));
+        model.addObject("items", orderService.get(1l).getItems());
+
         return model;
     }
 

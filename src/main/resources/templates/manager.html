@@ -29,6 +29,8 @@
 </tr>
 </table>
 
+
+
 <p>Коментарии заказа</p>
 
 <table>
@@ -51,6 +53,16 @@
         <td th:text="${element.getCount()}" style="border: solid"></td>
         <td th:text="${element.getPrice()}" style="border: solid"></td>
 
+
+
+    </tr>
+
+</table>
+
+<p>Картинки</p>
+<table>
+    <tr th:each ="element: ${items.get(0).getImages()}">
+        <img th:src="${element.getUrl()}"  />
     </tr>
 
 </table>
@@ -67,6 +79,20 @@
     </tr>
 
 </table>
+
+
+<p>Доставка</p>
+<table>
+    <tr th:each ="element: ${orders.getCustomer().getDeliveries()}">
+        <td th:text="${element.getCoutry()}" style="border: solid"></td>
+        <td th:text="${element.getCity()}" style="border: solid"></td>
+        <td th:text="${element.getAddress()}" style="border: solid"></td>
+        <td th:text="${element.getZip()}" style="border: solid"></td>
+
+    </tr>
+
+</table>
+
 
 </body>
 </html>

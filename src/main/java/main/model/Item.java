@@ -30,9 +30,17 @@ public class Item {
     @Column(name = "price")
     private double price;
 
-   // private List<File> files;
+    @OneToMany (fetch = FetchType.LAZY, targetEntity = File.class)
+    @JoinTable(name = "keys_item_file",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "file_id")})
+    private List<File> files;
 
-    //private List<Image> images;
+    @OneToMany (fetch = FetchType.LAZY, targetEntity = Image.class)
+    @JoinTable(name = "keys_item_image",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "image_id")})
+    private List<Image> images;
 
 
     public Long getId() {
@@ -89,5 +97,21 @@ public class Item {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public List <File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List <File> files) {
+        this.files = files;
+    }
+
+    public List <Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List <Image> images) {
+        this.images = images;
     }
 }

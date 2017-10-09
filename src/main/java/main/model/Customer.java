@@ -23,7 +23,11 @@ public class Customer {
     @Column(name = "phone")
     private String phone;
 
-  //  private List<Delivery> deliveries;
+    @OneToMany (fetch = FetchType.LAZY, targetEntity = Delivery.class)
+    @JoinTable(name = "keys_customer_delivery",
+            joinColumns = {@JoinColumn(name = "customer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
+    private List<Delivery> deliveries;
 
 
     public Long getId() {
@@ -69,5 +73,13 @@ public class Customer {
     @Override
     public String toString() {
         return first_name+" "+sec_name;
+    }
+
+    public List <Delivery> getDeliveries() {
+        return deliveries;
+    }
+
+    public void setDeliveries(List <Delivery> deliveries) {
+        this.deliveries = deliveries;
     }
 }
