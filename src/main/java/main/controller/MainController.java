@@ -1,6 +1,8 @@
 package main.controller;
 
+import main.model.Order;
 import main.model.User;
+import main.service.OrderService;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,19 +16,27 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class MainController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    OrderService orderService;
+
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView main() {
 
+        Order order = orderService.get(1l);
         ModelAndView model = new ModelAndView("main");
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userService.getName(name);
+        User user = userService.getByName(name);
         model.addObject("user",user);
+
+        List<User> list =userService.getByRole("ADMIN");
+        model.addObject("roles",userService.getByRole("ADMIN"));
         return model;
     }
 
@@ -57,6 +67,14 @@ public class MainController {
     @RequestMapping(value = {"/403"}, method = RequestMethod.GET)
     public ModelAndView page403() {
         ModelAndView model = new ModelAndView("403");
+        return model;
+    }
+
+    @RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
+    public ModelAndView manager() {
+
+        ModelAndView model = new ModelAndView("manager");
+        model.addObject("orders", orderService.get(1l));
         return model;
     }
 

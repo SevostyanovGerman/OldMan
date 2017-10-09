@@ -25,5 +25,15 @@
 <td th:text="${user.getRoles()}"></td>
     </tr>
 </table>
+
+
+<li th:each ="element: ${roles}">
+
+    <p th:text="${element}"></p>
+
+
+</li>
+
+
 </body>
 </html>
