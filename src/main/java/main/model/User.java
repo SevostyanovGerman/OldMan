@@ -32,10 +32,10 @@ public class User implements UserDetails {
     private int disable;
 
     @Column(name = "first_name")
-    private String first_name;
+    private String firstName;
 
     @Column(name = "sec_name")
-    private String sec_name;
+    private String secName;
 
     @Column(name = "position")
     private String position;
@@ -125,19 +125,19 @@ public class User implements UserDetails {
     }
 
     public String getFirst_name() {
-        return first_name;
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirst_name(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getSec_name() {
-        return sec_name;
+        return secName;
     }
 
-    public void setSec_name(String sec_name) {
-        this.sec_name = sec_name;
+    public void setSec_name(String secName) {
+        this.secName = secName;
     }
 
     public String getPosition() {
@@ -185,8 +185,8 @@ public class User implements UserDetails {
         if (disable != user.disable) return false;
         if (name != null ? !name.equals(user.name) : user.name != null) return false;
         if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (first_name != null ? !first_name.equals(user.first_name) : user.first_name != null) return false;
-        if (sec_name != null ? !sec_name.equals(user.sec_name) : user.sec_name != null) return false;
+        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
+        if (secName != null ? !secName.equals(user.secName) : user.secName != null) return false;
         if (position != null ? !position.equals(user.position) : user.position != null) return false;
         if (created != null ? !created.equals(user.created) : user.created != null) return false;
         if (creator != null ? !creator.equals(user.creator) : user.creator != null) return false;
@@ -200,8 +200,8 @@ public class User implements UserDetails {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + deleted;
         result = 31 * result + disable;
-        result = 31 * result + (first_name != null ? first_name.hashCode() : 0);
-        result = 31 * result + (sec_name != null ? sec_name.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (secName != null ? secName.hashCode() : 0);
         result = 31 * result + (position != null ? position.hashCode() : 0);
         result = 31 * result + (created != null ? created.hashCode() : 0);
         result = 31 * result + (creator != null ? creator.hashCode() : 0);

@@ -5,7 +5,7 @@ import main.model.User;
 import java.util.List;
 
 public interface UserService {
-    public User get (Long id);
-    public User getByName (String name);
-    public List<User> getByRole ( String role);
+     User get (Long id);
+     User getByName (String name);
+     List<User> getByRole ( String role);
 }

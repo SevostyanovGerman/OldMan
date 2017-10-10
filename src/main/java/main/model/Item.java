@@ -30,7 +30,7 @@ public class Item {
     @Column(name = "price")
     private double price;
 
-    @OneToMany (fetch = FetchType.LAZY, targetEntity = File.class)
+    @OneToMany (fetch = FetchType.EAGER, targetEntity = File.class)
     @JoinTable(name = "keys_item_file",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "file_id")})
@@ -113,5 +113,40 @@ public class Item {
 
     public void setImages(List <Image> images) {
         this.images = images;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (count != item.count) return false;
+        if (Double.compare(item.price, price) != 0) return false;
+        if (id != null ? !id.equals(item.id) : item.id != null) return false;
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        if (model != null ? !model.equals(item.model) : item.model != null) return false;
+        if (type != null ? !type.equals(item.type) : item.type != null) return false;
+        if (comment != null ? !comment.equals(item.comment) : item.comment != null) return false;
+        if (files != null ? !files.equals(item.files) : item.files != null) return false;
+        return images != null ? images.equals(item.images) : item.images == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (model != null ? model.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (comment != null ? comment.hashCode() : 0);
+        result = 31 * result + count;
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (files != null ? files.hashCode() : 0);
+        result = 31 * result + (images != null ? images.hashCode() : 0);
+        return result;
     }
 }
