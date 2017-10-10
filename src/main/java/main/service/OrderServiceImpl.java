@@ -5,6 +5,8 @@ import main.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderServiceImpl implements OrderService{
     @Autowired
@@ -13,5 +15,10 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order get(Long id) {
         return orderRepository.findById(id);
+    }
+
+    @Override
+    public List<Order> getAll() {
+        return orderRepository.findAllByDeleted(0);
     }
 }

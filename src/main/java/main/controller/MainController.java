@@ -71,13 +71,22 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
-    public ModelAndView manager() {
+    @RequestMapping(value = {"/manager1"}, method = RequestMethod.GET)
+    public ModelAndView manager1() {
 
         ModelAndView model = new ModelAndView("manager");
         model.addObject("orders", orderService.get(1l));
         model.addObject("items", orderService.get(1l).getItems());
 
+        return model;
+    }
+
+    @RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
+    public ModelAndView manager() {
+
+        ModelAndView model = new ModelAndView("ManagerDashBoard");
+        model.addObject("orders", orderService.getAll());
+        model.addObject("items", orderService.get(1l).getItems());
         return model;
     }
 
