@@ -1,5 +1,7 @@
 package main.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,8 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
 @Controller
 public class MainController {
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView main() {
@@ -29,6 +34,7 @@ public class MainController {
             ModelAndView model = new ModelAndView();
             if (error != null) {
                 model.addObject("error", "Invalid username and password!");
+                LOGGER.warn("Invalid username and password");
             }
 
             if (logout != null) {

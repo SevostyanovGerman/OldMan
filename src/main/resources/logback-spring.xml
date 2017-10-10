@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
-            </Pattern>
-        </encoder>
-    </appender>
-
-    <appender name="security"
+    <appender name="SECURITY"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/security/securitylog.log</file>
+        <file>logs/security/seclogging.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <FileNamePattern>logs/arch/security/securitylog.%i.log.zip</FileNamePattern>
+            <FileNamePattern>logs/arch/security/seclogging.%i.log.zip</FileNamePattern>
             <MinIndex>1</MinIndex>
             <MaxIndex>10</MaxIndex>
         </rollingPolicy>
@@ -28,16 +22,15 @@
 
     </appender>
 
-    <appender name="FILE"
+    <appender name="SYSTEM"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/general/logging.log</file>
+        <file>logs/system/syslogging.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-            </Pattern>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <FileNamePattern>logs/arch/general/logging.%i.log.zip</FileNamePattern>
+            <FileNamePattern>logs/arch/system/syslogging.%i.log.zip</FileNamePattern>
             <MinIndex>1</MinIndex>
             <MaxIndex>10</MaxIndex>
         </rollingPolicy>
@@ -46,20 +39,39 @@
                 class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
             <MaxFileSize>2MB</MaxFileSize>
         </triggeringPolicy>
-
     </appender>
 
-    <logger name="org.hibernate.type" level="ALL" />
-    <logger name="org.hibernate" level="INFO" />
+    <appender name="APPLICATION"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app/applogging.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>logs/arch/app/applogging.%i.log.zip</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>2MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
     <logger name="org.springframework.security" additivity="false">
-        <level valuse="debug" />
-        <appender-ref ref="security" />
+        <appender-ref ref="SECURITY" />
+        <appender-ref ref="CONSOLE" />
     </logger>
-    <logger name="org.springframework.web" level="INFO" />
+    <logger name="main" additivity="false">
+        <appender-ref ref="APPLICATION" />
+        <appender-ref ref="CONSOLE" />
+    </logger>
 
     <root level="INFO">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="SYSTEM" />
+        <appender-ref ref="CONSOLE" />
     </root>
 
 </configuration>
