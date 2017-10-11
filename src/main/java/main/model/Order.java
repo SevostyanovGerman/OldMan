@@ -246,7 +246,6 @@ public class Order {
     }
 
     public String getCreated() {
-
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
         return    dateFormat.format(created);
     }

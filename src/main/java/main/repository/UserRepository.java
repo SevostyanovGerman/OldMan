@@ -10,5 +10,4 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User,Long> {
     User findUserByNameAndDeletedAndDisable(String name, int del, int disable);
     List<User> getAllByRoles(Role role);
-
 }
