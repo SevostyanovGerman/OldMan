@@ -17,7 +17,7 @@ import java.io.IOException;
 @Controller
 public class MainController {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView main() {
@@ -34,7 +34,7 @@ public class MainController {
             ModelAndView model = new ModelAndView();
             if (error != null) {
                 model.addObject("error", "Invalid username and password!");
-                LOGGER.warn("Invalid username and password");
+                logger.info("Invalid username and password");
             }
 
             if (logout != null) {
