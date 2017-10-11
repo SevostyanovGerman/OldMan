@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Manager Dash Board</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                	<span class="sr-only">
+                		Toggle navigation
+                	</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navcol-1">
+
+            <div class="col-lg-4">
+                <ul class="nav navbar-nav ">
+                    <li class="active" role="presentation"><a href="#">Заказы</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h4><font color=white> Заказ №001 Дата заказа: 02.10.2017</font> </h4>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">Дизайнер</a></li>
+                <li>
+                    <form class="navbar-form navbar-right">
+                        <button type="submit" class="btn btn-sm btn-info"
+                                style="background: #777777; border: #777777; color: #FFFFFF;"
+                                href="LoginPage.html">
+                            <a href="LoginPage.html" style="color: #FFFFFF;">Выход</a>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-9">
+            <form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 100%; height: 300px;">
+                <fieldset>
+                    <ul class="nav nav-tabs nav-justified"">
+                    <li class="active"><a href="#tabItem" data-toggle="tab" aria-expanded="true">Заказ</a></li>
+                    <li class=""><a href="#tabComments" data-toggle="tab" aria-expanded="false">Комментарии</a></li>
+                    <li class=""><a href="#tabHistory" data-toggle="tab" aria-expanded="false">История</a></li>
+
+                    </ul>
+                </fieldset>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabItem" role="tabpanel">
+
+                            <br>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <ul class="list-group" style="padding-left: 20px">
+                                            <li class="list-group-item" style="background-color: lightgrey;">Менеджер</li>
+                                           <br> <li class="list-group-item" style="background-color: lightgrey;">Дизайнер</li>
+                                            <br>  <li class="list-group-item" style="background-color: lightgrey;">Дата получения</li>
+                                            <br>  <li class="list-group-item" style="background-color: lightgrey;">Дата отправки</li>
+                                        </ul>
+                                    </td>
+                                    <td><ul class="list-group">
+                                        <li class="list-group-item" style="width: 200%">Иван</li>
+                                        <br>  <li class="list-group-item" style="width: 200%">Василий</li>
+                                        <br>  <li class="list-group-item" style="width: 200%">10/10/2017</li>
+                                        <br>  <li class="list-group-item" style="width: 200%">в процессе</li>
+                                    </ul></td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+                        <div class="tab-pane" id="tabComments" role="tabpanel">
+                            <h3>Комментарии</h3>
+                        </div>
+
+                        <div class="tab-pane" id="tabHistory" role="tabpanel">
+                            <table class="table table-bordered data" text-align="center">
+                                <thead>
+                                <tr>
+                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
+                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата получения</th>
+                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата отправки</th>
+                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
+                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Отправитель</th>
+                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Получатель</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td style="text-align: center;">001</td>
+                                    <td style="text-align: center;">10.10.2017</td>
+                                    <td style="text-align: center;">10.10.2017</td>
+                                    <td style="text-align: center;">Дизайн</td>
+                                    <td style="text-align: center;">Менеджер</td>
+                                    <td style="text-align: center;">Дизайнер</td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="col-lg-3">
+            <form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 300px; height: 300px ;padding: 1px 20px 5px;">
+                <fieldset >
+                    <h4 align="center">Текущий статус</h4>
+
+                    <input type="text" class="form-control" readonly value="Новый"
+                           style="background-color: white; text-align: center;   border: 1px solid PaleGreen;">
+                </fieldset>
+                <br>
+                <fieldset>
+						<button class="btn btn-success" type="button" style="width: 100%">Отправить</button>
+
+
+                </fieldset>
+
+            </form>
+
+
+            <br>
+            <br>
+
+        </div>
+
+
+        <div class="col-lg-12">
+            <form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 103%; height: 100% ;padding: 1px 20px 5px;">
+                <fieldset >
+                    <h3>Позиции заказа</h3>
+                    <table class="table table-bordered data" text-align="center">
+                        <tr>
+                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Позиции</th>
+                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Продукт</th>
+                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Материал</th>
+                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Модель</th>
+                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Действие</th>
+
+                        </tr>
+                        <tr>
+                            <th style="text-align: center;">1</th>
+                            <th style="text-align: center;">Чехол</th>
+                            <th style="text-align: center;">Железо</th>
+                            <th style="text-align: center;">iphone 3</th>
+                            <th style="text-align: center;"><button class="btn btn-success" type="button" style="width: 100%">Открыть</button></th>
+                        </tr>
+                    </table>
+                </fieldset>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+</body>
+</html>

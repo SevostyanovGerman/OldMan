@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Manager Dash Board</title>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                	<span class="sr-only">
+                		Toggle navigation
+                	</span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+            
+                <ul class="nav navbar-nav">
+                    <li class="active" role="presentation"><a href="#">Заказы</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Дизайнер</a></li>
+					<li>
+						<form class="navbar-form navbar-right">
+							<button type="submit" class="btn btn-sm btn-info" 
+									style="background: #777777; border: #777777; color: #FFFFFF;"
+									href="LoginPage.html">
+									<a href="../../../../../верстка/дизайнер/LoginPage.html" style="color: #FFFFFF;">Выход</a>
+							</button>
+						</form>
+					</li>
+					
+				</ul>
+                
+            </div>
+        </div>
+    </nav>
+
+	<br>
+    <div class="container">
+		<div class="row">
+			<div class="col-lg-4" align="Left">
+				<div class="btn-group">
+					<a href="#" class="btn btn-default">Фильтр</a>
+					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#">Фильтр 1</a></li>
+						<li><a href="#">Фильтр 2</a></li>
+						<li><a href="#">Фильтр 3</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-4" align="right">
+				<div class="btn-group">
+					<a href="#" class="btn btn-default">Расширенный поиск</a>
+					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a href="#">Условие 1</a></li>
+						<li><a href="#">Условие 2</a></li>
+						<li><a href="#">Условие 3</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-4" align="Right" style="align-items: flex-end">
+				<div class="input-group" align="Right">
+					<input type="text" class="form-control" placeholder="Поиск">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">Найти</button>
+					</span>
+				</div>
+			</div>
+
+
+		</div>
+    </div>
+
+	<br>
+
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-bordered data" text-align="center">
+                <thead>
+                    
+                
+                    <tr>
+                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
+                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дизайнер</th>
+                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Менеджер</th>
+                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
+                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата получения</th>
+                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата отправки оплаты</th>
+                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: center;">001</td>
+                        <td style="text-align: center;">Вася</td>
+                        <td style="text-align: center;">Петя</td>
+                        <td style="text-align: center;">дизайн</td>
+                        <td style="text-align: center;">10/01/2017</td>
+                        <td style="text-align: center;">в процессе</td>
+                        <td align="center">
+                        	<button class="btn btn-info btn-xs" type="button">
+                        		<span class="glyphicon glyphicon-pencil"></span>
+                        	</button>
+                        </td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+</body>
+</html>
