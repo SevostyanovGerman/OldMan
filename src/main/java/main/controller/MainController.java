@@ -32,7 +32,7 @@ public class MainController {
     @Autowired
     private OrderService orderService;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView main() {

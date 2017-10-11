@@ -35,7 +35,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getByRole(String name) {
+        logger.debug("Search users by role {}", name);
         Role role = roleService.getByname(name);
+
+        if(role != null){
+            logger.debug("Role {} was not found", name);
+        }
+
         return userRepository.getAllByRoles(role);
     }
 }
