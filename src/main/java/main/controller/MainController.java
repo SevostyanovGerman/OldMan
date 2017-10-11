@@ -1,11 +1,16 @@
 package main.controller;
 
+
 import main.model.Order;
 import main.model.User;
 import main.service.OrderService;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+
 @Controller
 public class MainController {
     @Autowired
@@ -25,6 +31,8 @@ public class MainController {
 
     @Autowired
     private OrderService orderService;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView main() {
@@ -50,6 +58,7 @@ public class MainController {
             ModelAndView model = new ModelAndView();
             if (error != null) {
                 model.addObject("error", "Invalid username and password!");
+                logger.info("Invalid username and password");
             }
 
             if (logout != null) {
