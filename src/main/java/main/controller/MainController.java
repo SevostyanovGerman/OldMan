@@ -84,8 +84,6 @@ public class MainController {
     public ModelAndView manager() {
         ModelAndView model = new ModelAndView("ManagerDashBoard");
         model.addObject("orders", orderService.getAll());
-        model.addObject("items", orderService.get(1l).getItems());
         return model;
     }
-
 }
