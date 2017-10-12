@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Manager Dash Board</title>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                	<span class="sr-only">
+                		Toggle navigation
+                	</span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav">
+                    <li class="active" role="presentation"><a href="ManagerDashBoard.html">Заказы</a></li>
+                    <li role="presentation"><a href="ManagerOrderForm.html">Форма заказа</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Менеджер</a></li>
+					<li>
+						<form class="navbar-form navbar-right">
+							<button type="submit" class="btn btn-sm btn-info" 
+									style="background: #777777; border: #777777; color: #FFFFFF;"
+									href="LoginPage.html">
+									<a href="LoginPage.html" style="color: #FFFFFF;">Выход</a>
+							</button>
+						</form>
+					</li>
+				</ul>
+            </div>
+        </div>
+    </nav>
+
+	<br>
+    <div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 550px; height: 240px ;padding: 1px 20px 5px;">
+                    <fieldset >
+                        <br>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Тип продукта:</span>
+                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 385px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Модель телефона:</span>
+                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 385px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Материал:</span>
+                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 385px;">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Цена:</span>
+                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 385px;">
+                            </div>
+                        </div>              
+                    </fieldset>
+                </form>
+			</div> <!-- col-lg-6 -->
+
+
+			<!-- ИНФОРМАЦИЯ О КЛИЕНТЕ -->
+			<div class="col-lg-6">
+    			<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 550px; height: 240px ;padding: 1px 20px 5px;">
+                    <fieldset >
+                        <h4 align="left">Комментарии</h4>
+                        <textarea style="width: 510px; height: 170px; resize: none;">
+                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                        </textarea>
+                    </fieldset>
+                </form>
+                <br>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Изображение">
+                    <span class="input-group-btn" id="basic-addon3" style="text-align: center;">
+                        <button class="btn btn-default" type="button">Добавить изображение</button>
+                    </span>
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-lg-4" style="position: relative;">
+                        <img data-src="holder.js/140x140" class="img-thumbnail" alt="140x140" src="#" style="width: 140px; height: 140px; position: absolute;">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="tooltip" title="Удалить" style="text-align: center; position: absolute; left: 160px;">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                    <div class="col-lg-4" style="position: relative;">
+                        <img data-src="holder.js/140x140" class="img-thumbnail" alt="140x140" src="#" style="width: 140px; height: 140px; position: absolute;">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="tooltip" title="Удалить" style="text-align: center; position: absolute; left: 160px;">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                    <div class="col-lg-4" style="position: relative;">
+                        <img data-src="holder.js/140x140" class="img-thumbnail" alt="140x140" src="#" style="width: 140px; height: 140px; position: absolute;">
+                        <button type="button" class="btn btn-primary btn-xs" data-toggle="tooltip" title="Удалить" style="text-align: center; position: absolute; left: 160px;">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                </div>
+			</div> <!-- col-lg-6 -->
+		</div>
+    </div>
+	<br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12" align="Right">
+                <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Добавить позицию к заказу" style="width: 140px; text-align: center;">
+                    <a href="ManagerOrderForm.html" style="color: #FFFFFF;">Добавить к заказу</a>
+                </button>
+			</div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+</body>
+</html>
