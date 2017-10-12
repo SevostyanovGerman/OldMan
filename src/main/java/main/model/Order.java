@@ -1,11 +1,15 @@
 package main.model;
 
-import groovy.time.BaseDuration;
+
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+
+import java.sql.Date;
 import java.util.List;
 
 
@@ -13,6 +17,8 @@ import java.util.List;
 @Table(name="orders")
 public class Order {
 
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("d MMMM, yyyy");
+    
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -213,16 +219,18 @@ public class Order {
         this.master = master;
     }
 
-    public Date getDateRecieved() {
-        return dateRecieved;
+    public String getDateRecieved() {
+        DateTime dateTime = new DateTime(dateRecieved);
+        return dateTime.toString(DATE_TIME_FORMATTER);
     }
 
     public void setDateRecieved(Date dateRecieved) {
         this.dateRecieved = dateRecieved;
     }
 
-    public Date getDateTransferred() {
-        return dateTransferred;
+    public String getDateTransferred() {
+        DateTime dateTime = new DateTime(dateTransferred);
+        return dateTime.toString(DATE_TIME_FORMATTER);
     }
 
     public void setDateTransferred(Date dateTransferred) {
@@ -246,8 +254,8 @@ public class Order {
     }
 
     public String getCreated() {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        return    dateFormat.format(created);
+        DateTime dateTime = new DateTime(created);
+        return dateTime.toString(DATE_TIME_FORMATTER);
     }
 
     public void setCreated(Date created) {
