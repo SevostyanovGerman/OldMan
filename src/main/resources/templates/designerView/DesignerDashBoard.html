@@ -5,7 +5,9 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
-    
+
+	<link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -13,6 +15,7 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+	
 </head>
 
 <body>
@@ -37,10 +40,9 @@
 					<li><a href="#">Дизайнер</a></li>
 					<li>
 						<form class="navbar-form navbar-right">
-							<button type="submit" class="btn btn-sm btn-info" 
-									style="background: #777777; border: #777777; color: #FFFFFF;"
+							<button id="Btnlogout" type="submit" class="btn btn-sm btn-info"
 									href="LoginPage.html">
-									<a href="../../../../../../верстка/дизайнер/LoginPage.html" style="color: #FFFFFF;">Выход</a>
+									<a class="wtBtn" href="/LoginPage.html" >Выход</a>
 							</button>
 						</form>
 					</li>
@@ -54,8 +56,8 @@
 	<br>
     <div class="container">
 		<div class="row">
-			<div class="col-lg-4" align="Left">
-				<div class="btn-group">
+			<div class="col-lg-4 col-xs-12" align="Left">
+				<div class="btn-group paggingL15">
 					<a href="#" class="btn btn-default">Фильтр</a>
 					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 						<span class="caret"></span>
@@ -68,18 +70,17 @@
 				</div>
 			</div>
 
-			<div class="col-lg-4" align="right">
+			<div class="col-lg-4 col-xs-12" align="right">
 				<div class="btn-group">
-					<a href="#" class="btn btn-default">Расширенный поиск</a>
-					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#">Условие 1</a></li>
-						<li><a href="#">Условие 2</a></li>
-						<li><a href="#">Условие 3</a></li>
-					</ul>
-				</div>
+				<button type="button" class="btn btn-default" >Расширенный поиск</button>
+				<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" ><span class="caret" align="right"></span></button>
+				<ul class="dropdown-menu" >
+					<li><a href="#">Пункт 1</a></li>
+					<li><a href="#">Пункт 2</a></li>
+					<li class="divider"></li>
+					<li><a href="#">Пункт 3</a></li>
+				</ul>
+			</div>
 			</div>
 
 			<div class="col-lg-4" align="Right" style="align-items: flex-end">
@@ -97,30 +98,31 @@
 
 	<br>
 
-    <div class="container">
-        <div class="table-responsive">
-            <table class="table table-bordered data" text-align="center">
-                <thead>
+    <div class="container ">
+
+        <div class="col-xs-12">
+            <table class="table table-bordered data" text-align="center" >
+                <thead >
                     
                 
-                    <tr>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дизайнер</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Менеджер</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата получения</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата отправки оплаты</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;"></th>
+                    <tr class="tableHead">
+                        <th >№ Заказа</th>
+                        <th>Дизайнер</th>
+                        <th>Менеджер</th>
+                        <th>Статус</th>
+                        <th>Дата получения</th>
+                        <th>Дата отправки оплаты</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="text-align: center;">001</td>
-                        <td style="text-align: center;">Вася</td>
-                        <td style="text-align: center;">Петя</td>
-                        <td style="text-align: center;">дизайн</td>
-                        <td style="text-align: center;">10/01/2017</td>
-                        <td style="text-align: center;">в процессе</td>
+                        <td>001</td>
+                        <td>Вася</td>
+                        <td>Петя</td>
+                        <td>дизайн</td>
+                        <td>10/01/2017</td>
+                        <td>в процессе</td>
                         <td align="center">
                         	<button class="btn btn-info btn-xs" type="button">
                         		<span class="glyphicon glyphicon-pencil"></span>

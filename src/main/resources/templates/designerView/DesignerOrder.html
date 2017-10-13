@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
 
+    <link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -13,6 +14,7 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
 </head>
 
 <body>
@@ -43,10 +45,9 @@
                 <li><a href="#">Дизайнер</a></li>
                 <li>
                     <form class="navbar-form navbar-right">
-                        <button type="submit" class="btn btn-sm btn-info"
-                                style="background: #777777; border: #777777; color: #FFFFFF;"
+                        <button id="Btnlogout" type="submit" class="btn btn-sm btn-info"
                                 href="LoginPage.html">
-                            <a href="LoginPage.html" style="color: #FFFFFF;">Выход</a>
+                            <a href="LoginPage.html" class="wtBtn">Выход</a>
                         </button>
                     </form>
                 </li>
@@ -58,8 +59,8 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-lg-9">
-            <form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 100%; height: 300px;">
+        <div class="col-lg-9" >
+            <form class="form-horizontal borderClass" >
                 <fieldset>
                     <ul class="nav nav-tabs nav-justified"">
                     <li class="active"><a href="#tabItem" data-toggle="tab" aria-expanded="true">Заказ</a></li>
@@ -98,25 +99,25 @@
                         </div>
 
                         <div class="tab-pane" id="tabHistory" role="tabpanel">
-                            <table class="table table-bordered data" text-align="center">
+                            <table class="table table-bordered data" >
                                 <thead>
-                                <tr>
-                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
-                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата получения</th>
-                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата отправки</th>
-                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
-                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Отправитель</th>
-                                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Получатель</th>
+                                <tr class="tableHead">
+                                    <th>№ Заказа</th>
+                                    <th>Дата получения</th>
+                                    <th>Дата отправки</th>
+                                    <th>Статус</th>
+                                    <th>Отправитель</th>
+                                    <th>Получатель</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td style="text-align: center;">001</td>
-                                    <td style="text-align: center;">10.10.2017</td>
-                                    <td style="text-align: center;">10.10.2017</td>
-                                    <td style="text-align: center;">Дизайн</td>
-                                    <td style="text-align: center;">Менеджер</td>
-                                    <td style="text-align: center;">Дизайнер</td>
+                                    <td>001</td>
+                                    <td>10.10.2017</td>
+                                    <td>10.10.2017</td>
+                                    <td>Дизайн</td>
+                                    <td>Менеджер</td>
+                                    <td>Дизайнер</td>
                                 </tbody>
                             </table>
                         </div>
@@ -124,19 +125,18 @@
 
                 </fieldset>
             </form>
-        </div>
+        </div >
 
         <div class="col-lg-3">
-            <form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 300px; height: 300px ;padding: 1px 20px 5px;">
+            <form class="form-horizontal borderClass2">
                 <fieldset >
                     <h4 align="center">Текущий статус</h4>
 
-                    <input type="text" class="form-control" readonly value="Новый"
-                           style="background-color: white; text-align: center;   border: 1px solid PaleGreen;">
+                    <label class="form-control statusL">Новый  </label>
                 </fieldset>
                 <br>
                 <fieldset>
-						<button class="btn btn-success" type="button" style="width: 100%">Отправить</button>
+						<button class="btn btn-success width100" type="button" >Отправить</button>
 
 
                 </fieldset>
@@ -150,25 +150,25 @@
         </div>
 
 
-        <div class="col-lg-12">
-            <form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 103%; height: 100% ;padding: 1px 20px 5px;">
+        <div class="col-lg-12 pagging20" >
+            <form class="form-horizontal borderClass" >
                 <fieldset >
                     <h3>Позиции заказа</h3>
-                    <table class="table table-bordered data" text-align="center">
-                        <tr>
-                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Позиции</th>
-                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Продукт</th>
-                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Материал</th>
-                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Модель</th>
-                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Действие</th>
+                    <table class="table table-bordered data" >
+                        <tr class="tableHead">
+                            <th>№ Позиции</th>
+                            <th>Продукт</th>
+                            <th>Материал</th>
+                            <th>Модель</th>
+                            <th>Действие</th>
 
                         </tr>
                         <tr>
-                            <th style="text-align: center;">1</th>
-                            <th style="text-align: center;">Чехол</th>
-                            <th style="text-align: center;">Железо</th>
-                            <th style="text-align: center;">iphone 3</th>
-                            <th style="text-align: center;"><button class="btn btn-success" type="button" style="width: 100%">Открыть</button></th>
+                            <th>1</th>
+                            <th>Чехол</th>
+                            <th>Железо</th>
+                            <th>iphone 3</th>
+                            <th><button class="btn btn-success width100" type="button">Открыть</button></th>
                         </tr>
                     </table>
                 </fieldset>

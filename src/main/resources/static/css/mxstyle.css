@@ -1,0 +1,100 @@
+.tableHead {
+    background-color: #777777;
+    color: #FFFFFF;
+}
+
+
+td{
+    text-align: center;
+}
+th{
+    text-align: center;
+}
+#Btnlogout{
+    background: #777777;
+    border: #777777;
+    color: #FFFFFF;"
+}
+.wtBtn{
+    color: #FFFFFF;
+}
+
+.statusL{
+    background-color: white;
+    text-align: center;
+    border: 1px solid PaleGreen;
+}
+.tableHead {
+    background-color: #777777;
+    color: #FFFFFF;
+}
+
+
+td{
+    text-align: center;
+}
+th{
+    text-align: center;
+}
+#Btnlogout{
+    background: #777777;
+    border: #777777;
+    color: #FFFFFF;"
+}
+.wtBtn{
+    color: #FFFFFF;
+}
+.lighGrey{
+    background-color: lightgrey;
+}
+
+.HeighClass{
+    height: 140px;
+    text-align: left;
+
+}
+
+.borderClass{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;"
+}
+
+.borderClass2{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    padding: 1px 20px 5px;
+}
+.deepSky
+{
+    color: deepskyblue;
+}
+.btnX{
+    width: auto;
+    background-color: inherit;
+    border: none;
+}
+.btnXimg{
+    vertical-align:middle;
+    width:12px ;
+}
+.width100{
+    width: 100%;
+}
+.width50{
+    width: 50%;
+}
+.pagging20{
+    padding-top: 20px;
+}
+
+.paggingL10{
+    padding-left: 10px;
+}
+
+.paggingL15{
+    padding-left: 15px;
+}
