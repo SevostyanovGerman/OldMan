@@ -16,22 +16,22 @@ import java.util.List;
 @RestController
 public class AjaxController {
 	@Autowired
-	OrderService orderService;
+	private OrderService orderService;
 
 	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@RequestMapping(value = {"/ajax"}, method = RequestMethod.GET)
-
-	public String ajax (@RequestParam(value="q") String q, Model model) {
+	public List<Order> ajax (@RequestParam(value="q") String q, Model model) {
 
 		List<Order> list = orderService.findByNumber(q);
-
+		List<String> result = new ArrayList <>();
 		StringBuilder stringBuilder = new StringBuilder();
 		for (int i = 0; i < list.size() ; i++) {
-			stringBuilder.append("<a href=\"test \">" + list.get(i).getNumber() + "</a><br> \n");
+			//stringBuilder.append("<a href=\"test \">" + list.get(i).getNumber() + "</a><br> \n");
+			result.add(list.get(i).getNumber());
 		}
 
-		return stringBuilder.toString();
+		return list;
 	}
 }
