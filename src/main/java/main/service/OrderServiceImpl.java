@@ -28,4 +28,9 @@ public class OrderServiceImpl implements OrderService{
         logger.debug("Getting order list");
         return orderRepository.findAllByDeleted(0);
     }
+
+    @Override
+    public List <Order> findByNumber(String number) {
+        return orderRepository.findAllByDeletedAndNumberContains(0, number);
+    }
 }

@@ -19,7 +19,7 @@ public class Order {
     private Long id;
 
     @Column(name = "number")
-    private Long number;
+    private String number;
 
     @Column(name = "price")
     private double price;
@@ -109,11 +109,11 @@ public class Order {
         this.id = id;
     }
 
-    public Long getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Long number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
