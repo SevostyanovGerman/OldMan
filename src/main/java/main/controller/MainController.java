@@ -73,7 +73,6 @@ public class MainController {
         }
     }
 
-
     @RequestMapping(value = {"/403"}, method = RequestMethod.GET)
     public ModelAndView page403() {
         ModelAndView model = new ModelAndView("403");
