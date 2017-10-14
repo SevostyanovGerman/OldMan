@@ -21,11 +21,9 @@ function showResult(str)
         {
             var result = new Array();
              result = JSON.parse(xmlhttp.response);
-
             var list="";
             for(var i = 0; i<result.length; i++){
                 list =list + "<a href=\"/designer/order/" + result[i].numer+ " \" >"+ result[i].number+"</a>" +"<br>" ;
-
             }
             document.getElementById("livesearch").innerHTML=list;
             document.getElementById("livesearch").style.border="1px solid #A5ACB2";
