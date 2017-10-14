@@ -30,17 +30,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List <Order> findByCustomer(String name) {
-        return orderRepository.findAllByCustomerFirstNameContainsAndDeleted(name,0);
-    }
-
-    @Override
     public List <Order> findByNumber(String number) {
         return orderRepository.findAllByDeletedAndNumberContains(0, number);
-    }
-
-    @Override
-    public List <Order> findByManager(String name) {
-        return orderRepository.findAllByDeletedAndManagerFirstNameContains(0, name);
     }
 }
