@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html>
 
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
-
     <link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -34,11 +34,11 @@
 
             <div class="col-lg-4">
                 <ul class="nav navbar-nav ">
-                    <li class="active" role="presentation"><a href="#">Заказы</a></li>
+                    <li class="active" role="presentation"><a href="/designer">Заказы</a></li>
                 </ul>
             </div>
             <div class="col-lg-4">
-                <h4><font color=white> Заказ №001 Дата заказа: 02.10.2017</font> </h4>
+                <h4 style="color: white" th:text="'Заказ №' + ${order.getNumber()}+'  Дата заказа: '+${order.getCreated()}"> Заказ №001 Дата заказа: 02.10.2017 </h4>
             </div>
 
             <ul class="nav navbar-nav navbar-right">
@@ -60,7 +60,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-9" >
-            <form class="form-horizontal borderClass" >
+            <form class="form-horizontal borderSimple" >
                 <fieldset>
                     <ul class="nav nav-tabs nav-justified"">
                     <li class="active"><a href="#tabItem" data-toggle="tab" aria-expanded="true">Заказ</a></li>
@@ -75,19 +75,19 @@
                             <br>
                             <table>
                                 <tr>
-                                    <td>
+                                    <td >
                                         <ul class="list-group" style="padding-left: 20px">
-                                            <li class="list-group-item" style="background-color: lightgrey;">Менеджер</li>
-                                           <br> <li class="list-group-item" style="background-color: lightgrey;">Дизайнер</li>
-                                            <br>  <li class="list-group-item" style="background-color: lightgrey;">Дата получения</li>
-                                            <br>  <li class="list-group-item" style="background-color: lightgrey;">Дата отправки</li>
+                                            <li class="list-group-item " >Менеджер</li>
+                                           <br> <li class="list-group-item ">Дизайнер</li>
+                                            <br>  <li class="list-group-item " >Дата получения</li>
+                                            <br>  <li class="list-group-item " >Дата отправки</li>
                                         </ul>
                                     </td>
-                                    <td><ul class="list-group">
-                                        <li class="list-group-item" style="width: 200%">Иван</li>
-                                        <br>  <li class="list-group-item" style="width: 200%">Василий</li>
-                                        <br>  <li class="list-group-item" style="width: 200%">10/10/2017</li>
-                                        <br>  <li class="list-group-item" style="width: 200%">в процессе</li>
+                                    <td><ul class="list-group width200">
+                                        <li class="list-group-item " th:text="${order.getManager()}">Иван</li>
+                                        <br>  <li class="list-group-item " th:text="${order.getDesigner()}">Василий</li>
+                                        <br>  <li class="list-group-item " th:text="${order.getDateRecieved()}">10/10/2017</li>
+                                        <br>  <li class="list-group-item " th:text="${order.getDateTransferred()}">в процессе</li>
                                     </ul></td>
                                 </tr>
                             </table>
@@ -112,7 +112,7 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>001</td>
+                                    <td th:text="${order.getNumber()}">001</td>
                                     <td>10.10.2017</td>
                                     <td>10.10.2017</td>
                                     <td>Дизайн</td>
@@ -128,11 +128,11 @@
         </div >
 
         <div class="col-lg-3">
-            <form class="form-horizontal borderClass2">
+            <form class="form-horizontal borderSimple">
                 <fieldset >
                     <h4 align="center">Текущий статус</h4>
 
-                    <label class="form-control statusL">Новый  </label>
+                    <label class="form-control statusL" th:text="${order.getStatus()}">Новый  </label>
                 </fieldset>
                 <br>
                 <fieldset>
@@ -149,27 +149,34 @@
 
         </div>
 
-
+        <form action="/designer/order/item" method="post" id="item" >
+        </form>
         <div class="col-lg-12 pagging20" >
-            <form class="form-horizontal borderClass" >
+            <form class="form-horizontal " >
                 <fieldset >
                     <h3>Позиции заказа</h3>
-                    <table class="table table-bordered data" >
+                    <table class="table table-bordered data borderSimple" >
                         <tr class="tableHead">
                             <th>№ Позиции</th>
                             <th>Продукт</th>
                             <th>Материал</th>
                             <th>Модель</th>
+                            <th>Статус</th>
                             <th>Действие</th>
 
                         </tr>
-                        <tr>
-                            <th>1</th>
-                            <th>Чехол</th>
-                            <th>Железо</th>
-                            <th>iphone 3</th>
-                            <th><button class="btn btn-success width100" type="button">Открыть</button></th>
+
+                        <tr th:each ="element: ${order.getItems()}">
+                            <td> </td>
+                            <td th:text="${element.getName()}" ></td>
+                            <td th:text="${element.getType()}" ></td>
+                            <td th:text="${element.getModel()}"></td>
+                            <td th:text="${element.getStatus()}"></td>
+                            <td>
+                                <button class="btn btn-success width100" type="submit" form="item" name="itemId" th:value="${element.getId()}"  >Открыть</button>
+                          </td>
                         </tr>
+
                     </table>
                 </fieldset>
         </div>

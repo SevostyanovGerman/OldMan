@@ -24,8 +24,12 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<Order> getAll() {
-        logger.debug("Getting order list");
-        return orderRepository.findAllByDeleted(0);
+    public List <Order> designerOrders() {
+        return orderRepository.findAllByDeletedAndStatus(0,"design");
+    }
+
+    @Override
+    public List <Order> designFindNumber(String number) {
+        return orderRepository.findAllByDeletedAndStatusAndNumberContains(0,"design", number);
     }
 }

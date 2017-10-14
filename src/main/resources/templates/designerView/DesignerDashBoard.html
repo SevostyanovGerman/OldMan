@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html>
 
 <head>
@@ -69,7 +69,8 @@
 					</ul>
 				</div>
 			</div>
-
+			<div>
+				<form action="/designer/search" method="post" id="searchForm">
 			<div class="col-lg-4 col-xs-12" align="right">
 				<div class="btn-group">
 				<button type="button" class="btn btn-default" >Расширенный поиск</button>
@@ -85,13 +86,14 @@
 
 			<div class="col-lg-4" align="Right" style="align-items: flex-end">
 				<div class="input-group" align="Right">
-					<input type="text" class="form-control" placeholder="Поиск">
+					<input type="text" class="form-control" placeholder="Поиск" name="search">
 					<span class="input-group-btn">
-						<button class="btn btn-default" type="button">Найти</button>
+						<button class="btn btn-default">Найти</button>
 					</span>
 				</div>
 			</div>
-
+				</form>
+			</div>
 
 		</div>
     </div>
@@ -115,19 +117,24 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>001</td>
-                        <td>Вася</td>
-                        <td>Петя</td>
-                        <td>дизайн</td>
-                        <td>10/01/2017</td>
-                        <td>в процессе</td>
-                        <td align="center">
-                        	<button class="btn btn-info btn-xs" type="button">
-                        		<span class="glyphicon glyphicon-pencil"></span>
-                        	</button>
-                        </td>
+                <tbody th:if="${orders}">
+				<tr th:each ="element: ${orders}">
+					<td th:text="${element.getNumber()}"></td>
+					<td th:text="${element.getDesigner()}"></td>
+					<td th:text="${element.getManager()}"></td>
+					<td th:text="${element.getStatus()}" ></td>
+					<td th:text="${element.getDateRecieved()}"></td>
+					<td th:text="${element.getDateTransferred()}"></td>
+
+					<td>
+						<form action="/designer/order" method="get" id="order">
+						<button class="btn btn-info btn-xs"  type="submit" form="order" name="orderId" th:value="${element.getId()}">
+						<span class="glyphicon glyphicon-pencil"></span>
+					</button>
+						</form>
+					</td>
+				</tr>
+
                 </tbody>
             </table>
         </div>

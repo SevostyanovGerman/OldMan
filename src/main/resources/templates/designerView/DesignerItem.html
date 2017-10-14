@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html>
 
 <head>
@@ -35,11 +35,11 @@
 
             <div class="col-lg-4">
                 <ul class="nav navbar-nav ">
-                    <li class="active" role="presentation"><a href="#">Заказы</a></li>
+                    <li class="active" role="presentation"><a href="/designer">Заказы</a></li>
                 </ul>
             </div>
             <div class="col-lg-4">
-                <h4><font color=white> Заказ №001 Дата заказа: 02.10.2017</font> </h4>
+                <h4  > Заказ №001 Дата заказа: 02.10.2017</h4>
             </div>
 
             <ul class="nav navbar-nav navbar-right">
@@ -61,7 +61,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-9">
-            <form class="form-horizontal borderClass" >
+            <form class="form-horizontal borderSimple " >
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="tabItem">
@@ -73,19 +73,20 @@
                                 <td style="width: 40%" >
                                     <ul class="list-group" style="padding-left: 20px" >
                                         <li class="list-group-item lighGrey" >Продукт</li>
-                                        <br> <li class="list-group-item" >Модель телефона</li>
+                                        <br> <li class="list-group-item lighGrey" >Модель телефона</li>
                                         <br>  <li class="list-group-item lighGrey">Тип</li>
                                     </ul>
                                 </td>
-                                <td style="width: inherit" ><ul class="list-group">
-                                    <li class="list-group-item">Чехол</li>
-                                    <br>  <li class="list-group-item">Iphone </li>
-                                    <br>  <li class="list-group-item">Деревянный</li>
+                                <td style="width: inherit" >
+                                    <ul class="list-group">
+                                    <li class="list-group-item" th:text="${item.getName()}">Чехол</li>
+                                    <br>  <li class="list-group-item" th:text="${item.getModel()}" >Iphone </li>
+                                    <br>  <li class="list-group-item" th:text="${item.getType()}">Деревянный</li>
                                 </ul></td>
                                 <td class="width100" >
                                     <ul >
                                         Комментарий:
-                                        <li class="list-group-item HeighClass"> Бла-бла-бла </li>
+                                        <li class="list-group-item HeighClass" th:text="${item.getComment()}"> Бла-бла-бла </li>
                                     </ul>
                                 </td>
                             </tr>
@@ -107,18 +108,24 @@
                 </fieldset>
             </form>
         </div>
-
+        <form  th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
+        </form>
         <div class="col-lg-3">
-            <form class="form-horizontal borderClass2" >
+            <form class="form-horizontal borderSimple " >
                 <fieldset >
                     <h4 align="center">Текущий статус</h4>
 
-                    <label class="form-control statusL">Новый  </label>
+
+                    <label class="form-control statusL" th:text="${item.getStatus()}">Новый </label>
                 </fieldset>
                     <br>
                 <fieldset>
 
-                    <button class="btn btn-success width100" type="button" >Готово</button>
+                    <div th:switch="${item.getStatus()}">
+                        <button th:case="'YES'" class="btn btn-success width100" type="submit" form="save" name="status" value="NO"  >Вернуть</button>
+                        <button th:case="'NO'" class="btn btn-success width100" type="submit" form="save" name="status" value="YES"  >Собрать</button>
+
+                    </div>
 
                 </fieldset>
                 <br>
@@ -142,7 +149,7 @@
         <br>
 
         <div class="col-lg-12 pagging20 ">
-            <form class="form-horizontal borderClass pagging20 paggingL10" >
+            <form class="form-horizontal borderSimple pagging20 paggingL10" >
                 <fieldset >
                         <table>
                             <tr>

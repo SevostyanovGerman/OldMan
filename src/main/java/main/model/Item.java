@@ -30,6 +30,10 @@ public class Item {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "status")
+    private String status;
+
+
     @OneToMany (fetch = FetchType.EAGER, targetEntity = File.class)
     @JoinTable(name = "keys_item_file",
             joinColumns = {@JoinColumn(name = "item_id")},
@@ -113,6 +117,14 @@ public class Item {
 
     public void setImages(List <Image> images) {
         this.images = images;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override

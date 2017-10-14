@@ -84,6 +84,11 @@ th{
 .width100{
     width: 100%;
 }
+
+.width200{
+    width: 200%;
+}
+
 .width50{
     width: 50%;
 }
@@ -97,4 +102,10 @@ th{
 
 .paggingL15{
     padding-left: 15px;
+}
+
+.borderSimple{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1px 20px 5px;
 }
