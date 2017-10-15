@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Manager Dash Board</title>
+    
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+	<link rel="stylesheet" href="/css/dashboard.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                	<span class="sr-only">
+                		Toggle navigation
+                	</span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="nav navbar-nav">
+                    <li role="presentation"><a href="/director">Заказы</a></li>
+                    <li role="presentation"><a href="#">Клиенты</a></li>
+                    <li class="active" role="presentation"><a href="#managers" data-toggle="tab">Менеджеры</a></li>
+                    <li role="presentation"><a href="#designers" data-toggle="tab">Дизайнеры</a></li>
+                    <li role="presentation"><a href="#masters" data-toggle="tab">Мастера</a></li>
+                    <li role="presentation"><a href="#">Статистика</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Директор</a></li>
+					<li>
+						<form class="navbar-form navbar-right">
+							<a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
+						</form>
+					</li>
+					
+				</ul>
+                
+            </div>
+        </div>
+    </nav>
+
+	<br>
+    <div class="container">
+		<div class="row">
+			<div class="col-lg-4" align="Left">
+				<div class="btn-group">
+					<a href="#" class="btn btn-default">Фильтр</a>
+					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Фильтр 1</a></li>
+						<li><a href="#">Фильтр 2</a></li>
+						<li><a href="#">Фильтр 3</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-3" align="Left">
+				<div class="btn-group">
+					<a href="#" class="btn btn-default">Расширенный поиск</a>
+					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+						<span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Условие 1</a></li>
+						<li><a href="#">Условие 2</a></li>
+						<li><a href="#">Условие 3</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-3" align="Right">
+				<div class="input-group">
+					<input type="text" class="form-control" placeholder="Заказ">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">Найти</button>
+					</span>
+				</div>
+			</div>
+		</div>
+    </div>
+	<br>
+    <div class="container">
+        <div class="table-responsive">
+			<!-- Tab tabels -->
+			<div class="tab-content">
+
+				<!-- Managers table -->
+				<div class="tab-pane active" id="managers">
+					<table class="table table-bordered data" text-align="center">
+						<thead>
+							<tr>
+								<th>#ID</th>
+								<th>Имя</th>
+								<th>Фамилия</th>
+								<th>Email</th>
+								<th>Телефон</th>
+								<th>Позиция</th>
+								<th colspan="2">Действия</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block th:each ="unit: ${stuff}">
+								<tr th:if="${unit.getPosition().contains('Менеджер')}">
+									<td th:text="${unit.getId()}"></td>
+									<td th:text="${unit.getFirst_name()}"></td>
+									<td th:text="${unit.getSec_name()}"></td>
+									<td>n/a</td>
+									<td>n/a</td>
+									<td th:text="${unit.getPosition()}"></td>
+									<td>
+										<a data-toggle="modal" class="btn btn-xs btn-info" th:href="'stuff/#' + ${unit.getId()}">Изменить</a>
+									</td>
+									<td>
+										<a class="btn btn-xs btn-danger" th:href="'stuff/delete/' + ${unit.getId()}">Удалить</a>
+									</td>
+								</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</div>
+
+				<!-- Designers table -->
+				<div class="tab-pane" id="designers">
+					<table class="table table-bordered data" text-align="center">
+						<thead>
+						<tr>
+							<th>#ID</th>
+							<th>Имя</th>
+							<th>Фамилия</th>
+							<th>Email</th>
+							<th>Телефон</th>
+							<th>Позиция</th>
+							<th colspan="2">Действия</th>
+						</tr>
+						</thead>
+						<tbody>
+						<th:block th:each ="unit: ${stuff}">
+							<tr th:if="${unit.getPosition().contains('Дизайнер')}">
+								<td th:text="${unit.getId()}"></td>
+								<td th:text="${unit.getFirst_name()}"></td>
+								<td th:text="${unit.getSec_name()}"></td>
+								<td>n/a</td>
+								<td>n/a</td>
+								<td th:text="${unit.getPosition()}"></td>
+								<td>
+									<a data-toggle="modal" class="btn btn-xs btn-info" th:href="'stuff/#' + ${unit.getId()}">Изменить</a>
+								</td>
+								<td>
+									<a class="btn btn-xs btn-danger" th:href="'stuff/delete/' + ${unit.getId()}">Удалить</a>
+								</td>
+							</tr>
+						</th:block>
+						</tbody>
+					</table>
+				</div>
+
+				<!-- Designers table -->
+				<div class="tab-pane" id="masters">
+					<table class="table table-bordered data" text-align="center">
+						<thead>
+						<tr>
+							<th>#ID</th>
+							<th>Имя</th>
+							<th>Фамилия</th>
+							<th>Email</th>
+							<th>Телефон</th>
+							<th>Позиция</th>
+							<th colspan="2">Действия</th>
+						</tr>
+						</thead>
+						<tbody>
+						<th:block th:each ="unit: ${stuff}">
+							<tr th:if="${unit.getPosition().contains('Мастер')}">
+								<td th:text="${unit.getId()}"></td>
+								<td th:text="${unit.getFirst_name()}"></td>
+								<td th:text="${unit.getSec_name()}"></td>
+								<td>n/a</td>
+								<td>n/a</td>
+								<td th:text="${unit.getPosition()}"></td>
+								<td>
+									<a data-toggle="modal" class="btn btn-xs btn-info" th:href="'stuff/#' + ${unit.getId()}">Изменить</a>
+								</td>
+								<td>
+									<a class="btn btn-xs btn-danger" th:href="'stuff/delete/' + ${unit.getId()}">Удалить</a>
+								</td>
+							</tr>
+						</th:block>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+        </div>
+    </div>
+    
+
+     <!-- Optional JavaScript -->
+    <!-- jQuery first -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="/js/jquery.js"></script>
+
+	<!-- Popper.js second -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+
+	<!-- And finally Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+	<script src="/js/bootstrap.js"></script>
+
+</body>
+</html>

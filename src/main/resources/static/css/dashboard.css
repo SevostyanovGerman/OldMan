@@ -1,0 +1,22 @@
+tr th {
+    background-color: #777777;
+    color: #FFFFFF;
+}
+
+tr th, tr td {
+    text-align: center;
+}
+
+.center666 {
+    text-align: center;
+}
+
+.block{
+    display: inline-block;
+}
+
+.logout {
+    background: #777777;
+    border: #777777;
+    color: #FFFFFF;
+}

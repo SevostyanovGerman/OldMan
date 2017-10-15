@@ -73,9 +73,32 @@ public class MainController {
         }
     }
 
+
     @RequestMapping(value = {"/403"}, method = RequestMethod.GET)
     public ModelAndView page403() {
         ModelAndView model = new ModelAndView("403");
+        return model;
+    }
+
+    @RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
+    public ModelAndView manager() {
+        ModelAndView model = new ModelAndView("ManagerDashBoard");
+        model.addObject("orders", orderService.getAll());
+        model.addObject("items", orderService.get(1l).getItems());
+        return model;
+    }
+
+    @RequestMapping(value = {"/director"}, method = RequestMethod.GET)
+    public ModelAndView director() {
+        ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
+        model.addObject("orders", orderService.getAll());
+        return model;
+    }
+
+    @RequestMapping(value = {"/director/stuff"}, method = RequestMethod.GET)
+    public ModelAndView showStaff() {
+        ModelAndView model = new ModelAndView("/directorView/DirectorStuffBoard");
+        model.addObject("stuff", userService.getAllUsers());
         return model;
     }
 }
