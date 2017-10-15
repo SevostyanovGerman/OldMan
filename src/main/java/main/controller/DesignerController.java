@@ -22,7 +22,6 @@ public class DesignerController {
 	@Autowired
 	private ItemService itemService;
 
-
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
@@ -37,7 +36,6 @@ public class DesignerController {
 		model.addObject("order", orderService.get(Long.parseLong(id)));
 		return model;
 	}
-
 
 	@RequestMapping(value = {"/designer/order/item"}, method = RequestMethod.POST)
 	public ModelAndView item(HttpServletRequest request) {

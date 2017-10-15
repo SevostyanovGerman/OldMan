@@ -110,6 +110,8 @@
         </div>
         <form  th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
         </form>
+
+        <form action="/designer/order" id="backBtn" method="get"></form>
         <div class="col-lg-3">
             <form class="form-horizontal borderSimple " >
                 <fieldset >
@@ -136,7 +138,7 @@
                 </fieldset>
                 <br>
 
-                    <button class="btn btn-success width100" type="button">Выход</button>
+                    <button class="btn btn-success width100" type="submit" form="backBtn" name="orderId" th:value="${item.getOrder().getId()}" >Назад</button>
 
             </form>
 
@@ -189,6 +191,7 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/js/mxscript.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"

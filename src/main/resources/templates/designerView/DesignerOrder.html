@@ -17,7 +17,7 @@
 
 </head>
 
-<body>
+<body onload="checkStatus()">
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -127,6 +127,8 @@
             </form>
         </div >
 
+        <form action="/designer" id="back" method="get"></form>
+
         <div class="col-lg-3">
             <form class="form-horizontal borderSimple">
                 <fieldset >
@@ -136,11 +138,13 @@
                 </fieldset>
                 <br>
                 <fieldset>
-						<button class="btn btn-success width100" type="button" >Отправить</button>
-
-
+						<button class="btn btn-success width100" type="button" name="sendBtn" disabled >Отправить</button>
                 </fieldset>
+                <br>
+                <fieldset>
 
+                    <button class="btn btn-success width100" type="submit" form="back" >Назад</button>
+                </fieldset>
             </form>
 
 
@@ -171,7 +175,7 @@
                             <td th:text="${element.getName()}" ></td>
                             <td th:text="${element.getType()}" ></td>
                             <td th:text="${element.getModel()}"></td>
-                            <td th:text="${element.getStatus()}"></td>
+                            <td th:text="${element.getStatus()}" name="status"></td>
                             <td>
                                 <button class="btn btn-success width100" type="submit" form="item" name="itemId" th:value="${element.getId()}"  >Открыть</button>
                           </td>
@@ -187,6 +191,7 @@
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="/js/mxscript.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"

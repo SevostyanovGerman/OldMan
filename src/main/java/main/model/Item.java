@@ -1,5 +1,7 @@
 package main.model;
 
+import org.hibernate.annotations.ManyToAny;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -33,6 +35,13 @@ public class Item {
     @Column(name = "status")
     private String status;
 
+
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
+    @JoinTable(name = "keys_order_item",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = {@JoinColumn(name = "order_id")})
+    private Order order;
 
     @OneToMany (fetch = FetchType.EAGER, targetEntity = File.class)
     @JoinTable(name = "keys_item_file",
@@ -125,6 +134,14 @@ public class Item {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Override
