@@ -63,13 +63,11 @@ public class Order {
             inverseJoinColumns = {@JoinColumn(name = "comment_id")})
     private List<Comment> comments;
 
-
     @OneToMany (fetch = FetchType.LAZY, targetEntity = Item.class)
     @JoinTable(name = "keys_order_item",
             joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "item_id")})
     private List<Item> items;
-
 
     @ManyToOne (fetch = FetchType.EAGER, targetEntity = Customer.class)
     @JoinTable(name = "keys_order_customer",
