@@ -1,6 +1,4 @@
-function goBack() {
-    window.history.back();
-}
+
 
 function checkStatus() {
 
@@ -14,4 +12,10 @@ function checkStatus() {
             check[0].disabled = true;
         }
     }
+
+
+
 }
+
+
+

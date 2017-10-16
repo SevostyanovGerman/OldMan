@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
 
+
+
     <link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -153,51 +155,139 @@
         <div class="col-lg-12 pagging20 ">
             <form class="form-horizontal borderSimple pagging20 paggingL10" >
                 <fieldset >
-                        <table>
-                            <tr>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Загрузить файл</button>
+
+
+
+
+
+
+
+
+
+                    <div class="container">
+                        <!-- HTML heavily inspired by https://blueimp.github.io/jQuery-File-Upload/ -->
+                        <div id="actions" class="row">
+                            <div class="col-lg-7">
+                                <!-- The fileinput-button span is used to style the file input field as button -->
+                                <span class="btn btn-success fileinput-button dz-clickable">
+          <i class="glyphicon glyphicon-plus"></i>
+          <span>Add files...</span>
       </span>
-                                            <input type="text" class="form-control">
-                                        </div><!-- /input-group -->
-                                    </div><!-- /.col-lg-6 -->
-                                </div><!-- /.row -->
-                            </tr>
-                            <tr>
-                                <ul class="deepSky">
-                                    <li>
-                                        Файл_1 <button class="btnX"> <img class="btnXimg" alt="" src="http://www.icon100.com/up/2443/64/cancel.png"> </button>
-                                    </li>
+                                <button type="submit" class="btn btn-primary start">
+                                    <i class="glyphicon glyphicon-upload"></i>
+                                    <span>Start upload</span>
+                                </button>
+                                <button type="reset" class="btn btn-warning cancel">
+                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                    <span>Cancel upload</span>
+                                </button>
+                            </div>
 
-                                    <li>
-                                        Файл_2 <button class="btnX" > <img class="btnXimg" alt="" src="http://www.icon100.com/up/2443/64/cancel.png"> </button>
-                                    </li>
-                                </ul>
+                            <div class="col-lg-5">
+                                <!-- The global file processing state -->
+                                <span class="fileupload-process">
+        <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
+        </div>
+      </span>
+                            </div>
+                        </div>
+                        <div class="table table-striped files" id="previews">
+                            <div id="template" class="file-row dz-image-preview">
+                                <!-- This is used as the file preview template -->
+                                <div>
+                                    <span class="preview"><img data-dz-thumbnail></span>
+                                </div>
+                                <div>
+                                    <p class="name" data-dz-name></p>
+                                    <strong class="error text-danger" data-dz-errormessage></strong>
+                                </div>
+                                <div>
+                                    <p class="size" data-dz-size></p>
+                                    <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                        <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <button class="btn btn-primary start">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <span>Start</span>
+                                    </button>
+                                    <button data-dz-remove class="btn btn-warning cancel">
+                                        <i class="glyphicon glyphicon-ban-circle"></i>
+                                        <span>Cancel</span>
+                                    </button>
+                                    <button data-dz-remove class="btn btn-danger delete">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                            </tr>
-                        </table>
+
+
+
+
 
 
                 </fieldset>
-
             </form>
+        </div>
     </div>
 </div>
 
 
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/js/mxscript.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js'></script>
+<script src="/js/mxdropzone.js"></script>
+<script src="/js/mxscript.js"></script>
+
+
+
+
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+
+
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
         integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
 
 </body>
 </html>

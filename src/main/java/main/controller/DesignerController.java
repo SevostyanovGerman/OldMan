@@ -4,14 +4,19 @@ import main.model.Item;
 import main.service.ItemService;
 import main.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 @Controller
 public class DesignerController {
@@ -65,5 +70,37 @@ public class DesignerController {
 		model.addObject("item", item);
 		return model;
 	}
+
+
+
+
+
+
+
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public String uploadSampleFiles(@RequestParam(value = "file") MultipartFile file) {
+
+		String name = "drop";
+		if (!file.isEmpty()) {
+			name = file.getOriginalFilename();
+
+			try {
+				byte[] bytes = file.getBytes();
+				BufferedOutputStream stream =
+						new BufferedOutputStream(new FileOutputStream(new File(name + "-uploaded")));
+				stream.write(bytes);
+				stream.close();
+				return "Вы удачно загрузили " + name + " в " + name + "-uploaded !";
+			} catch (Exception e) {
+				return "Вам не удалось загрузить " + name + " => " + e.getMessage();
+			}
+		} else {
+			return "Вам не удалось загрузить " + name + " потому что файл пустой.";
+		}
+	}
+
+
+
+
 
 }
