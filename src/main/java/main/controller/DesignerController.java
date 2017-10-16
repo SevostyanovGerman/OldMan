@@ -42,7 +42,7 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order/item"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/designer/order/item"}, method = RequestMethod.GET)
 	public ModelAndView item(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		model.addObject("item", itemService.get(Long.parseLong(request.getParameter("itemId"))));
@@ -71,13 +71,9 @@ public class DesignerController {
 		return model;
 	}
 
-
-
-
-
-
-
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
 	public String uploadSampleFiles(@RequestParam(value = "file") MultipartFile file) {
 
 		String name = "drop";
@@ -98,9 +94,4 @@ public class DesignerController {
 			return "Вам не удалось загрузить " + name + " потому что файл пустой.";
 		}
 	}
-
-
-
-
-
 }
