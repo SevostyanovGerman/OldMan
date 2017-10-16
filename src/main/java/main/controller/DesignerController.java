@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.model.Item;
+import main.model.Order;
 import main.service.ItemService;
 import main.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class DesignerController {
 
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
+
+		Order order = orderService.get(1l);
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		model.addObject("orders", orderService.designerOrders());
 		return model;

@@ -32,9 +32,6 @@ public class Order {
     @Column(name = "payment_type")
     private String paymentType;
 
-    @Column(name = "status")
-    private String status;
-
     @Column(name = "deleted")
     private int deleted;
 
@@ -58,6 +55,12 @@ public class Order {
 
     @Column(name = "to")
     private String to;
+
+    @ManyToOne (fetch = FetchType.EAGER, targetEntity = Status.class)
+    @JoinTable(name = "keys_order_status",
+            joinColumns = {@JoinColumn(name = "order_id")},
+            inverseJoinColumns = {@JoinColumn(name = "status_id")})
+    private Status status;
 
     @OneToMany (fetch = FetchType.EAGER, targetEntity = Comment.class)
     @JoinTable(name = "keys_order_comment",
@@ -149,11 +152,11 @@ public class Order {
         this.paymentType = paymentType;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

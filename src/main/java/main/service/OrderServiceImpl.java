@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List <Order> designerOrders() {
-        return orderRepository.findAllByDeletedAndStatus(0,"design");
+        return orderRepository.findAllByDeletedAndStatusName(0,"design");
     }
 
     @Override

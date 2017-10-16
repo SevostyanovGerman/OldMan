@@ -10,6 +10,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByCustomerFirstNameContainsAndDeleted(String name, int deleted);
     List<Order> findAllByDeletedAndNumberContains(int deleted, String number);
     List<Order> findAllByDeletedAndManagerFirstNameContains(int deleted, String name);
-    List<Order> findAllByDeletedAndStatus(int deleted, String status);
+    List<Order> findAllByDeletedAndStatusName(int deleted, String status);
     List<Order> findAllByDeletedAndStatusAndNumberContains(int deleted, String status, String number);
 }
