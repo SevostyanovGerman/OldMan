@@ -30,10 +30,9 @@ public class DesignerController {
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
-			try{
+			try {
 				model.addObject("orders", orderService.designerOrders());
-			}
-			catch ( Exception e ){
+			} catch ( Exception e ) {
 				logger.error("Controller '/designer', orderService.designerOrders() error ");
 			}
 		return model;
@@ -42,10 +41,10 @@ public class DesignerController {
 	@RequestMapping(value = {"/designer/order"}, method = RequestMethod.GET)
 	public ModelAndView order(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-			try{
+			try {
 				String id = request.getParameter("orderId");
 				model.addObject("order", orderService.get(Long.parseLong(id)));
-			} catch (Exception e){
+			} catch (Exception e) {
 				model = new ModelAndView("/designerView/DesignerDashBoard");
 				logger.error("Controller '/designer/order', orderId={}", request.getParameter("orderId"));
 			}
@@ -57,8 +56,7 @@ public class DesignerController {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 			try {
 				model.addObject("item", itemService.get(Long.parseLong(request.getParameter("itemId"))));
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("Controller '/designer/order/item', itemId={}", request.getParameter("itemId"));
 				 model = new ModelAndView("/designerView/DesignerDashBoard");
 			}
@@ -68,11 +66,10 @@ public class DesignerController {
 	@RequestMapping(value = {"/designer/search"}, method = RequestMethod.POST)
 	public ModelAndView search(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
-			try{
+			try {
 				String search = request.getParameter("search");
 				model.addObject("orders", orderService.designFindNumber(search));
-			}
-			catch (Exception e){
+			} catch (Exception e) {
 				logger.error("Controller '/designer/search', search={}", request.getParameter("search"));
 				model = new ModelAndView("/designerView/DesignerDashBoard");
 			}
@@ -83,15 +80,14 @@ public class DesignerController {
 	public ModelAndView save(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		String status = request.getParameter("status");
-			try{
+			try {
 				Item item = itemService.get(id);
 				if (status != null) {
 					item.setStatus(status);
 					itemService.save(item);
 				}
 			model.addObject("item", item);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				logger.error("Controller '/designer/order/item/save/', id={}", id);
 				model = new ModelAndView("/designerView/DesignerDashBoard");
 			}
