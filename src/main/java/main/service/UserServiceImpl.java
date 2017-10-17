@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RoleService roleService;
-    
+
     @Override
     public User get(Long id) {
         logger.debug("Searching user with id: {}", id);
@@ -43,5 +43,20 @@ public class UserServiceImpl implements UserService {
         }
 
         return userRepository.getAllByRoles(role);
+    }
+
+
+    public List<User> getAllUsers(){
+        logger.debug("Getting all users");
+
+        List<User> listUsers = userRepository.getAllByDeleted(0);
+
+        if(listUsers.size() > 0){
+            logger.debug("The resulting list");
+        } else {
+            logger.debug("The list is empty");
+        }
+
+        return listUsers;
     }
 }

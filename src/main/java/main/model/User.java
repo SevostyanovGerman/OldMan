@@ -124,19 +124,19 @@ public class User implements UserDetails {
         this.disable = disable;
     }
 
-    public String getFirstName() {
+    public String getFirst_name() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirst_name(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getSecName() {
+    public String getSec_name() {
         return secName;
     }
 
-    public void setSecName(String secName) {
+    public void setSec_name(String secName) {
         this.secName = secName;
     }
 
