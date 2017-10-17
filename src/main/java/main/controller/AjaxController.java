@@ -23,7 +23,7 @@ public class AjaxController {
 		List<String> result = new ArrayList <>();
 		StringBuilder stringBuilder = new StringBuilder();
 		for (int i = 0; i < list.size() ; i++) {
-			result.add(list.get(i).getNumber());
+			//result.add(list.get(i).getNumber());
 		}
 		return list;
 	}

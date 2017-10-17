@@ -88,17 +88,4 @@ public class MainController {
         return model;
     }
 
-    @RequestMapping(value = {"/director"}, method = RequestMethod.GET)
-    public ModelAndView director() {
-        ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
-        model.addObject("orders", orderService.getAll());
-        return model;
-    }
-
-    @RequestMapping(value = {"/director/stuff"}, method = RequestMethod.GET)
-    public ModelAndView showStaff() {
-        ModelAndView model = new ModelAndView("/directorView/DirectorStuffBoard");
-        model.addObject("stuff", userService.getAllUsers());
-        return model;
-    }
 }
