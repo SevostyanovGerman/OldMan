@@ -27,10 +27,7 @@ public class Order {
     private double price;
 
     @Column(name = "payment")
-    private String payment;
-
-    @Column(name = "payment_type")
-    private String paymentType;
+    private Boolean payment;
 
     @Column(name = "status")
     private String status;
@@ -58,6 +55,12 @@ public class Order {
 
     @Column(name = "to")
     private String to;
+
+    @OneToOne (fetch = FetchType.EAGER, targetEntity = Payment.class)
+    @JoinTable(name = "keys_order_payment",
+            joinColumns = {@JoinColumn(name = "order_id")},
+            inverseJoinColumns = {@JoinColumn(name = "payment_id")})
+    private Payment paymentType;
 
     @OneToMany (fetch = FetchType.EAGER, targetEntity = Comment.class)
     @JoinTable(name = "keys_order_comment",
@@ -133,19 +136,27 @@ public class Order {
         this.price = price;
     }
 
-    public String getPayment() {
+    public Boolean getPayment() {
         return payment;
     }
 
-    public void setPayment(String payment) {
+    public String getPaymentString() {
+        if (payment){
+            return "оплачен";
+        }
+
+        return "не оплачен";
+    }
+
+    public void setPayment(Boolean payment) {
         this.payment = payment;
     }
 
-    public String getPaymentType() {
+    public Payment getPaymentType() {
         return paymentType;
     }
 
-    public void setPaymentType(String paymentType) {
+    public void setPaymentType(Payment paymentType) {
         this.paymentType = paymentType;
     }
 
