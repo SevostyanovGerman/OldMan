@@ -1,8 +1,10 @@
 package main.controller;
 
 import main.model.Item;
+import main.model.Order;
 import main.service.ItemService;
 import main.service.OrderService;
+import main.service.StatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class DesignerController {
 
 	@Autowired
 	private ItemService itemService;
+
+	@Autowired
+	private StatusService statusService;
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
@@ -119,5 +124,20 @@ public class DesignerController {
 			logger.warn("Вам не удалось загрузить  {} потому что файл пустой.",name);
 			return "Вам не удалось загрузить " + name + " потому что файл пустой.";
 		}
+	}
+
+	@RequestMapping(value = {"/designer/send/order={id}&status={statusId}"}, method = RequestMethod.POST)
+	public ModelAndView send(@PathVariable Long id,@PathVariable Long statusId, HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
+		try {
+			Order order = orderService.get(id);
+			order.setStatus(statusService.get(statusId));
+			orderService.save(order);
+			model.addObject("order", order);
+		} catch (Exception e) {
+			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}",id,statusId);
+			model = new ModelAndView("/designerView/DesignerDashBoard");
+		}
+		return model;
 	}
 }

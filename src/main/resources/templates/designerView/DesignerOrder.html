@@ -128,7 +128,7 @@
         </div >
 
         <form action="/designer" id="back" method="get"></form>
-
+        <form th:action="'/designer/send/order=' + ${order.getId()} + '&status=2'" id="sendOrder" method="post"></form>
         <div class="col-lg-3">
             <form class="form-horizontal borderSimple">
                 <fieldset >
@@ -138,7 +138,9 @@
                 </fieldset>
                 <br>
                 <fieldset>
-						<button class="btn btn-success width100" type="button" name="sendBtn" disabled >Отправить</button>
+
+						<button class="btn btn-success width100" type="submit" form="sendOrder" name="sendBtn" disabled >Отправить</button>
+
                 </fieldset>
                 <br>
                 <fieldset>

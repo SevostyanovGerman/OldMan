@@ -13,4 +13,5 @@ public interface OrderService {
      List<Order> findByManager (String name);
      List<Order> designerOrders();
      List<Order> designFindNumber (String number);
+     void save(Order order);
 }

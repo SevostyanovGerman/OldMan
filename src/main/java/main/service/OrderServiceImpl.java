@@ -20,7 +20,7 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public Order get(Long id) {
         logger.debug("Searching role with id: {}", id);
-        return orderRepository.findById(id);
+        return orderRepository.findByIdAndDeleted(id,0);
     }
 
     @Override
@@ -30,12 +30,17 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List <Order> designerOrders() {
-        return orderRepository.findAllByDeletedAndStatusName(0,"design");
+        return orderRepository.findAllByDeletedAndStatusId(0,1l);
     }
 
     @Override
     public List <Order> designFindNumber(String number) {
         return orderRepository.findAllByDeletedAndStatusAndNumberContains(0,"design", number);
+    }
+
+    @Override
+    public void save(Order order) {
+        orderRepository.save(order);
     }
 
     @Override
