@@ -1,7 +1,5 @@
 package main.model;
 
-
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -144,7 +142,6 @@ public class Order {
         if (payment){
             return "оплачен";
         }
-
         return "не оплачен";
     }
 
@@ -295,7 +292,6 @@ public class Order {
         if (id != null ? !id.equals(order.id) : order.id != null) return false;
         if (number != null ? !number.equals(order.number) : order.number != null) return false;
         if (payment != null ? !payment.equals(order.payment) : order.payment != null) return false;
-        if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) return false;
         if (status != null ? !status.equals(order.status) : order.status != null) return false;
         if (creator != null ? !creator.equals(order.creator) : order.creator != null) return false;
         if (created != null ? !created.equals(order.created) : order.created != null) return false;
@@ -305,6 +301,7 @@ public class Order {
             return false;
         if (from != null ? !from.equals(order.from) : order.from != null) return false;
         if (to != null ? !to.equals(order.to) : order.to != null) return false;
+        if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) return false;
         if (comments != null ? !comments.equals(order.comments) : order.comments != null) return false;
         if (items != null ? !items.equals(order.items) : order.items != null) return false;
         if (customer != null ? !customer.equals(order.customer) : order.customer != null) return false;
@@ -323,7 +320,6 @@ public class Order {
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (payment != null ? payment.hashCode() : 0);
-        result = 31 * result + (paymentType != null ? paymentType.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + deleted;
         result = 31 * result + (creator != null ? creator.hashCode() : 0);
@@ -333,6 +329,7 @@ public class Order {
         result = 31 * result + (dateTransferred != null ? dateTransferred.hashCode() : 0);
         result = 31 * result + (from != null ? from.hashCode() : 0);
         result = 31 * result + (to != null ? to.hashCode() : 0);
+        result = 31 * result + (paymentType != null ? paymentType.hashCode() : 0);
         result = 31 * result + (comments != null ? comments.hashCode() : 0);
         result = 31 * result + (items != null ? items.hashCode() : 0);
         result = 31 * result + (customer != null ? customer.hashCode() : 0);

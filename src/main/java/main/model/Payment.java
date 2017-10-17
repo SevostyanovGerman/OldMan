@@ -29,4 +29,22 @@ public class Payment {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Payment payment = (Payment) o;
+
+		if (id != null ? !id.equals(payment.id) : payment.id != null) return false;
+		return name != null ? name.equals(payment.name) : payment.name == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		return result;
+	}
 }
