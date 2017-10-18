@@ -1,8 +1,10 @@
-package main.service;
+package main.service.serviceImpl;
 
 import main.model.Role;
 import main.model.User;
 import main.repository.UserRepository;
+import main.service.RoleService;
+import main.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Manager Dash Board</title>
+    <title>Заказы</title>
     
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+
+	<link rel="stylesheet" href="/css/manager.css"/>
 </head>
 
 <body>
@@ -30,18 +30,14 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a href="#">Заказы</a></li>
+                    <li class="active" role="presentation"><a th:href="@{/manager/addorder}">Новый заказ</a></li>
                     <li role="presentation"><a href="#">Клиенты</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Менеджер</a></li>
 					<li>
 						<form class="navbar-form navbar-right">
-							<button type="submit" class="btn btn-sm btn-info" 
-									style="background: #777777; border: #777777; color: #FFFFFF;"
-									href="LoginPage.html">
-									<a href="LoginPage.html" style="color: #FFFFFF;">Выход</a>
-							</button>
+                            <button type="submit" class="btn btn-sm btn-info btn-exit" href="#">Выход</button>
 						</form>
 					</li>
 					
@@ -52,85 +48,35 @@
     </nav>
 
 	<br>
-    <div class="container">
-		<div class="row">
-			<div class="col-lg-4" align="Left">
-				<div class="btn-group">
-					<a href="#" class="btn btn-default">Фильтр</a>
-					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#">Фильтр 1</a></li>
-						<li><a href="#">Фильтр 2</a></li>
-						<li><a href="#">Фильтр 3</a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-lg-3" align="Left">
-				<div class="btn-group">
-					<a href="#" class="btn btn-default">Расширенный поиск</a>
-					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#">Условие 1</a></li>
-						<li><a href="#">Условие 2</a></li>
-						<li><a href="#">Условие 3</a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-lg-3" align="Right">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Заказ">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button">Найти</button>
-					</span>
-				</div>
-			</div>
-
-			<div class="col-lg-2" align="Right">
-				<button class="btn btn-info" type="button" href="LoginPage.html">
-                    <a href="ManagerOrderForm.html" style="color: #FFFFFF;">Новый заказ</a>
-                </button>
-			</div>
-		</div>
-    </div>
-
-	<br>
 
     <div class="container">
         <div class="table-responsive">
             <table class="table table-bordered data" text-align="center">
                 <thead>
                     <tr>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата создания</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Клиент</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Менеджер</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Способ оплаты</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус оплаты</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Стоимость (руб.)</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус заказа</th>
-                        <th style="background-color: #777777; color: #FFFFFF; text-align: center;"></th>
+                        <th class="table-head">№ Заказа</th>
+                        <th class="table-head">Дата создания</th>
+                        <th class="table-head">Клиент</th>
+                        <th class="table-head">Менеджер</th>
+                        <th class="table-head">Способ оплаты</th>
+                        <th class="table-head">Статус оплаты</th>
+                        <th class="table-head">Стоимость (руб.)</th>
+                        <th class="table-head">Статус заказа</th>
+                        <th class="table-head"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align: center;">001</td>
-                        <td style="text-align: center;">10.10.2017 </td>
-                        <td style="text-align: center;">Руслан</td>
-                        <td style="text-align: center;">Дмитрий</td>
-                        <td style="text-align: center;">Наличные</td>
-                        <td style="text-align: center;">не оплачено</td>
-                        <td style="text-align: center;">400</td>
-                        <td style="text-align: center;">Новый</td>
+                    <tr th:each ="order : ${orderList}">
+                        <td class="table-body" th:text="${order.getId()}">001</td>
+                        <td class="table-body" th:text="${order.getCreated()}">10.10.2017</td>
+                        <td class="table-body" th:text="${order.getCustomer()}">Руслан</td>
+                        <td class="table-body" th:text="${order.getManager()}">Дмитрий</td>
+                        <td class="table-body" th:text="${order.getPaymentType()}">Наличные</td>
+                        <td class="table-body" th:text="${order.getPaymentString()}">не оплачено</td>
+                        <td class="table-body" th:text="${order.getPrice()}">400</td>
+                        <td class="table-body" th:text="${order.getStatus()}">Новый</td>
                         <td align="center">
-                        	<button class="btn btn-info btn-xs" type="button">
-                        		<span class="glyphicon glyphicon-pencil"></span>
-                        	</button>
+                            <a class="btn btn btn-info btn-xs" th:href="${'/manager/updateorder/' + order.getId()}"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                 </tbody>
             </table>

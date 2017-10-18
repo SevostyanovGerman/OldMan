@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name="orders")
 public class Order {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("d MMMM, yyyy");
-    
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy");
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,8 +1,9 @@
-package main.service;
+package main.service.serviceImpl;
 
 import main.model.History;
 import main.model.Order;
 import main.repository.HistoryRepository;
+import main.service.HistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;

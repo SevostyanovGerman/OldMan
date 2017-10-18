@@ -1,7 +1,10 @@
-package main.service;
+package main.service.serviceImpl;
 
 import main.model.Order;
 import main.repository.OrderRepository;
+import main.service.HistoryService;
+import main.service.OrderService;
+import main.service.StatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +15,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class OrderServiceImpl implements OrderService{
+public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderRepository orderRepository;

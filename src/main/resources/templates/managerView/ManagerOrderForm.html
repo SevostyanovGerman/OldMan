@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
-    
+
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+
+    <link rel="stylesheet" href="/css/manager.css"/>
 </head>
 
 <body>
@@ -30,17 +30,13 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a href="ManagerDashBoard.html">Заказы</a></li>
+                    <li class="active" role="presentation"><a th:href="@{/manager/orderlist}">Заказы</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Менеджер</a></li>
 					<li>
 						<form class="navbar-form navbar-right">
-							<button type="submit" class="btn btn-sm btn-info" 
-									style="background: #777777; border: #777777; color: #FFFFFF;"
-									href="LoginPage.html">
-									<a href="LoginPage.html" style="color: #FFFFFF;">Выход</a>
-							</button>
+							<button type="submit" class="btn btn-sm btn-info btn-exit" href="#">Выход</button>
 						</form>
 					</li>
 				</ul>
@@ -67,34 +63,31 @@
                                 <table class="table table-bordered data" text-align="center">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Позиции</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Продукт</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Материал</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Модель</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Количество</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Стоимость (руб.)</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;"></th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;"></th>
+                                            <th class="table-head">№ Позиции</th>
+                                            <th class="table-head">Продукт</th>
+                                            <th class="table-head">Материал</th>
+                                            <th class="table-head">Модель</th>
+                                            <th class="table-head">Количество</th>
+                                            <th class="table-head">Стоимость (руб.)</th>
+                                            <th class="table-head"></th>
+                                            <th class="table-head"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td style="text-align: center;">001</td>
-                                            <td style="text-align: center;">Чехол</td>
-                                            <td style="text-align: center;">Деревянный</td>
-                                            <td style="text-align: center;">Samsung</td>
-                                            <td style="text-align: center;">1</td>
-                                            <td style="text-align: center;">100</td>
+                                        <tr th:each ="item : ${order.getItems()}">
+                                            <td class="table-body" th:text="${item.getId()}">001</td>
+                                            <td class="table-body" th:text="${item.getName()}">Чехол</td>
+                                            <td class="table-body" th:text="${item.getType()}">Деревянный</td>
+                                            <td class="table-body" th:text="${item.getModel()}">Samsung</td>
+                                            <td class="table-body" th:text="${item.getCount()}">1</td>
+                                            <td class="table-body" th:text="${item.getPrice()}">100</td>
                                             <td align="center">
-                                                <button class="btn btn-info btn-xs" type="button" data-toggle="tooltip" title="Редактировать">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
+                                                <a class="btn btn btn-info btn-xs" th:href="${'/manager/updateitem/' + order.getId()}" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
                                             </td>
-                                             <td align="center">
-                                                    <button class="btn btn-danger btn-xs" type="button" data-toggle="tooltip" title="Удалить">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </button>
+                                            <td align="center">
+                                                <a class="btn btn-danger btn-xs" th:href="${'/manager/deleteitem/' + order.getId()}"><span class="glyphicon glyphicon-trash"></span></a>
                                             </td>
+                                        </tr>
                                     </tbody>
                                 </table>
 
@@ -143,22 +136,22 @@
                                 <table class="table table-bordered data" text-align="center">
                                     <thead>
                                         <tr>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата получения</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата отправки</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Отправитель</th>
-                                            <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Получатель</th>
+                                            <th class="table-head">№ Заказа</th>
+                                            <th class="table-head">Дата получения</th>
+                                            <th class="table-head">Дата отправки</th>
+                                            <th class="table-head">Статус</th>
+                                            <th class="table-head">Отправитель</th>
+                                            <th class="table-head">Получатель</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td style="text-align: center;">001</td>
-                                            <td style="text-align: center;">10.10.2017</td>
-                                            <td style="text-align: center;">10.10.2017</td>
-                                            <td style="text-align: center;">Дизайн</td>
-                                            <td style="text-align: center;">Менеджер</td>
-                                            <td style="text-align: center;">Дизайнер</td>
+                                        <tr th:each ="history : ${order.getHistories()}">
+                                            <td class="table-body" th:text="${history.getId()}"></td>
+                                            <td class="table-body" th:text="${history.getDateRecievedString()}"></td>
+                                            <td class="table-body" th:text="${history.getDateTransferredString()}"></td>
+                                            <td class="table-body" th:text="${history.getStatus()}"></td>
+                                            <td class="table-body" th:text="${history.getFrom()}"></td>
+                                            <td class="table-body" th:text="${history.getTo()}"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -171,8 +164,8 @@
 
 			<!-- ИНФОРМАЦИЯ О КЛИЕНТЕ -->
 			<div class="col-lg-3">
-    			<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 300px; height: 480px ;padding: 1px 20px 5px;">
-                    <fieldset >
+    			<form class="form-horizontal customerForm">
+                    <fieldset th:object="${order.getCustomer()}">
                         <h4 align="center">Информация о клиенте</h4>
                         <div class="form-group">
                             <div class="input-group">
@@ -184,44 +177,44 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3" style="width: 100px; text-align: left;">Имя:</span>
+                                <span class="input-group-addon customerField">Имя:</span>
+                                <input type="text" class="form-control" th:value="${order.getCustomer().getFirst_name()}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon customerField">Фамилия:</span>
+                                <input type="text" class="form-control" th:value="${order.getCustomer().getFirst_name()}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon customerField">Email:</span>
+                                <input type="text" class="form-control" th:value="${order.getCustomer().getEmail()}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon customerField">Телефон:</span>
+                                <input type="text" class="form-control customerField" th:value="${order.getCustomer().getPhone()}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon customerField">Страна:</span>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon customerField">Город:</span>
                                 <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3" style="width: 100px; text-align: left;">Фамилия:</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3" style="width: 100px; text-align: left;">Email:</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3" style="width: 100px; text-align: left;">Телефон:</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3" style="width: 100px; text-align: left;">Страна:</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3" style="width: 100px; text-align: left;">Город:</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3" style="width: 100px; text-align: left;">Адрес+ZIP:</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                <span class="input-group-addon customerField">Адрес+ZIP:</span>
+                                <input type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group">
@@ -233,11 +226,11 @@
 				<br>
 
 				<!-- ТЕКУЩИЙ СТАТУС -->
-				<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 5px; width: 300px; height: 250px; padding: 1px 20px 5px;">
+				<form class="form-horizontal statusFormBorder">
                     <fieldset align="center">
                         <h4 align="center">Текущий статус</h4>
 
-                        <h3 align="center" style="border: 1px solid green; border-radius: 5px; padding: 5px;">Новый</h3>
+                        <h3 align="center" class="statusTextBorder" th:text="${order.getStatus()}"></h3>
                         
                         <h5 align="center">отправить заказ</h5>	
 						<div class="btn-group" align="center">
@@ -275,7 +268,7 @@
 				<div class="highlite" style="background-color: #DDDDDD; padding: 1px 14px; border-radius: 5px; width: 1178px; height: 65px;">
 					<div class="row">
 						<div class="col-lg-8" style="padding: 1px 10px ;">
-							<h3 align="left">Заказ № 123456789 от 11.10.2017</h3>
+							<h3 align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}">Заказ № 123456789 от 11.10.2017</h3>
 						</div>
 
 						<div class="col-lg-2" align="Right" style="padding: 15px 5px;">

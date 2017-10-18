@@ -1,7 +1,8 @@
-package main.service;
+package main.service.serviceImpl;
 
 import main.model.Item;
 import main.repository.ItemRepository;
+import main.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;

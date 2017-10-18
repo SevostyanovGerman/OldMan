@@ -1,0 +1,44 @@
+.table-head{
+    background-color: #777777;
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.table-body{
+    text-align: center;
+}
+.btn-exit{
+    background: #777777;
+    border: #777777;
+    color: #FFFFFF;
+}
+.btn-newOrder{
+    color: #FFFFFF;
+    text-decoration: none;
+}
+.customerForm{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    height: 525px;
+    padding: 1px 20px 5px;
+}
+.customerField{
+    width: 100px;
+    text-align: left;
+}
+.statusFormBorder{
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 300px;
+    height: 250px;
+    padding: 1px 20px 5px;
+}
+.statusTextBorder{
+    border: 1px solid green;
+    border-radius: 5px;
+    padding: 5px;
+}
+.loginPage{
+    background: #DDDDDD;
+}
