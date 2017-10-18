@@ -1,9 +1,10 @@
 package main.controller;
 
+import main.model.Answer;
+import main.model.Comment;
 import main.model.Item;
-import main.service.ItemService;
-import main.service.OrderService;
-import main.service.StatusService;
+import main.model.Order;
+import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class DesignerController {
 
 	@Autowired
 	private StatusService statusService;
+
+	@Autowired
+	private CommentService commentService;
+
+	@Autowired
+	private AnswerService answerService;
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
@@ -134,6 +141,35 @@ public class DesignerController {
 			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}",id,statusId);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/comment/add={id}"}, method = RequestMethod.POST)
+	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
+		Comment comment = new Comment();
+		comment.setContent(request.getParameter("commentText"));
+		commentService.save(comment);
+		Order order =orderService.get(id);
+		order.getComments().add(comment);
+		orderService.save (order);
+		model.addObject("order", order );
+		return model;
+	}
+
+	@RequestMapping(value = {"/comment/sub/{id}"}, method = RequestMethod.POST)
+	public ModelAndView subComment(@PathVariable Long id,HttpServletRequest request) {
+		Long commentId = Long.parseLong(request.getParameter("commentBtnOrder"));
+		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
+		Comment comment = commentService.get(commentId);
+		String content = request.getParameter("commentText");
+		Answer answer = new Answer();
+		answer.setContent(content);
+		answerService.save(answer);
+		comment.getAnswers().add(answer);
+		commentService.save(comment);
+		Order order =orderService.get(id);
+		model.addObject("order", order );
 		return model;
 	}
 }

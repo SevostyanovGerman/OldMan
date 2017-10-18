@@ -18,6 +18,7 @@
 </head>
 
 <body onload="checkStatus()">
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -60,7 +61,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-9" >
-            <form class="form-horizontal borderSimple" >
+            <div class="form-horizontal borderSimple" >
                 <fieldset>
                     <ul class="nav nav-tabs nav-justified"">
                     <li class="active"><a href="#tabItem" data-toggle="tab" aria-expanded="true">Заказ</a></li>
@@ -96,6 +97,42 @@
 
                         <div class="tab-pane" id="tabComments" role="tabpanel">
                             <h3>Комментарии</h3>
+
+                            <ul th:each ="element: ${order.getComments()}" class="list-group">
+                               <h3> <li th:text="${element.getLogin()}"  class="label label-info"></li></h3>
+                                <li th:text="${element.getContent()}" class="list-group-item list-group-item-success" ></li>
+                                 <ul th:each ="element2: ${element.getAnswers()}">
+                                  <h4> <li th:text="${element2.getLogin()}"   class="label label-info"></li></h4>
+                                     <li th:text="${element2.getContent()}"class="list-group-item list-group-item-success" ></li>
+                                 </ul>
+
+                                <div style="text-align: right">
+
+                                    <div th:id="${element}" style="display: none;">
+
+                                        <form th:action="'/comment/sub/'+ ${order.getId()}" method="post" th:id="${element}+'Frm'">
+                                        <textarea name="comment" class="form-control"  th:id="${element}" name="commentText" ></textarea>
+                                        <button class="btn btn-info" type="submit" th:form="${element}+'Frm'" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
+                                        </form>
+                                        <br>
+                                    </div>
+
+                                    <a class="btn btn-success"    th:onclick="'showHide(\'' + ${element} + '\');'"  th:id="${element}+'Btn'">Ответить</a>
+
+                                </div>
+
+                            </ul>
+                            <form th:action="'/comment/add='+${order.getId()}" method="post" >
+                                <textarea name="comment" class="form-control"  name="commentText" ></textarea>
+                                <button class="btn btn-success" type="submit" >Написать комментарий</button>
+                            </form>
+
+
+
+
+
+
+
                         </div>
 
                         <div class="tab-pane" id="tabHistory" role="tabpanel">
@@ -123,10 +160,10 @@
                     </div>
 
                 </fieldset>
-            </form>
+            </div>
         </div >
 
-        <form action="/designer" id="back" method="get"></form>
+        <form action="/designer" id="back" method="get"> </form>
         <form th:action="'/designer/send/order=' + ${order.getId()} + '&status=2'" id="sendOrder" method="post"></form>
         <div class="col-lg-3">
             <form class="form-horizontal borderSimple">

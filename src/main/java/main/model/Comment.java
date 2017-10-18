@@ -1,6 +1,7 @@
 package main.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="comments")
@@ -16,6 +17,15 @@ public class Comment {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "deleted")
+    private String deleted;
+
+    @OneToMany (fetch = FetchType.EAGER, targetEntity = Answer.class)
+    @JoinTable(name = "keys_comment_answer",
+            joinColumns = {@JoinColumn(name = "comment_id")},
+            inverseJoinColumns = {@JoinColumn(name = "answer_id")})
+    private List<Answer> answers;
 
     public Long getId() {
         return id;
@@ -39,6 +49,22 @@ public class Comment {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(String deleted) {
+        this.deleted = deleted;
+    }
+
+    public List <Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List <Answer> answers) {
+        this.answers = answers;
     }
 
     @Override
