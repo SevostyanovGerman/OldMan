@@ -2,7 +2,6 @@ package main.repository;
 
 import main.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -12,5 +11,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findAllByDeletedAndNumberContains(int deleted, String number);
     List<Order> findAllByDeletedAndManagerFirstNameContains(int deleted, String name);
     List<Order> findAllByDeletedAndStatusId(int deleted, Long id);
-    List<Order> findAllByDeletedAndStatusAndNumberContains(int deleted, String status, String number);
+    List<Order> findAllByDeletedAndStatusIdAndNumberContains(int deleted, Long statusId, String number);
 }

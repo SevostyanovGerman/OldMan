@@ -1,13 +1,11 @@
 package main.service;
 
 import main.model.Order;
-import main.repository.HistoryRepository;
 import main.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +46,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List <Order> designFindNumber(String number) {
-        return orderRepository.findAllByDeletedAndStatusAndNumberContains(0,"design", number);
+        return orderRepository.findAllByDeletedAndStatusIdAndNumberContains(0,1l, number);
     }
 
     @Override
