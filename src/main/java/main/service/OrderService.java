@@ -1,8 +1,6 @@
 package main.service;
 
 import main.model.Order;
-import org.aspectj.weaver.ast.Or;
-
 import java.util.List;
 
 public interface OrderService {
@@ -14,4 +12,5 @@ public interface OrderService {
      List<Order> designerOrders();
      List<Order> designFindNumber (String number);
      void save(Order order);
+     Order changeStatus (Long orderId, Long newStatus);
 }

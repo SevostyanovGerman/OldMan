@@ -49,10 +49,10 @@ public class Order {
     @Column(name = "date_transferred")
     private Date dateTransferred;
 
-    @Column(name = "from")
+    @Column(name = "o_from")
     private String from;
 
-    @Column(name = "to")
+    @Column(name = "o_to")
     private String to;
 
     @OneToOne (fetch = FetchType.EAGER, targetEntity = Payment.class)
@@ -233,6 +233,10 @@ public class Order {
         return dateTime.toString(DATE_TIME_FORMATTER);
     }
 
+    public Date getDateRecievedDate() {
+        return dateRecieved;
+    }
+
     public void setDateRecieved(Date dateRecieved) {
         this.dateRecieved = dateRecieved;
     }
@@ -240,6 +244,10 @@ public class Order {
     public String getDateTransferred() {
         DateTime dateTime = new DateTime(dateTransferred);
         return dateTime.toString(DATE_TIME_FORMATTER);
+    }
+
+    public Date getDateTransferredDate() {
+        return dateTransferred;
     }
 
     public void setDateTransferred(Date dateTransferred) {

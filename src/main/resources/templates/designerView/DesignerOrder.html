@@ -102,7 +102,6 @@
                             <table class="table table-bordered data" >
                                 <thead>
                                 <tr class="tableHead">
-                                    <th>№ Заказа</th>
                                     <th>Дата получения</th>
                                     <th>Дата отправки</th>
                                     <th>Статус</th>
@@ -111,13 +110,13 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td th:text="${order.getNumber()}">001</td>
-                                    <td>10.10.2017</td>
-                                    <td>10.10.2017</td>
-                                    <td>Дизайн</td>
-                                    <td>Менеджер</td>
-                                    <td>Дизайнер</td>
+
+                                <tr th:each ="element: ${order.getHistories()}">
+                                    <td th:text="${element.getDateRecievedString()}">
+                                    <td th:text="${element.getDateTransferredString()}">
+                                    <td th:text="${element.getStatus()}">
+                                    <td th:text="${element.getTo()}">
+                                    <td th:text="${element.getFrom()}">
                                 </tbody>
                             </table>
                         </div>

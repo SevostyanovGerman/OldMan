@@ -1,11 +1,17 @@
 package main.model;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name="history")
 public class History {
+
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("d MMMM, yyyy");
 
     @Id
     @Column(name = "id")
@@ -18,14 +24,72 @@ public class History {
     @Column(name = "date_transferred")
     private Date dateTransferred;
 
-    @Column(name = "status")
+    @Column(name = "h_status")
     private String status;
 
-    @Column(name = "from")
+    @Column(name = "h_from")
     private String from;
 
-    @Column(name = "to")
+    @Column(name = "h_to")
     private String to;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDateRecieved() {
+        return dateRecieved;
+    }
+
+    public String getDateRecievedString() {
+        DateTime dateTime = new DateTime(dateRecieved);
+        return dateTime.toString(DATE_TIME_FORMATTER);
+    }
+
+    public void setDateRecieved(Date dateRecieved) {
+        this.dateRecieved = dateRecieved;
+    }
+
+    public Date getDateTransferred() {
+        return dateTransferred;
+    }
+
+    public String getDateTransferredString() {
+        DateTime dateTime = new DateTime(dateTransferred);
+        return dateTime.toString(DATE_TIME_FORMATTER);
+    }
+
+    public void setDateTransferred(Date dateTransferred) {
+        this.dateTransferred = dateTransferred;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
+
+    public String getTo() {
+        return to;
+    }
+
+    public void setTo(String to) {
+        this.to = to;
+    }
 
     @Override
     public boolean equals(Object o) {

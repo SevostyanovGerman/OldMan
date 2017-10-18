@@ -1,19 +1,32 @@
 package main.service;
 
 import main.model.Order;
+import main.repository.HistoryRepository;
 import main.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private StatusService statusService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private HistoryService historyService;
 
     private final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
@@ -41,6 +54,18 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public void save(Order order) {
         orderRepository.save(order);
+    }
+
+    @Override
+    public Order changeStatus(Long orderId, Long newStatus) {
+        Date date = new Date();
+        Order order = orderService.get(orderId);
+        order.setStatus(statusService.get(newStatus));
+        order = historyService.saveHistory(order);
+        order.setDateRecieved(order.getDateTransferredDate());
+        order.setDateTransferred(date);
+        orderService.save(order);
+        return order;
     }
 
     @Override
