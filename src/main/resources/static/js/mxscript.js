@@ -21,13 +21,15 @@ function showHide(element_id) {
         //Записываем ссылку на элемент в переменную obj
         var obj = document.getElementById(element_id);
         var btn = document.getElementById(element_id+'Btn');
+
         //Если css-свойство display не block, то:
-        if (obj.style.display != "block") {
-            obj.style.display = "block"; //Показываем элемент
+        if (obj.style.display != "inline") {
+            obj.style.display = "inline"; //Показываем элемент
             btn.textContent = 'Скрыть';
         }
         else {
             obj.style.display = "none";
+
             btn.textContent = 'Ответить';
         } //Скрываем элемент
     }
@@ -46,14 +48,24 @@ function toggleArea1() {
 
     for (var i =0; i< els.length; i++){
 
-        area1 = new nicEditor({fullPanel : true}).panelInstance(els[i].id,{hasPanel : true});
+      //   new nicEditor({fullPanel : true}).panelInstance(els[i].id,{hasPanel : true});
+        //bkLib.onDomLoaded(function() { toggleArea1(); });
 
+
+        var myNicEditor = new nicEditor();
+        myNicEditor.panelInstance(els[i]);
+
+        }
     }
 
+bkLib.onDomLoaded(function() {
 
-}
+    toggleArea1();
 
-//bkLib.onDomLoaded(function() { toggleArea1(); });
+
+});
+
+
 
 
 

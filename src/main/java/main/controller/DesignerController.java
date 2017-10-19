@@ -162,7 +162,7 @@ public class DesignerController {
 		Long commentId = Long.parseLong(request.getParameter("commentBtnOrder"));
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		Comment comment = commentService.get(commentId);
-		String content = request.getParameter("commentText");
+		String content = request.getParameter("commentTextSub");
 		Answer answer = new Answer(content);
 		answerService.save(answer);
 		comment.getAnswers().add(answer);
@@ -171,7 +171,4 @@ public class DesignerController {
 		model.addObject("order", order );
 		return model;
 	}
-
-
-
 }

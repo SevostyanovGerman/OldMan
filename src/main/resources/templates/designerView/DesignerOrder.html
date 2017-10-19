@@ -102,37 +102,49 @@
                         <div class="tab-pane fade active " id="tabComments" >
 
                             <h3>Комментарии</h3>
-                            <textarea  class="form-control"  name="commentText" id="e_content" ></textarea>
+                            <div class="pre-scrollable">
+
+
                             <ul th:each ="element: ${order.getComments()}" class="list-group">
                                <h3> <li th:text="${element.getLogin()}"  class="label label-info"></li></h3>
                                 <li th:text="${element.getContent()}" class="list-group-item list-group-item-success" ></li>
+
                                  <ul th:each ="element2: ${element.getAnswers()}">
                                   <h4> <li th:text="${element2.getLogin()}"   class="label label-info"></li></h4>
-                                     <li th:text="${element2.getContent()}"class="list-group-item list-group-item-success" ></li>
+                                     <li th:text="${element2.getContent()}" class="list-group-item list-group-item-success" ></li>
                                  </ul>
 
-                                <div style="text-align: right">
 
-                                    <div th:id="${element}" style="display: none;">
 
+                                    <div th:id="${element}" style="display: none; " class="container-fluid">
+
+                                        <textarea  class="form-control "  th:id="${element}+'Text'" name="commentTextSub" th:form="${element}+'Frm'" ></textarea>
                                         <form th:action="'/comment/sub/'+ ${order.getId()}" method="post" th:id="${element}+'Frm'">
-                                        <textarea class="form-control"  th:id="${element}" name="commentText" style="width: 700px" ></textarea>
+                                            <div style="text-align: right">
                                         <button class="btn btn-info" type="submit" th:form="${element}+'Frm'" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
+                                            </div>
                                         </form>
                                         <br>
+
                                     </div>
 
+                                <div style="text-align: right">
                                     <a class="btn btn-success"    th:onclick="'showHide(\'' + ${element} + '\');'"  th:id="${element}+'Btn'">Ответить</a>
 
                                 </div>
 
+
                             </ul>
+
+
+                            </div>
+
+
+
+
                             <form th:action="'/comment/add='+${order.getId()}" method="post" >
 
                                 <textarea  class="form-control"  name="commentText" id="e_content" ></textarea>
-
-                                <textarea  class="form-control"  name="commentText" id="e_content" ></textarea>
-
 
                                 <button class="btn btn-success" type="submit" >Написать комментарий</button>
                             </form>
