@@ -38,19 +38,19 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFirst_name() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirst_name(String first_name) {
+    public void setFirstName(String first_name) {
         this.firstName = first_name;
     }
 
-    public String getSec_name() {
+    public String getSecName() {
         return secName;
     }
 
-    public void setSec_name(String sec_name) {
+    public void setSecName(String sec_name) {
         this.secName = sec_name;
     }
 

@@ -1,6 +1,6 @@
 package main.controller.manager;
 
-import main.controller.DesignerController;
+
 import main.model.Order;
 import main.service.OrderService;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class ManagerDashController {
     @Autowired
     private OrderService orderService;
 
-    private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
+    private final Logger logger = LoggerFactory.getLogger(ManagerDashController.class);
 
     @RequestMapping(value = {"/orderlist"}, method = RequestMethod.GET)
     public ModelAndView getOrderList() {
