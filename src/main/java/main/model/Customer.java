@@ -1,6 +1,7 @@
 package main.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,23 +12,33 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name")
+    @Column(name = "first_name", nullable = false)
     private String firstName;
 
     @Column(name = "sec_name")
     private String secName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "phone")
+    @Column(name = "phone", unique = true, nullable = false)
     private String phone;
 
-    @OneToMany (fetch = FetchType.LAZY, targetEntity = Delivery.class)
+    @Column(name= "creation_date", updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date creationDate;
+
+    @OneToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "keys_customer_delivery",
             joinColumns = {@JoinColumn(name = "customer_id")},
             inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
     private List<Delivery> deliveries;
+
+    @OneToMany
+    @JoinTable(name = "keys_order_customer",
+            joinColumns = {@JoinColumn(name = "customer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "order_id")})
+    private List<Order> orders;
 
 
     public Long getId() {
@@ -42,16 +53,16 @@ public class Customer {
         return firstName;
     }
 
-    public void setFirstName(String first_name) {
-        this.firstName = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getSecName() {
         return secName;
     }
 
-    public void setSecName(String sec_name) {
-        this.secName = sec_name;
+    public void setSecName(String secName) {
+        this.secName = secName;
     }
 
     public String getEmail() {
@@ -70,17 +81,25 @@ public class Customer {
         this.phone = phone;
     }
 
-    @Override
-    public String toString() {
-        return firstName+" "+secName;
-    }
-
     public List <Delivery> getDeliveries() {
         return deliveries;
     }
 
     public void setDeliveries(List <Delivery> deliveries) {
         this.deliveries = deliveries;
+    }
+
+    public void setOrders(List<Order> orders){
+        this.orders = orders;
+    }
+
+    public List<Order> getOrders(){
+        return this.orders;
+    }
+
+    @Override
+    public String toString() {
+        return firstName+" "+secName;
     }
 
     @Override
