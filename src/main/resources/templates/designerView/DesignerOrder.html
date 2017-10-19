@@ -15,9 +15,13 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
 
+
 </head>
 
-<body onload="checkStatus()">
+<body onload="checkStatus();toggleArea1() ">
+
+
+
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
@@ -62,16 +66,17 @@
     <div class="row">
         <div class="col-lg-9" >
             <div class="form-horizontal borderSimple" >
+
                 <fieldset>
-                    <ul class="nav nav-tabs nav-justified"">
-                    <li class="active"><a href="#tabItem" data-toggle="tab" aria-expanded="true">Заказ</a></li>
-                    <li class=""><a href="#tabComments" data-toggle="tab" aria-expanded="false">Комментарии</a></li>
-                    <li class=""><a href="#tabHistory" data-toggle="tab" aria-expanded="false">История</a></li>
+                    <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="#tabItem" data-toggle="tab">Заказ</a></li>
+                    <li><a href="#tabComments" data-toggle="tab" >Комментарии</a></li>
+                    <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
 
                     </ul>
                 </fieldset>
                     <div class="tab-content">
-                        <div class="tab-pane active" id="tabItem" role="tabpanel">
+                        <div class="tab-pane active " id="tabItem" role="tabpanel">
 
                             <br>
                             <table>
@@ -92,12 +97,12 @@
                                     </ul></td>
                                 </tr>
                             </table>
-
                         </div>
 
-                        <div class="tab-pane" id="tabComments" role="tabpanel">
-                            <h3>Комментарии</h3>
+                        <div class="tab-pane fade active " id="tabComments" >
 
+                            <h3>Комментарии</h3>
+                            <textarea  class="form-control"  name="commentText" id="e_content" ></textarea>
                             <ul th:each ="element: ${order.getComments()}" class="list-group">
                                <h3> <li th:text="${element.getLogin()}"  class="label label-info"></li></h3>
                                 <li th:text="${element.getContent()}" class="list-group-item list-group-item-success" ></li>
@@ -111,7 +116,7 @@
                                     <div th:id="${element}" style="display: none;">
 
                                         <form th:action="'/comment/sub/'+ ${order.getId()}" method="post" th:id="${element}+'Frm'">
-                                        <textarea name="comment" class="form-control"  th:id="${element}" name="commentText" ></textarea>
+                                        <textarea class="form-control"  th:id="${element}" name="commentText" style="width: 700px" ></textarea>
                                         <button class="btn btn-info" type="submit" th:form="${element}+'Frm'" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
                                         </form>
                                         <br>
@@ -123,7 +128,12 @@
 
                             </ul>
                             <form th:action="'/comment/add='+${order.getId()}" method="post" >
-                                <textarea name="comment" class="form-control"  name="commentText" ></textarea>
+
+                                <textarea  class="form-control"  name="commentText" id="e_content" ></textarea>
+
+                                <textarea  class="form-control"  name="commentText" id="e_content" ></textarea>
+
+
                                 <button class="btn btn-success" type="submit" >Написать комментарий</button>
                             </form>
 
@@ -222,20 +232,34 @@
                     </table>
                 </fieldset>
         </div>
+
     </div>
 </div>
 
 
 
+
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 <script src="/js/mxscript.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+ <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
         integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+-->
 </body>
 </html>

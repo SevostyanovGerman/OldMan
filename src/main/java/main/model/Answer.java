@@ -52,6 +52,14 @@ public class Answer {
 		this.deleted = deleted;
 	}
 
+	public Answer(){
+
+	}
+
+	public Answer(String content) {
+		this.content = content;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

@@ -38,4 +38,23 @@ function showHide(element_id) {
 
 
 
+var area1;
+var els = document.getElementsByName("commentText");
+
+
+function toggleArea1() {
+
+    for (var i =0; i< els.length; i++){
+
+        area1 = new nicEditor({fullPanel : true}).panelInstance(els[i].id,{hasPanel : true});
+
+    }
+
+
+}
+
+//bkLib.onDomLoaded(function() { toggleArea1(); });
+
+
+
 
