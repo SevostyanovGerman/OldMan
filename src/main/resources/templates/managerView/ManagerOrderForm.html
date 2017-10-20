@@ -267,17 +267,19 @@
 			<div class="col-lg-12">
 				<div class="highlite" style="background-color: #DDDDDD; padding: 1px 14px; border-radius: 5px; width: 1178px; height: 65px;">
 					<div class="row">
-						<div class="col-lg-8" style="padding: 1px 10px ;">
-							<h3 align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}">Заказ № 123456789 от 11.10.2017</h3>
-						</div>
+                        <form th:action="'/manager/send/order=' + ${order.getId()} + '&status=1'" method="post">
+                            <div class="col-lg-8" style="padding: 1px 10px ;">
+                                <h3 align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}">Заказ № 123456789 от 11.10.2017</h3>
+                            </div>
 
-						<div class="col-lg-2" align="Right" style="padding: 15px 5px;">
-							<button type="button" class="btn btn-primary" data-toggle="tooltip" title="Сохранить заказ" style="width: 140px; text-align: center;">Сохранить</button>
-						</div>
+                            <div class="col-lg-2" align="Right" style="padding: 15px 5px;" >
+                                <button type="button" class="btn btn-primary" data-toggle="tooltip" title="Сохранить заказ" style="width: 140px; text-align: center;">Сохранить</button>
+                            </div>
 
-						<div class="col-lg-2" align="Right" style="padding: 15px;">
-							<button type="button" class="btn btn-primary" data-toggle="tooltip" title="Отправить заказ" style="width: 140px; text-align: center;">Отправить</button>
-						</div>
+                            <div class="col-lg-2" align="Right" style="padding: 15px;">
+                                <button type="submit" class="btn btn-primary" data-toggle="tooltip" title="Отправить заказ" style="width: 140px; text-align: center;">Отправить</button>
+                            </div>
+                        </form>
 					</div>
 				</div>
 			</div>
