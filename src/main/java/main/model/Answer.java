@@ -56,8 +56,9 @@ public class Answer {
 
 	}
 
-	public Answer(String content) {
+	public Answer(String content, String login) {
 		this.content = content;
+		this.login = login;
 	}
 
 	@Override

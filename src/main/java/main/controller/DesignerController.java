@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -144,11 +145,11 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/comment/add={id}"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/designer/order/comment/add={id}"}, method = RequestMethod.POST)
 	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		Comment comment = new Comment();
-		comment.setContent(request.getParameter("commentText"));
+		String login = SecurityContextHolder.getContext().getAuthentication().getName();
+		Comment comment = new Comment(request.getParameter("commentText"), login);
 		commentService.save(comment);
 		Order order =orderService.get(id);
 		order.getComments().add(comment);
@@ -157,13 +158,14 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/comment/sub/{id}"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/designer/order/comment/sub/{id}"}, method = RequestMethod.POST)
 	public ModelAndView subComment(@PathVariable Long id,HttpServletRequest request) {
 		Long commentId = Long.parseLong(request.getParameter("commentBtnOrder"));
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
+		String login = SecurityContextHolder.getContext().getAuthentication().getName();
 		Comment comment = commentService.get(commentId);
 		String content = request.getParameter("commentTextSub");
-		Answer answer = new Answer(content);
+		Answer answer = new Answer(content, login);
 		answerService.save(answer);
 		comment.getAnswers().add(answer);
 		commentService.save(comment);

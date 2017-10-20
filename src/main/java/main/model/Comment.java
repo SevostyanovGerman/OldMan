@@ -27,6 +27,13 @@ public class Comment {
             inverseJoinColumns = {@JoinColumn(name = "answer_id")})
     private List<Answer> answers;
 
+    public Comment(){}
+
+    public Comment(String content, String login){
+        this.content = content;
+        this.login = login;
+    }
+
     public Long getId() {
         return id;
     }

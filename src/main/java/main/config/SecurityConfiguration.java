@@ -42,7 +42,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().formLogin().successHandler(userSuccessHandler).loginPage("/login").and().exceptionHandling().accessDeniedPage("/403");
 
         for (int i = 0; i < roleList.size(); i++) {
-            http.authorizeRequests().antMatchers(roleList.get(i).getUrl()).hasAnyAuthority(roleList.get(i).getName());
+            if (!roleList.get(i).getUrl().equals("/")){
+                String url =roleList.get(i).getUrl()+"**";
+                http.authorizeRequests().antMatchers(url).hasAnyAuthority(roleList.get(i).getName());
+            }
         }
     }
 }
