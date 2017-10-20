@@ -37,6 +37,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User save(User user) {
+        logger.debug("Save user {}", user.toString());
+        return userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public User update(User user) {
+        logger.debug("Update user {}", user.toString());
+        return userRepository.saveAndFlush(user);
+    }
+
+    @Override
     public List<User> getByRole(String name) {
         logger.debug("Search users by role {}", name);
         Role role = roleService.getByname(name);

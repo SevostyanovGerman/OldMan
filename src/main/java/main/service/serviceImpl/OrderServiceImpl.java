@@ -1,6 +1,8 @@
 package main.service.serviceImpl;
 
 import main.model.Order;
+import main.model.Status;
+import main.model.User;
 import main.repository.OrderRepository;
 import main.service.HistoryService;
 import main.service.OrderService;
@@ -10,8 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -43,6 +47,18 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> getAllAllowed(User user) {
+        Set<Status> statusSet = user.getStatuses();
+        List<Order> list = new ArrayList<>();
+
+        for(Status status : statusSet){
+            list.addAll(orderRepository.findAllByStatusAndDeleted(status, 0));
+        }
+
+        return list;
+    }
+
+    @Override
     public List <Order> designerOrders() {
         return orderRepository.findAllByDeletedAndStatusId(0,1l);
     }
@@ -54,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void save(Order order) {
-        orderRepository.save(order);
+        orderRepository.saveAndFlush(order);
     }
 
     @Override

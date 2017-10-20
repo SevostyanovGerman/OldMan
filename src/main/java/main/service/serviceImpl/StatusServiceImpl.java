@@ -3,6 +3,8 @@ package main.service.serviceImpl;
 import main.model.Status;
 import main.repository.StatusRepository;
 import main.service.StatusService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
@@ -10,11 +12,27 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class StatusServiceImpl implements StatusService {
+
+	private final Logger logger = LoggerFactory.getLogger(StatusServiceImpl.class);
+
 	@Autowired
 	private StatusRepository statusRepository;
 
 	@Override
 	public Status get(Long id) {
+		logger.debug("Searching status with id: {}", id);
 		return statusRepository.getById(id);
+	}
+
+	@Override
+	public Status save(Status status) {
+		logger.debug("Save status: {}", status.toString());
+		return statusRepository.saveAndFlush(status);
+	}
+
+	@Override
+	public Status update(Status status) {
+		logger.debug("Update status: {}", status.toString());
+		return statusRepository.saveAndFlush(status);
 	}
 }

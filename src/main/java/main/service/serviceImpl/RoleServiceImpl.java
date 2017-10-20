@@ -23,4 +23,15 @@ public class RoleServiceImpl implements RoleService {
         logger.debug("Searching role with name: {}", name);
         return roleRepository.findByName(name);
     }
+
+    public Role save(Role role){
+        logger.debug("Save role with name: {}", role.getName());
+        return roleRepository.saveAndFlush(role);
+    }
+
+    @Override
+    public Role update(Role role) {
+        logger.debug("Updating role with name: {}", role.getName());
+        return roleRepository.saveAndFlush(role);
+    }
 }

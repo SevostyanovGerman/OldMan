@@ -2,10 +2,13 @@ package main.controller.manager;
 
 
 import main.model.Order;
+import main.model.User;
 import main.service.OrderService;
+import main.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,12 +24,17 @@ public class ManagerDashController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private UserService userService;
+
     private final Logger logger = LoggerFactory.getLogger(ManagerDashController.class);
 
     @RequestMapping(value = {"/orderlist"}, method = RequestMethod.GET)
     public ModelAndView getOrderList() {
         ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
-        List<Order> orderList = orderService.getAll();
+        String name = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getByName(name);
+        List<Order> orderList = orderService.getAllAllowed(user);
         model.addObject("orderList", orderList);
         return model;
     }
