@@ -43,9 +43,7 @@
 						</button>
 					</form>
 				</li>
-
 			</ul>
-
 		</div>
 	</div>
 </nav>
@@ -112,9 +110,9 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="order : ${masterOrders}">
+			<tr th:each="order : ${masters}">
 				<td th:text="${order.id}" style="text-align: center;"></td>
-				<td th:text="${user}" style="text-align: center;"></td>
+				<td th:text="${order.master}" style="text-align: center;"></td>
 				<td th:text="${order.payment}" style="text-align: center;"></td>
 				<td th:text="${order.deliveryType}" style="text-align: center;"></td>
 				<td th:text="${order.status}" style="text-align: center;"></td>
