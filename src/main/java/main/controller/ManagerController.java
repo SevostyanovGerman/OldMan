@@ -1,4 +1,4 @@
-package main.controller.manager;
+package main.controller;
 
 
 import main.model.Order;
@@ -16,12 +16,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/manager")
-public class ManagerDashController {
+public class ManagerController {
 
     @Autowired
     private OrderService orderService;
 
-    private final Logger logger = LoggerFactory.getLogger(ManagerDashController.class);
+    private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
     @RequestMapping(value = {"/orderlist"}, method = RequestMethod.GET)
     public ModelAndView getOrderList() {
