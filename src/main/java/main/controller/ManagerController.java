@@ -46,4 +46,11 @@ public class ManagerController {
         model.addObject("order", order);
         return model;
     }
+
+    @RequestMapping(value = {"/send/order={id}&status={statusId}"}, method = RequestMethod.POST)
+    public ModelAndView sentOrder(@PathVariable Long id,@PathVariable Long statusId){
+        ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
+        model.addObject("order", orderService.changeStatus(id, statusId));
+        return new ModelAndView("/managerView/ManagerOrderForm");
+    }
 }
