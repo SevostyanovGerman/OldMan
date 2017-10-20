@@ -15,6 +15,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationService authenticationService;
 
+    @Autowired
+    private UserSuccessHandler userSuccessHandler;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -30,9 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable().addFilterBefore(filter, CsrfFilter.class);
         http.authorizeRequests()
                 .antMatchers("/").authenticated()
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
-                .and().formLogin().loginPage("/login").and().exceptionHandling().accessDeniedPage("/403");
+               .antMatchers("/designer/**").hasAnyAuthority("DESIGNER")
+                .and().formLogin().successHandler(userSuccessHandler).loginPage("/login").and().exceptionHandling().accessDeniedPage("/403");
     }
-
-
 }
