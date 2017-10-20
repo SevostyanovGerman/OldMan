@@ -42,7 +42,6 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 				}
 			}
 		}
-
 		response.sendRedirect(url);
 	}
 }
