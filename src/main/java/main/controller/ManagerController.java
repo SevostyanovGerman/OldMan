@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/manager")
 public class ManagerController {
 
     @Autowired
@@ -23,7 +22,7 @@ public class ManagerController {
 
     private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
-    @RequestMapping(value = {"/orderlist"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
     public ModelAndView getOrderList() {
         ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
         List<Order> orderList = orderService.getAll();
@@ -31,7 +30,7 @@ public class ManagerController {
         return model;
     }
 
-    @RequestMapping(value = {"/updateorder/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/manager/order/update/{id}"}, method = RequestMethod.GET)
     public ModelAndView updateOrder(@PathVariable("id") Long id) {
         ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
         Order order = orderService.get(id);
@@ -39,7 +38,7 @@ public class ManagerController {
         return model;
     }
 
-    @RequestMapping(value = {"/addorder"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/manager/order/add"}, method = RequestMethod.GET)
     public ModelAndView addOrder() {
         ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
         Order order = new Order();
@@ -47,10 +46,10 @@ public class ManagerController {
         return model;
     }
 
-    @RequestMapping(value = {"/send/order={id}&status={statusId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/manager/order/send={id}&status={statusId}"}, method = RequestMethod.GET)
     public ModelAndView sentOrder(@PathVariable Long id,@PathVariable Long statusId){
         ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
         model.addObject("order", orderService.changeStatus(id, statusId));
-        return new ModelAndView("/managerView/ManagerDushBoard");
+        return new ModelAndView("redirect:/manager");
     }
 }

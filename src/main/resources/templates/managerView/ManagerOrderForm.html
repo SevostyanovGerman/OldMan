@@ -30,13 +30,13 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a th:href="@{/manager/orderlist}">Заказы</a></li>
+                    <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Менеджер</a></li>
 					<li>
 						<form class="navbar-form navbar-right">
-							<button type="submit" class="btn btn-sm btn-info btn-exit" href="#">Выход</button>
+							<button class="btn btn-sm btn-info btn-exit" href="#">Выход</button>
 						</form>
 					</li>
 				</ul>
@@ -82,10 +82,10 @@
                                             <td class="table-body" th:text="${item.getCount()}">1</td>
                                             <td class="table-body" th:text="${item.getPrice()}">100</td>
                                             <td align="center">
-                                                <a class="btn btn btn-info btn-xs" th:href="${'/manager/updateitem/' + order.getId()}" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
+                                                <a class="btn btn btn-info btn-xs" th:href="${'/manager/item/update/' + item.id}" title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
                                             </td>
                                             <td align="center">
-                                                <a class="btn btn-danger btn-xs" th:href="${'/manager/deleteitem/' + order.getId()}"><span class="glyphicon glyphicon-trash"></span></a>
+                                                <a class="btn btn-danger btn-xs" th:href="${'/manager/item/delete/' + item.id}"><span class="glyphicon glyphicon-trash"></span></a>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -230,31 +230,31 @@
                     <fieldset align="center">
                         <h4 align="center">Текущий статус</h4>
 
-                        <h3 align="center" class="statusTextBorder" th:text="${order.status}"></h3>
-                        
-                        <h5 align="center">отправить заказ</h5>	
-						<div class="btn-group" align="center">
-							<a href="#" class="btn btn-default">Дизайнер</a>
-							<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu dropdown-menu-right">
-								<li><a href="#">Дизайнер 1</a></li>
-								<li><a href="#">Дизайнер 2</a></li>
-								<li><a href="#">Дизайнер 3</a></li>
-							</ul>
-						</div>
-						<br/>
-						<h5 align="center">выберите исполнителя</h5>	
-						<div class="btn-group" align="center">
-							<a href="#" class="btn btn-default">Дизайнер</a>
-							<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-								<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu dropdown-menu-left">
-								<li><a href="#">Мастер</a></li>
-							</ul>
-						</div>
+                        <h3 align="center" class="statusTextBorder" th:text="${order.getStatus()}"></h3>
+
+                        <form>
+                            <div class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">Отправить заказ
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a th:href="'/manager/order/send=' + ${order.getId()} + '&status=1'">Дизайнеру</a></li>
+                                    <li><a th:href="'/manager/order/send=' + ${order.getId()} + '&status=3'">Мастеру</a></li>
+                                </ul>
+                            </div>
+                            <br>
+                            <div class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Выбирите исполнителя
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Дизайнер 1</a></li>
+                                    <li><a href="#">Дизайнер 2</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Мастер 1</a></li>
+                                    <li><a href="#">Мастер 2</a></li>
+                                </ul>
+                            </div>
+                         </form>
                     </fieldset>
                 </form>
 			</div> <!-- col-lg-3 -->
@@ -267,7 +267,7 @@
 			<div class="col-lg-12">
 				<div class="highlite" style="background-color: #DDDDDD; padding: 1px 14px; border-radius: 5px; width: 1178px; height: 65px;">
 					<div class="row">
-                        <form th:action="'/manager/send/order=' + ${order.getId()} + '&status=1'" method="post">
+                        <form th:action="'/manager/order/send=' + ${order.getId()} + '&status=2'">
                             <div class="col-lg-8" style="padding: 1px 10px ;">
                                 <h3 align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}">Заказ № 123456789 от 11.10.2017</h3>
                             </div>
