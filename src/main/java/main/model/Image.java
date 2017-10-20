@@ -1,6 +1,6 @@
 package main.model;
 
-import sun.misc.BASE64Encoder;
+
 
 import javax.imageio.ImageIO;
 import javax.persistence.*;
@@ -15,7 +15,6 @@ import java.sql.SQLException;
 @Entity
 @Table(name="images")
 public class Image {
-
 
     @Id
     @Column(name = "id")
@@ -45,14 +44,17 @@ public class Image {
     }
 
     public String getImage() throws IOException, SQLException {
-        InputStream in = this.image.getBinaryStream();
-        BufferedImage image = ImageIO.read(in);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "png", baos);
-        String data = DatatypeConverter.printBase64Binary(baos.toByteArray());
-        String imageString = "data:image/png;base64," + data;
-        String html = imageString;
-        return html;
+        if (this.image != null){
+            InputStream in = this.image.getBinaryStream();
+            BufferedImage image = ImageIO.read(in);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", baos);
+            String data = DatatypeConverter.printBase64Binary(baos.toByteArray());
+            String imageString = "data:image/png;base64," + data;
+            String html = imageString;
+            return html;
+        }
+     return null;
     }
 
     public void setImage(Blob image) {

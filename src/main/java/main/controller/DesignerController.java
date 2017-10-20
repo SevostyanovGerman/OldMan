@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.Blob;
 
 @Controller
@@ -110,7 +108,7 @@ public class DesignerController {
 	@RequestMapping(value = "/uploadFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "id") Long id,@RequestParam(value = "file") MultipartFile file) {
+	public String uploadSampleFiles(@RequestParam(value = "id") Long id, @RequestParam(value = "file") MultipartFile file, HttpServletResponse response) {
 			String name = "drop";
 			Item item = itemService.get(id);
 

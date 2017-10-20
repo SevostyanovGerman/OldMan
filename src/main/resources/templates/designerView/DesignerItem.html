@@ -156,11 +156,7 @@
                 <fieldset >
 
 
-<span id="OrderId" th:value="${item.getId()}"></span>
-
-
-
-
+<span id="OrderId" th:value="${item.getId()}" hidden></span>
 
 
                     <div class="container">
@@ -170,17 +166,17 @@
                                 <!-- The fileinput-button span is used to style the file input field as button -->
                                 <span class="btn btn-success fileinput-button dz-clickable">
           <i class="glyphicon glyphicon-plus"></i>
-          <span>Add files...</span>
+          <span>Добавить файл</span>
       </span>
                                 <form action="/" method="get" id="yyy">
-                                <button type="submit" class="btn btn-primary start" form="yyy">
+                                <button type="submit" class="btn btn-primary start" form="yyy" >
                                     <i class="glyphicon glyphicon-upload"></i>
-                                    <span>Start upload</span>
+                                    <span>Загрузить</span>
                                 </button>
                                 </form>
                                 <button type="reset" class="btn btn-warning cancel">
                                     <i class="glyphicon glyphicon-ban-circle"></i>
-                                    <span>Cancel upload</span>
+                                    <span>Отменить загрузку</span>
                                 </button>
                             </div>
 
