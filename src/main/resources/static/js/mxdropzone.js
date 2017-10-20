@@ -6,8 +6,9 @@ previewNode.id = "";
 var previewTemplate = previewNode.parentNode.innerHTML;
 previewNode.parentNode.removeChild(previewNode);
 
+var ord = document.getElementById("OrderId");
 var myDropzone = new Dropzone(".container", { // Make the whole body a dropzone
-    url: "/uploadFile", // Set the url
+    url: "/uploadFile/?id="+ord.getAttribute("value"), // Set the url
     thumbnailWidth: 80,
     thumbnailHeight: 80,
     parallelUploads: 20,

@@ -94,11 +94,10 @@
                             </tr>
                         </table>
 
-                        <ul style="padding-left: 20px">
-                            <p>Изображения:</p>
-                            <a href="http://russian-chemistry.ru/img/signs/t.gif"><img src="http://russian-chemistry.ru/img/signs/t.gif" width="50" height="50"></a>
-                            <a href="http://russian-chemistry.ru/img/signs/t.gif"><img src="http://russian-chemistry.ru/img/signs/t.gif" width="50" height="50"></a>
-                            <a href="http://russian-chemistry.ru/img/signs/t.gif"><img src="http://russian-chemistry.ru/img/signs/t.gif" width="50" height="50"></a>
+                        <h5>Изображения:</h5>
+                        <ul th:each ="element: ${item.getImages()}" style="padding-left: 20px; display: inline-block">
+                            <a th:href="${element.getImage()}"><img th:src="${element.getImage()}" width="50" height="50"></a>
+
                         </ul>
 
 
@@ -157,7 +156,7 @@
                 <fieldset >
 
 
-
+<span id="OrderId" th:value="${item.getId()}"></span>
 
 
 

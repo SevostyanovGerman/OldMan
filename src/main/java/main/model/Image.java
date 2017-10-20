@@ -1,6 +1,16 @@
 package main.model;
 
+import sun.misc.BASE64Encoder;
+
+import javax.imageio.ImageIO;
 import javax.persistence.*;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 @Entity
 @Table(name="images")
@@ -14,6 +24,9 @@ public class Image {
 
     @Column(name = "url")
     private String url;
+
+    @Column(name = "image")
+    private Blob image;
 
     public Long getId() {
         return id;
@@ -29,6 +42,21 @@ public class Image {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getImage() throws IOException, SQLException {
+        InputStream in = this.image.getBinaryStream();
+        BufferedImage image = ImageIO.read(in);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        String data = DatatypeConverter.printBase64Binary(baos.toByteArray());
+        String imageString = "data:image/png;base64," + data;
+        String html = imageString;
+        return html;
+    }
+
+    public void setImage(Blob image) {
+        this.image = image;
     }
 
     @Override

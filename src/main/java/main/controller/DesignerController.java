@@ -1,9 +1,6 @@
 package main.controller;
 
-import main.model.Answer;
-import main.model.Comment;
-import main.model.Item;
-import main.model.Order;
+import main.model.*;
 import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.sql.Blob;
 
 @Controller
 public class DesignerController {
@@ -35,6 +34,9 @@ public class DesignerController {
 
 	@Autowired
 	private AnswerService answerService;
+
+	@Autowired
+	private ImageService imageService;
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
@@ -105,21 +107,24 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	@RequestMapping(value = "/uploadFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "file") MultipartFile file) {
+	public String uploadSampleFiles(@RequestParam(value = "id") Long id,@RequestParam(value = "file") MultipartFile file) {
 			String name = "drop";
+			Item item = itemService.get(id);
 
 			if (!file.isEmpty()) {
 			name = file.getOriginalFilename();
 
 			try {
 				byte[] bytes = file.getBytes();
-				BufferedOutputStream stream =
-						new BufferedOutputStream(new FileOutputStream(new File(name + "-uploaded")));
-				stream.write(bytes);
-				stream.close();
+				Image image = new Image();
+				Blob blob = new SerialBlob(bytes);
+				image.setImage(blob);
+				imageService.save(image);
+				item.getImages().add(image);
+				itemService.save(item);
 				logger.info("Вы удачно загрузили файл {}",name);
 				return "Вы удачно загрузили " + name + " в " + name + "-uploaded !";
 			} catch (Exception e) {
