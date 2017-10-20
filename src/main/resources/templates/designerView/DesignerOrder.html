@@ -18,7 +18,7 @@
 
 </head>
 
-<body onload="checkStatus();toggleArea1() ">
+<body onload="checkStatus(); ">
 
 
 
@@ -70,13 +70,13 @@
                 <fieldset>
                     <ul class="nav nav-tabs nav-justified">
                     <li class="active"><a href="#tabItem" data-toggle="tab">Заказ</a></li>
-                    <li><a href="#tabComments" data-toggle="tab" >Комментарии</a></li>
+                    <li><a href="#tabComments" data-toggle="tab" onselect="toggleArea1()" >Комментарии</a></li>
                     <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
 
                     </ul>
                 </fieldset>
-                    <div class="tab-content">
-                        <div class="tab-pane active " id="tabItem" role="tabpanel">
+                    <div class="tab-content " >
+                        <div class="tab-pane  active " id="tabItem" role="tabpanel">
 
                             <br>
                             <table>
@@ -99,11 +99,9 @@
                             </table>
                         </div>
 
-                        <div class="tab-pane fade active " id="tabComments" >
+                        <div class="tab-pane fade" id="tabComments" >
 
-                            <h3>Комментарии</h3>
                             <div class="pre-scrollable">
-
 
                             <ul th:each ="element: ${order.getComments()}" class="list-group">
                                <h3> <li th:text="${element.getLogin()}"  class="label label-info"></li></h3>
@@ -118,7 +116,7 @@
 
                                     <div th:id="${element}" style="display: none; " class="container-fluid">
 
-                                        <textarea  class="form-control "  th:id="${element}+'Text'" name="commentTextSub" th:form="${element}+'Frm'" ></textarea>
+                                        <textarea    class="form-control "  th:id="${element}+'Text'" name="commentTextSub" th:form="${element}+'Frm'" ></textarea>
                                         <form th:action="'/comment/sub/'+ ${order.getId()}" method="post" th:id="${element}+'Frm'">
                                             <div style="text-align: right">
                                         <button class="btn btn-info" type="submit" th:form="${element}+'Frm'" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
@@ -144,7 +142,7 @@
 
                             <form th:action="'/comment/add='+${order.getId()}" method="post" >
 
-                                <textarea  class="form-control"  name="commentText" id="e_content" ></textarea>
+                                <textarea onfocus="toggleArea1()" class="form-control"  name="commentText" id="e_content" ></textarea>
 
                                 <button class="btn btn-success" type="submit" >Написать комментарий</button>
                             </form>
@@ -266,6 +264,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
         integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

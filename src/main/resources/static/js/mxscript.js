@@ -1,5 +1,3 @@
-
-
 function checkStatus() {
 
     var status = document.getElementsByName("status");
@@ -13,7 +11,6 @@ function checkStatus() {
         }
     }
 }
-
 
 function showHide(element_id) {
     //Если элемент с id-шником element_id существует
@@ -38,32 +35,17 @@ function showHide(element_id) {
     else alert("Элемент с id: " + element_id + " не найден!");
 }
 
-
-
-var area1;
-var els = document.getElementsByName("commentText");
-
-
 function toggleArea1() {
-
+    var area1;
+    var els = document.getElementsByName("commentText");
     for (var i =0; i< els.length; i++){
-
-      //   new nicEditor({fullPanel : true}).panelInstance(els[i].id,{hasPanel : true});
-        //bkLib.onDomLoaded(function() { toggleArea1(); });
-
-
         var myNicEditor = new nicEditor();
         myNicEditor.panelInstance(els[i]);
-
         }
-    }
-
-bkLib.onDomLoaded(function() {
-
-    toggleArea1();
+}
+//bkLib.onDomLoaded(function() {toggleArea1();});
 
 
-});
 
 
 
