@@ -67,16 +67,17 @@
         <div class="col-lg-9" >
             <div class="form-horizontal borderSimple" >
 
-                <fieldset>
-                    <ul class="nav nav-tabs nav-justified">
-                    <li class="active"><a href="#tabItem" data-toggle="tab">Заказ</a></li>
+
+
+                <ul id="myTab2" class="nav nav-tabs">
+                    <li><a href="#tabItem" data-toggle="tab" >Заказ</a></li>
                     <li><a href="#tabComments" data-toggle="tab" onselect="toggleArea1()" >Комментарии</a></li>
                     <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
+                </ul>
 
-                    </ul>
-                </fieldset>
+
                     <div class="tab-content " >
-                        <div class="tab-pane  active " id="tabItem" role="tabpanel">
+                        <div class="tab-pane fade "  id="tabItem" role="tabpanel">
 
                             <br>
                             <table>
@@ -99,7 +100,7 @@
                             </table>
                         </div>
 
-                        <div class="tab-pane fade" id="tabComments" >
+                        <div class="tab-pane fade" id="tabComments" role="tabpanel">
 
                             <div class="pre-scrollable">
 
@@ -248,7 +249,7 @@
 
 
 
-
+<span id="tabIndex" th:text="${tabIndex}" hidden></span>
 
 
 <!-- Optional JavaScript -->
@@ -273,5 +274,7 @@
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 -->
+
+<script src="/js/tabs.js"></script>
 </body>
 </html>

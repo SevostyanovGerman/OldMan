@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -154,6 +155,7 @@ public class DesignerController {
 		order.getComments().add(comment);
 		orderService.save (order);
 		model.addObject("order", order );
+		model.addObject("tabIndex", 1 );
 		return model;
 	}
 
@@ -169,6 +171,7 @@ public class DesignerController {
 		commentService.save(comment);
 		Order order =orderService.get(id);
 		model.addObject("order", order );
+		model.addObject("tabIndex", 1 );
 		return model;
 	}
 }
