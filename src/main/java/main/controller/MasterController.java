@@ -4,29 +4,22 @@ import main.model.Item;
 import main.model.Order;
 import main.service.ItemService;
 import main.service.OrderService;
-import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class MasterController {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @Autowired
-    ItemService itemService;
-
-    @Autowired
-    UserService userService;
-
+    private ItemService itemService;
 
     @RequestMapping(value = {"/master"}, method = RequestMethod.GET)
     public String getMasterDashBoard(Model model) {
