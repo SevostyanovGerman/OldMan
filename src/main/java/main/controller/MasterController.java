@@ -27,19 +27,11 @@ public class MasterController {
     @Autowired
     UserService userService;
 
-    List<Order> masters = new ArrayList<>();
-
 
     @RequestMapping(value = {"/master"}, method = RequestMethod.GET)
     public String getMasterDashBoard(Model model) {
         List<Order> allOrders = orderService.getAll();
-        for (Order order : allOrders) {
-            if (order.getStatus().getId() == 2) {
-                masters.add(order);
-            }
-        }
-          model.addAttribute("masters", masters);
-
+          model.addAttribute("allOrders", allOrders);
         return "masterView/MasterDashBoard";
     }
 
