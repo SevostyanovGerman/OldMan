@@ -83,4 +83,8 @@ public class OrderServiceImpl implements OrderService {
     public List <Order> findByManager(String name) {
         return orderRepository.findAllByDeletedAndManagerFirstNameContains(0, name);
     }
+
+    public List<Order> searchByAllFields(String searchTerm) {
+        return orderRepository.findBySearchTerm(searchTerm);
+    }
 }

@@ -13,4 +13,5 @@ public interface OrderService {
      List<Order> designFindNumber (String number);
      void save(Order order);
      Order changeStatus (Long orderId, Long newStatus);
+     List<Order> searchByAllFields(String searchTerm);
 }

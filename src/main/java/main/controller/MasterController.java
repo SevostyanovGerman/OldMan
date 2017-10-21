@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -42,6 +45,14 @@ public class MasterController {
         Item item = itemService.get(id);
         model.addAttribute(item);
         return "masterView/MasterItemForm";
+    }
+
+    @RequestMapping(value = {"/master/search"}, method = RequestMethod.POST)
+    public ModelAndView search(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
+        String searchItem = request.getParameter("searchItem");
+        model.addObject("masterOrders", orderService.searchByAllFields(searchItem));
+        return model;
     }
 
 }
