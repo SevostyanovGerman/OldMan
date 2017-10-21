@@ -106,11 +106,11 @@
 
                             <ul th:each ="element: ${order.getComments()}" class="list-group">
                                <h3> <li th:text="${element.getLogin()}"  class="label label-info"></li></h3>
-                                <li th:text="${element.getContent()}" class="list-group-item list-group-item-success" ></li>
+                                <li th:utext="${element.getContent()}" class="list-group-item list-group-item-success" ></li>
 
                                  <ul th:each ="element2: ${element.getAnswers()}">
                                   <h4> <li th:text="${element2.getLogin()}"   class="label label-info"></li></h4>
-                                     <li th:text="${element2.getContent()}" class="list-group-item list-group-item-success" ></li>
+                                     <li th:utext="${element2.getContent()}" class="list-group-item list-group-item-success" ></li>
                                  </ul>
 
 

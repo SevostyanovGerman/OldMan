@@ -148,8 +148,7 @@ public class DesignerController {
 	@RequestMapping(value = {"/comment/add={id}"}, method = RequestMethod.POST)
 	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		Comment comment = new Comment();
-		comment.setContent(request.getParameter("commentText"));
+		Comment comment = new Comment(request.getParameter("commentText"));
 		commentService.save(comment);
 		Order order =orderService.get(id);
 		order.getComments().add(comment);
