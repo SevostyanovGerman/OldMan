@@ -105,9 +105,9 @@
 			<form class="form-horizontal" style="border: 2px solid #ddd; border-radius: 10px; width: 270px; height: 280px ;padding: 1px 20px 5px;">
 				<div class="row" align="center" style="margin-top:4px">
 					<h4>Текущий статус</h4>
-					<h4 align="center" style="border:1px solid green; width: 150px; padding:5px; color:green;">В производстве</h4>
+					<h4 th:text="${order.status}" align="center" style="border:1px solid green; width: 150px; padding:5px; color:green;">Производство</h4>
 					<h4 align="center" style="border:1px solid orange; width: 150px; padding:5px; color:orange;">Не отправлено</h4>
-					<h4 align="center" style="border:1px solid red; width: 150px; padding:5px; color:red;">Не оплачено</h4>
+					<h4 th:text="${order.payment}" align="center" style="border:1px solid red; width: 150px; padding:5px; color:red;">Не оплачено</h4>
 				</div>
 			</form>
 		</div>

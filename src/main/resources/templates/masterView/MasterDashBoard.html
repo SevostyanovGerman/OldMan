@@ -43,9 +43,7 @@
 						</button>
 					</form>
 				</li>
-
 			</ul>
-
 		</div>
 	</div>
 </nav>
@@ -112,16 +110,16 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="order : ${masterOrders}">
+			<tr th:each="order : ${allOrders}">
 				<td th:text="${order.id}" style="text-align: center;"></td>
-				<td th:text="${user}" style="text-align: center;"></td>
+				<td th:text="${order.master}" style="text-align: center;"></td>
 				<td th:text="${order.payment}" style="text-align: center;"></td>
 				<td th:text="${order.deliveryType}" style="text-align: center;"></td>
 				<td th:text="${order.status}" style="text-align: center;"></td>
 				<td th:text="${order.dateRecieved}" style="text-align: center;"></td>
 				<td th:text="${order.dateTransferred}" style="text-align: center;"></td>
-				<td>
-					<a th:href="@{'http://localhost:8080/master/order/' + ${order.id}}" class="btn btn-info" type="button">
+				<td style="text-align:center">
+					<a th:href="@{'http://localhost:8080/master/order/' + ${order.id}}"  class="btn btn-info" type="button">
 						Открыть
 					</a>
 				</td>
