@@ -1,5 +1,7 @@
 package main.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -28,12 +30,14 @@ public class Customer {
     @Temporal(TemporalType.TIMESTAMP)
     private Date creationDate;
 
+    @JsonIgnore
     @OneToMany (fetch = FetchType.LAZY)
     @JoinTable(name = "keys_customer_delivery",
             joinColumns = {@JoinColumn(name = "customer_id")},
             inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
     private List<Delivery> deliveries;
 
+    @JsonIgnore
     @OneToMany
     @JoinTable(name = "keys_order_customer",
             joinColumns = {@JoinColumn(name = "customer_id")},
