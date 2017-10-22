@@ -46,7 +46,7 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/order/send={id}&status={statusId}"}, method = RequestMethod.GET)
 	public ModelAndView sentOrder(@PathVariable Long id, @PathVariable Long statusId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
-		model.addObject("order", orderService.changeStatus(id, statusId));
+		model.addObject("order", orderService.nextStatus(id));
 		return new ModelAndView("redirect:/manager");
 	}
 }

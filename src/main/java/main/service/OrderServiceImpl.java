@@ -69,10 +69,28 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order changeStatus(Long orderId, Long newStatus) {
+	public Order nextStatus(Long orderId) {
 		Date date = new Date();
 		Order order = orderService.get(orderId);
-		order.setStatus(statusService.get(newStatus));
+		Long currentStatus = order.getStatus().getId();
+		Status nextStatus = statusService.get(currentStatus + 1l);
+		order.setStatus(nextStatus);
+		order = historyService.saveHistory(order);
+		order.setDateRecieved(order.getDateTransferredDate());
+		order.setDateTransferred(date);
+		orderService.save(order);
+		return order;
+	}
+
+	@Override
+	public Order previousStatus(Long orderId) {
+		Date date = new Date();
+		Order order = orderService.get(orderId);
+		Long currentStatus = order.getStatus().getId();
+		if (currentStatus > 1) {
+			Status nextStatus = statusService.get(currentStatus - 1l);
+			order.setStatus(nextStatus);
+		}
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);

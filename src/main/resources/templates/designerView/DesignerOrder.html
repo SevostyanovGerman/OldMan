@@ -180,7 +180,7 @@
         </div >
 
         <form action="/designer" id="back" method="get"> </form>
-        <form th:action="'/designer/send/order=' + ${order.getId()} + '&status=2'" id="sendOrder" method="post"></form>
+        <form th:action="'/designer/send/order=' + ${order.getId()}" id="sendOrder" method="post"></form>
         <div class="col-lg-3">
             <form class="form-horizontal borderSimple">
                 <fieldset >
