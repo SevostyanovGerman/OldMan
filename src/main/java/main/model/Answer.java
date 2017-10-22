@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "answers")
 public class Answer {
-
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +51,7 @@ public class Answer {
 		this.deleted = deleted;
 	}
 
-	public Answer(){
-
+	public Answer() {
 	}
 
 	public Answer(String content) {
@@ -64,12 +62,13 @@ public class Answer {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-
 		Answer answer = (Answer) o;
-
-		if (id != null ? !id.equals(answer.id) : answer.id != null) return false;
-		if (login != null ? !login.equals(answer.login) : answer.login != null) return false;
-		if (content != null ? !content.equals(answer.content) : answer.content != null) return false;
+		if (id != null ? !id.equals(answer.id) : answer.id != null)
+			return false;
+		if (login != null ? !login.equals(answer.login) : answer.login != null)
+			return false;
+		if (content != null ? !content.equals(answer.content) : answer.content != null)
+			return false;
 		return deleted != null ? deleted.equals(answer.deleted) : answer.deleted == null;
 	}
 
