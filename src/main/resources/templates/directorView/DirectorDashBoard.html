@@ -119,7 +119,7 @@
 						<td th:text="${element.getNumber()}"></td>
 						<td th:text="${element.getCreated()}"></td>
 						<td th:text="${element.getCustomer()}"></td>
-						<td th:text="${element.getManager().getSec_name()}"></td>
+						<td th:text="${element.getManager().getSecName()}"></td>
 						<td	th:text="${element.getDesigner() == null? 'Не назначен' : element.getDesigner().getSecName()}"></td>
 						<td th:text="${element.getMaster() == null? 'Не назначен' : element.getMaster().getSecName()}"></td>
 						<td th:text="${element.getPaymentType()}"></td>

@@ -118,8 +118,8 @@
 							<th:block th:each ="unit: ${stuff}">
 								<tr th:if="${unit.getPosition().contains('Менеджер')}">
 									<td th:text="${unit.getId()}"></td>
-									<td th:text="${unit.getFirst_name()}"></td>
-									<td th:text="${unit.getSec_name()}"></td>
+									<td th:text="${unit.getFirstName()}"></td>
+									<td th:text="${unit.getSecName()}"></td>
 									<td>n/a</td>
 									<td>n/a</td>
 									<td th:text="${unit.getPosition()}"></td>
@@ -153,8 +153,8 @@
 						<th:block th:each ="unit: ${stuff}">
 							<tr th:if="${unit.getPosition().contains('Дизайнер')}">
 								<td th:text="${unit.getId()}"></td>
-								<td th:text="${unit.getFirst_name()}"></td>
-								<td th:text="${unit.getSec_name()}"></td>
+								<td th:text="${unit.getFirstName()}"></td>
+								<td th:text="${unit.getSecName()}"></td>
 								<td>n/a</td>
 								<td>n/a</td>
 								<td th:text="${unit.getPosition()}"></td>
@@ -188,8 +188,8 @@
 						<th:block th:each ="unit: ${stuff}">
 							<tr th:if="${unit.getPosition().contains('Мастер')}">
 								<td th:text="${unit.getId()}"></td>
-								<td th:text="${unit.getFirst_name()}"></td>
-								<td th:text="${unit.getSec_name()}"></td>
+								<td th:text="${unit.getFirstName()}"></td>
+								<td th:text="${unit.getSecName()}"></td>
 								<td>n/a</td>
 								<td>n/a</td>
 								<td th:text="${unit.getPosition()}"></td>

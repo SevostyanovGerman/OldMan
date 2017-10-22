@@ -38,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	@Deprecated
 	public List <Order> getAll() {
 		return orderRepository.findAllByDeleted(0);
 	}

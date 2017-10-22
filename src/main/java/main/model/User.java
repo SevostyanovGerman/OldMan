@@ -17,10 +17,10 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "name")
+	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	@Column(name = "deleted")
