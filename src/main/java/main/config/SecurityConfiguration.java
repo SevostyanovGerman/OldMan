@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
-
 import java.util.List;
 
 @Configuration
@@ -36,12 +35,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
 		List <Role> roleList = roleService.getAll();
-
 		http.csrf().disable().addFilterBefore(filter, CsrfFilter.class);
-
-		http.authorizeRequests().antMatchers("/").authenticated()
-				.and().formLogin().successHandler(userSuccessHandler).loginPage("/login").and().exceptionHandling().accessDeniedPage("/403");
-
+		http.authorizeRequests().antMatchers("/").authenticated().
+			and().formLogin().successHandler(userSuccessHandler).loginPage("/login").
+			and().exceptionHandling().accessDeniedPage("/403");
 		for (int i = 0; i < roleList.size(); i++) {
 			if (!roleList.get(i).getUrl().equals("/")) {
 				String url = roleList.get(i).getUrl() + "**";
