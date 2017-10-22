@@ -25,9 +25,6 @@ public class DesignerController {
 	private ItemService itemService;
 
 	@Autowired
-	private StatusService statusService;
-
-	@Autowired
 	private CommentService commentService;
 
 	@Autowired

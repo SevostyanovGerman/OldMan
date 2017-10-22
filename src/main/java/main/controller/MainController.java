@@ -42,8 +42,8 @@ public class MainController {
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
 							  @RequestParam(value = "logout", required = false) String logout,
-							  HttpServletResponse response, HttpServletRequest request) throws ServletException,
-		IOException {
+							  HttpServletResponse response, HttpServletRequest request)
+		throws ServletException, IOException {
 		try {
 			ModelAndView model = new ModelAndView();
 			if (error != null) {
