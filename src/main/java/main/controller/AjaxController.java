@@ -7,8 +7,8 @@ import main.service.OrderService;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,20 +25,21 @@ public class AjaxController {
 
 	@RequestMapping(value = {"/ajax"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List<String> ajax (@RequestParam(value="q") String q, Model model) {
-		List<Order> list = orderService.findByNumber(q);
-		List<String> result = new ArrayList <>();
+	public List <String> ajax(@RequestParam(value = "q") String q,
+							  Model model) {
+		List <Order> list = orderService.findByNumber(q);
+		List <String> result = new ArrayList <>();
 		StringBuilder stringBuilder = new StringBuilder();
-		for (int i = 0; i < list.size() ; i++) {
+		for (int i = 0; i < list.size(); i++) {
 			result.add(list.get(i).getNumber());
 		}
 		return result;
 	}
 
 	@RequestMapping(value = {"/customersearch"}, method = RequestMethod.GET)
-	public List<Customer> realCustomer (@RequestParam(value="q") String q, Model model) {
-		List<Customer> list = customerService.getByName(q);
-		return  list;
+	public List <Customer> realCustomer(@RequestParam(value = "q") String q,
+										Model model) {
+		List <Customer> list = customerService.getByName(q);
+		return list;
 	}
-
 }
