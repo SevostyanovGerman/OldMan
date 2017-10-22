@@ -4,4 +4,6 @@ import main.model.Role;
 
 public interface RoleService {
      Role getByname(String name);
+     Role save(Role role);
+     Role update(Role role);
 }

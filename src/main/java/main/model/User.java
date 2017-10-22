@@ -45,11 +45,16 @@ public class User implements UserDetails {
     private String creator;
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
-
     @JoinTable(name = "permissions",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "status_access",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Status> statuses;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -122,19 +127,19 @@ public class User implements UserDetails {
         this.disable = disable;
     }
 
-    public String getFirst_name() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirst_name(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getSec_name() {
+    public String getSecName() {
         return secName;
     }
 
-    public void setSec_name(String secName) {
+    public void setSecName(String secName) {
         this.secName = secName;
     }
 
@@ -171,6 +176,14 @@ public class User implements UserDetails {
         this.creator = creator;
     }
 
+    public Set<Status> getStatuses(){
+        return this.statuses;
+    }
+
+    public void setStatuses(Set<Status> statuses){
+        this.statuses = statuses;
+    }
+
     @Override
     public String toString() {
         return firstName + " " + secName;
@@ -193,6 +206,7 @@ public class User implements UserDetails {
         if (position != null ? !position.equals(user.position) : user.position != null) return false;
         if (created != null ? !created.equals(user.created) : user.created != null) return false;
         if (creator != null ? !creator.equals(user.creator) : user.creator != null) return false;
+        if (statuses != null ? !statuses.equals(user.statuses) : user.statuses != null) return false;
         return roles != null ? roles.equals(user.roles) : user.roles == null;
     }
 
@@ -209,6 +223,7 @@ public class User implements UserDetails {
         result = 31 * result + (created != null ? created.hashCode() : 0);
         result = 31 * result + (creator != null ? creator.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (statuses != null ? statuses.hashCode() : 0);
         return result;
     }
 }
