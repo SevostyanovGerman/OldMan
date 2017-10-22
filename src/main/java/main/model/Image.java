@@ -35,7 +35,8 @@ public class Image {
 			BufferedImage image = ImageIO.read(in);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, "png", baos);
-			String data = DatatypeConverter.printBase64Binary(baos.toByteArray());
+			String data =
+				DatatypeConverter.printBase64Binary(baos.toByteArray());
 			String imageString = "data:image/png;base64," + data;
 			String html = imageString;
 			return html;
@@ -54,7 +55,8 @@ public class Image {
 		Image image1 = (Image) o;
 		if (id != null ? !id.equals(image1.id) : image1.id != null)
 			return false;
-		return image != null ? image.equals(image1.image) : image1.image == null;
+		return image != null ? image.equals(image1.image) :
+			image1.image == null;
 	}
 
 	@Override

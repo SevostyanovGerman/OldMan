@@ -13,31 +13,31 @@ import java.util.List;
 @Service
 @Transactional
 public class RoleServiceImpl implements RoleService {
+	@Autowired
+	private RoleRepository roleRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+	private final Logger logger =
+		LoggerFactory.getLogger(RoleServiceImpl.class);
 
-    private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+	@Override
+	public Role getByname(String name) {
+		logger.debug("Searching role with name: {}", name);
+		return roleRepository.findByName(name);
+	}
 
-    @Override
-    public Role getByname(String name) {
-        logger.debug("Searching role with name: {}", name);
-        return roleRepository.findByName(name);
-    }
+	public Role save(Role role) {
+		logger.debug("Save role with name: {}", role.getName());
+		return roleRepository.saveAndFlush(role);
+	}
 
-    public Role save(Role role){
-        logger.debug("Save role with name: {}", role.getName());
-        return roleRepository.saveAndFlush(role);
-    }
+	@Override
+	public Role update(Role role) {
+		logger.debug("Updating role with name: {}", role.getName());
+		return roleRepository.saveAndFlush(role);
+	}
 
-    @Override
-    public Role update(Role role) {
-        logger.debug("Updating role with name: {}", role.getName());
-        return roleRepository.saveAndFlush(role);
-    }
-
-    @Override
-    public List<Role> getAll() {
-        return roleRepository.findAll();
-    }
+	@Override
+	public List <Role> getAll() {
+		return roleRepository.findAll();
+	}
 }

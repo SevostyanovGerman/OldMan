@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 
 @Transactional
 @Service
-public class AnswerServiceImpl implements AnswerService{
+public class AnswerServiceImpl implements AnswerService {
 	@Autowired
 	private AnswerRepository answerRepository;
 

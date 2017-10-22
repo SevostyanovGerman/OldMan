@@ -3,88 +3,88 @@ package main.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="delivery")
+@Table(name = "delivery")
 public class Delivery {
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
+	@Column(name = "country")
+	private String country;
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Column(name = "city")
+	private String city;
 
-    @Column(name = "country")
-    private String country;
+	@Column(name = "address")
+	private String address;
 
-    @Column(name = "city")
-    private String city;
+	@Column(name = "zip")
+	private String zip;
 
-    @Column(name = "address")
-    private String address;
+	public Long getId() {
+		return id;
+	}
 
-    @Column(name = "zip")
-    private String zip;
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getCoutry() {
+		return country;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setCoutry(String country) {
+		this.country = country;
+	}
 
-    public String getCoutry() {
-        return country;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public void setCoutry(String country) {
-        this.country = country;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public String getCity() {
-        return city;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public String getZip() {
+		return zip;
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
 
-    public String getZip() {
-        return zip;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Delivery delivery = (Delivery) o;
+		if (id != null ? !id.equals(delivery.id) : delivery.id != null)
+			return false;
+		if (country != null ? !country.equals(delivery.country) :
+			delivery.country != null) return false;
+		if (city != null ? !city.equals(delivery.city) : delivery.city != null)
+			return false;
+		if (address != null ? !address.equals(delivery.address) :
+			delivery.address != null) return false;
+		return zip != null ? zip.equals(delivery.zip) : delivery.zip == null;
+	}
 
-    public void setZip(String zip) {
-        this.zip = zip;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Delivery delivery = (Delivery) o;
-
-        if (id != null ? !id.equals(delivery.id) : delivery.id != null) return false;
-        if (country != null ? !country.equals(delivery.country) : delivery.country != null) return false;
-        if (city != null ? !city.equals(delivery.city) : delivery.city != null) return false;
-        if (address != null ? !address.equals(delivery.address) : delivery.address != null) return false;
-        return zip != null ? zip.equals(delivery.zip) : delivery.zip == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (address != null ? address.hashCode() : 0);
-        result = 31 * result + (zip != null ? zip.hashCode() : 0);
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (country != null ? country.hashCode() : 0);
+		result = 31 * result + (city != null ? city.hashCode() : 0);
+		result = 31 * result + (address != null ? address.hashCode() : 0);
+		result = 31 * result + (zip != null ? zip.hashCode() : 0);
+		return result;
+	}
 }

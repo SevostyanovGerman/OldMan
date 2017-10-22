@@ -4,8 +4,8 @@ import main.model.Role;
 import java.util.List;
 
 public interface RoleService {
-     Role getByname(String name);
-     Role save(Role role);
-     Role update(Role role);
-     List<Role> getAll();
+	Role getByname(String name);
+	Role save(Role role);
+	Role update(Role role);
+	List <Role> getAll();
 }

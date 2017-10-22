@@ -9,15 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AdminController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @RequestMapping(value = {"/admin"}, method = RequestMethod.GET)
-    public ModelAndView main() {
-        logger.info("Entering in admin panel");
-
-        ModelAndView model = new ModelAndView("admin");
-        return model;
-    }
-
+	@RequestMapping(value = {"/admin"}, method = RequestMethod.GET)
+	public ModelAndView main() {
+		logger.info("Entering in admin panel");
+		ModelAndView model = new ModelAndView("admin");
+		return model;
+	}
 }

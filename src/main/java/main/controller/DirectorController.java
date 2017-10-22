@@ -12,34 +12,35 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class DirectorController {
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private OrderService orderService;
 
-    @Autowired
-    private OrderService orderService;
+	private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-    private final Logger logger = LoggerFactory.getLogger(MainController.class);
+	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
+	public ModelAndView director() {
+		ModelAndView model =
+			new ModelAndView("/directorView/DirectorDashBoard");
+		try {
+			model.addObject("orders", orderService.getAll());
+		} catch (Exception e) {
+			logger.error("Can\'t get all orders", e);
+		}
+		return model;
+	}
 
-    @RequestMapping(value = {"/director"}, method = RequestMethod.GET)
-    public ModelAndView director() {
-        ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
-        try {
-            model.addObject("orders", orderService.getAll());
-        } catch (Exception e){
-            logger.error("Can\'t get all orders", e);
-        }
-        return model;
-    }
-
-    @RequestMapping(value = {"/director/stuff"}, method = RequestMethod.GET)
-    public ModelAndView showStaff() {
-        ModelAndView model = new ModelAndView("/directorView/DirectorStuffBoard");
-        try {
-            model.addObject("stuff", userService.getAllUsers());
-        } catch (Exception e){
-            logger.error("Can\'t get stuff list", e);
-        }
-        return model;
-    }
+	@RequestMapping(value = {"/director/stuff"}, method = RequestMethod.GET)
+	public ModelAndView showStaff() {
+		ModelAndView model =
+			new ModelAndView("/directorView/DirectorStuffBoard");
+		try {
+			model.addObject("stuff", userService.getAllUsers());
+		} catch (Exception e) {
+			logger.error("Can\'t get stuff list", e);
+		}
+		return model;
+	}
 }

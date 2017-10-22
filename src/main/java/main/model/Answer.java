@@ -68,9 +68,10 @@ public class Answer {
 			return false;
 		if (login != null ? !login.equals(answer.login) : answer.login != null)
 			return false;
-		if (content != null ? !content.equals(answer.content) : answer.content != null)
-			return false;
-		return deleted != null ? deleted.equals(answer.deleted) : answer.deleted == null;
+		if (content != null ? !content.equals(answer.content) :
+			answer.content != null) return false;
+		return deleted != null ? deleted.equals(answer.deleted) :
+			answer.deleted == null;
 	}
 
 	@Override

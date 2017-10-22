@@ -25,7 +25,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private UserSuccessHandler userSuccessHandler;
 
 	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws
+		Exception {
 		auth.userDetailsService(authenticationService);
 	}
 
@@ -37,12 +38,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		List <Role> roleList = roleService.getAll();
 		http.csrf().disable().addFilterBefore(filter, CsrfFilter.class);
 		http.authorizeRequests().antMatchers("/").authenticated().
-			and().formLogin().successHandler(userSuccessHandler).loginPage("/login").
+			and().formLogin().successHandler(userSuccessHandler)
+			.loginPage("/login").
 			and().exceptionHandling().accessDeniedPage("/403");
 		for (int i = 0; i < roleList.size(); i++) {
 			if (!roleList.get(i).getUrl().equals("/")) {
 				String url = roleList.get(i).getUrl() + "**";
-				http.authorizeRequests().antMatchers(url).hasAnyAuthority(roleList.get(i).getName());
+				http.authorizeRequests().antMatchers(url)
+					.hasAnyAuthority(roleList.get(i).getName());
 			}
 		}
 	}

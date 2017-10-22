@@ -18,9 +18,9 @@ public class HistoryServiceImpl implements HistoryService {
 	@Override
 	public Order saveHistory(Order order) {
 		Date dateTime = new Date();
-
 		History history = new History();
-		history.setFrom(order.getTo()); // заменить на имя авторизованого пользователя в сессии
+		history.setFrom(order
+			.getTo()); // заменить на имя авторизованого пользователя в сессии
 		history.setTo(order.getManager().toString());
 		history.setDateRecieved(order.getDateRecievedDate());
 		history.setDateTransferred(dateTime);

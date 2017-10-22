@@ -3,14 +3,13 @@ package main.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="statuses")
+@Table(name = "statuses")
 public class Status {
-
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
+
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
@@ -39,9 +38,7 @@ public class Status {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-
 		Status status = (Status) o;
-
 		if (id != status.id) return false;
 		return name != null ? name.equals(status.name) : status.name == null;
 	}

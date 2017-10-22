@@ -81,9 +81,10 @@ public class Comment {
 		Comment comment = (Comment) o;
 		if (id != null ? !id.equals(comment.id) : comment.id != null)
 			return false;
-		if (login != null ? !login.equals(comment.login) : comment.login != null)
-			return false;
-		return content != null ? content.equals(comment.content) : comment.content == null;
+		if (login != null ? !login.equals(comment.login) :
+			comment.login != null) return false;
+		return content != null ? content.equals(comment.content) :
+			comment.content == null;
 	}
 
 	@Override
