@@ -41,7 +41,8 @@ public class DesignerController {
 	public ModelAndView designer() {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
-			model.addObject("orders", orderService.designerOrders());
+			User user =(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			model.addObject("orders", orderService.getAllAllowed(user));
 		} catch (Exception e) {
 			logger.error("Controller '/designer', orderService.designerOrders() error ");
 		}

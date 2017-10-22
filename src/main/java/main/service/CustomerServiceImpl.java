@@ -1,8 +1,7 @@
-package main.service.serviceImpl;
+package main.service;
 
 import main.model.Customer;
 import main.repository.CustomerRepository;
-import main.service.CustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

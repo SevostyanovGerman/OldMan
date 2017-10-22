@@ -1,12 +1,9 @@
-package main.service.serviceImpl;
+package main.service;
 
 import main.model.Order;
 import main.model.Status;
 import main.model.User;
 import main.repository.OrderRepository;
-import main.service.HistoryService;
-import main.service.OrderService;
-import main.service.StatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

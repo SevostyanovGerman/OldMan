@@ -1,4 +1,4 @@
-package main.service.serviceImpl;
+package main.service;
 
 import main.model.History;
 import main.model.Order;

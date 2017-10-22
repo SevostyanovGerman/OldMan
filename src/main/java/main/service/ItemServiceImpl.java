@@ -1,4 +1,4 @@
-package main.service.serviceImpl;
+package main.service;
 
 import main.model.Item;
 import main.repository.ItemRepository;

@@ -1,4 +1,4 @@
-package main.service.serviceImpl;
+package main.service;
 
 import main.model.Role;
 import main.model.User;
