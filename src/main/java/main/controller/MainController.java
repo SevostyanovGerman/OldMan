@@ -60,24 +60,13 @@ public class MainController {
             return model;
         }
         catch (Exception e) {
-
             return null;
         }
     }
-
 
     @RequestMapping(value = {"/403"}, method = RequestMethod.GET)
     public ModelAndView page403() {
         ModelAndView model = new ModelAndView("403");
         return model;
     }
-
-    @RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
-    public ModelAndView manager() {
-        ModelAndView model = new ModelAndView("ManagerDashBoard");
-        model.addObject("orders", orderService.getAll());
-        model.addObject("items", orderService.get(1l).getItems());
-        return model;
-    }
-
 }
