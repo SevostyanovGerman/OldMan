@@ -6,7 +6,6 @@ import java.util.List;
 @Entity
 @Table(name = "comments")
 public class Comment {
-
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,8 +22,8 @@ public class Comment {
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Answer.class)
 	@JoinTable(name = "keys_comment_answer",
-			joinColumns = {@JoinColumn(name = "comment_id")},
-			inverseJoinColumns = {@JoinColumn(name = "answer_id")})
+		joinColumns = {@JoinColumn(name = "comment_id")},
+		inverseJoinColumns = {@JoinColumn(name = "answer_id")})
 	private List <Answer> answers;
 
 	public Comment() {
@@ -79,11 +78,11 @@ public class Comment {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-
 		Comment comment = (Comment) o;
-
-		if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
-		if (login != null ? !login.equals(comment.login) : comment.login != null) return false;
+		if (id != null ? !id.equals(comment.id) : comment.id != null)
+			return false;
+		if (login != null ? !login.equals(comment.login) : comment.login != null)
+			return false;
 		return content != null ? content.equals(comment.content) : comment.content == null;
 	}
 

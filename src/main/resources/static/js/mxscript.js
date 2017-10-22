@@ -1,5 +1,6 @@
 function checkStatus() {
 
+
     var status = document.getElementsByName("status");
     var check = document.getElementsByName("sendBtn");
 
@@ -11,6 +12,8 @@ function checkStatus() {
         }
     }
 }
+
+
 
 function showHide(element_id) {
     //Если элемент с id-шником element_id существует
