@@ -10,4 +10,5 @@ public interface UserService {
 	User update(User user);
 	List <User> getByRole(String role);
 	List <User> getAllUsers();
+	User getCurrentUser();
 }

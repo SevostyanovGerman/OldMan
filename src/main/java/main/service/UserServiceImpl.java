@@ -3,11 +3,10 @@ package main.service;
 import main.model.Role;
 import main.model.User;
 import main.repository.UserRepository;
-import main.service.RoleService;
-import main.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -66,5 +65,10 @@ public class UserServiceImpl implements UserService {
 			logger.debug("The list is empty");
 		}
 		return listUsers;
+	}
+
+	@Override
+	public User getCurrentUser() {
+		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 }

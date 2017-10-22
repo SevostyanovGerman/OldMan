@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,12 +36,14 @@ public class DesignerController {
 	@Autowired
 	private ImageService imageService;
 
+	@Autowired
+	private UserService userService;
+
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
-			User user =(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			model.addObject("orders", orderService.getAllAllowed(user));
+			model.addObject("orders", orderService.getAllAllowed(userService.getCurrentUser()));
 		} catch (Exception e) {
 			logger.error("Controller '/designer', orderService.designerOrders() error ");
 		}
@@ -149,8 +150,7 @@ public class DesignerController {
 	@RequestMapping(value = {"/designer/order/comment/add={id}"}, method = RequestMethod.POST)
 	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		String login = SecurityContextHolder.getContext().getAuthentication().getName();
-		Comment comment = new Comment(request.getParameter("commentText"), login);
+		Comment comment = new Comment(request.getParameter("commentText"), userService.getCurrentUser().toString());
 		commentService.save(comment);
 		Order order = orderService.get(id);
 		order.getComments().add(comment);
@@ -164,10 +164,9 @@ public class DesignerController {
 	public ModelAndView subComment(@PathVariable Long id, HttpServletRequest request) {
 		Long commentId = Long.parseLong(request.getParameter("commentBtnOrder"));
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		String login = SecurityContextHolder.getContext().getAuthentication().getName();
 		Comment comment = commentService.get(commentId);
 		String content = request.getParameter("commentTextSub");
-		Answer answer = new Answer(content, login);
+		Answer answer = new Answer(content, userService.getCurrentUser().toString());
 		answerService.save(answer);
 		comment.getAnswers().add(answer);
 		commentService.save(comment);
