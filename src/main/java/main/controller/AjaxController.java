@@ -37,7 +37,7 @@ public class AjaxController {
 
 	@RequestMapping(value = {"/customersearch"}, method = RequestMethod.GET)
 	public List <Customer> realCustomer(@RequestParam(value = "q") String q, Model model) {
-		List <Customer> list = customerService.getByName(q);
+		List <Customer> list = customerService.searchCustomer(q);
 		return list;
 	}
 }
