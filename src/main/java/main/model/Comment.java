@@ -4,86 +4,94 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="comments")
+@Table(name = "comments")
 public class Comment {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(name = "login")
-    private String login;
+	@Column(name = "login")
+	private String login;
 
-    @Column(name = "content")
-    private String content;
+	@Column(name = "content")
+	private String content;
 
-    @Column(name = "deleted")
-    private String deleted;
+	@Column(name = "deleted")
+	private String deleted;
 
-    @OneToMany (fetch = FetchType.EAGER, targetEntity = Answer.class)
-    @JoinTable(name = "keys_comment_answer",
-            joinColumns = {@JoinColumn(name = "comment_id")},
-            inverseJoinColumns = {@JoinColumn(name = "answer_id")})
-    private List<Answer> answers;
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = Answer.class)
+	@JoinTable(name = "keys_comment_answer",
+			joinColumns = {@JoinColumn(name = "comment_id")},
+			inverseJoinColumns = {@JoinColumn(name = "answer_id")})
+	private List <Answer> answers;
 
-    public Long getId() {
-        return id;
-    }
+	public Comment() {
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Comment(String content, String login) {
+		this.content = content;
+		this.login = login;
+	}
 
-    public String getLogin() {
-        return login;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public String getLogin() {
+		return login;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
-    public String getDeleted() {
-        return deleted;
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public void setDeleted(String deleted) {
-        this.deleted = deleted;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public List <Answer> getAnswers() {
-        return answers;
-    }
+	public String getDeleted() {
+		return deleted;
+	}
 
-    public void setAnswers(List <Answer> answers) {
-        this.answers = answers;
-    }
+	public void setDeleted(String deleted) {
+		this.deleted = deleted;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public List <Answer> getAnswers() {
+		return answers;
+	}
 
-        Comment comment = (Comment) o;
+	public void setAnswers(List <Answer> answers) {
+		this.answers = answers;
+	}
 
-        if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
-        if (login != null ? !login.equals(comment.login) : comment.login != null) return false;
-        return content != null ? content.equals(comment.content) : comment.content == null;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (content != null ? content.hashCode() : 0);
-        return result;
-    }
+		Comment comment = (Comment) o;
+
+		if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
+		if (login != null ? !login.equals(comment.login) : comment.login != null) return false;
+		return content != null ? content.equals(comment.content) : comment.content == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (login != null ? login.hashCode() : 0);
+		result = 31 * result + (content != null ? content.hashCode() : 0);
+		return result;
+	}
 }
