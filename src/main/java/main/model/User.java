@@ -45,14 +45,12 @@ public class User implements UserDetails {
 	private String creator;
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
-	@JoinTable(name = "permissions",
-		joinColumns = {@JoinColumn(name = "user_id")},
+	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
 		inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set <Role> roles;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "status_access",
-		joinColumns = {@JoinColumn(name = "user_id")},
+	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "user_id")},
 		inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set <Status> statuses;
 
@@ -197,22 +195,14 @@ public class User implements UserDetails {
 		if (id != user.id) return false;
 		if (deleted != user.deleted) return false;
 		if (disable != user.disable) return false;
-		if (name != null ? !name.equals(user.name) : user.name != null)
-			return false;
-		if (password != null ? !password.equals(user.password) :
-			user.password != null) return false;
-		if (firstName != null ? !firstName.equals(user.firstName) :
-			user.firstName != null) return false;
-		if (secName != null ? !secName.equals(user.secName) :
-			user.secName != null) return false;
-		if (position != null ? !position.equals(user.position) :
-			user.position != null) return false;
-		if (created != null ? !created.equals(user.created) :
-			user.created != null) return false;
-		if (creator != null ? !creator.equals(user.creator) :
-			user.creator != null) return false;
-		if (statuses != null ? !statuses.equals(user.statuses) :
-			user.statuses != null) return false;
+		if (name != null ? !name.equals(user.name) : user.name != null) return false;
+		if (password != null ? !password.equals(user.password) : user.password != null) return false;
+		if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
+		if (secName != null ? !secName.equals(user.secName) : user.secName != null) return false;
+		if (position != null ? !position.equals(user.position) : user.position != null) return false;
+		if (created != null ? !created.equals(user.created) : user.created != null) return false;
+		if (creator != null ? !creator.equals(user.creator) : user.creator != null) return false;
+		if (statuses != null ? !statuses.equals(user.statuses) : user.statuses != null) return false;
 		return roles != null ? roles.equals(user.roles) : user.roles == null;
 	}
 

@@ -49,8 +49,7 @@ public class MasterController {
 	public ModelAndView search(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
 		String searchItem = request.getParameter("searchItem");
-		model.addObject("masterOrders",
-			orderService.searchByAllFields(searchItem));
+		model.addObject("masterOrders", orderService.searchByAllFields(searchItem));
 		return model;
 	}
 }

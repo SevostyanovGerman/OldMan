@@ -32,8 +32,7 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private HistoryService historyService;
 
-	private final Logger logger =
-		LoggerFactory.getLogger(OrderServiceImpl.class);
+	private final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
 	@Override
 	public Order get(Long id) {
@@ -63,8 +62,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List <Order> designFindNumber(String number) {
-		return orderRepository
-			.findAllByDeletedAndStatusIdAndNumberContains(0, 1l, number);
+		return orderRepository.findAllByDeletedAndStatusIdAndNumberContains(0, 1l, number);
 	}
 
 	@Override
@@ -86,8 +84,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List <Order> findByCustomer(String name) {
-		return orderRepository
-			.findAllByCustomerFirstNameContainsAndDeleted(name, 0);
+		return orderRepository.findAllByCustomerFirstNameContainsAndDeleted(name, 0);
 	}
 
 	@Override
@@ -97,8 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List <Order> findByManager(String name) {
-		return orderRepository
-			.findAllByDeletedAndManagerFirstNameContains(0, name);
+		return orderRepository.findAllByDeletedAndManagerFirstNameContains(0, name);
 	}
 
 	public List <Order> searchByAllFields(String searchTerm) {

@@ -17,8 +17,7 @@ public class ManagerController {
 	@Autowired
 	private OrderService orderService;
 
-	private final Logger logger =
-		LoggerFactory.getLogger(ManagerController.class);
+	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
 	public ModelAndView getOrderList() {
@@ -28,8 +27,7 @@ public class ManagerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/manager/order/update/{id}"},
-		method = RequestMethod.GET)
+	@RequestMapping(value = {"/manager/order/update/{id}"}, method = RequestMethod.GET)
 	public ModelAndView updateOrder(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		Order order = orderService.get(id);
@@ -45,10 +43,8 @@ public class ManagerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/manager/order/send={id}&status={statusId}"},
-		method = RequestMethod.GET)
-	public ModelAndView sentOrder(@PathVariable Long id,
-								  @PathVariable Long statusId) {
+	@RequestMapping(value = {"/manager/order/send={id}&status={statusId}"}, method = RequestMethod.GET)
+	public ModelAndView sentOrder(@PathVariable Long id, @PathVariable Long statusId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("order", orderService.changeStatus(id, statusId));
 		return new ModelAndView("redirect:/manager");

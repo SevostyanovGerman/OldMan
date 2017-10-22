@@ -31,15 +31,13 @@ public class Customer {
 
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "keys_customer_delivery",
-		joinColumns = {@JoinColumn(name = "customer_id")},
+	@JoinTable(name = "keys_customer_delivery", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
 	private List <Delivery> deliveries;
 
 	@JsonIgnore
 	@OneToMany
-	@JoinTable(name = "keys_order_customer",
-		joinColumns = {@JoinColumn(name = "customer_id")},
+	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
 	private List <Order> orders;
 
@@ -109,18 +107,12 @@ public class Customer {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Customer customer = (Customer) o;
-		if (id != null ? !id.equals(customer.id) : customer.id != null)
-			return false;
-		if (firstName != null ? !firstName.equals(customer.firstName) :
-			customer.firstName != null) return false;
-		if (secName != null ? !secName.equals(customer.secName) :
-			customer.secName != null) return false;
-		if (email != null ? !email.equals(customer.email) :
-			customer.email != null) return false;
-		if (phone != null ? !phone.equals(customer.phone) :
-			customer.phone != null) return false;
-		return deliveries != null ? deliveries.equals(customer.deliveries) :
-			customer.deliveries == null;
+		if (id != null ? !id.equals(customer.id) : customer.id != null) return false;
+		if (firstName != null ? !firstName.equals(customer.firstName) : customer.firstName != null) return false;
+		if (secName != null ? !secName.equals(customer.secName) : customer.secName != null) return false;
+		if (email != null ? !email.equals(customer.email) : customer.email != null) return false;
+		if (phone != null ? !phone.equals(customer.phone) : customer.phone != null) return false;
+		return deliveries != null ? deliveries.equals(customer.deliveries) : customer.deliveries == null;
 	}
 
 	@Override

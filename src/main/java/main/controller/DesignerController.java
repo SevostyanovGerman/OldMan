@@ -17,8 +17,7 @@ import java.sql.Blob;
 
 @Controller
 public class DesignerController {
-	private final Logger logger =
-		LoggerFactory.getLogger(DesignerController.class);
+	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
 	@Autowired
 	private OrderService orderService;
@@ -40,13 +39,11 @@ public class DesignerController {
 
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
-		ModelAndView model =
-			new ModelAndView("/designerView/DesignerDashBoard");
+		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
 			model.addObject("orders", orderService.designerOrders());
 		} catch (Exception e) {
-			logger.error(
-				"Controller '/designer', orderService.designerOrders() error ");
+			logger.error("Controller '/designer', orderService.designerOrders() error ");
 		}
 		return model;
 	}
@@ -59,22 +56,18 @@ public class DesignerController {
 			model.addObject("order", orderService.get(Long.parseLong(id)));
 		} catch (Exception e) {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
-			logger.error("Controller '/designer/order', orderId={}",
-				request.getParameter("orderId"));
+			logger.error("Controller '/designer/order', orderId={}", request.getParameter("orderId"));
 		}
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order/item"},
-		method = RequestMethod.GET)
+	@RequestMapping(value = {"/designer/order/item"}, method = RequestMethod.GET)
 	public ModelAndView item(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
-			model.addObject("item", itemService
-				.get(Long.parseLong(request.getParameter("itemId"))));
+			model.addObject("item", itemService.get(Long.parseLong(request.getParameter("itemId"))));
 		} catch (Exception e) {
-			logger.error("Controller '/designer/order/item', itemId={}",
-				request.getParameter("itemId"));
+			logger.error("Controller '/designer/order/item', itemId={}", request.getParameter("itemId"));
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
@@ -82,23 +75,19 @@ public class DesignerController {
 
 	@RequestMapping(value = {"/designer/search"}, method = RequestMethod.POST)
 	public ModelAndView search(HttpServletRequest request) {
-		ModelAndView model =
-			new ModelAndView("/designerView/DesignerDashBoard");
+		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
 			String search = request.getParameter("search");
 			model.addObject("orders", orderService.designFindNumber(search));
 		} catch (Exception e) {
-			logger.error("Controller '/designer/search', search={}",
-				request.getParameter("search"));
+			logger.error("Controller '/designer/search', search={}", request.getParameter("search"));
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order/item/save/{id}"},
-		method = RequestMethod.POST)
-	public ModelAndView save(@PathVariable Long id,
-							 HttpServletRequest request) {
+	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
+	public ModelAndView save(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		String status = request.getParameter("status");
 		try {
@@ -119,8 +108,7 @@ public class DesignerController {
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public String uploadSampleFiles(@RequestParam(value = "id") Long id,
-									@RequestParam(value = "file")
-										MultipartFile file) {
+									@RequestParam(value = "file") MultipartFile file) {
 		String name = "drop";
 		Item item = itemService.get(id);
 		if (!file.isEmpty()) {
@@ -136,43 +124,32 @@ public class DesignerController {
 				logger.info("Вы удачно загрузили файл {}", name);
 				return "Вы удачно загрузили " + name + " в " + name + "-uploaded !";
 			} catch (Exception e) {
-				logger.warn("Вам не удалось загрузить  {}" + e.getMessage(),
-					name);
-				return "Вам не удалось загрузить " + name + " => " + e
-					.getMessage();
+				logger.warn("Вам не удалось загрузить  {}" + e.getMessage(), name);
+				return "Вам не удалось загрузить " + name + " => " + e.getMessage();
 			}
 		} else {
-			logger.warn("Вам не удалось загрузить  {} потому что файл пустой.",
-				name);
+			logger.warn("Вам не удалось загрузить  {} потому что файл пустой.", name);
 			return "Вам не удалось загрузить " + name + " потому что файл пустой.";
 		}
 	}
 
-	@RequestMapping(value = {"/designer/send/order={id}&status={statusId}"},
-		method = RequestMethod.POST)
-	public ModelAndView send(@PathVariable Long id, @PathVariable Long statusId,
-							 HttpServletRequest request) {
+	@RequestMapping(value = {"/designer/send/order={id}&status={statusId}"}, method = RequestMethod.POST)
+	public ModelAndView send(@PathVariable Long id, @PathVariable Long statusId, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		try {
 			model.addObject("order", orderService.changeStatus(id, statusId));
 		} catch (Exception e) {
-			logger.warn(
-				"Вам не удалось сменить статус заказа id={}, статус id={}", id,
-				statusId);
+			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}", id, statusId);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order/comment/add={id}"},
-		method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id,
-								   HttpServletRequest request) {
+	@RequestMapping(value = {"/designer/order/comment/add={id}"}, method = RequestMethod.POST)
+	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		String login =
-			SecurityContextHolder.getContext().getAuthentication().getName();
-		Comment comment =
-			new Comment(request.getParameter("commentText"), login);
+		String login = SecurityContextHolder.getContext().getAuthentication().getName();
+		Comment comment = new Comment(request.getParameter("commentText"), login);
 		commentService.save(comment);
 		Order order = orderService.get(id);
 		order.getComments().add(comment);
@@ -181,15 +158,11 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order/comment/sub/{id}"},
-		method = RequestMethod.POST)
-	public ModelAndView subComment(@PathVariable Long id,
-								   HttpServletRequest request) {
-		Long commentId =
-			Long.parseLong(request.getParameter("commentBtnOrder"));
+	@RequestMapping(value = {"/designer/order/comment/sub/{id}"}, method = RequestMethod.POST)
+	public ModelAndView subComment(@PathVariable Long id, HttpServletRequest request) {
+		Long commentId = Long.parseLong(request.getParameter("commentBtnOrder"));
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		String login =
-			SecurityContextHolder.getContext().getAuthentication().getName();
+		String login = SecurityContextHolder.getContext().getAuthentication().getName();
 		Comment comment = commentService.get(commentId);
 		String content = request.getParameter("commentTextSub");
 		Answer answer = new Answer(content, login);

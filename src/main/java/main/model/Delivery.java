@@ -67,14 +67,10 @@ public class Delivery {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Delivery delivery = (Delivery) o;
-		if (id != null ? !id.equals(delivery.id) : delivery.id != null)
-			return false;
-		if (country != null ? !country.equals(delivery.country) :
-			delivery.country != null) return false;
-		if (city != null ? !city.equals(delivery.city) : delivery.city != null)
-			return false;
-		if (address != null ? !address.equals(delivery.address) :
-			delivery.address != null) return false;
+		if (id != null ? !id.equals(delivery.id) : delivery.id != null) return false;
+		if (country != null ? !country.equals(delivery.country) : delivery.country != null) return false;
+		if (city != null ? !city.equals(delivery.city) : delivery.city != null) return false;
+		if (address != null ? !address.equals(delivery.address) : delivery.address != null) return false;
 		return zip != null ? zip.equals(delivery.zip) : delivery.zip == null;
 	}
 

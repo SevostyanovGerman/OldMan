@@ -25,8 +25,7 @@ public class AjaxController {
 
 	@RequestMapping(value = {"/ajax"}, method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
-	public List <String> ajax(@RequestParam(value = "q") String q,
-							  Model model) {
+	public List <String> ajax(@RequestParam(value = "q") String q, Model model) {
 		List <Order> list = orderService.findByNumber(q);
 		List <String> result = new ArrayList <>();
 		StringBuilder stringBuilder = new StringBuilder();
@@ -37,8 +36,7 @@ public class AjaxController {
 	}
 
 	@RequestMapping(value = {"/customersearch"}, method = RequestMethod.GET)
-	public List <Customer> realCustomer(@RequestParam(value = "q") String q,
-										Model model) {
+	public List <Customer> realCustomer(@RequestParam(value = "q") String q, Model model) {
 		List <Customer> list = customerService.getByName(q);
 		return list;
 	}

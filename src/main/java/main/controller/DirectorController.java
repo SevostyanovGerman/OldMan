@@ -22,8 +22,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
 	public ModelAndView director() {
-		ModelAndView model =
-			new ModelAndView("/directorView/DirectorDashBoard");
+		ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
 		try {
 			model.addObject("orders", orderService.getAll());
 		} catch (Exception e) {
@@ -34,8 +33,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/stuff"}, method = RequestMethod.GET)
 	public ModelAndView showStaff() {
-		ModelAndView model =
-			new ModelAndView("/directorView/DirectorStuffBoard");
+		ModelAndView model = new ModelAndView("/directorView/DirectorStuffBoard");
 		try {
 			model.addObject("stuff", userService.getAllUsers());
 		} catch (Exception e) {

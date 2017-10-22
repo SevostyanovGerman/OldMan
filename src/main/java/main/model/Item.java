@@ -33,20 +33,17 @@ public class Item {
 	private String status;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
-	@JoinTable(name = "keys_order_item",
-		joinColumns = {@JoinColumn(name = "item_id")},
+	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
 	private Order order;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = File.class)
-	@JoinTable(name = "keys_item_file",
-		joinColumns = {@JoinColumn(name = "item_id")},
+	@JoinTable(name = "keys_item_file", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "file_id")})
 	private List <File> files;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class)
-	@JoinTable(name = "keys_item_image",
-		joinColumns = {@JoinColumn(name = "item_id")},
+	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "image_id")})
 	private List <Image> images;
 
@@ -146,18 +143,12 @@ public class Item {
 		if (count != item.count) return false;
 		if (Double.compare(item.price, price) != 0) return false;
 		if (id != null ? !id.equals(item.id) : item.id != null) return false;
-		if (name != null ? !name.equals(item.name) : item.name != null)
-			return false;
-		if (model != null ? !model.equals(item.model) : item.model != null)
-			return false;
-		if (type != null ? !type.equals(item.type) : item.type != null)
-			return false;
-		if (comment != null ? !comment.equals(item.comment) :
-			item.comment != null) return false;
-		if (files != null ? !files.equals(item.files) : item.files != null)
-			return false;
-		return images != null ? images.equals(item.images) :
-			item.images == null;
+		if (name != null ? !name.equals(item.name) : item.name != null) return false;
+		if (model != null ? !model.equals(item.model) : item.model != null) return false;
+		if (type != null ? !type.equals(item.type) : item.type != null) return false;
+		if (comment != null ? !comment.equals(item.comment) : item.comment != null) return false;
+		if (files != null ? !files.equals(item.files) : item.files != null) return false;
+		return images != null ? images.equals(item.images) : item.images == null;
 	}
 
 	@Override

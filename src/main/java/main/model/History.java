@@ -9,8 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "history")
 public class History {
-	private static final DateTimeFormatter DATE_TIME_FORMATTER =
-		DateTimeFormat.forPattern("d MMMM, yyyy");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("d MMMM, yyyy");
 
 	@Id
 	@Column(name = "id")
@@ -95,27 +94,21 @@ public class History {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		History history = (History) o;
-		if (id != null ? !id.equals(history.id) : history.id != null)
+		if (id != null ? !id.equals(history.id) : history.id != null) return false;
+		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) : history.dateRecieved != null)
 			return false;
-		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) :
-			history.dateRecieved != null) return false;
-		if (dateTransferred != null ?
-			!dateTransferred.equals(history.dateTransferred) :
+		if (dateTransferred != null ? !dateTransferred.equals(history.dateTransferred) :
 			history.dateTransferred != null) return false;
-		if (status != null ? !status.equals(history.status) :
-			history.status != null) return false;
-		if (from != null ? !from.equals(history.from) : history.from != null)
-			return false;
+		if (status != null ? !status.equals(history.status) : history.status != null) return false;
+		if (from != null ? !from.equals(history.from) : history.from != null) return false;
 		return to != null ? to.equals(history.to) : history.to == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = id != null ? id.hashCode() : 0;
-		result =
-			31 * result + (dateRecieved != null ? dateRecieved.hashCode() : 0);
-		result = 31 * result + (dateTransferred != null ?
-			dateTransferred.hashCode() : 0);
+		result = 31 * result + (dateRecieved != null ? dateRecieved.hashCode() : 0);
+		result = 31 * result + (dateTransferred != null ? dateTransferred.hashCode() : 0);
 		result = 31 * result + (status != null ? status.hashCode() : 0);
 		result = 31 * result + (from != null ? from.hashCode() : 0);
 		result = 31 * result + (to != null ? to.hashCode() : 0);

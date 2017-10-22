@@ -31,8 +31,7 @@ public class MainController {
 	@RequestMapping(value = {"/"}, method = RequestMethod.GET)
 	public ModelAndView main() {
 		ModelAndView model = new ModelAndView("main");
-		String name =
-			SecurityContextHolder.getContext().getAuthentication().getName();
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user = userService.getByName(name);
 		model.addObject("user", user);
 		List <User> list = userService.getByRole("ADMIN");
@@ -41,11 +40,10 @@ public class MainController {
 	}
 
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-	public ModelAndView login(
-		@RequestParam(value = "error", required = false) String error,
-		@RequestParam(value = "logout", required = false) String logout,
-		HttpServletResponse response, HttpServletRequest request) throws
-		ServletException, IOException {
+	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
+							  @RequestParam(value = "logout", required = false) String logout,
+							  HttpServletResponse response, HttpServletRequest request) throws ServletException,
+		IOException {
 		try {
 			ModelAndView model = new ModelAndView();
 			if (error != null) {

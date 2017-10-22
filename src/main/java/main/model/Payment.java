@@ -34,8 +34,7 @@ public class Payment {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Payment payment = (Payment) o;
-		if (id != null ? !id.equals(payment.id) : payment.id != null)
-			return false;
+		if (id != null ? !id.equals(payment.id) : payment.id != null) return false;
 		return name != null ? name.equals(payment.name) : payment.name == null;
 	}
 

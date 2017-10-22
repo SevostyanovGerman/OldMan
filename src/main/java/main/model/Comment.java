@@ -21,8 +21,7 @@ public class Comment {
 	private String deleted;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Answer.class)
-	@JoinTable(name = "keys_comment_answer",
-		joinColumns = {@JoinColumn(name = "comment_id")},
+	@JoinTable(name = "keys_comment_answer", joinColumns = {@JoinColumn(name = "comment_id")},
 		inverseJoinColumns = {@JoinColumn(name = "answer_id")})
 	private List <Answer> answers;
 
@@ -79,12 +78,9 @@ public class Comment {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Comment comment = (Comment) o;
-		if (id != null ? !id.equals(comment.id) : comment.id != null)
-			return false;
-		if (login != null ? !login.equals(comment.login) :
-			comment.login != null) return false;
-		return content != null ? content.equals(comment.content) :
-			comment.content == null;
+		if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
+		if (login != null ? !login.equals(comment.login) : comment.login != null) return false;
+		return content != null ? content.equals(comment.content) : comment.content == null;
 	}
 
 	@Override

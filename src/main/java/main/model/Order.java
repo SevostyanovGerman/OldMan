@@ -10,8 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
-	private static final DateTimeFormatter DATE_TIME_FORMATTER =
-		DateTimeFormat.forPattern("dd MMMM, yyyy");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy");
 
 	@Id
 	@Column(name = "id")
@@ -52,56 +51,47 @@ public class Order {
 	private String to;
 
 	@OneToOne(fetch = FetchType.EAGER, targetEntity = Payment.class)
-	@JoinTable(name = "keys_order_payment",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_payment", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "payment_id")})
 	private Payment paymentType;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Status.class)
-	@JoinTable(name = "keys_order_status",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_status", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "status_id")})
 	private Status status;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Comment.class)
-	@JoinTable(name = "keys_order_comment",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_comment", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "comment_id")})
 	private List <Comment> comments;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
-	@JoinTable(name = "keys_order_item",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "item_id")})
 	private List <Item> items;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
-	@JoinTable(name = "keys_order_customer",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "customer_id")})
 	private Customer customer;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = History.class)
-	@JoinTable(name = "keys_order_history",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_history", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "history_id")})
 	private List <History> histories;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-	@JoinTable(name = "keys_order_manager",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_manager", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "manager_id")})
 	private User manager;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-	@JoinTable(name = "keys_order_master",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_master", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "master_id")})
 	private User master;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-	@JoinTable(name = "keys_order_designer",
-		joinColumns = {@JoinColumn(name = "order_id")},
+	@JoinTable(name = "keys_order_designer", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "designer_id")})
 	private User designer;
 
@@ -299,42 +289,25 @@ public class Order {
 		if (Double.compare(order.price, price) != 0) return false;
 		if (deleted != order.deleted) return false;
 		if (id != null ? !id.equals(order.id) : order.id != null) return false;
-		if (number != null ? !number.equals(order.number) :
-			order.number != null) return false;
-		if (payment != null ? !payment.equals(order.payment) :
-			order.payment != null) return false;
-		if (status != null ? !status.equals(order.status) :
-			order.status != null) return false;
-		if (creator != null ? !creator.equals(order.creator) :
-			order.creator != null) return false;
-		if (created != null ? !created.equals(order.created) :
-			order.created != null) return false;
-		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) :
-			order.deliveryType != null) return false;
-		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) :
-			order.dateRecieved != null) return false;
-		if (dateTransferred != null ?
-			!dateTransferred.equals(order.dateTransferred) :
-			order.dateTransferred != null) return false;
-		if (from != null ? !from.equals(order.from) : order.from != null)
+		if (number != null ? !number.equals(order.number) : order.number != null) return false;
+		if (payment != null ? !payment.equals(order.payment) : order.payment != null) return false;
+		if (status != null ? !status.equals(order.status) : order.status != null) return false;
+		if (creator != null ? !creator.equals(order.creator) : order.creator != null) return false;
+		if (created != null ? !created.equals(order.created) : order.created != null) return false;
+		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) : order.deliveryType != null) return false;
+		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) : order.dateRecieved != null) return false;
+		if (dateTransferred != null ? !dateTransferred.equals(order.dateTransferred) : order.dateTransferred != null)
 			return false;
+		if (from != null ? !from.equals(order.from) : order.from != null) return false;
 		if (to != null ? !to.equals(order.to) : order.to != null) return false;
-		if (paymentType != null ? !paymentType.equals(order.paymentType) :
-			order.paymentType != null) return false;
-		if (comments != null ? !comments.equals(order.comments) :
-			order.comments != null) return false;
-		if (items != null ? !items.equals(order.items) : order.items != null)
-			return false;
-		if (customer != null ? !customer.equals(order.customer) :
-			order.customer != null) return false;
-		if (histories != null ? !histories.equals(order.histories) :
-			order.histories != null) return false;
-		if (manager != null ? !manager.equals(order.manager) :
-			order.manager != null) return false;
-		if (master != null ? !master.equals(order.master) :
-			order.master != null) return false;
-		return designer != null ? designer.equals(order.designer) :
-			order.designer == null;
+		if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) return false;
+		if (comments != null ? !comments.equals(order.comments) : order.comments != null) return false;
+		if (items != null ? !items.equals(order.items) : order.items != null) return false;
+		if (customer != null ? !customer.equals(order.customer) : order.customer != null) return false;
+		if (histories != null ? !histories.equals(order.histories) : order.histories != null) return false;
+		if (manager != null ? !manager.equals(order.manager) : order.manager != null) return false;
+		if (master != null ? !master.equals(order.master) : order.master != null) return false;
+		return designer != null ? designer.equals(order.designer) : order.designer == null;
 	}
 
 	@Override
@@ -350,16 +323,12 @@ public class Order {
 		result = 31 * result + deleted;
 		result = 31 * result + (creator != null ? creator.hashCode() : 0);
 		result = 31 * result + (created != null ? created.hashCode() : 0);
-		result =
-			31 * result + (deliveryType != null ? deliveryType.hashCode() : 0);
-		result =
-			31 * result + (dateRecieved != null ? dateRecieved.hashCode() : 0);
-		result = 31 * result + (dateTransferred != null ?
-			dateTransferred.hashCode() : 0);
+		result = 31 * result + (deliveryType != null ? deliveryType.hashCode() : 0);
+		result = 31 * result + (dateRecieved != null ? dateRecieved.hashCode() : 0);
+		result = 31 * result + (dateTransferred != null ? dateTransferred.hashCode() : 0);
 		result = 31 * result + (from != null ? from.hashCode() : 0);
 		result = 31 * result + (to != null ? to.hashCode() : 0);
-		result =
-			31 * result + (paymentType != null ? paymentType.hashCode() : 0);
+		result = 31 * result + (paymentType != null ? paymentType.hashCode() : 0);
 		result = 31 * result + (comments != null ? comments.hashCode() : 0);
 		result = 31 * result + (items != null ? items.hashCode() : 0);
 		result = 31 * result + (customer != null ? customer.hashCode() : 0);
