@@ -155,6 +155,7 @@ public class DesignerController {
 		order.getComments().add(comment);
 		orderService.save(order);
 		model.addObject("order", order);
+		model.addObject("tabIndex", 1);
 		return model;
 	}
 
@@ -171,6 +172,7 @@ public class DesignerController {
 		commentService.save(comment);
 		Order order = orderService.get(id);
 		model.addObject("order", order);
+		model.addObject("tabIndex", 1);
 		return model;
 	}
 }
