@@ -2,8 +2,6 @@ package main.config;
 
 import main.model.Role;
 import main.service.RoleService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,14 +23,12 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		response.setStatus(HttpServletResponse.SC_OK);
-
 		boolean check = false;
-
-		List<Role> roleList = roleService.getAll();
-		String url="/";
-		for (int i = 0; i <roleList.size() ; i++) {
+		List <Role> roleList = roleService.getAll();
+		String url = "/";
+		for (int i = 0; i < roleList.size(); i++) {
 			for (GrantedAuthority auth : authentication.getAuthorities()) {
-				if (auth.getAuthority().equals(roleList.get(i).getName())){
+				if (auth.getAuthority().equals(roleList.get(i).getName())) {
 					url = roleList.get(i).getUrl();
 					check = true;
 					break;
