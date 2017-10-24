@@ -106,7 +106,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="order : ${allOrders}">
+			<tr th:each="order : ${masterOrders}">
 				<td th:text="${order.id}" style="text-align: center;"></td>
 				<td th:text="${order.master}" style="text-align: center;"></td>
 				<td th:text="${order.payment}" style="text-align: center;"></td>
