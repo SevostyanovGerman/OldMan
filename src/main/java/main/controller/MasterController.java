@@ -4,6 +4,7 @@ import main.model.Item;
 import main.model.Order;
 import main.service.ItemService;
 import main.service.OrderService;
+import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,13 @@ public class MasterController {
 	@Autowired
 	private ItemService itemService;
 
+	@Autowired
+	private UserService userService;
+
 	@RequestMapping(value = {"/master"}, method = RequestMethod.GET)
 	public String getMasterDashBoard(Model model) {
-		List <Order> allOrders = orderService.getAll();
-		model.addAttribute("allOrders", allOrders);
+		List <Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
+		model.addAttribute("masterOrders", masterOrders);
 		return "masterView/MasterDashBoard";
 	}
 
