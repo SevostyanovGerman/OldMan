@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 public class AjaxController {
+
 	@Autowired
 	private CustomerService customerService;
 

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class DirectorController {
+
 	@Autowired
 	private UserService userService;
 

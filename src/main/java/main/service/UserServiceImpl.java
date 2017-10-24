@@ -14,6 +14,7 @@ import java.util.List;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Autowired

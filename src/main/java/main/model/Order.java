@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Order {
+
 	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy");
 
 	@Id

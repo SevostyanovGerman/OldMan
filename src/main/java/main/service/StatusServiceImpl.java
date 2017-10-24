@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class StatusServiceImpl implements StatusService {
+
 	private final Logger logger = LoggerFactory.getLogger(StatusServiceImpl.class);
 
 	@Autowired

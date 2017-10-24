@@ -9,6 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "history")
 public class History {
+
 	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("d MMMM, yyyy");
 
 	@Id

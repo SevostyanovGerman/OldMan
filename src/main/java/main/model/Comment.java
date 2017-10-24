@@ -6,6 +6,7 @@ import java.util.List;
 @Entity
 @Table(name = "comments")
 public class Comment {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

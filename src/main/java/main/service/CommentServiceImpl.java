@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class CommentServiceImpl implements CommentService {
+
 	@Autowired
 	private CommentRepository commentRepository;
 

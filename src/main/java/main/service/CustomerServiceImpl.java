@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
 	private final Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
 	@Autowired

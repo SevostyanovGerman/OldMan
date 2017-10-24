@@ -15,6 +15,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
 	@Autowired
 	private AuthenticationService authenticationService;
 
