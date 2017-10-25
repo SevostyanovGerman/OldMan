@@ -16,6 +16,7 @@
 </head>
 
 <body>
+
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -35,9 +36,9 @@
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Менеджер</a></li>
 					<li>
-						<form class="navbar-form navbar-right">
-							<button class="btn btn-sm btn-info btn-exit" href="#">Выход</button>
-						</form>
+                        <form class="navbar-form navbar-right">
+                            <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
+                        </form>
 					</li>
 				</ul>
             </div>
@@ -128,8 +129,9 @@
                     			<br/>
                     			<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 3px; width: 848px; height: 400px ;padding: 1px 20px 5px;">
     							</form>
+
                             </div>
-							
+
 							<!-- ИСТОРИЯ ЗАКАЗА -->
                             <div class="tab-pane" id="tabHistory" role="tabpanel">
                             	<br>
@@ -164,7 +166,7 @@
 
 			<!-- ИНФОРМАЦИЯ О КЛИЕНТЕ -->
 			<div class="col-lg-3">
-    			<form class="form-horizontal customerForm">
+    			<div class="form-horizontal customerForm">
                     <fieldset th:object="${order.getCustomer()}">
 
                         <h4 align="center">Информация о клиенте</h4>
@@ -180,54 +182,72 @@
                                 </span>
                             </div>
                         </div>
+                        <form th:action="${'/manager/order/addcustomer/'+order.getId()}"
+                              method="post"
+                              id="addCustomer">
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Имя:</span>
-                                <input type="text" class="form-control" th:value="${order.customer.firstName}"/>
+                                <input type="text" class="form-control" th:value="${order.customer.firstName}"
+                                       name="firstNameField"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Фамилия:</span>
-                                <input type="text" class="form-control" th:value="${order.customer.secName}"/>
+                                <input type="text" class="form-control" th:value="${order.customer.secName}"
+                                       name="secNameField"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Email:</span>
-                                <input type="text" class="form-control" th:value="${order.customer.email}"/>
+                                <input type="text" class="form-control" th:value="${order.customer.email}"
+                                       name="emailField"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Телефон:</span>
-                                <input type="text" class="form-control customerField" th:value="${order.customer.phone}"/>
+                                <input type="text" class="form-control customerField"
+                                       th:value="${order.customer.phone}" name="phoneField"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Страна:</span>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="countryField">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Город:</span>
-                                <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                <input type="text" class="form-control" id="basic-url"
+                                       aria-describedby="basic-addon3" name="cityField">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
-                                <span class="input-group-addon customerField">Адрес+ZIP:</span>
-                                <input type="text" class="form-control">
+                                <span class="input-group-addon customerField">Адрес:</span>
+                                <input type="text" class="form-control" name="addressField">
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="button" class="btn btn-info" data-toggle="tooltip" title="Создать клиента" style="width: 142px; text-align: center;">Создать</button>
+                            <div class="input-group">
+                                <span class="input-group-addon customerField">Индекс:</span>
+                                <input type="text" class="form-control" name="zipField">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                           </form>
+                            <button type="submit" form="addCustomer" class="btn btn-info" data-toggle="tooltip"
+                                    title="Создать клиента"
+                                    style="width: 142px; text-align: center;">Создать</button>
 							<button type="button" class="btn btn-info" data-toggle="tooltip" title="Сохранить клиента" style="width: 142px; text-align: center;">Сохранить</button>
                         </div>
                     </fieldset>
-                </form>
+                </div>
 				<br>
 
 				<!-- ТЕКУЩИЙ СТАТУС -->

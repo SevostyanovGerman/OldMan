@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -49,5 +50,15 @@ public class ManagerController {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("order", orderService.nextStatus(id));
 		return new ModelAndView("redirect:/manager");
+	}
+
+	@RequestMapping(value = {"/manager/order/addcustomer/{id}"}, method = RequestMethod.POST)
+	public ModelAndView addCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
+		Order order = orderService.get(id);
+		model.addObject("order", order);
+
+		String str = request.getParameter("firstNameField");
+		return model;
 	}
 }
