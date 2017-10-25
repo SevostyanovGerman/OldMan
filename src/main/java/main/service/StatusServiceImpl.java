@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class StatusServiceImpl implements StatusService {
+
 	private final Logger logger = LoggerFactory.getLogger(StatusServiceImpl.class);
 
 	@Autowired
@@ -25,7 +26,7 @@ public class StatusServiceImpl implements StatusService {
 	@Override
 	public Status save(Status status) {
 		logger.debug("Save status: {}", status.toString());
-		return statusRepository.saveAndFlush(status);
+		return statusRepository.save(status);
 	}
 
 	@Override

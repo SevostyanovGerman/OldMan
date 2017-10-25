@@ -4,12 +4,14 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
 public class Order {
+
 	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy");
 
 	@Id
@@ -94,6 +96,28 @@ public class Order {
 	@JoinTable(name = "keys_order_designer", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "designer_id")})
 	private User designer;
+
+	public Order() {
+	}
+
+	public Order(String number, Boolean payment, double price, Date created, String deliveryType, Payment paymentType,
+				 Status status, Customer customer, Item item, User manager, User designer, User master) {
+		this.number = number;
+		this.payment = payment;
+		this.price = price;
+		this.created = created;
+		this.deliveryType = deliveryType;
+		this.paymentType = paymentType;
+		this.status = status;
+		this.customer = customer;
+		this.manager = manager;
+		this.designer = designer;
+		this.master = master;
+		if (this.items == null) {
+			this.items = new ArrayList <>();
+		}
+		this.items.add(item);
+	}
 
 	public Long getId() {
 		return id;

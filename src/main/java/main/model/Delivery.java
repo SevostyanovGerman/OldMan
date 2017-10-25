@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "delivery")
 public class Delivery {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +22,16 @@ public class Delivery {
 
 	@Column(name = "zip")
 	private String zip;
+
+	public Delivery() {
+	}
+
+	public Delivery(String country, String city, String address, String zip) {
+		this.country = country;
+		this.city = city;
+		this.address = address;
+		this.zip = zip;
+	}
 
 	public Long getId() {
 		return id;

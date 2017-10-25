@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +17,14 @@ public class Role implements GrantedAuthority {
 
 	@Column(name = "def_url")
 	private String url;
+
+	public Role() {
+	}
+
+	public Role(String name, String url) {
+		this.name = name;
+		this.url = url;
+	}
 
 	public String getUrl() {
 		return url;
