@@ -4,6 +4,7 @@ import main.model.Customer;
 import java.util.List;
 
 public interface CustomerService {
+
 	Customer get(Long id);
 	Customer getByEmail(String email);
 	Customer getByPhone(String phone);

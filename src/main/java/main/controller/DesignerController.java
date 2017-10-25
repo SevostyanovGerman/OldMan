@@ -16,6 +16,7 @@ import java.sql.Blob;
 
 @Controller
 public class DesignerController {
+
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
 	@Autowired
@@ -133,7 +134,7 @@ public class DesignerController {
 	}
 
 	@RequestMapping(value = {"/designer/send/order={id}"}, method = RequestMethod.POST)
-	public ModelAndView send(@PathVariable Long id, @PathVariable Long statusId, HttpServletRequest request) {
+	public ModelAndView send(@PathVariable Long id, @PathVariable Long statusId) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		try {
 			model.addObject("order", orderService.nextStatus(id));

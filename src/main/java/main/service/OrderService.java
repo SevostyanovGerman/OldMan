@@ -5,6 +5,7 @@ import main.model.User;
 import java.util.List;
 
 public interface OrderService {
+
 	Order get(Long id);
 	@Deprecated
 	List <Order> getAll();

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository <Order, Long> {
+
 	Order findByIdAndDeleted(Long id, int deleted);
 	List <Order> findAllByStatusAndDeleted(Status status, int deleted);
 	List <Order> findAllByDeleted(int deleted);

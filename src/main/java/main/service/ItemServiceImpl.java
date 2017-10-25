@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class ItemServiceImpl implements ItemService {
+
 	@Autowired
 	private ItemRepository itemRepository;
 

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 @Entity
 @Table(name = "images")
 public class Image {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

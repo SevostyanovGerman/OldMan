@@ -11,6 +11,7 @@ import java.util.Date;
 @Service
 @Transactional
 public class HistoryServiceImpl implements HistoryService {
+
 	@Autowired
 	private HistoryRepository historyRepository;
 

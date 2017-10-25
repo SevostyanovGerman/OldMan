@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 public class UserSuccessHandler implements AuthenticationSuccessHandler {
+
 	@Autowired
 	private RoleService roleService;
 

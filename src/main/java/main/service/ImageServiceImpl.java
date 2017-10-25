@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 public class ImageServiceImpl implements ImageService {
+
 	@Autowired
 	private ImageRepository imageRepository;
 

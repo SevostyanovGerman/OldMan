@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AdminController {
+
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping(value = {"/admin"}, method = RequestMethod.GET)
