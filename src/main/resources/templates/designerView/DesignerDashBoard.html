@@ -6,7 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
 
-	<link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
+
+
+
+    <link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -102,7 +108,7 @@
     <div class="container ">
 
         <div class="col-xs-12">
-            <table class="table table-bordered data" text-align="center" >
+            <table class="table table-bordered data" text-align="center"  id="example" >
                 <thead >
                     
                 
@@ -148,6 +154,24 @@
             integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
 
+
+    <script>
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            language: {
+                select: {
+                    rows: {
+                        _: "Выберете %d rows",
+                        1: "Выбрано 1 row"
+                    }
+                }
+            },
+            select: true
+        });
+    } );
+
+</script>
 </body>
 </html>
