@@ -113,7 +113,19 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.findAllByDeletedAndManagerFirstNameContains(0, name);
 	}
 
+	@Override
 	public List <Order> searchByAllFields(String searchTerm) {
 		return orderRepository.findBySearchTerm(searchTerm);
+	}
+
+	@Override
+	public Order getPayment(Long orderId) {
+		Order order = orderService.get(orderId);
+		if (order.getPayment()) {
+			return order;
+		} else {
+			order.setPayment(true);
+		}
+		return order;
 	}
 }

@@ -7,12 +7,10 @@
     <title>Master Item Form</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
 </head>
 
 <body>
@@ -98,7 +96,7 @@
             <div class="row" align="center" style="margin-top:4px">
 
                 <h4>Текущий статус</h4>
-                <h4 align="center" style="border:1px solid green; width: 142px; padding:5px; color:green;">Не готово</h4>
+                <h4 th:text="${item.getStatus()}" align="center" style="border:1px solid green; width: 142px; padding:5px; color:green;"></h4>
                 <p><button type="button" class="btn btn-success" data-toggle="tooltip" title="Готово" style="width: 142px; text-align: center;">Готово</button></p>
                 <p><button type="button" class="btn btn-success" data-toggle="tooltip" title="Готово" style="width: 142px; text-align: center;">Выход</button></p>
             </div>

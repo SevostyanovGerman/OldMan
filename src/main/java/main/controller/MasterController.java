@@ -56,4 +56,18 @@ public class MasterController {
 		model.addObject("masterOrders", orderService.searchByAllFields(searchItem));
 		return model;
 	}
+
+	@RequestMapping(value = {"/master/order/send={id}"}, method = RequestMethod.GET)
+	public ModelAndView changeStatus(@PathVariable Long id) {
+		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
+		model.addObject("order", orderService.nextStatus(id));
+		return model;
+	}
+
+	@RequestMapping(value = {"/master/order/money={id}"}, method = RequestMethod.GET)
+	public ModelAndView getPayment(@PathVariable Long id) {
+		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
+		model.addObject("order", orderService.getPayment(id));
+		return model;
+	}
 }
