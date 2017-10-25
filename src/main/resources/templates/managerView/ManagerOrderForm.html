@@ -245,6 +245,7 @@
                                     title="Создать клиента"
                                     style="width: 142px; text-align: center;">Создать</button>
 							<button type="button" class="btn btn-info" data-toggle="tooltip" title="Сохранить клиента" style="width: 142px; text-align: center;">Сохранить</button>
+                        <span th:if="${error}" th:text="${error}"></span>
                         </div>
                     </fieldset>
                 </div>
