@@ -11,29 +11,35 @@ import java.util.HashSet;
 @Component
 public class InitDB {
 
-	@Autowired
 	private UserService userService;
 
-	@Autowired
 	private RoleService roleService;
 
-	@Autowired
 	private PaymentService paymentService;
 
-	@Autowired
 	private StatusService statusService;
 
-	@Autowired
 	private DeliveryService deliveryService;
 
-	@Autowired
 	private OrderService orderService;
 
-	@Autowired
 	private CustomerService customerService;
 
-	@Autowired
 	private ItemService itemService;
+
+	@Autowired
+	public InitDB(UserService userService, RoleService roleService, PaymentService paymentService,
+				  StatusService statusService, DeliveryService deliveryService, OrderService orderService,
+				  CustomerService customerService, ItemService itemService) {
+		this.userService = userService;
+		this.roleService = roleService;
+		this.paymentService = paymentService;
+		this.statusService = statusService;
+		this.deliveryService = deliveryService;
+		this.orderService = orderService;
+		this.customerService = customerService;
+		this.itemService = itemService;
+	}
 
 	@PostConstruct
 	public void createDB() {
