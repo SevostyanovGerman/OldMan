@@ -6,6 +6,7 @@ import java.util.List;
 @Entity
 @Table(name = "items")
 public class Item {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,6 +47,19 @@ public class Item {
 	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "image_id")})
 	private List <Image> images;
+
+	public Item() {
+	}
+
+	public Item(String name, String model, String type, String comment, int count, double price, String status) {
+		this.name = name;
+		this.model = model;
+		this.type = type;
+		this.comment = comment;
+		this.count = count;
+		this.price = price;
+		this.status = status;
+	}
 
 	public Long getId() {
 		return id;

@@ -2,12 +2,14 @@ package main.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "customers")
 public class Customer {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,6 +42,23 @@ public class Customer {
 	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
 	private List <Order> orders;
+
+	public Customer() {
+	}
+
+	public Customer(String firstName, String secName, String email, String phone, Delivery deliveries) {
+		this.firstName = firstName;
+		this.secName = secName;
+		this.email = email;
+		this.phone = phone;
+		if (this.deliveries == null) {
+			List <Delivery> deliveryList = new ArrayList <>();
+			this.deliveries = deliveryList;
+			this.deliveries.add(deliveries);
+		} else {
+			this.deliveries.add(deliveries);
+		}
+	}
 
 	public Long getId() {
 		return id;

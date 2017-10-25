@@ -7,11 +7,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +51,30 @@ public class User implements UserDetails {
 		inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set <Role> roles;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Status.class)
 	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "user_id")},
 		inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set <Status> statuses;
+
+	public User() {
+	}
+
+	public User(String name, String password, String firstName, String secName, int deleted, int disable, Role role) {
+		this.name = name;
+		this.password = password;
+		this.firstName = firstName;
+		this.secName = secName;
+		this.deleted = deleted;
+		this.disable = disable;
+		if (this.roles == null) {
+			Set <Role> list = new HashSet <>();
+			list.add(role);
+			this.roles = list;
+		} else {
+			this.roles.add(role);
+		}
+		this.statuses = new HashSet <>();
+	}
 
 	@Override
 	public Collection <? extends GrantedAuthority> getAuthorities() {

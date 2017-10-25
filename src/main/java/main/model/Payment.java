@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "payments")
 public class Payment {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +13,13 @@ public class Payment {
 
 	@Column(name = "name")
 	private String name;
+
+	public Payment(String name) {
+		this.name = name;
+	}
+
+	public Payment() {
+	}
 
 	public Long getId() {
 		return id;

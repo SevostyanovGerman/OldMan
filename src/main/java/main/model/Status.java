@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "statuses")
 public class Status {
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +13,13 @@ public class Status {
 
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
+
+	public Status() {
+	}
+
+	public Status(String name) {
+		this.name = name;
+	}
 
 	public long getId() {
 		return id;
