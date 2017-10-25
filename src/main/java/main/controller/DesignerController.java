@@ -134,12 +134,12 @@ public class DesignerController {
 	}
 
 	@RequestMapping(value = {"/designer/send/order={id}"}, method = RequestMethod.POST)
-	public ModelAndView send(@PathVariable Long id, @PathVariable Long statusId) {
+	public ModelAndView send(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		try {
 			model.addObject("order", orderService.nextStatus(id));
 		} catch (Exception e) {
-			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}", id, statusId);
+			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}", id);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
