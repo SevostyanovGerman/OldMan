@@ -59,49 +59,6 @@
     </nav>
 
 	<br>
-    <div class="container">
-		<div class="row">
-			<div class="col-lg-4 col-xs-12" align="Left">
-				<div class="btn-group paggingL15">
-					<a href="#" class="btn btn-default">Фильтр</a>
-					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="#">Фильтр 1</a></li>
-						<li><a href="#">Фильтр 2</a></li>
-						<li><a href="#">Фильтр 3</a></li>
-					</ul>
-				</div>
-			</div>
-			<div>
-				<form action="/designer/search" method="post" id="searchForm">
-			<div class="col-lg-4 col-xs-12" align="right">
-				<div class="btn-group">
-				<button type="button" class="btn btn-default" >Расширенный поиск</button>
-				<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle" ><span class="caret" align="right"></span></button>
-				<ul class="dropdown-menu" >
-					<li><a href="#">Пункт 1</a></li>
-					<li><a href="#">Пункт 2</a></li>
-					<li class="divider"></li>
-					<li><a href="#">Пункт 3</a></li>
-				</ul>
-			</div>
-			</div>
-
-			<div class="col-lg-4" align="Right" style="align-items: flex-end">
-				<div class="input-group" align="Right">
-					<input type="text" class="form-control" placeholder="Поиск" name="search">
-					<span class="input-group-btn">
-						<button class="btn btn-default">Найти</button>
-					</span>
-				</div>
-			</div>
-				</form>
-			</div>
-
-		</div>
-    </div>
 
 	<br>
 
@@ -163,13 +120,35 @@
             language: {
                 select: {
                     rows: {
-                        _: "Выберете %d rows",
-                        1: "Выбрано 1 row"
+                        _: "Выбрано %d строк",
+                        1: "Выбрано 1 строка"
+                    }
+                },
+
+                paginate: {
+                    first:    '«',
+                    previous: '‹',
+                    next:     '›',
+                    last:     '»'
+                },
+                aria: {
+                    paginate: {
+                        first:    'Первый',
+                        previous: 'Последний',
+                        next:     'Вперед',
+                        last:     'Назад'
                     }
                 }
             },
+
             select: true
         });
+
+
+
+
+
+
     } );
 
 </script>
