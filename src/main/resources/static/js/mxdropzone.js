@@ -37,7 +37,6 @@ myDropzone.on("sending", function (file) {
     // Show the total progress bar when upload starts
     document.querySelector("#total-progress").style.opacity = "1";
     // And disable the start button
-
     file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
 
 });
@@ -55,9 +54,22 @@ myDropzone.on("queuecomplete", function (progress) {
 document.querySelector("#actions .start").onclick = function () {
 
     myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+
+
 };
 document.querySelector("#actions .cancel").onclick = function () {
 
     myDropzone.removeAllFiles(true);
+
+
 };
 //# sourceURL=pen.js
+
+myDropzone.on("success", function(files, response) {
+
+    if (myDropzone.getUploadingFiles().length === 0 && myDropzone.getQueuedFiles().length === 0) {
+        location.reload();
+        var linkItem = document.getElementById("linkToItem");
+    }
+
+});

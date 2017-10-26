@@ -43,7 +43,8 @@ public class Item {
 		inverseJoinColumns = {@JoinColumn(name = "file_id")})
 	private List <File> files;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class)
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
+		cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "image_id")})
 	private List <Image> images;
