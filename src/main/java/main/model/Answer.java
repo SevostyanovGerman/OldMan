@@ -1,6 +1,7 @@
 package main.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "answers")
@@ -19,6 +20,17 @@ public class Answer {
 
 	@Column(name = "deleted")
 	private String deleted;
+
+	@Column(name = "Time")
+	private Date time;
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
+	}
 
 	public Long getId() {
 		return id;

@@ -1,6 +1,7 @@
 package main.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,9 @@ public class Comment {
 	@Column(name = "deleted")
 	private String deleted;
 
+	@Column(name = "Time")
+	private Date time;
+
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Answer.class)
 	@JoinTable(name = "keys_comment_answer", joinColumns = {@JoinColumn(name = "comment_id")},
 		inverseJoinColumns = {@JoinColumn(name = "answer_id")})
@@ -32,6 +36,14 @@ public class Comment {
 	public Comment(String content, String login) {
 		this.content = content;
 		this.login = login;
+	}
+
+	public Date getTime() {
+		return time;
+	}
+
+	public void setTime(Date time) {
+		this.time = time;
 	}
 
 	public Long getId() {
