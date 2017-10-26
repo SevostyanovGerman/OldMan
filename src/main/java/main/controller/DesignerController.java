@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
+import java.io.IOException;
 import java.sql.Blob;
 
 @Controller
@@ -171,6 +173,21 @@ public class DesignerController {
 		Order order = orderService.get(id);
 		model.addObject("order", order);
 		model.addObject("tabIndex", 1);
+		return model;
+	}
+
+	@RequestMapping(value = {"/designer/order/item/delimage/{id}"}, method = RequestMethod.POST)
+	public ModelAndView delImage(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
+		try {
+			Image image = imageService.get(id);
+			imageService.del(image);
+			model.addObject("item", image.getItem());
+			response.sendRedirect("/designer/order/item/?itemId=" + image.getItem().getId());
+		} catch (Exception e) {
+			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", id);
+			model = new ModelAndView("/designerView/DesignerDashBoard");
+		}
 		return model;
 	}
 }

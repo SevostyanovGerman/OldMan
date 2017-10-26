@@ -22,6 +22,19 @@ public class Image {
 	@Column(name = "image")
 	private Blob image;
 
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Item.class)
+	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "image_id")},
+		inverseJoinColumns = {@JoinColumn(name = "item_id")})
+	private Item item;
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
 	public Long getId() {
 		return id;
 	}

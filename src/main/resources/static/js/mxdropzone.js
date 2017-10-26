@@ -61,3 +61,9 @@ document.querySelector("#actions .cancel").onclick = function () {
     myDropzone.removeAllFiles(true);
 };
 //# sourceURL=pen.js
+
+myDropzone.on("complete", function (file) {
+    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+        location.reload();
+    }
+});

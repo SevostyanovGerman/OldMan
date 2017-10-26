@@ -48,9 +48,9 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Дизайнер</a></li>
                 <li>
-                    <form class="navbar-form navbar-right">
+                    <div class="navbar-form navbar-right">
                         <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
-                    </form>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -61,7 +61,7 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-9">
-            <form class="form-horizontal borderSimple " >
+            <div class="form-horizontal borderSimple " >
 
                 <div class="tab-content">
                     <div class="tab-pane active" id="tabItem">
@@ -79,7 +79,7 @@
                                 </td>
                                 <td style="width: inherit" >
                                     <ul class="list-group">
-                                    <li class="list-group-item" th:text="${item.getName()}">Чехол</li>
+                                    <li class="list-group-item" th:if="${item}"  th:text="${item.getName()}">Чехол</li>
                                     <br>  <li class="list-group-item" th:text="${item.getModel()}" >Iphone </li>
                                     <br>  <li class="list-group-item" th:text="${item.getType()}">Деревянный</li>
                                 </ul></td>
@@ -93,8 +93,10 @@
                         </table>
 
                         <h5>Изображения:</h5>
-                        <ul th:each ="element: ${item.getImages()}" style="padding-left: 20px; display: inline-block">
-                            <a th:href="${element.getImage()}"><img th:src="${element.getImage()}" width="50" height="50"></a>
+                        <ul th:each ="element: ${item.getFiles()}" style="padding-left: 20px; display: inline-block">
+                            <a th:if="${element}" th:href="${element}"><img
+                                th:if="${element}"  th:src="${element}" width="50"
+                                                                height="50"></a>
 
                         </ul>
 
@@ -105,14 +107,14 @@
                 </div>
 
                 </fieldset>
-            </form>
+            </div>
         </div>
         <form  th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
         </form>
 
-        <form action="/designer/order" id="backBtn" method="get"></form>
+
         <div class="col-lg-3">
-            <form class="form-horizontal borderSimple " >
+            <div class="form-horizontal borderSimple " >
                 <fieldset >
                     <h4 align="center">Текущий статус</h4>
 
@@ -136,10 +138,10 @@
 
                 </fieldset>
                 <br>
-
+                <form action="/designer/order" id="backBtn" method="get"></form>
                     <button class="btn btn-success width100" type="submit" form="backBtn" name="orderId" th:value="${item.getOrder().getId()}" >Назад</button>
 
-            </form>
+            </div>
 
 
             <br>
@@ -150,7 +152,7 @@
         <br>
 
         <div class="col-lg-12 pagging20 ">
-            <form class="form-horizontal borderSimple pagging20 paggingL10" >
+            <div class="form-horizontal borderSimple pagging20 paggingL10" >
                 <fieldset >
 
 
@@ -158,6 +160,22 @@
 
 
                     <div class="container">
+                        <ul th:each ="element: ${item.getImages()}" style="padding-left: 20px; display: inline-block">
+
+
+                            <a th:href="${element.getImage()}" class="js-smartPhoto">
+                                <img th:src="${element.getImage()}" width="50"
+                                                                     height="50"></a>
+
+
+                           <form th:action="'/designer/order/item/delimage/' +${element.getId()}"
+                                 method="post" id="delImage">
+                            <p><button type="submit" class="btn btn-default btn-sm" form="delImage">
+                            <i class="glyphicon glyphicon-trash" aria-hidden="true"  style="color: red;"></i>
+                            </button>
+                            </p>
+                           </form>
+                        </ul>
                         <!-- HTML heavily inspired by https://blueimp.github.io/jQuery-File-Upload/ -->
                         <div id="actions" class="row">
                             <div class="col-lg-7">
@@ -166,12 +184,12 @@
           <i class="glyphicon glyphicon-plus"></i>
           <span>Добавить файл</span>
       </span>
-                                <form action="/" method="get" id="yyy">
-                                <button type="submit" class="btn btn-primary start" form="yyy" >
+
+                                <button type="submit" class="btn btn-primary start" >
                                     <i class="glyphicon glyphicon-upload"></i>
-                                    <span>Загрузить</span>
+                                    <span>Загрузить все</span>
                                 </button>
-                                </form>
+
                                 <button type="reset" class="btn btn-warning cancel">
                                     <i class="glyphicon glyphicon-ban-circle"></i>
                                     <span>Отменить загрузку</span>
@@ -206,20 +224,19 @@
                                 <div>
 
 
-                                    <button class="btn btn-primary start" >
+                                    <button class="btn btn-primary start" type="button" >
                                         <i class="glyphicon glyphicon-upload"></i>
-                                        <span>Start</span>
+                                        <span>Загрузить</span>
                                     </button>
 
 
                                     <button data-dz-remove class="btn btn-warning cancel">
                                         <i class="glyphicon glyphicon-ban-circle"></i>
-                                        <span>Cancel</span>
+                                        <span>Отмена</span>
                                     </button>
-                                    <button data-dz-remove class="btn btn-danger delete">
-                                        <i class="glyphicon glyphicon-trash"></i>
-                                        <span>Delete</span>
-                                    </button>
+
+
+
                                 </div>
                             </div>
                         </div>
@@ -232,17 +249,14 @@
 
 
                 </fieldset>
-            </form>
+            </div>
         </div>
     </div>
 </div>
 
 
-
-
-
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js'></script>
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js'></script> -->
+<script src="/js/dropzone.js"></script>
 <script src="/js/mxdropzone.js"></script>
 <script src="/js/mxscript.js"></script>
 
@@ -256,10 +270,6 @@
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-
-
-
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
         integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
@@ -270,6 +280,7 @@
 
 
 
+<span th:text="'/designer/order/item?itemId=' +${item.getId()}" hidden id="linkToItem"></span>
 
 </body>
 </html>
