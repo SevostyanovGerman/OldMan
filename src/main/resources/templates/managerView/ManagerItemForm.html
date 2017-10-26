@@ -36,13 +36,9 @@
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Менеджер</a></li>
 					<li>
-						<form class="navbar-form navbar-right">
-							<button type="submit" class="btn btn-sm btn-info" 
-									style="background: #777777; border: #777777; color: #FFFFFF;"
-									href="LoginPage.html">
-									<a href="LoginPage.html" style="color: #FFFFFF;">Выход</a>
-							</button>
-						</form>
+                        <form class="navbar-form navbar-right">
+                            <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
+                        </form>
 					</li>
 				</ul>
             </div>
