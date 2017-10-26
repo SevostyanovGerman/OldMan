@@ -19,4 +19,5 @@ public interface OrderService {
 	Order nextStatus(Long orderId);
 	Order previousStatus(Long orderId);
 	List <Order> searchByAllFields(String searchTerm);
+	Order getPayment(Long orderId);
 }
