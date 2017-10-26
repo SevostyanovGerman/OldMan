@@ -49,6 +49,9 @@ function toggleArea1() {
 //bkLib.onDomLoaded(function() {toggleArea1();});
 
 
+window.addEventListener('DOMContentLoaded',function(){
+    new smartPhoto(".js-smartPhoto");
+});
 
 
 
