@@ -152,7 +152,7 @@ public class DesignerController {
 	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		Comment comment = new Comment(request.getParameter("commentText"), userService.getCurrentUser().toString());
-		comment.setTime(new java.util.Date());
+		comment.setTime(new Date());
 		commentService.save(comment);
 		Order order = orderService.get(id);
 		order.getComments().add(comment);

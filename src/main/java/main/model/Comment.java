@@ -22,7 +22,7 @@ public class Comment {
 	@Column(name = "deleted")
 	private String deleted;
 
-	@Column(name = "Time")
+	@Column(name = "time")
 	private Date time;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Answer.class)

@@ -21,7 +21,7 @@ public class Answer {
 	@Column(name = "deleted")
 	private String deleted;
 
-	@Column(name = "Time")
+	@Column(name = "time")
 	private Date time;
 
 	public Date getTime() {
