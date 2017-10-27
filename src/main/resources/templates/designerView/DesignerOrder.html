@@ -165,12 +165,12 @@
                                     <div th:id="${element}" style="display: none; " class="container-fluid">
 
                                     <textarea class="form-control " th:id="${element}+'Text'"
-                                              name="commentTextSub" th:form="${element}+'Frm'"></textarea>
+                                              name="commentTextSub"></textarea>
                                         <form th:action="'/designer/order/comment/sub/'+ ${order.getId()}" method="post"
                                               th:id="${element}+'Frm'">
                                             <div style="text-align: right">
                                                 <button class="btn btn-warning btn-sm" type="submit"
-                                                        th:form="${element}+'Frm'" name="commentBtnOrder"
+                                                         name="commentBtnOrder"
                                                         th:value="${element.getId()}">Отправить
                                                 </button>
 
