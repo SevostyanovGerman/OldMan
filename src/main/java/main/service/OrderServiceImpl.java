@@ -123,7 +123,7 @@ public class OrderServiceImpl implements OrderService {
 	public Order getPayment(Long orderId) {
 		Order order = orderService.get(orderId);
 		if (order.getPayment()) {
-			return order;
+			order.setPayment(false);
 		} else {
 			order.setPayment(true);
 		}

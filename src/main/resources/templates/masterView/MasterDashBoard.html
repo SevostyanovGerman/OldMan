@@ -51,32 +51,6 @@
 <br>
 <div class="container">
 	<div class="row">
-		<div class="col-lg-6"  align="Left">
-			<div class="btn-group">
-				<a href="#" class="btn btn-default">Фильтр</a>
-				<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a href="#">Фильтр 1</a></li>
-					<li><a href="#">Фильтр 2</a></li>
-					<li><a href="#">Фильтр 3</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="col-lg-3">
-			<div class="btn-group">
-				<a href="#" class="btn btn-default">Расширенный поиск</a>
-				<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-					<span class="caret"></span>
-				</a>
-				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a href="#">Условие 1</a></li>
-					<li><a href="#">Условие 2</a></li>
-					<li><a href="#">Условие 3</a></li>
-				</ul>
-			</div>
-		</div>
 		<form action="/master/search" th:action="@{/master/search}" method="POST" id="searchItem">
 			<div class="col-lg-3">
 				<div class="input-group">
@@ -88,8 +62,6 @@
 			</div>
 		</form>
 	</div>
-
-
 </div>
 
 <br>
@@ -119,9 +91,12 @@
 				<td th:text="${order.getDateRecieved()}" style="text-align: center;"></td>
 				<td th:text="${order.getDateTransferred()}" style="text-align: center;"></td>
 				<td style="text-align:center">
-					<a th:href="@{'http://localhost:8080/master/order/' + ${order.id}}"  class="btn btn-info" type="button">
-						Открыть
-					</a>
+					<!--<a th:href="@{'http://localhost:8080/master/order/' + ${order.id}}"  class="btn btn-info" type="button">-->
+						<!--Открыть-->
+					<!--</a>-->
+                    <form th:action="@{'/master/order/' + ${order.getId()}}" method="get">
+                        <input class="btn btn-info"  type="submit" value="Открыть" />
+                    </form>
 				</td>
 			</tr>
 			</tbody>
@@ -142,7 +117,11 @@
 
     <script>
         $(document).ready( function() {
-        $('#example').DataTable();
+        $('#example').DataTable({
+            "scrollY":        "200px",
+            "scrollCollapse": true,
+            "paging":         false
+        });
         } );
     </script>
 

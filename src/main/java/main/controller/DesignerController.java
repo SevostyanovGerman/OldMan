@@ -90,20 +90,12 @@ public class DesignerController {
 	}
 
 	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
-	public ModelAndView save(@PathVariable Long id, HttpServletRequest request) {
+	public ModelAndView save(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
-		String status = request.getParameter("status");
-		try {
-			Item item = itemService.get(id);
-			if (status != null) {
-				item.setStatus(status);
-				itemService.save(item);
-			}
-			model.addObject("item", item);
-		} catch (Exception e) {
-			logger.error("Controller '/designer/order/item/save/', id={}", id);
-			model = new ModelAndView("/designerView/DesignerDashBoard");
-		}
+		Item item = itemService.get(id);
+		itemService.changeStatus(item.getId());
+		itemService.save(item);
+		model.addObject("item", item);
 		return model;
 	}
 

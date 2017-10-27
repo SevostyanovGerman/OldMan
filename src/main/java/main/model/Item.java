@@ -31,7 +31,7 @@ public class Item {
 	private double price;
 
 	@Column(name = "status")
-	private String status;
+	private boolean status;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
 	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "item_id")},
@@ -52,7 +52,7 @@ public class Item {
 	public Item() {
 	}
 
-	public Item(String name, String model, String type, String comment, int count, double price, String status) {
+	public Item(String name, String model, String type, String comment, int count, double price, boolean status) {
 		this.name = name;
 		this.model = model;
 		this.type = type;
@@ -134,11 +134,18 @@ public class Item {
 		this.images = images;
 	}
 
-	public String getStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public String getStatusString() {
+		if(status) {
+			return "готов";
+		}
+		return "не готов";
+	}
+
+	public void setStatus(boolean status) {
 		this.status = status;
 	}
 
