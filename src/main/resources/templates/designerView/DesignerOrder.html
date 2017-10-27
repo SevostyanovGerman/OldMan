@@ -1,4 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
 <html>
 
 <head>
@@ -49,9 +51,9 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Дизайнер</a></li>
                 <li>
-                    <form class="navbar-form navbar-right">
+                    <div class="navbar-form navbar-right">
                         <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
-                    </form>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -102,7 +104,7 @@
                             <div class="pre-scrollable">
 
                             <ul th:each ="element: ${order.getComments()}" class="list-group">
-                               <h3> <li th:text="${element.getLogin()}"  class="label label-info"></li></h3>
+                               <h3> <li   th:text="${element.getLogin()}"  class="label label-info"></li></h3>
                                 <li th:utext="${element.getContent()}" class="list-group-item list-group-item-success" ></li>
 
                                  <ul th:each ="element2: ${element.getAnswers()}">
@@ -182,7 +184,7 @@
         <form action="/designer" id="back" method="get"> </form>
         <form th:action="'/designer/send/order=' + ${order.getId()}" id="sendOrder" method="post"></form>
         <div class="col-lg-3">
-            <form class="form-horizontal borderSimple">
+            <div class="form-horizontal borderSimple">
                 <fieldset >
                     <h4 align="center">Текущий статус</h4>
 
@@ -199,7 +201,7 @@
 
                     <button class="btn btn-success width100" type="submit" form="back" >Назад</button>
                 </fieldset>
-            </form>
+            </div>
 
 
             <br>
@@ -207,10 +209,9 @@
 
         </div>
 
-        <form action="/designer/order/item" method="get" id="item" >
-        </form>
+
         <div class="col-lg-12 pagging20" >
-            <form class="form-horizontal " >
+            <div class="form-horizontal " >
                 <fieldset >
                     <h3>Позиции заказа</h3>
                     <table class="table table-bordered data borderSimple" >
@@ -231,7 +232,10 @@
                             <td th:text="${element.getModel()}"></td>
                             <td th:text="${element.getStatus()}" name="status"></td>
                             <td>
-                                <button class="btn btn-success width100" type="submit" form="item" name="itemId" th:value="${element.getId()}"  >Открыть</button>
+                               <form  th:action="'/designer/order/item/'+${element.getId() }"
+                                      method="get"  >
+                                <button class="btn btn-success width100" type="submit"  >Открыть</button>
+                                </form>
                           </td>
                         </tr>
 

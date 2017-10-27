@@ -109,8 +109,7 @@
                 </fieldset>
             </div>
         </div>
-        <form  th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
-        </form>
+
 
 
         <div class="col-lg-3">
@@ -125,9 +124,11 @@
                 <fieldset>
 
                     <div th:switch="${item.getStatus()}">
+                        <form  th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
+
                         <button th:case="'YES'" class="btn btn-success width100" type="submit" form="save" name="status" value="NO"  >Вернуть</button>
                         <button th:case="'NO'" class="btn btn-success width100" type="submit" form="save" name="status" value="YES"  >Собрать</button>
-
+                        </form>
                     </div>
 
                 </fieldset>
