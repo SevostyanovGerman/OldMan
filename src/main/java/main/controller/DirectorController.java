@@ -41,4 +41,11 @@ public class DirectorController {
 		}
 		return model;
 	}
+
+	@RequestMapping(value = {"/director/controlpanel"}, method = RequestMethod.GET)
+	public ModelAndView controlPanel() {
+		ModelAndView model = new ModelAndView("/directorView/ControlPanel");
+
+		return model;
+	}
 }

@@ -1,3 +1,7 @@
+body{
+    padding-top: 0;
+}
+
 tr th {
     background-color: #777777;
     color: #FFFFFF;
@@ -19,4 +23,8 @@ tr th, tr td {
     background: #777777;
     border: #777777;
     color: #FFFFFF;
+}
+
+#myTable{
+    width: 98%;
 }

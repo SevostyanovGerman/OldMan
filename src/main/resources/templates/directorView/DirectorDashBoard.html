@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Manager Dash Board</title>
+    <title>Заказы</title>
     
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
 
-	<link rel="stylesheet" href="css/dashboard.css">
+
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+
+
 </head>
 
 <body>
@@ -34,10 +36,8 @@
                 <ul class="nav navbar-nav">
                     <li class="active" role="presentation"><a href="/director">Заказы</a></li>
                     <li role="presentation"><a href="#">Клиенты</a></li>
-                    <li role="presentation"><a href="/director/stuff">Менеджеры</a></li>
-                    <li role="presentation"><a href="#">Дизайнеры</a></li>
-                    <li role="presentation"><a href="#">Мастера</a></li>
-                    <li role="presentation"><a href="#">Статистика</a></li>
+                    <li role="presentation"><a href="/director/stuff">Сотрудники</a></li>
+                    <li role="presentation"><a href="/director/controlpanel">Панель управления</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Директор</a></li>
@@ -46,58 +46,16 @@
 							<a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
 						</form>
 					</li>
-					
 				</ul>
-                
             </div>
         </div>
     </nav>
 
 	<br>
-    <div class="container">
-		<div class="row">
-			<div class="col-lg-4" align="Left">
-				<div class="btn-group">
-					<a href="#" class="btn btn-default">Фильтр</a>
-					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Фильтр 1</a></li>
-						<li><a href="#">Фильтр 2</a></li>
-						<li><a href="#">Фильтр 3</a></li>
-					</ul>
-				</div>
-			</div>
 
-			<div class="col-lg-3" align="Left">
-				<div class="btn-group">
-					<a href="#" class="btn btn-default">Расширенный поиск</a>
-					<a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-						<span class="caret"></span>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a href="#">Условие 1</a></li>
-						<li><a href="#">Условие 2</a></li>
-						<li><a href="#">Условие 3</a></li>
-					</ul>
-				</div>
-			</div>
-
-			<div class="col-lg-3" align="Right">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="Заказ">
-					<span class="input-group-btn">
-						<button class="btn btn-default" type="button">Найти</button>
-					</span>
-				</div>
-			</div>
-		</div>
-    </div>
-	<br>
     <div class="container">
         <div class="table-responsive">
-            <table class="table table-bordered data" text-align="center">
+            <table id="myTable" class="display table table-bordered data" cellspacing="0">
                 <thead>
                     <tr>
                         <th>№ Заказа</th>
@@ -145,6 +103,32 @@
             integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        function settingUpTable() {
+            $('#myTable').dataTable({
+                "oLanguage": {
+                    "sLengthMenu": "Показать _MENU_ записей на странице",
+                    "sZeroRecords": "Извините - ничего не найдено",
+                    "sInfo": "Показано _START_ до _END_ из _TOTAL_ записей",
+                    "sInfoEmpty": "Нет записей",
+                    "sInfoFiltered": "(из _MAX_ записей)",
+                    "sSearch": "Поиск:",
+                    "oPaginate": {
+                        "sNext": "След. стр.",
+                        "sPrevious": "Пред. стр."
+                    }
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            settingUpTable();
+        });
+    </script>
 
 </body>
 </html>
