@@ -139,9 +139,9 @@
 
                 </fieldset>
                 <br>
-                <form action="/designer/order" id="backBtn" method="get"></form>
-                    <button class="btn btn-success width100" type="submit" form="backBtn" name="orderId" th:value="${item.getOrder().getId()}" >Назад</button>
-
+                <form  th:action="'/designer/order/' + ${item.getOrder().getId()}" id="backBtn" method="get">
+                    <button class="btn btn-success width100" type="submit"  >Назад</button>
+                </form>
             </div>
 
 

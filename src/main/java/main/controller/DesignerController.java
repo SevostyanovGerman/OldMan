@@ -50,15 +50,14 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order"}, method = RequestMethod.GET)
-	public ModelAndView order(HttpServletRequest request) {
+	@RequestMapping(value = {"/designer/order/{id}"}, method = RequestMethod.GET)
+	public ModelAndView order(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		try {
-			String id = request.getParameter("orderId");
-			model.addObject("order", orderService.get(Long.parseLong(id)));
+			model.addObject("order", orderService.get(id));
 		} catch (Exception e) {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
-			logger.error("Controller '/designer/order', orderId={}", request.getParameter("orderId"));
+			logger.error("Controller '/designer/order', orderId={}", id);
 		}
 		return model;
 	}
@@ -87,7 +86,7 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order/item/save/{id}/{status}"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
 	public ModelAndView save(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		String status = request.getParameter("status");
@@ -182,7 +181,7 @@ public class DesignerController {
 			Image image = imageService.get(id);
 			imageService.del(image);
 			model.addObject("item", image.getItem());
-			response.sendRedirect("/designer/order/item/?itemId=" + image.getItem().getId());
+			response.sendRedirect("/designer/order/item/" + image.getItem().getId());
 		} catch (Exception e) {
 			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", id);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
