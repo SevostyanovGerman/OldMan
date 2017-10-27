@@ -6,4 +6,5 @@ public interface ItemService {
 
 	Item get(Long id);
 	void save(Item item);
+	Item changeStatus(Long itemId);
 }

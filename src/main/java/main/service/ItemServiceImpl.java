@@ -13,6 +13,9 @@ public class ItemServiceImpl implements ItemService {
 	@Autowired
 	private ItemRepository itemRepository;
 
+	@Autowired
+	private ItemService itemService;
+
 	@Override
 	public Item get(Long id) {
 		return itemRepository.getOne(id);
@@ -21,5 +24,15 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public void save(Item item) {
 		itemRepository.save(item);
+	}
+
+	@Override
+	public Item changeStatus(Long itemId) {
+		Item item = itemService.get(itemId);
+		if (item.getStatus()) {
+			item.setStatus(false);
+		}
+		item.setStatus(true);
+		return item;
 	}
 }

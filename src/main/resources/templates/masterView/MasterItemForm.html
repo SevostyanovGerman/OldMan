@@ -5,10 +5,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Master Item Form</title>
-
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-
     <!-- Optional theme -->
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
 </head>
@@ -47,37 +45,27 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-9">
-
-
             <div class="row">
                 <div class="col-lg-6">
                     <br>
-
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Продукт:</span>
                         <input th:value="${item.name}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                     </div>
-
                     <br>
-
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Модель телефона:</span>
                         <input th:value="${item.model}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                     </div>
-
                     <br>
-
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Тип:</span>
                         <input th:value="${item.type}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                     </div>
-
-
                     <br>
-                    <p style="margin-bottom:1px"><a>Файл 1</a></p>
-                    <p style="margin:0;margin-bottom:1px"><a>Файл 2</a></p>
-                    <p style="margin:0;margin-bottom:1px"><a>Файл 3</a></p>
-
+                        <p style="margin-bottom:1px"><a>Файл 1</a></p>
+                        <p style="margin:0;margin-bottom:1px"><a>Файл 2</a></p>
+                        <p style="margin:0;margin-bottom:1px"><a>Файл 3</a></p>
                 </div>
 
                 <div class="col-lg-6">
@@ -87,21 +75,19 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
 
         <div class="col-lg-3">
-
             <div class="row" align="center" style="margin-top:4px">
-
                 <h4>Текущий статус</h4>
-                <h4 th:text="${item.getStatus()}" align="center" style="border:1px solid green; width: 142px; padding:5px; color:green;"></h4>
-                <p><button type="button" class="btn btn-success" data-toggle="tooltip" title="Готово" style="width: 142px; text-align: center;">Готово</button></p>
-                <p><button type="button" class="btn btn-success" data-toggle="tooltip" title="Готово" style="width: 142px; text-align: center;">Выход</button></p>
+                <h4 th:text="${item.getStatusString()}" align="center" style="border:1px solid green; width: 142px; padding:5px; color:green;"></h4>
+                    <p>
+                        <a th:href="@{'/master/order/item/' + ${item.getId()}} + '/status'" class="btn btn-success" type="button" style="width: 150px"; >Готово</a>
+                    </p>
+                    <p>
+                        <a th:href="@{'/master/order/' + ${item.getOrder().getId()}}" class="btn btn-success" type="button" style="width: 150px";>Назад</a>
+                    </p>
             </div>
-
-            <br>
         </div>
     </div>
 </div>

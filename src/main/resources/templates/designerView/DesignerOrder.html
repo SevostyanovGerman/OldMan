@@ -283,7 +283,7 @@
                             <td th:text="${element.getName()}" ></td>
                             <td th:text="${element.getType()}" ></td>
                             <td th:text="${element.getModel()}"></td>
-                            <td th:text="${element.getStatus()}" name="status"></td>
+                            <td th:text="${element.getStatusString()}" name="status"></td>
                             <td>
                                <form  th:action="'/designer/order/item/'+${element.getId() }"
                                       method="get"  >
