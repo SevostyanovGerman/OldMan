@@ -88,24 +88,6 @@ public class DesignerController {
 		return model;
 	}
 
-//	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
-//	public ModelAndView save(@PathVariable Long id, HttpServletRequest request) {
-//		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
-//		String status = request.getParameter("status");
-//		try {
-//			Item item = itemService.get(id);
-//			if (status != null) {
-//				item.setStatus(status);
-//				itemService.save(item);
-//			}
-//			model.addObject("item", item);
-//		} catch (Exception e) {
-//			logger.error("Controller '/designer/order/item/save/', id={}", id);
-//			model = new ModelAndView("/designerView/DesignerDashBoard");
-//		}
-//		return model;
-//	}
-
 	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
 	public ModelAndView save(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");

@@ -24,9 +24,7 @@ public class MasterController {
 	private UserService userService;
 
 	@Autowired
-	public MasterController(OrderService orderService,
-							ItemService itemService,
-							UserService userService) {
+	public MasterController(OrderService orderService, ItemService itemService, UserService userService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
