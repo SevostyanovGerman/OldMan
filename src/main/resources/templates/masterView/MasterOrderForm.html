@@ -64,7 +64,7 @@
 							<div class="form-group">
 								<div class="input-group">
 									<span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Менеджер:</span>
-									<input th:value="${order.manager}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+									<input th:value="${order.getManager()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
 								</div>
 							</div>
 							<div class="form-group">
@@ -94,11 +94,9 @@
 						</div>
 						<div class="col-lg-6">
 							<p align="right">
-                                <!--<button type="button" class="btn btn-success" data-toggle="tooltip" title="Готово" style="width: 142px; text-align: center;">Отправить</button>-->
                                 <a th:href="@{'/master/order/send=' + ${order.getId()}}" class="btn btn-success" type="button" style="width: 150px;" >Отправить</a>
                             </p>
 							<p align="right">
-                                <!--<button type="button" class="btn btn-success" data-toggle="tooltip" title="Готово" style="width: 142px; text-align: center;">Получить деньги</button>-->
                                 <a th:href="@{'/master/order/money=' + ${order.getId()}}" class="btn btn-success" type="button"  style="width: 150px;">Получить деньги</a>
                             </p>
 						</div>
@@ -112,7 +110,6 @@
 				<div class="row" align="center" style="margin-top:4px">
 					<h4>Текущий статус</h4>
 					<h4 th:text="${order.getStatus()}" align="center" style="border:1px solid green; width: 150px; padding:5px; color:green;"></h4>
-					<!--<h4 align="center" style="border:1px solid orange; width: 150px; padding:5px; color:orange;"></h4>-->
 					<h4 th:text="${order.getPaymentString()}" align="center" style="border:1px solid red; width: 150px; padding:5px; color:red;"></h4>
 				</div>
 			</form>
@@ -132,6 +129,7 @@
 				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Модель</th>
 				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Количество</th>
 				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Цена</th>
+                <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
 				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Действие</th>
 			</tr>
 			</thead>
@@ -143,10 +141,14 @@
 				<td th:text="${item.getModel()}" style="text-align: center;"></td>
 				<td th:text="${item.getCount()}" style="text-align: center;"></td>
 				<td th:text="${item.getPrice()}" style="text-align: center;"></td>
+				<td th:text="${item.getStatusString()}" style="text-align: center;"></td>
 				<td style="text-align:center">
-					<a th:href="@{'http://localhost:8080/master/item/' + ${item.getId()}}" class="btn btn-info" type="button">
-						Открыть
-					</a>
+					<!--<a th:href="@{'http://localhost:8080/master/item/' + ${item.getId()}}" class="btn btn-info" type="button">-->
+						<!--Открыть-->
+					<!--</a>-->
+                    <form th:action="@{'/master/order/item/' + ${item.getId()}}" method="get">
+                        <input class="btn btn-info"  type="submit" value="Открыть" />
+                    </form>
 				</td>
 			</tr>
 			</tbody>
@@ -164,7 +166,11 @@
 
 <script>
     $(document).ready( function() {
-        $('#example').DataTable();
+        $('#example').DataTable({
+            "scrollY":        "200px",
+            "scrollCollapse": true,
+            "paging":         false
+        });
     } );
 </script>
 

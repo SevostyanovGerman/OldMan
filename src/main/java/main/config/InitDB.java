@@ -102,13 +102,13 @@ public class InitDB {
 		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
 		customerService.save(customer2);
 		//Item//
-		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, "NO");
+		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
 		itemService.save(item1);
-		Item item2 = new Item("Case", "iphone 7", "wood", "my comment...", 2, 200d, "NO");
+		Item item2 = new Item("Case", "iphone 7", "wood", "my comment...", 2, 200d, false);
 		itemService.save(item2);
-		Item item3 = new Item("Case", "iphone 8", "plastic", "my comment...", 1, 100d, "NO");
+		Item item3 = new Item("Case", "iphone 8", "plastic", "my comment...", 1, 100d, false);
 		itemService.save(item3);
-		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, "NO");
+		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, false);
 		itemService.save(item4);
 		//Order//
 		Date createDate = new Date();

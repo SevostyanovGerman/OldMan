@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.logging.LogManager;
 
 @Controller
 public class MasterController {
@@ -43,7 +44,7 @@ public class MasterController {
 		return "masterView/MasterOrderForm";
 	}
 
-	@RequestMapping(value = {"/master/item/{id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/master/order/item/{id}"}, method = RequestMethod.GET)
 	public String getItemForm(@PathVariable("id") Long id, Model model) {
 		Item item = itemService.get(id);
 		model.addAttribute(item);
@@ -71,4 +72,19 @@ public class MasterController {
 		model.addObject("order", orderService.getPayment(id));
 		return model;
 	}
+
+	@RequestMapping(value = {"/master/item/status={id}"}, method = RequestMethod.GET)
+	public ModelAndView changeItemStatus(@PathVariable Long id) {
+		ModelAndView model = new ModelAndView("masterView/MasterItemForm");
+		model.addObject("item", itemService.changeStatus(id));
+		return model;
+	}
+
+//	@RequestMapping(value = {"/master/order"}, method = RequestMethod.GET)
+//	public ModelAndView back(HttpServletRequest request) {
+//		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
+//		String id  = request.getParameter("id");
+//		model.addObject("order", orderService.get(Long.parseLong(id)));
+//		return model;
+//	}
 }
