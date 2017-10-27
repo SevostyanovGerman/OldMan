@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
+import java.util.Date;
 
 @Controller
 public class DesignerController {
@@ -151,6 +152,7 @@ public class DesignerController {
 	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		Comment comment = new Comment(request.getParameter("commentText"), userService.getCurrentUser().toString());
+		comment.setTime(new Date());
 		commentService.save(comment);
 		Order order = orderService.get(id);
 		order.getComments().add(comment);
@@ -167,6 +169,7 @@ public class DesignerController {
 		Comment comment = commentService.get(commentId);
 		String content = request.getParameter("commentTextSub");
 		Answer answer = new Answer(content, userService.getCurrentUser().toString());
+		answer.setTime(new Date());
 		answerService.save(answer);
 		comment.getAnswers().add(answer);
 		commentService.save(comment);
