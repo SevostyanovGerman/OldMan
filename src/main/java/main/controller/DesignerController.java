@@ -21,23 +21,28 @@ public class DesignerController {
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
-	@Autowired
 	private OrderService orderService;
 
-	@Autowired
 	private ItemService itemService;
 
-	@Autowired
 	private CommentService commentService;
 
-	@Autowired
 	private AnswerService answerService;
 
-	@Autowired
 	private ImageService imageService;
 
-	@Autowired
 	private UserService userService;
+
+	@Autowired
+	public DesignerController(OrderService orderService, ItemService itemService, CommentService commentService,
+							  AnswerService answerService, ImageService imageService, UserService userService) {
+		this.orderService = orderService;
+		this.itemService = itemService;
+		this.commentService = commentService;
+		this.answerService = answerService;
+		this.imageService = imageService;
+		this.userService = userService;
+	}
 
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
