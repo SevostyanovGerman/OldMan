@@ -82,7 +82,7 @@
                 <h4>Текущий статус</h4>
                 <h4 th:text="${item.getStatusString()}" align="center" style="border:1px solid green; width: 142px; padding:5px; color:green;"></h4>
                     <p>
-                        <a th:href="@{'/master/item/status=' + ${item.getId()}}" class="btn btn-success" type="button" style="width: 150px"; >Готово</a>
+                        <a th:href="@{'/master/order/item/' + ${item.getId()}} + '/status'" class="btn btn-success" type="button" style="width: 150px"; >Готово</a>
                     </p>
                     <p>
                         <a th:href="@{'/master/order/' + ${item.getOrder().getId()}}" class="btn btn-success" type="button" style="width: 150px";>Назад</a>

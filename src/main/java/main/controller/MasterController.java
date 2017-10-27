@@ -19,14 +19,18 @@ import java.util.logging.LogManager;
 @Controller
 public class MasterController {
 
-	@Autowired
 	private OrderService orderService;
-
-	@Autowired
 	private ItemService itemService;
+	private UserService userService;
 
 	@Autowired
-	private UserService userService;
+	public MasterController(OrderService orderService,
+							ItemService itemService,
+							UserService userService) {
+		this.orderService = orderService;
+		this.itemService = itemService;
+		this.userService = userService;
+	}
 
 	@RequestMapping(value = {"/master"}, method = RequestMethod.GET)
 	public String getMasterDashBoard(Model model) {
@@ -38,9 +42,7 @@ public class MasterController {
 	@RequestMapping(value = {"/master/order/{id}"}, method = RequestMethod.GET)
 	public String getOrderForm(@PathVariable("id") Long id, Model model) {
 		Order order = orderService.get(id);
-		List <Item> allItems = order.getItems();
 		model.addAttribute("order", order);
-		model.addAttribute("allItems", allItems);
 		return "masterView/MasterOrderForm";
 	}
 
@@ -59,32 +61,24 @@ public class MasterController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/master/order/send={id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/master/order/{id}/send"}, method = RequestMethod.GET)
 	public ModelAndView changeStatus(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
 		model.addObject("order", orderService.nextStatus(id));
 		return model;
 	}
 
-	@RequestMapping(value = {"/master/order/money={id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/master/order/{id}/money"}, method = RequestMethod.GET)
 	public ModelAndView getPayment(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
 		model.addObject("order", orderService.getPayment(id));
 		return model;
 	}
 
-	@RequestMapping(value = {"/master/item/status={id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/master/order/item/{id}/status"}, method = RequestMethod.GET)
 	public ModelAndView changeItemStatus(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("masterView/MasterItemForm");
 		model.addObject("item", itemService.changeStatus(id));
 		return model;
 	}
-
-//	@RequestMapping(value = {"/master/order"}, method = RequestMethod.GET)
-//	public ModelAndView back(HttpServletRequest request) {
-//		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
-//		String id  = request.getParameter("id");
-//		model.addObject("order", orderService.get(Long.parseLong(id)));
-//		return model;
-//	}
 }

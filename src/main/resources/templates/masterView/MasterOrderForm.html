@@ -34,7 +34,7 @@
 		</div>
 		<div class="collapse navbar-collapse" id="navcol-1">
 			<ul class="nav navbar-nav">
-				<li class="active" role="presentation"><a href="#">Заказы</a></li>
+				<li class="active" role="presentation"><a th:href="@{/master}">Заказы</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#">Мастер</a></li>
@@ -94,10 +94,10 @@
 						</div>
 						<div class="col-lg-6">
 							<p align="right">
-                                <a th:href="@{'/master/order/send=' + ${order.getId()}}" class="btn btn-success" type="button" style="width: 150px;" >Отправить</a>
+                                <a th:href="@{'/master/order/' + ${order.getId()}} + '/send'" class="btn btn-success" type="button" style="width: 150px;" >Отправить</a>
                             </p>
 							<p align="right">
-                                <a th:href="@{'/master/order/money=' + ${order.getId()}}" class="btn btn-success" type="button"  style="width: 150px;">Получить деньги</a>
+                                <a th:href="@{'/master/order/' + ${order.getId()}} + '/money'" class="btn btn-success" type="button"  style="width: 150px;">Получить деньги</a>
                             </p>
 						</div>
 					</div>
@@ -134,7 +134,7 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr th:each="item : ${allItems}">
+			<tr th:each="item : ${order.getItems()}">
 				<td th:text="${item.getId()}" style="text-align: center;"></td>
 				<td th:text="${item.getName()}" style="text-align: center;"></td>
 				<td th:text="${item.getType()}" style="text-align: center;"></td>
