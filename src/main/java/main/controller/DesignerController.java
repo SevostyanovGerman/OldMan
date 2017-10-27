@@ -106,6 +106,16 @@ public class DesignerController {
 //		return model;
 //	}
 
+	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
+	public ModelAndView save(@PathVariable Long id) {
+		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
+		Item item = itemService.get(id);
+		itemService.changeStatus(item.getId());
+		itemService.save(item);
+		model.addObject("item", item);
+		return model;
+	}
+
 	@RequestMapping(value = "/uploadFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)

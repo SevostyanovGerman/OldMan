@@ -78,7 +78,9 @@ public class MasterController {
 	@RequestMapping(value = {"/master/order/item/{id}/status"}, method = RequestMethod.GET)
 	public ModelAndView changeItemStatus(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("masterView/MasterItemForm");
-		model.addObject("item", itemService.changeStatus(id));
+		Item newItem = itemService.changeStatus(id);
+		itemService.save(newItem);
+		model.addObject("item", newItem);
 		return model;
 	}
 }

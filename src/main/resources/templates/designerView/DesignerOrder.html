@@ -229,7 +229,7 @@
                             <td th:text="${element.getName()}" ></td>
                             <td th:text="${element.getType()}" ></td>
                             <td th:text="${element.getModel()}"></td>
-                            <td th:text="${element.getStatus()}" name="status"></td>
+                            <td th:text="${element.getStatusString()}" name="status"></td>
                             <td>
                                 <button class="btn btn-success width100" type="submit" form="item" name="itemId" th:value="${element.getId()}"  >Открыть</button>
                           </td>
