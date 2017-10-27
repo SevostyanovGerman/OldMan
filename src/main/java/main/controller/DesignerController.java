@@ -22,23 +22,28 @@ public class DesignerController {
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
-	@Autowired
 	private OrderService orderService;
 
-	@Autowired
 	private ItemService itemService;
 
-	@Autowired
 	private CommentService commentService;
 
-	@Autowired
 	private AnswerService answerService;
 
-	@Autowired
 	private ImageService imageService;
 
-	@Autowired
 	private UserService userService;
+
+	@Autowired
+	public DesignerController(OrderService orderService, ItemService itemService, CommentService commentService,
+							  AnswerService answerService, ImageService imageService, UserService userService) {
+		this.orderService = orderService;
+		this.itemService = itemService;
+		this.commentService = commentService;
+		this.answerService = answerService;
+		this.imageService = imageService;
+		this.userService = userService;
+	}
 
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
@@ -51,39 +56,37 @@ public class DesignerController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order"}, method = RequestMethod.GET)
-	public ModelAndView order(HttpServletRequest request) {
+	@RequestMapping(value = {"/designer/order/{id}"}, method = RequestMethod.GET)
+	public ModelAndView order(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		try {
-			String id = request.getParameter("orderId");
-			model.addObject("order", orderService.get(Long.parseLong(id)));
+			model.addObject("order", orderService.get(id));
 		} catch (Exception e) {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
-			logger.error("Controller '/designer/order', orderId={}", request.getParameter("orderId"));
+			logger.error("Controller '/designer/order', orderId={}", id);
 		}
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/order/item"}, method = RequestMethod.GET)
-	public ModelAndView item(HttpServletRequest request) {
+	@RequestMapping(value = {"/designer/order/item/{id}"}, method = RequestMethod.GET)
+	public ModelAndView item(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
-			model.addObject("item", itemService.get(Long.parseLong(request.getParameter("itemId"))));
+			model.addObject("item", itemService.get(id));
 		} catch (Exception e) {
-			logger.error("Controller '/designer/order/item', itemId={}", request.getParameter("itemId"));
+			logger.error("Controller '/designer/order/item', itemId={}", id);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
 	}
 
-	@RequestMapping(value = {"/designer/search"}, method = RequestMethod.POST)
-	public ModelAndView search(HttpServletRequest request) {
+	@RequestMapping(value = {"/designer/{search}"}, method = RequestMethod.POST)
+	public ModelAndView search(@PathVariable("search") String search) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
-			String search = request.getParameter("search");
 			model.addObject("orders", orderService.designFindNumber(search));
 		} catch (Exception e) {
-			logger.error("Controller '/designer/search', search={}", request.getParameter("search"));
+			logger.error("Controller '/designer/search', search={}", search);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
@@ -186,7 +189,7 @@ public class DesignerController {
 			Image image = imageService.get(id);
 			imageService.del(image);
 			model.addObject("item", image.getItem());
-			response.sendRedirect("/designer/order/item/?itemId=" + image.getItem().getId());
+			response.sendRedirect("/designer/order/item/" + image.getItem().getId());
 		} catch (Exception e) {
 			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", id);
 			model = new ModelAndView("/designerView/DesignerDashBoard");

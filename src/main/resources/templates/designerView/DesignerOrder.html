@@ -21,6 +21,8 @@
 <body onload="checkStatus(); ">
 
 
+
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -41,17 +43,15 @@
                 </ul>
             </div>
             <div class="col-lg-4">
-                <h4 style="color: white"
-                    th:text="'Заказ №' + ${order.getNumber()}+'  Дата заказа: '+${order.getCreated()} "> Заказ №001 Дата
-                    заказа: 02.10.2017 </h4>
+                <h4 style="color: white" th:text="'Заказ №' + ${order.getNumber()}+'  Дата заказа: '+${order.getCreated()} "> Заказ №001 Дата заказа: 02.10.2017 </h4>
             </div>
 
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Дизайнер</a></li>
                 <li>
-                    <form class="navbar-form navbar-right">
+                    <div class="navbar-form navbar-right">
                         <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
-                    </form>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -61,55 +61,45 @@
 <br>
 <div class="container">
     <div class="row">
-        <div class="col-lg-9">
-            <div class="form-horizontal borderSimple">
+        <div class="col-lg-9" >
+            <div class="form-horizontal borderSimple" >
+
 
 
                 <ul id="myTab2" class="nav nav-tabs">
-                    <li><a href="#tabItem" data-toggle="tab">Заказ</a></li>
-                    <li><a href="#tabComments" data-toggle="tab" onselect="toggleArea1()">Комментарии</a></li>
-                    <li><a href="#tabHistory" data-toggle="tab">История</a></li>
+                    <li><a href="#tabItem" data-toggle="tab" >Заказ</a></li>
+                    <li><a href="#tabComments" data-toggle="tab" onselect="toggleArea1()" >Комментарии</a></li>
+                    <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
                 </ul>
 
 
-                <div class="tab-content ">
-                    <div class="tab-pane fade " id="tabItem" role="tabpanel">
+                    <div class="tab-content " >
+                        <div class="tab-pane fade "  id="tabItem" role="tabpanel">
 
-                        <br>
-                        <table>
-                            <tr>
-                                <td>
-                                    <ul class="list-group" style="padding-left: 20px">
-                                        <li class="list-group-item ">Менеджер</li>
-                                        <br>
-                                        <li class="list-group-item ">Дизайнер</li>
-                                        <br>
-                                        <li class="list-group-item ">Дата получения</li>
-                                        <br>
-                                        <li class="list-group-item ">Дата отправки</li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul class="list-group width200">
+                            <br>
+                            <table>
+                                <tr>
+                                    <td >
+                                        <ul class="list-group" style="padding-left: 20px">
+                                            <li class="list-group-item " >Менеджер</li>
+                                           <br> <li class="list-group-item ">Дизайнер</li>
+                                            <br>  <li class="list-group-item " >Дата получения</li>
+                                            <br>  <li class="list-group-item " >Дата отправки</li>
+                                        </ul>
+                                    </td>
+                                    <td><ul class="list-group width200">
                                         <li class="list-group-item " th:text="${order.getManager()}">Иван</li>
-                                        <br>
-                                        <li class="list-group-item " th:text="${order.getDesigner()}">Василий</li>
-                                        <br>
-                                        <li class="list-group-item " th:text="${order.getDateRecieved()}">10/10/2017
-                                        </li>
-                                        <br>
-                                        <li class="list-group-item " th:text="${order.getDateTransferred()}">в
-                                            процессе
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                        <br>  <li class="list-group-item " th:text="${order.getDesigner()}">Василий</li>
+                                        <br>  <li class="list-group-item " th:text="${order.getDateRecieved()}">10/10/2017</li>
+                                        <br>  <li class="list-group-item " th:text="${order.getDateTransferred()}">в процессе</li>
+                                    </ul></td>
+                                </tr>
+                            </table>
+                        </div>
 
-                    <div class="tab-pane fade" id="tabComments" role="tabpanel">
+                        <div class="tab-pane fade" id="tabComments" role="tabpanel">
 
-                        <div class="pre-scrollable">
+                            <div class="pre-scrollable">
 
                             <ul th:each="element: ${order.getComments()}" class="chat">
                                 <li class="left clearfix"><span class="chat-img pull-left">
@@ -180,13 +170,17 @@
 
                                     </div>
 
+                                <div style="text-align: right">
+                                    <a class="btn btn-success"    th:onclick="'showHide(\'' + ${element} + '\');'"  th:id="${element}+'Btn'">Ответить</a>
+
                                 </div>
 
 
+                                </div>
                             </ul>
 
 
-                        </div>
+                            </div>
 
 
                         <div class="panel-footer">
@@ -200,6 +194,12 @@
                                     комментарий
                                 </button>
                             </form>
+
+
+
+
+
+
 
                         </div>
 
@@ -232,31 +232,29 @@
 
                 </fieldset>
             </div>
-        </div>
+        </div >
 
-        <form action="/designer" id="back" method="get"></form>
+        <form action="/designer" id="back" method="get"> </form>
         <form th:action="'/designer/send/order=' + ${order.getId()}" id="sendOrder" method="post"></form>
         <div class="col-lg-3">
-            <form class="form-horizontal borderSimple">
-                <fieldset>
+            <div class="form-horizontal borderSimple">
+                <fieldset >
                     <h4 align="center">Текущий статус</h4>
 
-                    <label class="form-control statusL" th:text="${order.getStatus()}">Новый </label>
+                    <label class="form-control statusL" th:text="${order.getStatus()}">Новый  </label>
                 </fieldset>
                 <br>
                 <fieldset>
 
-                    <button class="btn btn-success width100" type="submit" form="sendOrder" name="sendBtn" disabled>
-                        Отправить
-                    </button>
+						<button class="btn btn-success width100" type="submit" form="sendOrder" name="sendBtn" disabled >Отправить</button>
 
                 </fieldset>
                 <br>
                 <fieldset>
 
-                    <button class="btn btn-success width100" type="submit" form="back">Назад</button>
+                    <button class="btn btn-success width100" type="submit" form="back" >Назад</button>
                 </fieldset>
-            </form>
+            </div>
 
 
             <br>
@@ -264,13 +262,12 @@
 
         </div>
 
-        <form action="/designer/order/item" method="get" id="item">
-        </form>
-        <div class="col-lg-12 pagging20">
-            <form class="form-horizontal ">
-                <fieldset>
+
+        <div class="col-lg-12 pagging20" >
+            <div class="form-horizontal " >
+                <fieldset >
                     <h3>Позиции заказа</h3>
-                    <table class="table table-bordered data borderSimple">
+                    <table class="table table-bordered data borderSimple" >
                         <tr class="tableHead">
                             <th>№ Позиции</th>
                             <th>Продукт</th>
@@ -281,17 +278,18 @@
 
                         </tr>
 
-                        <tr th:each="element: ${order.getItems()}">
-                            <td></td>
-                            <td th:text="${element.getName()}"></td>
-                            <td th:text="${element.getType()}"></td>
+                        <tr th:each ="element: ${order.getItems()}">
+                            <td> </td>
+                            <td th:text="${element.getName()}" ></td>
+                            <td th:text="${element.getType()}" ></td>
                             <td th:text="${element.getModel()}"></td>
                             <td th:text="${element.getStatus()}" name="status"></td>
                             <td>
-                                <button class="btn btn-success width100" type="submit" form="item" name="itemId"
-                                        th:value="${element.getId()}">Открыть
-                                </button>
-                            </td>
+                               <form  th:action="'/designer/order/item/'+${element.getId() }"
+                                      method="get"  >
+                                <button class="btn btn-success width100" type="submit"  >Открыть</button>
+                                </form>
+                          </td>
                         </tr>
 
                     </table>
@@ -302,6 +300,7 @@
 </div>
 
 
+
 <span id="tabIndex" th:text="${tabIndex}" hidden></span>
 
 
@@ -309,8 +308,8 @@
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 <script src="/js/mxscript.js"></script>
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-       integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+ <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
