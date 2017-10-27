@@ -87,6 +87,10 @@
                                     <ul >
                                         Комментарий:
                                         <li class="list-group-item HeighClass" th:text="${item.getComment()}"> Бла-бла-бла </li>
+                                        <form>
+                                            <button class="btn btn-info width100" type="button" name="statusBtn">
+                                                Написать</button>
+                                        </form>
                                     </ul>
                                 </td>
                             </tr>
@@ -118,7 +122,7 @@
                     <h4 align="center">Текущий статус</h4>
 
 
-                    <label class="form-control statusL" th:text="${item.getStatus()}">Новый </label>
+                    <label class="form-control statusL" th:text="${item.getStatusString()}">Новый </label>
                 </fieldset>
                     <br>
                 <fieldset>
@@ -126,16 +130,12 @@
                     <div th:switch="${item.getStatus()}">
                         <form  th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
 
-                        <button th:case="'YES'" class="btn btn-success width100" type="submit" form="save" name="status" value="NO"  >Вернуть</button>
-                        <button th:case="'NO'" class="btn btn-success width100" type="submit" form="save" name="status" value="YES"  >Собрать</button>
+                        <button th:case="true" class="btn btn-success width100" type="submit" form="save"
+                                name="status" "  >Вернуть</button>
+                        <button th:case="false" class="btn btn-success width100" type="submit" form="save"
+                                name="status"   >Собрать</button>
                         </form>
                     </div>
-
-                </fieldset>
-                <br>
-                <fieldset>
-
-                    <button class="btn btn-success width100" type="button">Сохранить</button>
 
                 </fieldset>
                 <br>

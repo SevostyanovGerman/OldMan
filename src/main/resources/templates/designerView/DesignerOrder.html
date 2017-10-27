@@ -154,10 +154,13 @@
                                 <div class="panel-footer">
                                     <div th:id="${element}" style="display: none; " class="container-fluid">
 
-                                    <textarea class="form-control " th:id="${element}+'Text'"
-                                              name="commentTextSub"></textarea>
+
                                         <form th:action="'/designer/order/comment/sub/'+ ${order.getId()}" method="post"
                                               th:id="${element}+'Frm'">
+
+                                            <textarea class="form-control " th:id="${element}+'Text'"
+                                                      name="commentTextSub"></textarea>
+
                                             <div style="text-align: right">
                                                 <button class="btn btn-warning btn-sm" type="submit"
                                                          name="commentBtnOrder"
@@ -170,10 +173,6 @@
 
                                     </div>
 
-                                <div style="text-align: right">
-                                    <a class="btn btn-success"    th:onclick="'showHide(\'' + ${element} + '\');'"  th:id="${element}+'Btn'">Ответить</a>
-
-                                </div>
 
 
                                 </div>
@@ -283,7 +282,8 @@
                             <td th:text="${element.getName()}" ></td>
                             <td th:text="${element.getType()}" ></td>
                             <td th:text="${element.getModel()}"></td>
-                            <td th:text="${element.getStatusString()}" name="status"></td>
+                            <td th:text="${element.getStatusString()}" name="status"
+                                th:value="${element.getStatus()}"></td>
                             <td>
                                <form  th:action="'/designer/order/item/'+${element.getId() }"
                                       method="get"  >
