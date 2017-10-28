@@ -24,6 +24,11 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 	@Override
+	public Status getByName(String name) {
+		return statusRepository.getByName(name);
+	}
+
+	@Override
 	public Status save(Status status) {
 		logger.debug("Save status: {}", status.toString());
 		return statusRepository.save(status);

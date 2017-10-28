@@ -12,6 +12,7 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="/css/manager.css"/>
 </head>
 
@@ -28,21 +29,15 @@
                 	<span class="icon-bar"></span>
                 </button>
             </div>
-            <div class="collapse navbar-collapse" id="navcol-1">
+            <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active" role="presentation"><a th:href="@{/manager/order/add}">Новый заказ</a></li>
                     <li role="presentation"><a href="#">Клиенты</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Менеджер</a></li>
-					<li>
-                        <form class="navbar-form navbar-right">
-                            <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
-                        </form>
-					</li>
-					
+                    <li><a href="#" th:text="${authUser}">Менеджер</a></li>
+                    <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
 				</ul>
-                
             </div>
         </div>
     </nav>
@@ -51,7 +46,7 @@
 
     <div class="container">
         <div class="table-responsive">
-            <table class="table table-bordered data" text-align="center">
+            <table class="display table table-bordered data" text-align="center" id="orderTable">
                 <thead>
                     <tr>
                         <th class="table-head">№ Заказа</th>
@@ -62,6 +57,7 @@
                         <th class="table-head">Статус оплаты</th>
                         <th class="table-head">Стоимость (руб.)</th>
                         <th class="table-head">Статус заказа</th>
+                        <th class="table-head"></th>
                         <th class="table-head"></th>
                     </tr>
                 </thead>
@@ -76,7 +72,10 @@
                         <td class="table-body" th:text="${order.getPrice()}">400</td>
                         <td class="table-body" th:text="${order.getStatus()}">Новый</td>
                         <td align="center">
-                            <a class="btn btn btn-info btn-xs" th:href="${'/manager/order/update/' + order.id}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/update/' + order.getId()}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-xs" href="#"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                 </tbody>
             </table>
@@ -93,5 +92,28 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
+    <!--Sorting table-->
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script>
+        function settingUpTable() {
+            $('#orderTable').dataTable({
+                "oLanguage": {
+                    "sLengthMenu": "Показать _MENU_ записей на странице",
+                    "sZeroRecords": "Извините - ничего не найдено",
+                    "sInfo": "Показано _START_ до _END_ из _TOTAL_ записей",
+                    "sInfoEmpty": "Нет записей",
+                    "sInfoFiltered": "(из _MAX_ записей)",
+                    "sSearch": "Поиск:",
+                    "oPaginate": {
+                        "sNext": "След. стр.",
+                        "sPrevious": "Пред. стр."
+                    }
+                }
+            });
+        }
+        $(document).ready(function () {
+            settingUpTable();
+        });
+    </script>
 </body>
 </html>
