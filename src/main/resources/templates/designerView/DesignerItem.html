@@ -141,9 +141,9 @@
 
                             <button th:case="true" class="btn btn-success width100" type="submit" form="save"
                                     name="status"
-                            " >Вернуть</button>
+                             >Вернуть</button>
                             <button th:case="false" class="btn btn-success width100" type="submit" form="save"
-                                    name="status">Собрать
+                                    name="status" th:disabled="${item.getImages().size() == 0} ">Собрать
                             </button>
                         </form>
                     </div>

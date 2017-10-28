@@ -134,7 +134,7 @@ public class DesignerController {
 
 	@RequestMapping(value = {"/designer/send/order={id}"}, method = RequestMethod.POST)
 	public ModelAndView send(@PathVariable Long id) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
+		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
 			model.addObject("order", orderService.nextStatus(id));
 		} catch (Exception e) {
