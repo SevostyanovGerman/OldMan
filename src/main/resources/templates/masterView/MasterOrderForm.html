@@ -17,6 +17,8 @@
 
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -52,58 +54,70 @@
 <div class="container">
 	<div class="row">
 		<ul class="nav nav-tabs">
-			<li class="active"><a href="#">Заказ</a></li>
-			<li><a href="#">Комментарии</a></li>
-			<li><a href="#">История</a></li>
+			<li class="active"><a data-toggle="tab" href="#home">Заказ</a></li>
+			<li><a data-toggle="tab" href="#menu1">Комментарии</a></li>
+			<li><a data-toggle="tab" href="#menu2">История</a></li>
 		</ul>
-		<div class="col-lg-9">
-			<form class="form-horizontal" style="border: 2px solid #ddd; border-radius: 10px; width: 840px; height: 280px; padding: 1px 20px 5px;">
-				<div class="container-fluid">
-					<div class="row" style="margin:15px 0px;">
-						<div class="col-lg-6">
-							<div class="form-group">
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Менеджер:</span>
-									<input th:value="${order.getManager()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Платёж:</span>
-									<input th:value="${order.getPaymentString()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Доставка:</span>
-									<input th:value="${order.getDeliveryType()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата получения:</span>
-									<input th:value="${order.getDateRecieved()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-								</div>
-							</div>
-							<div class="form-group">
-								<div class="input-group">
-									<span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата доставки:</span>
-									<input th:value="${order.getDateTransferred()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-6">
-							<p align="right">
-                                <a th:href="@{'/master/order/' + ${order.getId()}} + '/send'" class="btn btn-success" type="button" style="width: 150px;" >Отправить</a>
-                            </p>
-							<p align="right">
-                                <a th:href="@{'/master/order/' + ${order.getId()}} + '/money'" class="btn btn-success" type="button"  style="width: 150px;">Получить деньги</a>
-                            </p>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active, col-lg-9">
+                <form class="form-horizontal" style="border: 2px solid #ddd; border-radius: 10px; width: 840px; height: 280px; padding: 1px 20px 5px;">
+                    <div class="container-fluid">
+                        <div class="row" style="margin:15px 0px;">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Менеджер:</span>
+                                        <input th:value="${order.getManager()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Платёж:</span>
+                                        <input th:value="${order.getPaymentString()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Доставка:</span>
+                                        <input th:value="${order.getDeliveryType()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата получения:</span>
+                                        <input th:value="${order.getDateRecieved()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата доставки:</span>
+                                        <input th:value="${order.getDateTransferred()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                                    </div>
+                                </div>
+						    </div>
+						    <div class="col-lg-6">
+							    <p align="right">
+                                    <a th:href="@{'/master/order/' + ${order.getId()}} + '/send'" class="btn btn-success" type="button" style="width: 150px;" >Отправить</a>
+                                </p>
+							    <p align="right">
+                                    <a th:href="@{'/master/order/' + ${order.getId()}} + '/money'" class="btn btn-success" type="button"  style="width: 150px;">Получить деньги</a>
+                                </p>
+						    </div>
+					    </div>
+				    </div>
+			    </form>
+		    </div>
+
+            <div id="menu1" class="tab-pane fade, col-lg-9" style="border: 2px solid #ddd; border-radius: 10px; width: 840px; height: 280px; padding: 1px 20px 5px;">
+                <h3>Комментарии</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="menu2" class="tab-pane fade, col-lg-9" style="border: 2px solid #ddd; border-radius: 10px; width: 840px; height: 280px; padding: 1px 20px 5px;">
+                <h3>История</h3>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+
+        </div>
 
 		<div class="col-lg-3">
 			<form class="form-horizontal" style="border: 2px solid #ddd; border-radius: 10px; width: 270px; height: 280px ;padding: 1px 20px 5px;">
