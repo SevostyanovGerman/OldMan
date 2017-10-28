@@ -70,7 +70,7 @@
 
                         <table class="table">
 
-                <tr>
+                            <tr>
                             <tr>
                                 <td>
                                     <li class="list-group-item lighGrey">Продукт</li>
@@ -141,7 +141,8 @@
 
                             <button th:case="true" class="btn btn-success width100" type="submit" form="save"
                                     name="status"
-                             >Вернуть</button>
+                            >Вернуть
+                            </button>
                             <button th:case="false" class="btn btn-success width100" type="submit" form="save"
                                     name="status" th:disabled="${item.getImages().size() == 0} ">Собрать
                             </button>
@@ -166,6 +167,25 @@
         <div class="col-lg-12 pagging20 ">
             <div class="form-horizontal borderSimple pagging20 paggingL10">
                 <fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                     <span id="OrderId" th:value="${item.getId()}" hidden></span>
