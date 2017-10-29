@@ -140,9 +140,9 @@ public class Item {
 
 	public String getStatusString() {
 		if(status) {
-			return "готов";
+			return "ready";
 		}
-		return "не готов";
+		return "not ready";
 	}
 
 	public void setStatus(boolean status) {

@@ -58,7 +58,7 @@
             </ul>
             <div class="tab-content">
                 <div id="order" class="tab-pane fade in active col-lg-9">
-                    <form class="form-horizontal">
+                    <form th:action="@{'/master/order/' + ${order.getId()}} + '/send'" class="form-horizontal" id="sendOrder">
                         <div class="container-fluid">
                             <div class="row" style="margin:15px 0px;">
                                 <div class="col-lg-6">
@@ -95,7 +95,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <p align="right">
-                                        <a th:href="@{'/master/order/' + ${order.getId()}} + '/send'" class="btn btn-success" id="sendBtn" type="button" style="width: 150px;" >Отправить</a>
+                                        <button  class="btn btn-success"  type="submit" form="sendOrder" style="width: 150px;" name="sendBtn" disabled>Отправить</button>
                                     </p>
                                     <p align="right">
                                         <a th:href="@{'/master/order/' + ${order.getId()}} + '/money'" class="btn btn-success" type="button"  style="width: 150px;">Получить деньги</a>
