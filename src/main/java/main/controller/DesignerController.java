@@ -8,16 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.sql.Blob;
 import java.util.Date;
-import java.util.Map;
 
 @Controller
 public class DesignerController {
@@ -109,27 +105,10 @@ public class DesignerController {
 	@ResponseStatus(HttpStatus.OK)
 	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		String name = "drop";
-		Item item = itemService.get(id);
-		for (Map.Entry <String, MultipartFile> set : multipartRequest.getFileMap().entrySet()) {
-			MultipartFile file = set.getValue();
-			if (!file.isEmpty()) {
-				try {
-					name = file.getOriginalFilename();
-					byte[] bytes = file.getBytes();
-					Image image = new Image();
-					Blob blob = new SerialBlob(bytes);
-					image.setImage(blob);
-					imageService.save(image);
-					item.getImages().add(image);
-					itemService.save(item);
-					logger.info("Вы удачно загрузили файл {}", name);
-				} catch (Exception e) {
-					logger.info("Ошибка при загрузке файла");
-				}
-			}
+		if (imageService.saveBlobImage(multipartRequest, id)) {
+			return "Вы удачно загрузили файлы";
 		}
-		return "Вы удачно загрузили " + name + " в " + name + "-uploaded !";
+		return "Ошибка при загрузке файлов";
 	}
 
 	@RequestMapping(value = {"/designer/send/order={id}"}, method = RequestMethod.POST)
