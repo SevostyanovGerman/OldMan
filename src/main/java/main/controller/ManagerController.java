@@ -37,9 +37,8 @@ public class ManagerController {
 
 	@Autowired
 	public ManagerController(OrderService orderService, DeliveryService deliveryService,
-							 CustomerService customerService, ItemService itemService,
-							 UserService userService, StatusService statusService,
-							 PaymentService paymentService) {
+							 CustomerService customerService, ItemService itemService, UserService userService,
+							 StatusService statusService, PaymentService paymentService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -64,13 +63,22 @@ public class ManagerController {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
+		model.addObject("statuses", statusService.getAll());
 		return model;
 	}
 
 	@RequestMapping(value = {"/manager/order/send/{id}"}, method = RequestMethod.GET)
-	public ModelAndView sentOrder(@PathVariable Long id) {
+	public ModelAndView sendOrder(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("order", orderService.nextStatus(id));
+		return new ModelAndView("redirect:/manager");
+	}
+
+	//Меняем статус заказа на новый
+	@RequestMapping(value = {"/manager/order/send/{id}/to/{statusId}"}, method = RequestMethod.GET)
+	public ModelAndView sendOrderTo(@PathVariable("id") Long id, @PathVariable("statusId") Long statusId) {
+		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
+		model.addObject("order", orderService.changeStatusTo(id, statusId));
 		return new ModelAndView("redirect:/manager");
 	}
 
@@ -88,7 +96,7 @@ public class ManagerController {
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.GET)
-	public ModelAndView save(@ModelAttribute("order") Order order, @ModelAttribute("item") Item item){
+	public ModelAndView save(@ModelAttribute("order") Order order, @ModelAttribute("item") Item item) {
 		order.setCreated(new Date());
 		order.setPayment(false);
 		order.setStatus(statusService.getByName("new"));
@@ -99,7 +107,7 @@ public class ManagerController {
 		item.setOrder(order);
 		itemService.save(item);
 		Long orderId = order.getId();
-		return new ModelAndView("redirect:/manager/order/update/"+orderId);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
 	//Добавляем новую позицию в существующий заказ
@@ -115,7 +123,7 @@ public class ManagerController {
 
 	//Обновляем существующую позицию в существующем заказе
 	@RequestMapping(value = {"/manager/item/update/{orderId}/{itemId}"}, method = RequestMethod.GET)
-	public ModelAndView updateItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId){
+	public ModelAndView updateItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerItemForm");
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(orderId));
@@ -125,12 +133,12 @@ public class ManagerController {
 
 	//Сохраняем позицию (новую или обновлённую) в существующем заказе
 	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.GET)
-	public ModelAndView save(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item){
+	public ModelAndView save(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item) {
 		Order order = orderService.get(Long.parseLong(orderId));
 		item.setOrder(order);
 		itemService.save(item);
 		Long redirectOrderId = order.getId();
-		return new ModelAndView("redirect:/manager/order/update/"+redirectOrderId);
+		return new ModelAndView("redirect:/manager/order/update/" + redirectOrderId);
 	}
 
 	@RequestMapping(value = {"/manager/order/addcustomer/{id}"}, method = RequestMethod.POST)

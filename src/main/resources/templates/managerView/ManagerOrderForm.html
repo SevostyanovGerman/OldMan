@@ -17,31 +17,6 @@
 
 <body>
 
-<!-- Кнопка, вызывающее модальное окно -->
-<a href="#myModal" class="btn btn-primary" data-toggle="modal">Открыть модальное окно</a>
-<!-- HTML-код модального окна -->
-<div id="myModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!-- Заголовок модального окна -->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title">Заголовок модального окна</h4>
-            </div>
-            <!-- Основное содержимое модального окна -->
-            <div class="modal-body">
-                Содержимое модального окна...
-            </div>
-            <!-- Футер модального окна -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary">Сохранить изменения</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -271,10 +246,11 @@
                         <h4 align="center">Текущий статус</h4>
                         <h3 align="center" class="statusTextBorder" th:text="${order.getStatus()}"></h3>
                         <form>
+                            <!-- Кнопка, вызывающее модальное окно -->
+
                             <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">Отправить заказ
-                                    <span class="caret"></span>
-                                </button>
+                                <a href="#myModal" class="btn btn-info" data-toggle="modal">Отправить заказ</a>
+
                                 <ul class="dropdown-menu">
                                     <li><a th:href="'/manager/order/send/' + ${order.getId()}">Дизайнеру</a></li>
                                     <li><a th:href="'/manager/order/send/' + ${order.getId()}"> Мастеру </a></li>
@@ -299,6 +275,41 @@
 		</div>
     </div>
 	<br/>
+
+
+
+
+
+
+
+<!-- HTML-код модального окна -->
+<div id="myModal" class="modal fade ">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-sm">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" th:text="'Текущий статус: ' + ${order.getStatus()}">Заголовок модального окна</h4>
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+
+                <div th:each ="element : ${statuses}" class="form-group">
+                    <form th:action="'/manager/order/send/' + ${order.getId()} +'/to/' + ${element.getId()}">
+                    <button class="form-control btn btn-warning" th:text="${element.getName()}"></button>
+                    </form>
+                </div>
+
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--- end modal -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
