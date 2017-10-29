@@ -94,7 +94,7 @@ public class ManagerController {
 		order.setStatus(statusService.getByName("new"));
 		order.setManager(userService.getCurrentUser());
 		order.setPaymentType(paymentService.getByName("Cash"));
-		item.setStatus("NO");
+		item.setStatus(false);
 		orderService.save(order);
 		item.setOrder(order);
 		itemService.save(item);

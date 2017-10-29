@@ -32,9 +32,6 @@ public class Order {
 	@Column(name = "deleted")
 	private int deleted;
 
-	@Column(name = "creator")
-	private String creator;//TODO при мерже удалить
-
 	@Column(name = "created")
 	private Date created;
 
@@ -191,14 +188,6 @@ public class Order {
 		this.deleted = deleted;
 	}
 
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
 	public String getDeliveryType() {
 		return deliveryType;
 	}
@@ -317,7 +306,6 @@ public class Order {
 		if (number != null ? !number.equals(order.number) : order.number != null) return false;
 		if (payment != null ? !payment.equals(order.payment) : order.payment != null) return false;
 		if (status != null ? !status.equals(order.status) : order.status != null) return false;
-		if (creator != null ? !creator.equals(order.creator) : order.creator != null) return false;
 		if (created != null ? !created.equals(order.created) : order.created != null) return false;
 		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) : order.deliveryType != null) return false;
 		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) : order.dateRecieved != null) return false;
@@ -346,7 +334,6 @@ public class Order {
 		result = 31 * result + (payment != null ? payment.hashCode() : 0);
 		result = 31 * result + (status != null ? status.hashCode() : 0);
 		result = 31 * result + deleted;
-		result = 31 * result + (creator != null ? creator.hashCode() : 0);
 		result = 31 * result + (created != null ? created.hashCode() : 0);
 		result = 31 * result + (deliveryType != null ? deliveryType.hashCode() : 0);
 		result = 31 * result + (dateRecieved != null ? dateRecieved.hashCode() : 0);
