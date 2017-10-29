@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.Blob;
 import java.util.Date;
+import java.util.Map;
 
 @Controller
 public class DesignerController {
@@ -105,35 +107,34 @@ public class DesignerController {
 	@RequestMapping(value = "/uploadFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "id") Long id,
-									@RequestParam(value = "file") MultipartFile file) {
+	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		String name = "drop";
 		Item item = itemService.get(id);
-		if (!file.isEmpty()) {
-			name = file.getOriginalFilename();
-			try {
-				byte[] bytes = file.getBytes();
-				Image image = new Image();
-				Blob blob = new SerialBlob(bytes);
-				image.setImage(blob);
-				imageService.save(image);
-				item.getImages().add(image);
-				itemService.save(item);
-				logger.info("Вы удачно загрузили файл {}", name);
-				return "Вы удачно загрузили " + name + " в " + name + "-uploaded !";
-			} catch (Exception e) {
-				logger.warn("Вам не удалось загрузить  {}" + e.getMessage(), name);
-				return "Вам не удалось загрузить " + name + " => " + e.getMessage();
+		for (Map.Entry <String, MultipartFile> set : multipartRequest.getFileMap().entrySet()) {
+			MultipartFile file = set.getValue();
+			if (!file.isEmpty()) {
+				try {
+					name = file.getOriginalFilename();
+					byte[] bytes = file.getBytes();
+					Image image = new Image();
+					Blob blob = new SerialBlob(bytes);
+					image.setImage(blob);
+					imageService.save(image);
+					item.getImages().add(image);
+					itemService.save(item);
+					logger.info("Вы удачно загрузили файл {}", name);
+				} catch (Exception e) {
+					logger.info("Ошибка при загрузке файла");
+				}
 			}
-		} else {
-			logger.warn("Вам не удалось загрузить  {} потому что файл пустой.", name);
-			return "Вам не удалось загрузить " + name + " потому что файл пустой.";
 		}
+		return "Вы удачно загрузили " + name + " в " + name + "-uploaded !";
 	}
 
 	@RequestMapping(value = {"/designer/send/order={id}"}, method = RequestMethod.POST)
 	public ModelAndView send(@PathVariable Long id) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
+		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
 			model.addObject("order", orderService.nextStatus(id));
 		} catch (Exception e) {

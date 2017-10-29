@@ -221,8 +221,8 @@
                                 <td th:text="${element.getDateRecievedString()}">
                                 <td th:text="${element.getDateTransferredString()}">
                                 <td th:text="${element.getStatus()}">
-                                <td th:text="${element.getTo()}">
                                 <td th:text="${element.getFrom()}">
+                                <td th:text="${element.getTo()}">
                             </tbody>
                         </table>
                     </div>
@@ -276,8 +276,8 @@
 
                         </tr>
 
-                        <tr th:each ="element: ${order.getItems()}">
-                            <td> </td>
+                        <tr th:each ="element, stat: ${order.getItems()}">
+                            <td th:text="${stat.count}"> </td>
                             <td th:text="${element.getName()}" ></td>
                             <td th:text="${element.getType()}" ></td>
                             <td th:text="${element.getModel()}"></td>

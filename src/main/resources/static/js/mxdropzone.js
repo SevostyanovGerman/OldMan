@@ -12,6 +12,7 @@ var myDropzone = new Dropzone(".container", { // Make the whole body a dropzone
     thumbnailWidth: 80,
     thumbnailHeight: 80,
     parallelUploads: 20,
+    uploadMultiple: true,
     previewTemplate: previewTemplate,
     autoQueue: false, // Make sure the files aren't queued until manually added
     previewsContainer: "#previews", // Define the container to display the previews
