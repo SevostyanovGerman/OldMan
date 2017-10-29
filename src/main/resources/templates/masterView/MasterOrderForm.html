@@ -160,8 +160,8 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="item : ${order.getItems()}">
-                    <td th:text="${item.getId()}" style="text-align: center;"></td>
+                <tr th:each="item, stat : ${order.getItems()}">
+                    <td th:text="${stat.count}" style="text-align: center;"></td>
                     <td th:text="${item.getName()}" style="text-align: center;"></td>
                     <td th:text="${item.getType()}" style="text-align: center;"></td>
                     <td th:text="${item.getModel()}" style="text-align: center;"></td>
