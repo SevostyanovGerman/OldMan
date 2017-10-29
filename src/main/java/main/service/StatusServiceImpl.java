@@ -19,9 +19,9 @@ public class StatusServiceImpl implements StatusService {
 	private StatusRepository statusRepository;
 
 	@Override
-	public Status get(Long id) {
-		logger.debug("Searching status with id: {}", id);
-		return statusRepository.getByNumber(id);
+	public Status get(Long number) {
+		logger.debug("Searching status with id: {}", number);
+		return statusRepository.getByNumber(number);
 	}
 
 	@Override
