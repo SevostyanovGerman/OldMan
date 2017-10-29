@@ -277,8 +277,8 @@
 
                         </tr>
 
-                        <tr th:each ="element: ${order.getItems()}">
-                            <td> </td>
+                        <tr th:each ="element, stat: ${order.getItems()}">
+                            <td th:text="${stat.count}"> </td>
                             <td th:text="${element.getName()}" ></td>
                             <td th:text="${element.getType()}" ></td>
                             <td th:text="${element.getModel()}"></td>
