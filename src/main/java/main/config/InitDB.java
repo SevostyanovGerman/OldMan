@@ -72,7 +72,7 @@ public class InitDB {
 		allStatus.add(status3);
 		allStatus.add(status4);
 		allStatus.add(status5);
-		allStatus.add(status1);
+		allStatus.add(status6);
 		User user1 = new User("manager", "123", "Donald", "Tramp", 0, 0, role1);
 		user1.setStatuses(allStatus);
 		user1.getStatuses().add(status1);
@@ -81,7 +81,7 @@ public class InitDB {
 		user2.getStatuses().add(status2);
 		userService.save(user2);
 		User user3 = new User("master", "123", "Papa", "Carlo", 0, 0, role3);
-		user3.getStatuses().add(status3);
+		user3.getStatuses().add(status4);
 		userService.save(user3);
 		User user4 = new User("boss", "123", "Hugo", "Boss", 0, 0, role4);
 		user4.setStatuses(allStatus);
