@@ -73,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
 	public Order nextStatus(Long orderId) {
 		Date date = new Date();
 		Order order = orderService.get(orderId);
-		Long currentStatus = order.getStatus().getId();
+		Long currentStatus = order.getStatus().getNumber();
 		Status nextStatus = statusService.get(currentStatus + 1l);
 		order.setStatus(nextStatus);
 		order = historyService.saveHistory(order);
@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
 	public Order previousStatus(Long orderId) {
 		Date date = new Date();
 		Order order = orderService.get(orderId);
-		Long currentStatus = order.getStatus().getId();
+		Long currentStatus = order.getStatus().getNumber();
 		if (currentStatus > 1) {
 			Status nextStatus = statusService.get(currentStatus - 1l);
 			order.setStatus(nextStatus);

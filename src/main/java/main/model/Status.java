@@ -14,11 +14,23 @@ public class Status {
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
+	@Column(name = "number")
+	private Long number;
+
+	public Long getNumber() {
+		return number;
+	}
+
+	public void setNumber(Long number) {
+		this.number = number;
+	}
+
 	public Status() {
 	}
 
-	public Status(String name) {
+	public Status(String name, Long number) {
 		this.name = name;
+		this.number = number;
 	}
 
 	public long getId() {
@@ -48,13 +60,15 @@ public class Status {
 		if (o == null || getClass() != o.getClass()) return false;
 		Status status = (Status) o;
 		if (id != status.id) return false;
-		return name != null ? name.equals(status.name) : status.name == null;
+		if (name != null ? !name.equals(status.name) : status.name != null) return false;
+		return number != null ? number.equals(status.number) : status.number == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = (int) (id ^ (id >>> 32));
 		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (number != null ? number.hashCode() : 0);
 		return result;
 	}
 }

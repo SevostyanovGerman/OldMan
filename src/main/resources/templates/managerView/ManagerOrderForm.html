@@ -295,7 +295,7 @@
             <div class="modal-body">
 
                 <div th:each ="element : ${statuses}" class="form-group">
-                    <form th:action="'/manager/order/send/' + ${order.getId()} +'/to/' + ${element.getId()}">
+                    <form th:action="'/manager/order/send/' + ${order.getId()} +'/to/' + ${element.getNumber()}">
                     <button class="form-control btn btn-warning" th:text="${element.getName()}"></button>
                     </form>
                 </div>
