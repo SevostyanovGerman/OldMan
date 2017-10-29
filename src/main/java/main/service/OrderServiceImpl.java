@@ -79,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
+		order = setAllStatusItemFalse(order);
 		orderService.save(order);
 		return order;
 	}
@@ -95,6 +96,7 @@ public class OrderServiceImpl implements OrderService {
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
+		order = setAllStatusItemFalse(order);
 		orderService.save(order);
 		return order;
 	}
@@ -139,7 +141,16 @@ public class OrderServiceImpl implements OrderService {
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
+		order = setAllStatusItemFalse(order);
 		orderService.save(order);
+		return order;
+	}
+
+	@Override
+	public Order setAllStatusItemFalse(Order order) {
+		for (int i = 0; i < order.getItems().size(); i++) {
+			order.getItems().get(i).setStatus(false);
+		}
 		return order;
 	}
 }
