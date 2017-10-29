@@ -1,55 +1,69 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-
+<html html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../favicon.ico">
 
+    <title>CaseMobile</title>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+
 </head>
-<body  onload='document.loginForm.username.focus();'>
 
-<div class="col-md-4"></div>
-<div class="col-xs-12  col-md-4">
-
-    <div class="center-block" ></div>
-    <div class="container-fluid" >
-        <div id="login-box" class="form-group">
-
-            <h2>Sing in</h2>
-
-
-            <p th:if="${error}" class="error">Wrong user or password</p>
-            <p th:if="${msg}" class="error">You've been logged out successfully.</p>
-            <form th:action="@{/login}" method="post">
-
-                <DIV class="form-group">
-                    <label>Login</label>
-                    <input class="form-control" type='text' name='username' value=''>
-                </DIV>
-                <DIV class="form-group">
-                    <label>Password</label>
-                    <input class="form-control" type='password' name='password' />
-                </DIV>
-
-                <input class="btn btn-primary btn-block" name="submit" type="submit" value="submit"  />
-
-
-
-                <input type="hidden" name="${_csrf.parameterName}"
-                       value="${_csrf.token}" />
-
+<body style="background: #DDDDDD;">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <br>
+            <br>
+            <br>
+            <br>
+            <h2 class="form-signin-heading" align="center">Авторизация</h2>
+            <p th:if="${error}" class="error">Неправильный логин или пароль!</p>
+            <p th:if="${msg}" class="error">Вы успешно вышли из системы.</p>
+            <form class="form-signin" th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <label for="inputLogin" class="sr-only">Логин</label>
+                        <input type="text" id="inputLogin" class="form-control" placeholder="Логин" name='username' value='' required autofocus>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <label for="inputPassword" class="sr-only">Пароль</label>
+                        <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required name='password'>
+                    </div>
+                </div>
+                <button class="btn btn-md btn-primary btn-block" type="submit" name="submit">Вход</button>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
-
+            <br>
         </div>
-        <div class="col-md-4"></div>
-
+        <div class="col-lg-4"></div>
     </div>
-</div>
+</div> <!-- /container -->
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
 
 </body>
 </html>
