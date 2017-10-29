@@ -7,7 +7,7 @@ function checkStatus() {
 
 
     for (var i = 0; i < status.length; i++) {
-      if (status[i].getAttribute("value") == "true" ) {
+        if (status[i].getAttribute("value") == "true" ) {
             check[0].disabled = false;
         } else {
             check[0].disabled = true;
@@ -48,7 +48,7 @@ function toggleArea1() {
     for (var i =0; i< els.length; i++){
         var myNicEditor = new nicEditor();
         myNicEditor.panelInstance(els[i]);
-        }
+    }
 }
 //bkLib.onDomLoaded(function() {toggleArea1();});
 
@@ -56,26 +56,6 @@ function toggleArea1() {
 window.addEventListener('DOMContentLoaded',function(){
     new smartPhoto(".js-smartPhoto");
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
