@@ -1,6 +1,7 @@
 package main.service;
 
 import main.model.Status;
+import java.util.List;
 
 public interface StatusService {
 
@@ -8,4 +9,5 @@ public interface StatusService {
 	Status getByName(String name);
 	Status save(Status status);
 	Status update(Status status);
+	List <Status> getAll();  //получить список статусов
 }

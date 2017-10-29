@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -38,5 +39,10 @@ public class StatusServiceImpl implements StatusService {
 	public Status update(Status status) {
 		logger.debug("Update status: {}", status.toString());
 		return statusRepository.saveAndFlush(status);
+	}
+
+	@Override
+	public List <Status> getAll() {
+		return statusRepository.findAll();
 	}
 }

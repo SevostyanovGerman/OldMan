@@ -246,10 +246,11 @@
                         <h4 align="center">Текущий статус</h4>
                         <h3 align="center" class="statusTextBorder" th:text="${order.getStatus()}"></h3>
                         <form>
+                            <!-- Кнопка, вызывающее модальное окно -->
+
                             <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" data-toggle="dropdown">Отправить заказ
-                                    <span class="caret"></span>
-                                </button>
+                                <a href="#myModal" class="btn btn-info" data-toggle="modal">Отправить заказ</a>
+
                                 <ul class="dropdown-menu">
                                     <li><a th:href="'/manager/order/send/' + ${order.getId()}">Дизайнеру</a></li>
                                     <li><a th:href="'/manager/order/send/' + ${order.getId()}"> Мастеру </a></li>
@@ -275,14 +276,48 @@
     </div>
 	<br/>
 
+
+
+
+
+
+
+<!-- HTML-код модального окна -->
+<div id="myModal" class="modal fade ">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-sm">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" th:text="'Текущий статус: ' + ${order.getStatus()}">Заголовок модального окна</h4>
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+
+                <div th:each ="element : ${statuses}" class="form-group">
+                    <form th:action="'/manager/order/send/' + ${order.getId()} +'/to/' + ${element.getId()}">
+                    <button class="form-control btn btn-warning" th:text="${element.getName()}"></button>
+                    </form>
+                </div>
+
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--- end modal -->
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <script src="/js/ajaxCustomer.js"></script>
 </body>
 </html>

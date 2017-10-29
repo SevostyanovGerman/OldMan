@@ -20,4 +20,5 @@ public interface OrderService {
 	Order previousStatus(Long orderId);
 	List <Order> searchByAllFields(String searchTerm);
 	Order getPayment(Long orderId);
+	Order changeStatusTo(Long orderId, Long statusId);  //изменяем статус заказа на выбранный
 }
