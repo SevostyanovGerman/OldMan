@@ -48,7 +48,7 @@ function toggleArea1() {
     for (var i =0; i< els.length; i++){
         var myNicEditor = new nicEditor();
         myNicEditor.panelInstance(els[i]);
-        }
+    }
 }
 //bkLib.onDomLoaded(function() {toggleArea1();});
 
