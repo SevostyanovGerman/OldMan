@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Order</title>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
 
@@ -64,11 +66,29 @@
                             <div class="tab-pane active" id="tabItem" role="tabpanel">
                             	<br>
 
+                                <div class="form-inline">
                                 <div class="input-group">
                                     <span class="input-group-addon customerField"
                                           th:text="'Дизайнер: ' + ${order?.getDesigner().toString()}"></span>
 
                                     <a href="#designerModal" class="form-control" data-toggle="modal">...</a>
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon customerField"
+                                          th:text="'Мастер: ' + ${order?.getMaster().toString()}"></span>
+
+                                    <a href="#masterModal" class="form-control" data-toggle="modal">...</a>
+
+                                </div>
+
+
+                                    <div class="input-group" style="float: right" >
+
+
+                                        <a  href="#myModal" class="btn btn-info" data-toggle="modal">Отправитьзаказ</a>
+
+                                    </div>
+
                                 </div>
 
                                 <table class="table table-bordered data" text-align="center">
@@ -180,14 +200,19 @@
                                 </span>
                             </div>
                         </div>
+
+
+
                         <form th:action="${'/manager/order/addcustomer/'+order.getId()}"
                               method="post"
-                              id="addCustomer">
+                              id="addCustomer" >
                         <div class="form-group">
                             <div class="input-group">
+
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
-                                       name="firstNameField"/>
+                                       name="firstNameField" />
+
                             </div>
                         </div>
                         <div class="form-group">
@@ -250,36 +275,16 @@
 				<br>
 
 				<!-- ТЕКУЩИЙ СТАТУС -->
-				<form class="form-horizontal statusFormBorder">
+				<div class="form-horizontal statusFormBorder">
                     <fieldset align="center">
                         <h4 align="center">Текущий статус</h4>
                         <h3 align="center" class="statusTextBorder" th:text="${order.getStatus()}"></h3>
-                        <form>
+                        <div>
                             <!-- Кнопка, вызывающее модальное окно -->
-
-                            <div class="dropdown">
-                                <a href="#myModal" class="btn btn-info" data-toggle="modal">Отправить заказ</a>
-
-                                <ul class="dropdown-menu">
-                                    <li><a th:href="'/manager/order/send/' + ${order.getId()}">Дизайнеру</a></li>
-                                    <li><a th:href="'/manager/order/send/' + ${order.getId()}"> Мастеру </a></li>
-                                </ul>
-                            </div>
-                            <br>
-                            <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">Выбирите исполнителя
-                                    <span class="caret"></span></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Дизайнер 1</a></li>
-                                    <li><a href="#">Дизайнер 2</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Мастер 1</a></li>
-                                    <li><a href="#">Мастер 2</a></li>
-                                </ul>
-                            </div>
-                         </form>
+                            <a href="#myModal" class="btn btn-info" data-toggle="modal">Отправить заказ</a>
+                         </div>
                     </fieldset>
-                </form>
+                </div>
 			</div> <!-- col-lg-3 -->
 		</div>
     </div>
@@ -331,8 +336,11 @@
                 </div>
                 <!-- Основное содержимое модального окна -->
                 <div class="modal-body">
+
+                    <!--//Заменить на таблицу с js DataTable-->
                     <div th:each ="element : ${designerList}" class="form-group">
-                        <form th:action="'/manager/order/change/' + ${order.getId()} +'/to/' + ${element.getId()}">
+                        <form
+                            th:action="'/manager/order/change/' + ${order.getId()} +'/designer/' + ${element.getId()}">
                             <button class="form-control btn btn-warning" th:text="${element.toString()}"></button>
                         </form>
                     </div>
@@ -348,13 +356,59 @@
 
     <!--- end modal -->
 
+    <!-- Выбор мастера модального окна -->
+    <div id="masterModal" class="modal  ">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-sm">
+                <!-- Заголовок модального окна -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" th:text="'Текущий статус: ' + ${order.getStatus()}">Заголовок модального окна</h4>
+                </div>
+                <!-- Основное содержимое модального окна -->
+                <div class="modal-body">
+
+                    <!--//Заменить на таблицу с js DataTable-->
+                    <div th:each ="element : ${masterList}" class="form-group">
+                        <form th:action="'/manager/order/change/' + ${order.getId()} +'/master/' + ${element.getId()}">
+                            <button class="form-control btn btn-warning" th:text="${element.toString()}"></button>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- Футер модального окна -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!--- end modal -->
+
+
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script src="/js/ajaxCustomer.js"></script>
+    <!--Sorting table-->
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
+
+
+
+
+
 </body>
 </html>
