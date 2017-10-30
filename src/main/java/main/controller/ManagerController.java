@@ -81,7 +81,7 @@ public class ManagerController {
 	public ModelAndView sendOrderTo(@PathVariable("id") Long id, @PathVariable("statusId") Long statusId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("order", orderService.changeStatusTo(id, statusId));
-		return new ModelAndView("redirect:/manager/order/update/"+id);
+		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
 	//Меняем дизайнера заказа
@@ -92,7 +92,7 @@ public class ManagerController {
 		User designer = userService.get(designerId);
 		order.setDesigner(designer);
 		orderService.save(order);
-		return new ModelAndView("redirect:/manager/order/update/"+id);
+		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
 	//Меняем мастера заказа
@@ -103,7 +103,7 @@ public class ManagerController {
 		User master = userService.get(masterId);
 		order.setMaster(master);
 		orderService.save(order);
-		return new ModelAndView("redirect:/manager/order/update/"+id);
+		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
 	//Добавляем новый заказ с новой позицией

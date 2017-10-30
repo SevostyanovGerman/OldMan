@@ -12,5 +12,5 @@ public interface UserService {
 	List <User> getByRole(Long roleId);
 	List <User> getAllUsers();
 	User getCurrentUser();
-	List<User> getUsersByRole (long roleId);
+	List <User> getUsersByRole(long roleId);
 }
