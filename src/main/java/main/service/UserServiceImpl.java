@@ -48,11 +48,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List <User> getByRole(String name) {
-		logger.debug("Search users by role {}", name);
-		Role role = roleService.getByname(name);
+	public List <User> getByRole(Long roleId) {
+		logger.debug("Search users by role {}", roleId);
+		Role role = roleService.get(roleId);
 		if (role != null) {
-			logger.debug("Role {} was not found", name);
+			logger.debug("Role {} was not found", roleId);
 		}
 		return userRepository.getAllByRoles(role);
 	}
@@ -71,5 +71,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getCurrentUser() {
 		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	}
+
+	@Override
+	public List <User> getUsersByRole(long roleId) {
+		Role role = roleService.get(roleId);
+		return userRepository.getAllByRoles(role);
 	}
 }

@@ -19,9 +19,9 @@ public class RoleServiceImpl implements RoleService {
 	private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
 	@Override
-	public Role getByname(String name) {
-		logger.debug("Searching role with name: {}", name);
-		return roleRepository.findByName(name);
+	public Role get(Long id) {
+		logger.debug("Searching role with id: {}", id);
+		return roleRepository.findOne(id);
 	}
 
 	public Role save(Role role) {

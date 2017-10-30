@@ -60,8 +60,17 @@
 
                         <!-- ЗАКАЗ -->
                         <div class="tab-content">
+
                             <div class="tab-pane active" id="tabItem" role="tabpanel">
                             	<br>
+
+                                <div class="input-group">
+                                    <span class="input-group-addon customerField"
+                                          th:text="'Дизайнер: ' + ${order?.getDesigner().toString()}"></span>
+
+                                    <a href="#designerModal" class="form-control" data-toggle="modal">...</a>
+                                </div>
+
                                 <table class="table table-bordered data" text-align="center">
                                     <thead>
                                         <tr>
@@ -310,6 +319,34 @@
 </div>
 
 <!--- end modal -->
+
+    <!-- Выбор дизайнера модального окна -->
+    <div id="designerModal" class="modal fade ">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-sm">
+                <!-- Заголовок модального окна -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" th:text="'Текущий статус: ' + ${order.getStatus()}">Заголовок модального окна</h4>
+                </div>
+                <!-- Основное содержимое модального окна -->
+                <div class="modal-body">
+                    <div th:each ="element : ${designerList}" class="form-group">
+                        <form th:action="'/manager/order/change/' + ${order.getId()} +'/to/' + ${element.getId()}">
+                            <button class="form-control btn btn-warning" th:text="${element.toString()}"></button>
+                        </form>
+                    </div>
+
+                </div>
+                <!-- Футер модального окна -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--- end modal -->
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

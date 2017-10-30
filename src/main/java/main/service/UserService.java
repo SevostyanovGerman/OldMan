@@ -9,7 +9,8 @@ public interface UserService {
 	User getByName(String name);
 	User save(User user);
 	User update(User user);
-	List <User> getByRole(String role);
+	List <User> getByRole(Long roleId);
 	List <User> getAllUsers();
 	User getCurrentUser();
+	List<User> getUsersByRole (long roleId);
 }
