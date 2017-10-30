@@ -13,6 +13,9 @@ public class Status {
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
+	@Column(name = "deleted")
+	private int deleted;
+
 	public long getId() {
 		return id;
 	}
@@ -29,9 +32,17 @@ public class Status {
 		this.name = name;
 	}
 
+	public int getDeleted(){
+		return this.deleted;
+	}
+
+	public void setDeleted(int deleted){
+		this.deleted = deleted;
+	}
+
 	@Override
 	public String toString() {
-		return name;
+		return "id: " + this.id + ", название: " + this.name;
 	}
 
 	@Override
