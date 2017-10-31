@@ -22,11 +22,14 @@ function checkUser(str)
 
            var result = xmlhttp.responseText;
            var btn = document.getElementById("newCustomerBtn");
+           var message =  document.getElementById("erroremail");
 
            if (result == "false") {
                document.getElementById("erroremail").innerHTML="Клиент существует!";
                $('#newCustomerBtn').prop('disabled',true);
            } else {
+
+               document.getElementById("erroremail").innerHTML="";
                $('#newCustomerBtn').prop('disabled',false)
            }
         }
