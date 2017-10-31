@@ -41,11 +41,11 @@ public class Delivery {
 		this.id = id;
 	}
 
-	public String getCoutry() {
+	public String getCountry() {
 		return country;
 	}
 
-	public void setCoutry(String country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
 

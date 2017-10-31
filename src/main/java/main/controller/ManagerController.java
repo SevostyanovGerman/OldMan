@@ -66,6 +66,8 @@ public class ManagerController {
 		model.addObject("statuses", statusService.getAll());
 		model.addObject("designerList", userService.getByRole(2l)); // Как избавиться от 2?
 		model.addObject("masterList", userService.getByRole(3l));   //Как избавиться от 3?
+		model.addObject("newCustomer", new Customer());
+		model.addObject("newDelivery", new Delivery());
 		return model;
 	}
 
@@ -165,28 +167,24 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + redirectOrderId);
 	}
 
-	@RequestMapping(value = {"/manager/order/addcustomer/{id}"}, method = RequestMethod.POST)
-	public ModelAndView addCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
+	@RequestMapping(value = {"/manager/order/addcustomer/{orderId}"}, method = RequestMethod.POST)
+	public ModelAndView addCustomer(@PathVariable("orderId") Long orderId, HttpServletRequest request,
+									@ModelAttribute("newCustomer") Customer customer,
+									@ModelAttribute("newDelivery") Delivery delivery) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
-		Order order = orderService.get(id);
+		Order order = orderService.get(orderId);
 		model.addObject("order", order);
+		if (customerService.checkEmail(customer.getEmail()) == false) {
+			model.addObject("error", "Пользователь существует");
+			return new ModelAndView("redirect:/manager/order/update/" + orderId);
+		}
 		try {
-			String firsName = request.getParameter("firstNameField");
-			String secName = request.getParameter("secNameField");
-			String email = request.getParameter("emailField");
-			String phone = request.getParameter("phoneField");
-			String country = request.getParameter("countryField");
-			String city = request.getParameter("cityField");
-			String address = request.getParameter("addressField");
-			String zip = request.getParameter("zipField");
-			Delivery delivery = new Delivery(country, city, address, zip);
 			deliveryService.save(delivery);
-			Customer customer = new Customer(firsName, secName, email, phone, delivery);
 			customerService.save(customer);
+			customer.getDeliveries().add(delivery);
 			order.setCustomer(customer);
 			orderService.save(order);
 		} catch (DataIntegrityViolationException e) {
-			order = orderService.get(id);
 			model.addObject("order", order);
 			model.addObject("error", "Пользователь существует");
 		} catch (Exception e) {

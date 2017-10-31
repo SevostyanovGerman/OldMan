@@ -222,7 +222,7 @@
 
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
-                                       name="firstNameField"/>
+                                       name="firstNameField"  />
 
                             </div>
                         </div>
@@ -236,8 +236,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Email:</span>
-                                <input type="text" class="form-control" th:value="${order.customer?.email}"
-                                       name="emailField"/>
+                                <input type="text" class="form-control" th:value="${order.customer?.email}" name="emailField"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -272,17 +271,17 @@
                                 <input type="text" class="form-control" name="zipField">
                             </div>
                         </div>
-
-                        <div class="form-group">
                     </form>
-                    <button type="submit" form="addCustomer" class="btn btn-info" data-toggle="tooltip"
-                            title="Создать клиента"
-                            style="width: 142px; text-align: center;">Создать
-                    </button>
+                        <div class="form-group">
+
+
+
+                            <a href="#newCustomerModal" class="btn btn-info" data-toggle="modal"
+                               style="width: 142px; text-align: center;">Создать</a>
                     <button type="button" class="btn btn-info" data-toggle="tooltip" title="Сохранить клиента"
                             style="width: 142px; text-align: center;">Сохранить
                     </button>
-                    <span th:if="${error}" th:text="${error}"></span>
+
             </div>
             </fieldset>
         </div>
@@ -400,6 +399,101 @@
 <!--- end modal -->
 
 
+<!-- Создание клиента модальное окно -->
+<div id="newCustomerModal" class="modal  ">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-sm">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+
+                <form th:action="${'/manager/order/addcustomer/'+order.getId()}"
+                      method="post"  th:object="${newCustomer}" >
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <span class="input-group-addon customerField">Имя:</span>
+                            <input type="text" class="form-control" th:field="*{firstName}" />
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon customerField">Фамилия:</span>
+                            <input type="text" class="form-control"
+                                   th:field="*{secName}" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon customerField">Email:</span>
+                            <input type="text" class="form-control"
+                                   th:field="*{email}" id="checkEmail" onkeyup="checkUser(this.value)"/>
+                            <div id="erroremail" style="color: red">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon customerField">Телефон:</span>
+                            <input type="text" class="form-control customerField"
+                                   th:field="*{phone}"/>
+                        </div>
+                    </div>
+
+                    <!--Доставка-->
+                    <div th:object="${newDelivery}">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon customerField">Страна:</span>
+                            <input type="text" class="form-control" th:field="*{country}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon customerField">Город:</span>
+                            <input type="text" class="form-control"
+                                   aria-describedby="basic-addon3" th:field="*{city}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon customerField">Адрес:</span>
+                            <input type="text" class="form-control" th:field="*{address}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon customerField">Индекс:</span>
+                            <input type="text" class="form-control" th:field="*{zip}">
+                        </div>
+                    </div>
+                    </div>
+
+
+
+
+
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <span th:if="${error}" th:text="${error}"></span>
+                <button type="submit" class="btn btn-default" id="newCustomerBtn" disabled>Создать</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--- end modal -->
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -408,6 +502,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script src="/js/ajaxCustomer.js"></script>
+<script src="/js/ajaxCheckUser.js"></script>
 <!--Sorting table-->
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>

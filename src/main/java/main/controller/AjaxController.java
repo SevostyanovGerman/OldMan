@@ -21,4 +21,9 @@ public class AjaxController {
 		List <Customer> list = customerService.searchCustomer(q);
 		return list;
 	}
+
+	@RequestMapping(value = {"/checkuser"}, method = RequestMethod.GET)
+	public String checkUser(@RequestParam(value = "q") String q, Model model) {
+		return customerService.checkEmail(q).toString();
+	}
 }

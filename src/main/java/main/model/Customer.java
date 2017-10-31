@@ -44,6 +44,7 @@ public class Customer {
 	private List <Order> orders;
 
 	public Customer() {
+		this.deliveries = new ArrayList <>();
 	}
 
 	public Customer(String firstName, String secName, String email, String phone, Delivery deliveries) {
@@ -114,6 +115,14 @@ public class Customer {
 
 	public List <Order> getOrders() {
 		return this.orders;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	@Override

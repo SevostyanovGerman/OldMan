@@ -53,6 +53,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public Boolean checkEmail(String email) {
+		Customer customer = customerRepository.getCustomerByEmail(email);
+		if (customer != null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
 	public Customer save(Customer customer) {
 		logger.debug("Save customer {}", customer.toString());
 		return customerRepository.saveAndFlush(customer);
