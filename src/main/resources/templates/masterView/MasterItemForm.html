@@ -49,20 +49,20 @@
                 <div class="col-lg-6">
                     <br>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Продукт:</span>
-                        <input th:value="${item.name}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        <li class="input-group-addon" id="basic-addon3" style="width: 170px; text-align: left;"><strong>Продукт:</strong></li>
+                        <li th:text="${item.name}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
                     </div>
-                    <br>
+                        <br>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Модель телефона:</span>
-                        <input th:value="${item.model}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        <li class="input-group-addon" id="basic-addon3" style="width: 170px; text-align: left;"><strong>Модель телефона:</strong></li>
+                        <li th:text="${item.model}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
                     </div>
-                    <br>
+                        <br>
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Тип:</span>
-                        <input th:value="${item.type}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
+                        <li class="input-group-addon" id="basic-addon3" style="width: 170px; text-align: left;"><strong>Тип:</strong></li>
+                        <li th:text="${item.type}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
                     </div>
-                    <br>
+                        <br>
                     <ul th:each="image : ${item.getImages()}" style="padding-left: 20px; display: inline-block">
                         <a th:href="${image.getImage()}">
                             <img th:src="${image.getImage()}"width="50" height="50">
