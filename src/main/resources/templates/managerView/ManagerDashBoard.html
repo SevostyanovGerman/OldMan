@@ -63,11 +63,11 @@
                 </thead>
                 <tbody>
                     <tr th:each ="order : ${orderList}">
-                        <td class="table-body" th:text="${order.getId()}">001</td>
+                        <td class="table-body" th:text="${order.getNumber()}">001</td>
                         <td class="table-body" th:text="${order.getCreated()}">10.10.2017</td>
                         <td class="table-body" th:text="${order.getCustomer()}">Руслан</td>
                         <td class="table-body" th:text="${order.getManager()}">Дмитрий</td>
-                        <td class="table-body" th:text="${order.getPaymentType().getName()}">Наличные</td>
+                        <td class="table-body" th:text="${order.paymentType?.getName()}"></td>
                         <td class="table-body" th:text="${order.getPaymentString()}">не оплачено</td>
                         <td class="table-body" th:text="${order.getPrice()}">400</td>
                         <td class="table-body" th:text="${order.getStatus()}">Новый</td>
