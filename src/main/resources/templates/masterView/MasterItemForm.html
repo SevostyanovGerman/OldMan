@@ -63,9 +63,11 @@
                         <input th:value="${item.type}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                     </div>
                     <br>
-                        <p style="margin-bottom:1px"><a>Файл 1</a></p>
-                        <p style="margin:0;margin-bottom:1px"><a>Файл 2</a></p>
-                        <p style="margin:0;margin-bottom:1px"><a>Файл 3</a></p>
+                    <ul th:each="image : ${item.getImages()}" style="padding-left: 20px; display: inline-block">
+                        <a th:href="${image.getImage()}">
+                            <img th:src="${image.getImage()}"width="50" height="50">
+                        </a>
+                    </ul>
                 </div>
 
                 <div class="col-lg-6">
