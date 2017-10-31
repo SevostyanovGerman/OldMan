@@ -63,34 +63,24 @@
                             <div class="row" style="margin:15px 0px;">
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Менеджер:</span>
-                                            <input th:value="${order.getManager()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                                        </div>
+                                            <li class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Менеджер:</li>
+                                            <li th:text="${order.getManager()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"></li>
                                     </div>
                                     <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Платёж:</span>
-                                            <input th:value="${order.getPaymentString()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                                        </div>
+                                            <li class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Платёж:</li>
+                                        <li th:text="${order.getPaymentString()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"></li>
                                     </div>
                                     <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Доставка:</span>
-                                            <input th:value="${order.getDeliveryType()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                                        </div>
+                                            <li class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Доставка:</li>
+                                        <li th:text="${order.getDeliveryType()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"></li>
                                     </div>
                                     <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата получения:</span>
-                                            <input th:value="${order.getDateRecieved()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                                        </div>
+                                            <li class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата получения:</li>
+                                        <li th:text="${order.getDateRecieved()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"></li>
                                     </div>
                                     <div class="form-group">
-                                        <div class="input-group">
-                                            <span class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата доставки:</span>
-                                            <input th:value="${order.getDateTransferred()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                                        </div>
+                                            <li class="input-group-addon" id="basic-addon3" style="width: 150px; text-align: left;">Дата доставки:</li>
+                                        <li th:text="${order.getDateTransferred()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3"></li>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
