@@ -63,19 +63,19 @@
                 </thead>
                 <tbody>
                     <tr th:each ="order : ${orderList}">
-                        <td class="table-body" th:text="${order.getNumber()}">001</td>
-                        <td class="table-body" th:text="${order.getCreated()}">10.10.2017</td>
-                        <td class="table-body" th:text="${order.getCustomer()}">Руслан</td>
-                        <td class="table-body" th:text="${order.getManager()}">Дмитрий</td>
+                        <td class="table-body" th:text="${order.getNumber()}"></td>
+                        <td class="table-body" th:text="${order.getCreated()}"></td>
+                        <td class="table-body" th:text="${order.getCustomer()}"></td>
+                        <td class="table-body" th:text="${order.getManager()}"></td>
                         <td class="table-body" th:text="${order.paymentType?.getName()}"></td>
-                        <td class="table-body" th:text="${order.getPaymentString()}">не оплачено</td>
-                        <td class="table-body" th:text="${order.getPrice()}">400</td>
-                        <td class="table-body" th:text="${order.getStatus()}">Новый</td>
+                        <td class="table-body" th:text="${order.getPaymentString()}"></td>
+                        <td class="table-body" th:text="${order.getPrice()}"></td>
+                        <td class="table-body" th:text="${order.getStatus()}"></td>
                         <td align="center">
                             <a class="btn btn-info btn-xs" th:href="${'/manager/order/update/' + order.getId()}"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                         <td>
-                            <a class="btn btn-danger btn-xs" href="#"><span class="glyphicon glyphicon-trash"></span></a>
+                            <a class="btn btn-danger btn-xs" th:href="${'/manager/order/delete/' + order.getId()}"><span class="glyphicon glyphicon-trash"></span></a>
                         </td>
                 </tbody>
             </table>

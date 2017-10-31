@@ -35,13 +35,13 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order get(Long id) {
 		logger.debug("Searching role with id: {}", id);
-		return orderRepository.findByIdAndDeleted(id, 0);
+		return orderRepository.findByIdAndDeleted(id, false);
 	}
 
 	@Override
 	@Deprecated
 	public List <Order> getAll() {
-		return orderRepository.findAllByDeleted(0);
+		return orderRepository.findAllByDeleted(false);
 	}
 
 	@Override
@@ -49,19 +49,19 @@ public class OrderServiceImpl implements OrderService {
 		Set <Status> statusSet = user.getStatuses();
 		List <Order> list = new ArrayList <>();
 		for (Status status : statusSet) {
-			list.addAll(orderRepository.findAllByStatusAndDeleted(status, 0));
+			list.addAll(orderRepository.findAllByStatusAndDeleted(status, false));
 		}
 		return list;
 	}
 
 	@Override
 	public List <Order> designerOrders() {
-		return orderRepository.findAllByDeletedAndStatusId(0, 1l);
+		return orderRepository.findAllByDeletedAndStatusId(false, 1l);
 	}
 
 	@Override
 	public List <Order> designFindNumber(String number) {
-		return orderRepository.findAllByDeletedAndStatusIdAndNumberContains(0, 1l, number);
+		return orderRepository.findAllByDeletedAndStatusIdAndNumberContains(false, 1l, number);
 	}
 
 	@Override
@@ -101,17 +101,17 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List <Order> findByCustomer(String name) {
-		return orderRepository.findAllByCustomerFirstNameContainsAndDeleted(name, 0);
+		return orderRepository.findAllByCustomerFirstNameContainsAndDeleted(name, false);
 	}
 
 	@Override
 	public List <Order> findByNumber(String number) {
-		return orderRepository.findAllByDeletedAndNumberContains(0, number);
+		return orderRepository.findAllByDeletedAndNumberContains(false, number);
 	}
 
 	@Override
 	public List <Order> findByManager(String name) {
-		return orderRepository.findAllByDeletedAndManagerFirstNameContains(0, name);
+		return orderRepository.findAllByDeletedAndManagerFirstNameContains(false, name);
 	}
 
 	@Override
@@ -141,5 +141,10 @@ public class OrderServiceImpl implements OrderService {
 		order.setDateTransferred(date);
 		orderService.save(order);
 		return order;
+	}
+
+	@Override
+	public void deleteOrder(Order order) {
+		order.setDeleted(true);
 	}
 }

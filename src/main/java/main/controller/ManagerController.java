@@ -7,12 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -84,9 +82,11 @@ public class ManagerController {
 
 	//Добавляем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/order/add"}, method = RequestMethod.GET)
-	public ModelAndView addItem() {
+	public ModelAndView addItem(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerNewOrder");
-		Order order = new Order();
+		Order order = new Order(false, false, new Date(), statusService.get(1L), userService.getCurrentUser());
+		HttpSession session = request.getSession();
+		session.setAttribute("order", order);
 		Item item = new Item();
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", order);
@@ -96,11 +96,9 @@ public class ManagerController {
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.GET)
-	public ModelAndView saveNewOrder(@ModelAttribute("order") Order order, @ModelAttribute("item") Item item) {
-		order.setCreated(new Date());
-		order.setPayment(false);
-		order.setStatus(statusService.get(1L));
-		order.setManager(userService.getCurrentUser());
+	public ModelAndView saveNewOrder(HttpServletRequest request, @ModelAttribute("item") Item item) {
+		HttpSession session = request.getSession();
+		Order order = (Order) session.getAttribute("order");
 		orderService.save(order);
 		item.setStatus(false);
 		item.setOrder(order);
@@ -109,6 +107,15 @@ public class ManagerController {
 		order.setNumber(orderId.toString());
 		orderService.save(order);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Удаляем заказ
+	@RequestMapping(value = {"/manager/order/delete/{orderId}"}, method = RequestMethod.GET)
+	public ModelAndView deleteOrder(@PathVariable("orderId") Long orderId) {
+		Order order = orderService.get(orderId);
+		orderService.deleteOrder(order);
+		orderService.save(order);
+		return new ModelAndView("redirect:/manager");
 	}
 
 	//Добавляем новую позицию в существующий заказ

@@ -21,4 +21,5 @@ public interface OrderService {
 	List <Order> searchByAllFields(String searchTerm);
 	Order getPayment(Long orderId);
 	Order changeStatusTo(Long orderId, Long statusId);  //изменяем статус заказа на выбранный
+	void deleteOrder(Order order);//Change value "delete" from false to true. Order do not delete!
 }
