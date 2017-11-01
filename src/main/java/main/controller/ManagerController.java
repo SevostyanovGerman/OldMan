@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -168,7 +167,7 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = {"/manager/order/addcustomer/{orderId}"}, method = RequestMethod.POST)
-	public ModelAndView addCustomer(@PathVariable("orderId") Long orderId, HttpServletRequest request,
+	public ModelAndView addCustomer(@PathVariable("orderId") Long orderId,
 									@ModelAttribute("newCustomer") Customer customer,
 									@ModelAttribute("newDelivery") Delivery delivery) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
@@ -191,5 +190,24 @@ public class ManagerController {
 			model = new ModelAndView("/managerView/ManagerDashBoard");
 		}
 		return model;
+	}
+
+	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
+	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
+									@ModelAttribute("firstNameField") String fName,
+									@ModelAttribute("secNameField") String sName,
+									   @ModelAttribute("emailField") String eMail,
+									   @ModelAttribute("phoneField") String phone ) {
+		Order order = orderService.get(orderId);
+		Customer customer = order.getCustomer();
+		customer.setFirstName(fName);
+		customer.setSecName(sName);
+		customer.setEmail(eMail);
+		customer.setPhone(phone);
+		customerService.save(customer);
+
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+
+
 	}
 }

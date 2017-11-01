@@ -130,6 +130,21 @@ public class Customer {
 		return firstName + " " + secName;
 	}
 
+	public String getDefaultDelivery(){
+		StringBuilder builder = new StringBuilder("");
+		if (this.deliveries != null) {
+			builder.append(this.deliveries.get(0).getCountry());
+			builder.append(" , ");
+			builder.append(this.deliveries.get(0).getCity());
+			builder.append(" , ");
+			builder.append(this.deliveries.get(0).getAddress());
+			builder.append(" , ");
+			builder.append(this.deliveries.get(0).getZip());
+			return builder.toString();
+		}
+		return "";
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

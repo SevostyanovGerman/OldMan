@@ -36,11 +36,12 @@ function selectCustomer(ajaxCustomerId) {
     var second = document.getElementById("secNameField");
     var email = document.getElementById("emailField");
     var phone = document.getElementById("phoneField");
+    var delivery = document.getElementById("deliveryField");
     var customer = result[ajaxCustomerId];
     name.value = customer.firstName;
     second.value = customer.secName;
     email.value = customer.email;
     phone.value = customer.phone;
-
+    delivery.textContent = customer.defaultDelivery;
     };
 

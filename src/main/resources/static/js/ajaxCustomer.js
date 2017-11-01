@@ -26,12 +26,17 @@ function showResult(str)
             var list="";
             arrayResult = result;
 
-            for(var i = 0; i<result.length; i++){
+            var count = 10;
+            if (result.length<10) {
+                count = result.length;
+            }
+            for(var i = 0; i<count; i++){
 
 
-                list =list + "<a onclick=selectCustomer(i-1)>"+ result[i].firstName +  " "+ result[i].secName + "</a>" +"<br>" ;
+                list =list + "<a onclick=selectCustomer("+i+")>"+ result[i].firstName +  " "+ result[i].secName + "</a>" +"<br>" ;
             }
 
+            list=list+"<a href='#' >Показать всех</a>";
             document.getElementById("livesearch").innerHTML=list;
             document.getElementById("livesearch").style.border="1px solid #A5ACB2";
         }

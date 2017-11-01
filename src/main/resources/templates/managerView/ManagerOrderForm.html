@@ -203,26 +203,25 @@
 
                     <h4 align="center">Информация о клиенте</h4>
                     <div class="form-group">
-                        <div class="input-group">
+
                             <input type="text" class="form-control" id="liveText" onkeyup="showResult(this.value)"
-                                   aria-describedby="basic-addon3" placeholder="Клиент">
+                                   placeholder="Клиент">
                             <div id="livesearch"></div>
-                            <span class="input-group-btn" id="basic-addon3" style="text-align: center;">
-                                   <button class="btn btn-default" type="button">Найти</button>
-                                </span>
-                        </div>
+
                     </div>
-                    
-                    <form th:action="${'/manager/order/addcustomer/'+order.getId()}"
+
+                    <form th:action="${'/manager/order/changeCustomer/'+order.getId()}"
                           method="post"
                           id="addCustomer">
+                        <a href="#" onclick="editCustomer()" id="editBtn">Изменить</a>
+
                         <div class="form-group">
 
                             <div class="input-group">
 
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
-                                       name="firstNameField" id="firstNameField" readonly="readonly"/>
+                                       name="firstNameField" id="firstNameField" readonly="readonly" required="required"  pattern="[A-Za-z]{3,}"/>
 
                             </div>
                         </div>
@@ -230,57 +229,37 @@
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Фамилия:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.secName}"
-                                       name="secNameField" id="secNameField" readonly="readonly"/>
+                                       name="secNameField" id="secNameField" readonly="readonly" required="required"  pattern="[A-Za-z]{3,}"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Email:</span>
-                                <input type="text" class="form-control" th:value="${order.customer?.email}"
-                                       name="emailField" id="emailField" readonly="readonly"/>
+                                <input type="email" class="form-control" th:value="${order.customer?.email}"
+                                       name="emailField" id="emailField" readonly="readonly" required="required"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Телефон:</span>
                                 <input type="text" class="form-control customerField"
-                                       th:value="${order.customer?.phone}" name="phoneField" id="phoneField" readonly="readonly"/>
+                                       th:value="${order.customer?.phone}" name="phoneField" id="phoneField"
+                                       readonly="readonly" required="required"  pattern="[0-9]{3,}"/>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon customerField">Страна:</span>
-                                <input type="text" class="form-control" name="countryField"
-                                       readonly="readonly">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon customerField">Город:</span>
-                                <input type="text" class="form-control" id="basic-url"
-                                       aria-describedby="basic-addon3" name="cityField" readonly="readonly">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon customerField">Адрес:</span>
-                                <input type="text" class="form-control" name="addressField" readonly="readonly">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon customerField">Индекс:</span>
-                                <input type="text" class="form-control" name="zipField" readonly="readonly">
-                            </div>
-                        </div>
+                        <b><div>Адрес доставки:</div></b>
+
+                        <span th:text="${order.getCustomer().getDefaultDelivery()}" id="deliveryField">
+                            </span>
+
                     </form>
                     <div class="form-group">
 
 
                         <a href="#newCustomerModal" class="btn btn-info" data-toggle="modal"
                            style="width: 142px; text-align: center;">Создать</a>
-                        <button type="button" class="btn btn-info" data-toggle="tooltip" title="Сохранить клиента"
-                                style="width: 142px; text-align: center;">Сохранить
+                        <button type="submit" class="btn btn-info" data-toggle="tooltip" title="Выбрать клиента"
+                                style="width: 142px; text-align: center;" form="addCustomer">Выбрать
                         </button>
 
                     </div>
@@ -548,7 +527,33 @@
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
 
+<script>
+    function editCustomer() {
+        var firstName = document.getElementById("firstNameField");
+        var secName = document.getElementById("secNameField");
+        var email = document.getElementById("emailField");
+        var phone = document.getElementById("phoneField");
+        var editBtn = document.getElementById("editBtn");
+        if (  $("#firstNameField").prop('readonly')) {
+            $("#firstNameField").prop('readonly', false);
+            $("#secNameField").prop('readonly', false);
+            $("#emailField").prop('readonly', false);
+            $("#phoneField").prop('readonly', false);
+            editBtn.textContent = "Отмена";
+        } else {
+            $("#firstNameField").prop('readonly', true);
+            $("#secNameField").prop('readonly', true);
+            $("#emailField").prop('readonly', true);
+            $("#phoneField").prop('readonly', true);
+            editBtn.textContent = "Изменить";
+        }
 
+
+    }
+
+
+
+</script>
 
 
 
