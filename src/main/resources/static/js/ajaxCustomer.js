@@ -19,12 +19,17 @@ function showResult(str)
     {
         if (xmlhttp.status==200)
         {
-            var result = new Array();
+            // result = new Array();
             result = JSON.parse(xmlhttp.response);
 
+
             var list="";
+            arrayResult = result;
+
             for(var i = 0; i<result.length; i++){
-                list =list + "<a onclick="+"choose(this)" + ">"+ result[i].firstName + " " + result[i].secName + "</a>" +"<br>" ;
+
+
+                list =list + "<a onclick=selectCustomer(i-1)>"+ result[i].firstName +  " "+ result[i].secName + "</a>" +"<br>" ;
             }
 
             document.getElementById("livesearch").innerHTML=list;

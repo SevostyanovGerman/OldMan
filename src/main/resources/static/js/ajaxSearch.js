@@ -23,7 +23,7 @@ function showResult(str)
              result = JSON.parse(xmlhttp.response);
             var list="";
             for(var i = 0; i<result.length; i++){
-                list =list + "<a href=\"/designer/order/" + result[i].numer+ " \" >"+ result[i].number+"</a>" +"<br>" ;
+                list =list + "<a href=\"/designer/order/" + result[i].numer+ " \" >"+ result[i].number+" </a>" +"<br>" ;
             }
             document.getElementById("livesearch").innerHTML=list;
             document.getElementById("livesearch").style.border="1px solid #A5ACB2";
@@ -32,3 +32,5 @@ function showResult(str)
     xmlhttp.open("GET","/ajax?q="+str,true);
     xmlhttp.send();
 }
+
+

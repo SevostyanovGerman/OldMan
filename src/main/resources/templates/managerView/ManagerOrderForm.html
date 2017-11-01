@@ -213,7 +213,7 @@
                         </div>
                     </div>
 
-
+                    <a  onclick="selectCustomer('majnx', 'jnknk')">77777777</a>
                     <form th:action="${'/manager/order/addcustomer/'+order.getId()}"
                           method="post"
                           id="addCustomer">
@@ -223,7 +223,7 @@
 
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
-                                       name="firstNameField" readonly="readonly"/>
+                                       name="firstNameField" id="firstNameField" readonly="readonly"/>
 
                             </div>
                         </div>
@@ -231,21 +231,21 @@
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Фамилия:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.secName}"
-                                       name="secNameField" readonly="readonly"/>
+                                       name="secNameField" id="secNameField" readonly="readonly"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Email:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.email}"
-                                       name="emailField" readonly="readonly"/>
+                                       name="emailField" id="emailField" readonly="readonly"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Телефон:</span>
                                 <input type="text" class="form-control customerField"
-                                       th:value="${order.customer?.phone}" name="phoneField" readonly="readonly"/>
+                                       th:value="${order.customer?.phone}" name="phoneField" id="phoneField" readonly="readonly"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -415,7 +415,7 @@
                 <!-- Форма для регистрации -->
                 <form th:action="${'/manager/order/addcustomer/'+order.getId()}"
                       method="post" th:object="${newCustomer}" class="form-horizontal">
-                    <b><div>Информация о клиенте:</div></b>
+                    <b><div style="color: #22a9ff;">Информация о клиенте:</div></b>
                     <br>
                     <!-- Блок для ввода логина -->
                     <div class="form-group has-feedback">
@@ -544,6 +544,7 @@
 
 <script src="/js/ajaxCustomer.js"></script>
 <script src="/js/ajaxCheckUser.js"></script>
+<script src="/js/mxManagerOrder.js"></script>
 <!--Sorting table-->
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
@@ -552,36 +553,7 @@
 
 
 
-<script>
-    $(function() {
-        //при нажатии на кнопку с id="save"
-        $('#newCustomerBtn').click(function() {
-            //переменная formValid
-            var formValid = true;
-            //перебрать все элементы управления input
-            $('input').each(function() {
-                //найти предков, которые имеют класс .form-group, для установления success/error
-                var formGroup = $(this).parents('.form-group');
-                //найти glyphicon, который предназначен для показа иконки успеха или ошибки
-                var glyphicon = formGroup.find('.form-control-feedback');
-                //для валидации данных используем HTML5 функцию checkValidity
-                if (this.checkValidity()) {
-                    //добавить к formGroup класс .has-success, удалить has-error
-                    formGroup.addClass('has-success').removeClass('has-error');
-                    //добавить к glyphicon класс glyphicon-ok, удалить glyphicon-remove
-                    glyphicon.addClass('glyphicon-ok').removeClass('glyphicon-remove');
-                } else {
-                    //добавить к formGroup класс .has-error, удалить .has-success
-                    formGroup.addClass('has-error').removeClass('has-success');
-                    //добавить к glyphicon класс glyphicon-remove, удалить glyphicon-ok
-                    glyphicon.addClass('glyphicon-remove').removeClass('glyphicon-ok');
-                    //отметить форму как невалидную
-                    formValid = false;
-                }
-            });
 
-        });
-    });
-</script>
+
 </body>
 </html>
