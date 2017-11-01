@@ -259,7 +259,7 @@
                         <a href="#newCustomerModal" class="btn btn-info" data-toggle="modal"
                            style="width: 142px; text-align: center;">Создать</a>
                         <button type="submit" class="btn btn-info" data-toggle="tooltip" title="Выбрать клиента"
-                                style="width: 142px; text-align: center;" form="addCustomer">Выбрать
+                                style="width: 142px; text-align: center;" form="addCustomer" id="editBtnSub" disabled>Выбрать
                         </button>
 
                     </div>
@@ -526,34 +526,6 @@
 <!--Sorting table-->
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
-
-<script>
-    function editCustomer() {
-        var firstName = document.getElementById("firstNameField");
-        var secName = document.getElementById("secNameField");
-        var email = document.getElementById("emailField");
-        var phone = document.getElementById("phoneField");
-        var editBtn = document.getElementById("editBtn");
-        if (  $("#firstNameField").prop('readonly')) {
-            $("#firstNameField").prop('readonly', false);
-            $("#secNameField").prop('readonly', false);
-            $("#emailField").prop('readonly', false);
-            $("#phoneField").prop('readonly', false);
-            editBtn.textContent = "Отмена";
-        } else {
-            $("#firstNameField").prop('readonly', true);
-            $("#secNameField").prop('readonly', true);
-            $("#emailField").prop('readonly', true);
-            $("#phoneField").prop('readonly', true);
-            editBtn.textContent = "Изменить";
-        }
-
-
-    }
-
-
-
-</script>
 
 
 

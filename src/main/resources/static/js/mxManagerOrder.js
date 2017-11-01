@@ -45,3 +45,28 @@ function selectCustomer(ajaxCustomerId) {
     delivery.textContent = customer.defaultDelivery;
     };
 
+
+function editCustomer() {
+    var firstName = document.getElementById("firstNameField");
+    var secName = document.getElementById("secNameField");
+    var email = document.getElementById("emailField");
+    var phone = document.getElementById("phoneField");
+    var editBtn = document.getElementById("editBtn");
+    var subEditBtn = document.getElementById("editBtnSub");
+
+    if (  $("#firstNameField").prop('readonly')) {
+        $("#firstNameField").prop('readonly', false);
+        $("#secNameField").prop('readonly', false);
+        $("#emailField").prop('readonly', false);
+        $("#phoneField").prop('readonly', false);
+        editBtn.textContent = "Отмена";
+        subEditBtn.disabled = false;
+    } else {
+        $("#firstNameField").prop('readonly', true);
+        $("#secNameField").prop('readonly', true);
+        $("#emailField").prop('readonly', true);
+        $("#phoneField").prop('readonly', true);
+        editBtn.textContent = "Изменить";
+        subEditBtn.disabled = true;
+    }
+}
