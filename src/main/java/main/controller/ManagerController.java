@@ -194,20 +194,20 @@ public class ManagerController {
 
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
-									@ModelAttribute("firstNameField") String fName,
-									@ModelAttribute("secNameField") String sName,
+									   @ModelAttribute("firstNameField") String fName,
+									   @ModelAttribute("secNameField") String sName,
 									   @ModelAttribute("emailField") String eMail,
-									   @ModelAttribute("phoneField") String phone ) {
+									   @ModelAttribute("phoneField") String phone) {
 		Order order = orderService.get(orderId);
-		Customer customer = order.getCustomer();
-		customer.setFirstName(fName);
-		customer.setSecName(sName);
-		customer.setEmail(eMail);
-		customer.setPhone(phone);
-		customerService.save(customer);
-
+		try {
+			Customer customer = order.getCustomer();
+			customer.setFirstName(fName);
+			customer.setSecName(sName);
+			customer.setEmail(eMail);
+			customer.setPhone(phone);
+			customerService.save(customer);
+		} catch (Exception e) {
+		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
-
-
 	}
 }
