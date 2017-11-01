@@ -12,15 +12,30 @@ import java.util.List;
 @Service
 @Transactional
 public class StatusServiceImpl implements StatusService {
+
 	private final Logger logger = LoggerFactory.getLogger(StatusServiceImpl.class);
 
-	@Autowired
 	private StatusRepository statusRepository;
+
+	@Autowired
+	public StatusServiceImpl(StatusRepository statusRepository){
+		this.statusRepository = statusRepository;
+	}
 
 	@Override
 	public Status get(Long id) {
 		logger.debug("Searching status with id: {}", id);
 		return statusRepository.getById(id);
+	}
+
+	@Override
+	public Status getByName(String name) {
+		logger.debug("Searching status with name: {}", name);
+		Status searchingStatus = statusRepository.getByNameAndDeleted(name, false);
+		if(searchingStatus == null){
+			logger.debug("Status {} not found", name);
+		}
+		return searchingStatus;
 	}
 
 	@Override
@@ -38,7 +53,7 @@ public class StatusServiceImpl implements StatusService {
 	@Override
 	public List<Status> getAll() {
 		logger.debug("Getting list statuses.");
-		List<Status> listStatuses = statusRepository.getAllByDeleted(0);
+		List<Status> listStatuses = statusRepository.getAllByDeleted(false);
 		if (listStatuses.size() > 0) {
 			logger.debug("The resulting list");
 		} else {

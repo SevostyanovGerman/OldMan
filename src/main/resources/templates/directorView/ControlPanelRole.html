@@ -59,8 +59,8 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="/director/controlpanel/statuses">Статусы <span class="sr-only">(current)</span></a></li>
-                <li><a href="/director/controlpanel/roles">Роли</a></li>
+                <li><a href="/director/controlpanel/statuses">Статусы</a></li>
+                <li  class="active"><a href="/director/controlpanel/roles">Роли <span class="sr-only">(current)</span></a></li>
                 <li><a href="#">Analytics</a></li>
                 <li><a href="#">Export</a></li>
             </ul>
@@ -99,28 +99,28 @@
                 <div class="panel panel-default">
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane active " id="newstatus">
+                        <div class="tab-pane active " id="newrole">
                             <!-- Default panel contents -->
                             <div class="col-sm-offset-5 col-sm-10">
-                                <div class="panel-heading"><b>Создать новый статус</b></div>
+                                <div class="panel-heading"><b>Создать новую роль</b></div>
                             </div>
-                            <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/create}" action="create" method="post">
+                            <form class="form-horizontal" th:action="@{/director/controlpanel/roles/create}" action="create" method="post">
                                 <div class="form-group row">
-                                    <label for="id" class="control-label col-sm-2">Status ID</label>
+                                    <label for="id" class="control-label col-sm-2">ID роли</label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="id" th:value="${newstatus.getId()}" readonly="readonly" placeholder="Status ID" />
+                                        <input class="form-control" type="text" name="id" th:value="${newrole.getId()}" readonly="readonly" placeholder="ID роли" />
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="name" class="control-label col-sm-2">Status Name</label>
+                                    <label for="name" class="control-label col-sm-2">Название роли</label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="name" th:value="${newstatus.getName()}" placeholder="Status Name" required />
+                                        <input class="form-control" type="text" name="name" th:value="${newrole.getName()}" placeholder="Название роли" required />
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="number" class="control-label col-sm-2">Number</label>
+                                    <label for="url" class="control-label col-sm-2">Начальная страница</label>
                                     <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="number" th:value="${newstatus.getNumber()}" placeholder="Number">
+                                        <input class="form-control" type="text" name="url" th:value="${newrole.getUrl()}" placeholder="Начальная страница">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -131,29 +131,29 @@
                             </form>
                         </div>
 
-                        <th:block th:each="status : ${statuses}">
-                            <div class="tab-pane" th:id="${status.getId()}">
+                        <th:block th:each="role : ${roles}">
+                            <div class="tab-pane" th:id="${role.getId()}">
                                 <!-- Default panel contents -->
                                 <div class="col-sm-offset-5 col-sm-10">
-                                    <div class="panel-heading"><b>Редактирование статуса</b></div>
+                                    <div class="panel-heading"><b>Редактирование роли</b></div>
                                 </div>
-                                <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/update}" action="update" method="post">
+                                <form class="form-horizontal" th:action="@{/director/controlpanel/roles/update}" action="update" method="post">
                                     <div class="form-group row">
-                                        <label for="id" class="control-label col-sm-2">Status ID</label>
+                                        <label for="id" class="control-label col-sm-2">ID роли</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="id" th:value="${status.getId()}" readonly="readonly" placeholder="Status ID" />
+                                            <input class="form-control" type="text" name="id" th:value="${role.getId()}" readonly="readonly" placeholder="ID роли" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="name" class="control-label col-sm-2">Status Name</label>
+                                        <label for="name" class="control-label col-sm-2">Название роли</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="name" th:value="${status.getName()}" placeholder="Status Name" required />
+                                            <input class="form-control" type="text" name="name" th:value="${role.getName()}" placeholder="Название роли" required />
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label for="number" class="control-label col-sm-2">Number</label>
+                                        <label for="url" class="control-label col-sm-2">Начальная страница</label>
                                         <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="number" th:value="${status.getNumber()}" placeholder="Number" />
+                                            <input class="form-control" type="text" name="url" th:value="${role.getUrl()}" placeholder="Начальная страница" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -176,22 +176,22 @@
                     <thead>
                     <tr>
                         <th>#ID</th>
-                        <th>Статус</th>
-                        <th>Номер</th>
+                        <th>Роль</th>
+                        <th>Начальная страница</th>
                         <th></th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each ="status: ${statuses}">
-                        <td th:text="${status.getId()}"></td>
-                        <td th:text="${status.getName()}"></td>
-                        <td th:text="${status.getNumber()}"></td>
+                    <tr th:each ="role : ${roles}">
+                        <td th:text="${role.getId()}"></td>
+                        <td th:text="${role.getName()}"></td>
+                        <td th:text="${role.getUrl()}"></td>
                         <td>
-                            <a class="btn btn-xs btn-info" th:href="'#' + ${status.getId()}" data-toggle="tab">Изменить</a>
+                            <a class="btn btn-xs btn-info" th:href="'#' + ${role.getId()}" data-toggle="tab">Изменить</a>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" th:href="'status/delete/' + ${status.getId()}">Удалить</a>
+                            <a class="btn btn-xs btn-danger" th:href="'role/delete/' + ${role.getId()}">Удалить</a>
                         </td>
                     </tr>
                     </tbody>

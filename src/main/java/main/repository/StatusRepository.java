@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface StatusRepository extends JpaRepository <Status, Long> {
 	Status getById(Long id);
-	List<Status> getAllByDeleted(int del);
+	Status getByNameAndDeleted(String name, boolean del);
+	List<Status> getAllByDeleted(boolean del);
 }
