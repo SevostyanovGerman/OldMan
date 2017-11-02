@@ -200,12 +200,14 @@ public class ManagerController {
 									   @ModelAttribute("phoneField") String phone) {
 		Order order = orderService.get(orderId);
 		try {
-			Customer customer = order.getCustomer();
+			Customer customer = customerService.getByEmail(eMail);
 			customer.setFirstName(fName);
 			customer.setSecName(sName);
 			customer.setEmail(eMail);
 			customer.setPhone(phone);
 			customerService.save(customer);
+			order.setCustomer(customer);
+			orderService.save(order);
 		} catch (Exception e) {
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);

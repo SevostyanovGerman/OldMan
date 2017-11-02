@@ -43,6 +43,9 @@ function selectCustomer(ajaxCustomerId) {
     email.value = customer.email;
     phone.value = customer.phone;
     delivery.textContent = customer.defaultDelivery;
+    var subEditBtn = document.getElementById("editBtnSub");
+    subEditBtn.disabled = false;
+
     };
 
 
