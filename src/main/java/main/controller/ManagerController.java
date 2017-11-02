@@ -192,6 +192,7 @@ public class ManagerController {
 		return model;
 	}
 
+	//Выбор/изменения клиента в заказе
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
 									   @ModelAttribute("firstNameField") String fName,
