@@ -56,12 +56,14 @@ public class ManagerController {
 		return model;
 	}
 
+	//Просмотр и редактирование существующего заказа
 	@RequestMapping(value = {"/manager/order/update/{id}"}, method = RequestMethod.GET)
 	public ModelAndView updateOrder(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
 		model.addObject("statuses", statusService.getAll());
+		model.addObject("paymentList", paymentService.getAll());
 		return model;
 	}
 
@@ -153,6 +155,16 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/item/delete/{orderId}/{itemId}"}, method = RequestMethod.GET)
 	public ModelAndView deleteItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		itemService.delete(itemId);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Устанавливаем тип оплаты в существующем заказе
+	@RequestMapping(value = {"/manager/order/setPaymentType/{orderId}/{paymentId}"}, method = RequestMethod.GET)
+	public ModelAndView setPaymentType(@PathVariable("orderId") Long orderId, @PathVariable("paymentId") Long paymentId) {
+		Order order = orderService.get(orderId);
+		Payment payment = paymentService.get(paymentId);
+		order.setPaymentType(payment);
+		orderService.save(order);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 

@@ -7,16 +7,22 @@
     <title>Order</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Setup local bootstrap3 -->
+    <!--<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>-->
 
     <link rel="stylesheet" href="/css/manager.css"/>
 </head>
 
 <body>
-
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -39,7 +45,7 @@
                     <h4 style="color: white" align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" th:text="${authUser}">Менеджер <span class="glyphicon glyphicon-user"></span></a></li>
+                    <li><a href="#" th:text="${authUser}">Менеджер</a></li>
                     <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
                 </ul>
             </div>
@@ -94,12 +100,91 @@
                                 </table>
 
                                 <div class="row">
-									<div class="col-sm-9"></div>
+									<div class="col-sm-9">
+                                        <a href="#modalSetPaymentType" class="btn btn-info" data-toggle="modal">Установить тип оплаты</a>
+                                        <a href="#modalSetDesigner" class="btn btn-info" data-toggle="modal">Добавить дизайнера</a>
+                                        <a href="#modalSetMaster" class="btn btn-info" data-toggle="modal">Добавить мастера </a>
+                                    </div>
                                     <div class="col-sm-3" align="Right">
-                                        <a class="btn btn-success" title="Добавить позицию к заказу" th:href="${'/manager/order/addItem/'+order.getId()}">Добавить</a>
+                                        <a class="btn btn-success" title="Добавить позицию к заказу" th:href="${'/manager/order/addItem/'+order.getId()}">Новая позиция</a>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <hr/>
+                                        <h4 align="left" th:text="${'Текущий статус: ' +order.getStatus()}">Статус заказа</h4>
+                                        <h4 th:if="${order.getPaymentType()==null}" align="left">Тип оплаты: - </h4>
+                                        <h4 th:if="${order.getPaymentType()!=null}"  th:text="${'Тип оплаты: ' + order.getPaymentType()}" align="left"></h4>
+                                        <h4 th:if="${order.getDesigner()==null}" align="left">Дизайнер: - </h4>
+                                        <h4 th:if="${order.getDesigner()!=null}" th:text="${'Дизайнер: ' + order.getDesigner()}" align="left"></h4>
+                                        <h4 th:if="${order.getMaster()==null}" align="left">Мастер: - </h4>
+                                        <h4 th:if="${order.getMaster()!=null}" th:text="${'Мастер: ' + order.getMaster()}" align="left"></h4>
+                                        <hr/>
                                     </div>
 								</div>
                             </div>
+
+                            <!-- МОДАЛЬНЫЕ ОКНА -->
+                            <!-- Установка типа оплаты -->
+                            <div id="modalSetPaymentType" class="modal fade">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 align="center" class="modal-title">Выберите тип оплаты заказа</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-hover noborder">
+                                                <tbody >
+                                                    <tr th:each ="payment : ${paymentList}">
+                                                        <td align="left" th:text="${payment.name}">Наличный</td>
+                                                        <td align="right">
+                                                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                            <!-- Установка дизайнера -->
+                            <div id="modalSetDesigner" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Выберите дизайнера</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>One fine body&hellip;</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                            <!-- Установка мастера -->
+                            <div id="modalSetMaster" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Выберите мастера</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>One fine body&hellip;</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
 
 							<!-- КОММЕНТАРИИ -->
                             <div class="tab-pane" id="tabComments" role="tabpanel">
@@ -121,7 +206,6 @@
                     			<br/>
                     			<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 3px; width: 848px; height: 400px ;padding: 1px 20px 5px;">
     							</form>
-
                             </div>
 
 							<!-- ИСТОРИЯ ЗАКАЗА -->
@@ -275,11 +359,6 @@
 		</div>
     </div>
 	<br/>
-
-
-
-
-
 
 
 <!-- HTML-код модального окна -->

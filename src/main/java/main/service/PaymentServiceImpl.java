@@ -15,6 +15,11 @@ public class PaymentServiceImpl implements PaymentService {
 	private PaymentRepository paymentRepository;
 
 	@Override
+	public Payment get(Long id) {
+		return paymentRepository.getOne(id);
+	}
+
+	@Override
 	public Payment getByName(String name) {
 		return paymentRepository.findByName(name);
 	}

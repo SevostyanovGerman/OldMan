@@ -42,3 +42,6 @@
 .loginPage{
     background: #DDDDDD;
 }
+.noborder td, .noborder th {
+    border: none !important;
+}
