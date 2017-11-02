@@ -5,6 +5,8 @@ import main.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -42,7 +44,7 @@ public class InitDB {
 	}
 
 	@PostConstruct
-	public void createDB() {
+	public void createDB() throws ParseException {
 		//Status//
 		Status status1 = new Status("new");
 		statusService.save(status1);
@@ -110,8 +112,20 @@ public class InitDB {
 		itemService.save(item3);
 		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, false);
 		itemService.save(item4);
+		Item item5 = new Item("Case", "Nexus 6P", "wood", "через гравировка", 5, 230d, false);
+		itemService.save(item5);
+		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d, false);
+		itemService.save(item6);
+		Item item7 = new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
+		itemService.save(item7);
 		//Order//
 		Date createDate = new Date();
+		String date1 = "03/10/2017";
+		String date2 = "10/10/2017";
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date d1 = dateFormat.parse(date1);
+		Date d2 = dateFormat.parse(date2);
+
 		Order order1 =
 			new Order("1", false, false, 100d, createDate, "courier", payment1, status1, customer1, item1, user1, user2,
 				user3);
@@ -128,5 +142,13 @@ public class InitDB {
 			new Order("4", false, false, 100d, createDate, "courier", payment2, status4, customer1, item4, user1, user2,
 				user3);
 		orderService.save(order4);
+		Order order5 =
+			new Order("5", false, false, 200d, d1, "take away", payment2, status3, customer1, item5, user1, user2,
+				user3);
+		orderService.save(order5);
+		Order order6 =
+			new Order("6", false, false, 350d, d2, "take away", payment2, status3, customer1, item6, user1, user2,
+				user3);
+		orderService.save(order6);
 	}
 }

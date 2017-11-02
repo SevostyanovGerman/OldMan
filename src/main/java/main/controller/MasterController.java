@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.LogManager;
 
@@ -117,6 +118,14 @@ public class MasterController {
 			logger.warn("You couldn't change the status of item");
 			new ModelAndView("masterView/MasterItemForm");
 		}
+		return model;
+	}
+
+	@RequestMapping(value = {"master/ordersByRange"}, method = RequestMethod.POST)
+	public ModelAndView getOrdersByRange(Date startDate, Date endDate) {
+		ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
+		List <Order> rangeOrders = orderService.findOrdersByRange(startDate, endDate);
+		model.addObject("masterOrders", rangeOrders);
 		return model;
 	}
 }

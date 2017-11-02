@@ -14,9 +14,9 @@
 
     <!-- Optional theme -->
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
-
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+
 </head>
 
 <body>
@@ -64,7 +64,25 @@
 
             $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
                 $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+
+                var data = {
+                    startDate: picker.startDate.format('MM/DD/YYYY'),
+                    endDate: picker.endDate.format('MM/DD/YYYY')
+                };
+
+                $.ajax({
+                   type: "POST",
+                   data:  data,
+                   url: "/master/ordersByRange",
+                   success: function(result) {
+                       console.log("success");
+                   },
+                    error: function (result) {
+                        console.log(result);
+                    }
+                });
             });
+
 
             $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
                 $(this).val('');

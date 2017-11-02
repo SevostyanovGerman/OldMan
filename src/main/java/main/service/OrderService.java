@@ -2,6 +2,8 @@ package main.service;
 
 import main.model.Order;
 import main.model.User;
+
+import java.util.Date;
 import java.util.List;
 
 public interface OrderService {
@@ -22,4 +24,5 @@ public interface OrderService {
 	Order getPayment(Long orderId);
 	Order changeStatusTo(Long orderId, Long statusId);  //изменяем статус заказа на выбранный
 	void deleteOrder(Order order);//Change value "delete" from false to true. Order do not delete!
+	List <Order> findOrdersByRange(Date startDate, Date endDate);
 }
