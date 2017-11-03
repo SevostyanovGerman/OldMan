@@ -28,11 +28,6 @@ public class StatusServiceImpl implements StatusService {
 		return statusRepository.getById(id);
 	}
 
-
-	public Status get(Long id) {
-		return null;
-	}
-
 	@Override
 	public Status getByName(String name) {
 		logger.debug("Searching status with name: {}", name);
