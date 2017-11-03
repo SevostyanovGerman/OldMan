@@ -235,7 +235,7 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/roles/create"}, method = RequestMethod.POST)
-	public String createStatus (@ModelAttribute("role") Role incomingRole, HttpServletRequest request) {
+	public String createRole (@ModelAttribute("role") Role incomingRole, HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе роль с таким же именем.
@@ -246,7 +246,7 @@ public class DirectorController {
 		Role foundRole = roleService.getByName(searchingRole);
 
 		if(foundRole != null){
-			String error = "Статус с именем: " + searchingRole + " уже существует";
+			String error = "Роль с именем: " + searchingRole + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else {
 			try {
@@ -257,7 +257,7 @@ public class DirectorController {
 				request.getSession().setAttribute("error", error);
 			}
 
-			String success = "Статус с именем: " + searchingRole + " успешно создан";
+			String success = "Роль с именем: " + searchingRole + " успешно создан";
 			request.getSession().setAttribute("success", success);
 		}
 
@@ -265,7 +265,7 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/roles/update"}, method = RequestMethod.POST)
-	public String updateRole (@ModelAttribute("status") Role incomingRole, HttpServletRequest request) {
+	public String updateRole (@ModelAttribute("role") Role incomingRole, HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе роль с таким же именем.
