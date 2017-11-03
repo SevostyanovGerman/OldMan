@@ -87,10 +87,12 @@ public class InitDB {
 		user4.setStatuses(allStatus);
 		userService.save(user4);
 		//Payment//
-		Payment payment1 = new Payment("cash");
+		Payment payment1 = new Payment("Cash");
 		paymentService.save(payment1);
-		Payment payment2 = new Payment("visa");
+		Payment payment2 = new Payment("Visa");
 		paymentService.save(payment2);
+		Payment payment3 = new Payment("Post");
+		paymentService.save(payment3);
 		//Delivery//
 		Delivery delivery1 = new Delivery("Russia", "saint-Petersburg", "sizam street", "777");
 		deliveryService.save(delivery1);

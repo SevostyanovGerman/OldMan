@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -57,6 +59,7 @@ public class ManagerController {
 		return model;
 	}
 
+	//Просмотр и редактирование существующего заказа
 	@RequestMapping(value = {"/manager/order/update/{id}"}, method = RequestMethod.GET)
 	public ModelAndView updateOrder(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
@@ -67,6 +70,7 @@ public class ManagerController {
 		model.addObject("masterList", userService.getByRole(3l));   //Как избавиться от 3?
 		model.addObject("newCustomer", new Customer());
 		model.addObject("newDelivery", new Delivery());
+		model.addObject("paymentList", paymentService.getAll());
 		return model;
 	}
 
@@ -109,9 +113,11 @@ public class ManagerController {
 
 	//Добавляем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/order/add"}, method = RequestMethod.GET)
-	public ModelAndView addItem() {
+	public ModelAndView addItem(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerNewOrder");
-		Order order = new Order();
+		Order order = new Order(false, false, new Date(), statusService.get(1L), userService.getCurrentUser());
+		HttpSession session = request.getSession();
+		session.setAttribute("order", order);
 		Item item = new Item();
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", order);
@@ -121,18 +127,26 @@ public class ManagerController {
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.GET)
-	public ModelAndView save(@ModelAttribute("order") Order order, @ModelAttribute("item") Item item) {
-		order.setCreated(new Date());
-		order.setPayment(false);
-		order.setStatus(statusService.getByName("new"));
-		order.setManager(userService.getCurrentUser());
-		order.setPaymentType(paymentService.getByName("Cash"));
-		item.setStatus(false);
+	public ModelAndView saveNewOrder(HttpServletRequest request, @ModelAttribute("item") Item item) {
+		HttpSession session = request.getSession();
+		Order order = (Order) session.getAttribute("order");
 		orderService.save(order);
+		item.setStatus(false);
 		item.setOrder(order);
 		itemService.save(item);
 		Long orderId = order.getId();
+		order.setNumber(orderId.toString());
+		orderService.save(order);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Удаляем заказ
+	@RequestMapping(value = {"/manager/order/delete/{orderId}"}, method = RequestMethod.GET)
+	public ModelAndView deleteOrder(@PathVariable("orderId") Long orderId) {
+		Order order = orderService.get(orderId);
+		orderService.deleteOrder(order);
+		orderService.save(order);
+		return new ModelAndView("redirect:/manager");
 	}
 
 	//Добавляем новую позицию в существующий заказ
@@ -164,6 +178,23 @@ public class ManagerController {
 		itemService.save(item);
 		Long redirectOrderId = order.getId();
 		return new ModelAndView("redirect:/manager/order/update/" + redirectOrderId);
+	}
+
+	//Удаляем позицию из заказа
+	@RequestMapping(value = {"/manager/item/delete/{orderId}/{itemId}"}, method = RequestMethod.GET)
+	public ModelAndView deleteItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
+		itemService.delete(itemId);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Устанавливаем тип оплаты в существующем заказе
+	@RequestMapping(value = {"/manager/order/setPaymentType/{orderId}/{paymentId}"}, method = RequestMethod.GET)
+	public ModelAndView setPaymentType(@PathVariable("orderId") Long orderId, @PathVariable("paymentId") Long paymentId) {
+		Order order = orderService.get(orderId);
+		Payment payment = paymentService.get(paymentId);
+		order.setPaymentType(payment);
+		orderService.save(order);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
 	@RequestMapping(value = {"/manager/order/addcustomer/{orderId}"}, method = RequestMethod.POST)

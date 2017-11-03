@@ -10,45 +10,51 @@
           href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <!-- Setup local bootstrap3 -->
+    <!--<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>-->
 
     <link rel="stylesheet" href="/css/manager.css"/>
 </head>
 
 <body>
-
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
                 	<span class="sr-only">
                 		Toggle navigation
                 	</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div class="collapse navbar-collapse">
-            <div class="col-lg-4">
-                <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                	<span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse">
+                <div class="col-lg-4">
+                    <ul class="nav navbar-nav">
+                        <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h4 style="color: white" align="left"
+                        th:text="${'Заказ № ' + order.getNumber() + ' от ' + order.getCreated()}"></h4>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" th:text="${authUser}">Менеджер</a></li>
+                    <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
                 </ul>
             </div>
-            <div class="col-lg-4">
-                <h4 style="color: white" align="left"
-                    th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4>
-            </div>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" th:text="${authUser}">Менеджер <span class="glyphicon glyphicon-user"></span></a></li>
-                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
-            </ul>
         </div>
-    </div>
-</nav>
+    </nav>
 
 <br>
 <div class="container">
@@ -71,13 +77,13 @@
                             <div class="form-inline">
                                 <div class="input-group">
                                     <span class="input-group-addon customerField"
-                                          th:text="'Дизайнер: ' + ${order?.getDesigner().toString()}"></span>
+                                          th:text="'Дизайнер: ' + ${order?.getDesigner()?.toString()}"></span>
 
                                     <a href="#designerModal" class="form-control" data-toggle="modal">...</a>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon customerField"
-                                          th:text="'Мастер: ' + ${order?.getMaster().toString()}"></span>
+                                          th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"></span>
 
                                     <a href="#masterModal" class="form-control" data-toggle="modal">...</a>
 
@@ -107,8 +113,8 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="item : ${order.getItems()}">
-                                    <td class="table-body" th:text="${item.getId()}">001</td>
+                                <tr th:each="item, stat : ${order.getItems()}">
+                                    <td class="table-body" th:text="${stat.count}">001</td>
                                     <td class="table-body" th:text="${item.getName()}">Чехол</td>
                                     <td class="table-body" th:text="${item.getType()}">Деревянный</td>
                                     <td class="table-body" th:text="${item.getModel()}">Samsung</td>
@@ -121,21 +127,99 @@
                                     </td>
                                     <td align="center">
                                         <a class="btn btn-danger btn-xs"
-                                           th:href="${'/manager/item/delete/' + item.getId()}"><span
+                                           th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}"><span
                                             class="glyphicon glyphicon-trash"></span></a>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
 
-                            <div class="row">
-                                <div class="col-sm-9"></div>
-                                <div class="col-sm-3" align="Right">
-                                    <a class="btn btn-success" title="Добавить позицию к заказу"
-                                       th:href="${'/manager/order/addItem/'+order.getId()}">Добавить</a>
-                                </div>
+                                <div class="row">
+									<div class="col-sm-9">
+                                        <a href="#modalSetPaymentType" class="btn btn-info" data-toggle="modal">Установить тип оплаты</a>
+                                        <a href="#modalSetDesigner" class="btn btn-info" data-toggle="modal">Добавить дизайнера</a>
+                                        <a href="#modalSetMaster" class="btn btn-info" data-toggle="modal">Добавить мастера </a>
+                                    </div>
+                                    <div class="col-sm-3" align="Right">
+                                        <a class="btn btn-success" title="Добавить позицию к заказу" th:href="${'/manager/order/addItem/'+order.getId()}">Новая позиция</a>
+                                    </div>
+
+                                    <div class="col-sm-12">
+                                        <hr/>
+                                        <h4 align="left" th:text="${'Текущий статус: ' +order.getStatus()}">Статус заказа</h4>
+                                        <h4 th:if="${order.getPaymentType()==null}" align="left">Тип оплаты: - </h4>
+                                        <h4 th:if="${order.getPaymentType()!=null}"  th:text="${'Тип оплаты: ' + order.getPaymentType()}" align="left"></h4>
+                                        <h4 th:if="${order.getDesigner()==null}" align="left">Дизайнер: - </h4>
+                                        <h4 th:if="${order.getDesigner()!=null}" th:text="${'Дизайнер: ' + order.getDesigner()}" align="left"></h4>
+                                        <h4 th:if="${order.getMaster()==null}" align="left">Мастер: - </h4>
+                                        <h4 th:if="${order.getMaster()!=null}" th:text="${'Мастер: ' + order.getMaster()}" align="left"></h4>
+                                        <hr/>
+                                    </div>
+								</div>
                             </div>
-                        </div>
+
+                            <!-- МОДАЛЬНЫЕ ОКНА -->
+                            <!-- Установка типа оплаты -->
+                            <div id="modalSetPaymentType" class="modal fade">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 align="center" class="modal-title">Выберите тип оплаты заказа</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <table class="table table-hover noborder">
+                                                <tbody >
+                                                    <tr th:each ="payment : ${paymentList}">
+                                                        <td align="left" th:text="${payment.name}">Наличный</td>
+                                                        <td align="right">
+                                                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                            <!-- Установка дизайнера -->
+                            <div id="modalSetDesigner" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Выберите дизайнера</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>One fine body&hellip;</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
+
+                            <!-- Установка мастера -->
+                            <div id="modalSetMaster" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Выберите мастера</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>One fine body&hellip;</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div><!-- /.modal -->
 
                         <!-- КОММЕНТАРИИ -->
                         <div class="tab-pane" id="tabComments" role="tabpanel">
@@ -150,50 +234,47 @@
                                 <textarea name="area1" style="width: 848px; height: 100px;">
 										Текст комментария
 									</textarea>
-                            </form>
-                            <br/>
-                            <button type="button" class="btn btn-success" data-toggle="tooltip"
-                                    title="Добавить комментарий" style="width: 142px; text-align: center;">
-                                Добавить
-                            </button>
-                            <br/>
-                            <br/>
-                            <form class="form-horizontal"
-                                  style="border: 1px solid #ddd; border-radius: 3px; width: 848px; height: 400px ;padding: 1px 20px 5px;">
-                            </form>
+                    			</form>
+                    			<br/>
+                    			<button type="button" class="btn btn-success" data-toggle="tooltip" title="Добавить комментарий" style="width: 142px; text-align: center;">
+                    				Добавить
+                    			</button>
+                    			<br/>
+                    			<br/>
+                    			<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 3px; width: 848px; height: 400px ;padding: 1px 20px 5px;">
+    							</form>
+                            </div>
 
+							<!-- ИСТОРИЯ ЗАКАЗА -->
+                            <div class="tab-pane" id="tabHistory" role="tabpanel">
+                            	<br>
+                                <table class="table table-bordered data" text-align="center">
+                                    <thead>
+                                        <tr>
+                                            <th class="table-head">№ Заказа</th>
+                                            <th class="table-head">Дата получения</th>
+                                            <th class="table-head">Дата отправки</th>
+                                            <th class="table-head">Статус</th>
+                                            <th class="table-head">Отправитель</th>
+                                            <th class="table-head">Получатель</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each ="history : ${order.getHistories()}">
+                                            <td class="table-body" th:text="${history.getId()}"></td>
+                                            <td class="table-body" th:text="${history.getDateRecievedString()}"></td>
+                                            <td class="table-body" th:text="${history.getDateTransferredString()}"></td>
+                                            <td class="table-body" th:text="${history.getStatus()}"></td>
+                                            <td class="table-body" th:text="${history.getFrom()}"></td>
+                                            <td class="table-body" th:text="${history.getTo()}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-
-                        <!-- ИСТОРИЯ ЗАКАЗА -->
-                        <div class="tab-pane" id="tabHistory" role="tabpanel">
-                            <br>
-                            <table class="table table-bordered data" text-align="center">
-                                <thead>
-                                <tr>
-                                    <th class="table-head">№ Заказа</th>
-                                    <th class="table-head">Дата получения</th>
-                                    <th class="table-head">Дата отправки</th>
-                                    <th class="table-head">Статус</th>
-                                    <th class="table-head">Отправитель</th>
-                                    <th class="table-head">Получатель</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr th:each="history : ${order.getHistories()}">
-                                    <td class="table-body" th:text="${history.getId()}"></td>
-                                    <td class="table-body" th:text="${history.getDateRecievedString()}"></td>
-                                    <td class="table-body" th:text="${history.getDateTransferredString()}"></td>
-                                    <td class="table-body" th:text="${history.getStatus()}"></td>
-                                    <td class="table-body" th:text="${history.getFrom()}"></td>
-                                    <td class="table-body" th:text="${history.getTo()}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
-        </div> <!-- col-lg-9 -->
+                    </fieldset>
+                </form>
+			</div> <!-- col-lg-9 -->
 
 
         <!-- ИНФОРМАЦИЯ О КЛИЕНТЕ -->
@@ -249,7 +330,7 @@
                         </div>
                         <b><div>Адрес доставки:</div></b>
 
-                        <span th:text="${order.getCustomer().getDefaultDelivery()}" id="deliveryField">
+                        <span th:text="${order?.getCustomer()?.getDefaultDelivery()}" id="deliveryField">
                             </span>
 
                     </form>
@@ -283,6 +364,11 @@
     </div>
 </div>
 <br/>
+
+
+
+
+
 
 
 <!-- HTML-код модального окна -->
