@@ -317,8 +317,8 @@
 
 <!-- Выбор дизайнера модального окна -->
 <div id="designerModal" class="modal fade ">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content modal-sm">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
             <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -326,15 +326,24 @@
                     окна</h4>
             </div>
             <!-- Основное содержимое модального окна -->
+
             <div class="modal-body">
 
-                <!--//Заменить на таблицу с js DataTable-->
-                <div th:each="element : ${designerList}" class="form-group">
-                    <form
-                        th:action="'/manager/order/change/' + ${order.getId()} +'/designer/' + ${element.getId()}">
-                        <button class="form-control btn btn-warning" th:text="${element.toString()}"></button>
-                    </form>
-                </div>
+                <table class="form-group" id="designerTableMD">
+                    <thead>
+                    <th>Дизайнер</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="element : ${designerList}">
+                        <td>
+                            <a th:href="'/manager/order/change/' + ${order.getId()} +'/designer/' + ${element.getId()}"
+                                th:text="${element.toString()}"></a>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
 
             </div>
             <!-- Футер модального окна -->
@@ -349,8 +358,8 @@
 
 <!-- Выбор мастера модального окна -->
 <div id="masterModal" class="modal  ">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content modal-sm">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-lg">
             <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -361,10 +370,20 @@
             <div class="modal-body">
 
                 <!--//Заменить на таблицу с js DataTable-->
-                <div th:each="element : ${masterList}" class="form-group">
-                    <form th:action="'/manager/order/change/' + ${order.getId()} +'/master/' + ${element.getId()}">
-                        <button class="form-control btn btn-warning" th:text="${element.toString()}"></button>
-                    </form>
+
+                <table class="form-group" id="masterTableMD">
+                    <thead>
+                    <th>Мастер</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="element : ${masterList}">
+                        <td>
+                            <a th:href="'/manager/order/change/' + ${order.getId()} +'/master/' + ${element.getId()}"
+                               th:text="${element.toString()}"></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 </div>
 
             </div>
@@ -514,6 +533,8 @@
 <!--- end modal -->
 
 
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -531,6 +552,27 @@
 
 
 
+<script>
+
+
+    $('#designerModal').on('shown.bs.modal', function() {
+        //Get the datatable which has previously been initialized
+        var dataTable= $('#designerTableMD').DataTable();
+        //recalculate the dimensions
+        dataTable.columns.adjust().responsive.recalc();
+
+    });
+
+    $('#masterModal').on('shown.bs.modal', function() {
+        //Get the datatable which has previously been initialized
+        var dataTable = $('#masterTableMD').DataTable();
+        //recalculate the dimensions
+        dataTable.columns.adjust().responsive.recalc();
+
+    });
+
+
+</script>
 
 </body>
 </html>
