@@ -19,14 +19,24 @@ function showResult(str)
     {
         if (xmlhttp.status==200)
         {
-            var result = new Array();
+            // result = new Array();
             result = JSON.parse(xmlhttp.response);
 
+
             var list="";
-            for(var i = 0; i<result.length; i++){
-                list =list + "<a onclick="+"choose(this)" + ">"+ result[i].firstName + " " + result[i].secName + "</a>" +"<br>" ;
+            arrayResult = result;
+
+            var count = 10;
+            if (result.length<10) {
+                count = result.length;
+            }
+            for(var i = 0; i<count; i++){
+
+
+                list =list + "<a onclick=selectCustomer("+i+")>"+ result[i].firstName +  " "+ result[i].secName + "</a>" +"<br>" ;
             }
 
+            list=list+"<a href='#' >Показать всех</a>";
             document.getElementById("livesearch").innerHTML=list;
             document.getElementById("livesearch").style.border="1px solid #A5ACB2";
         }

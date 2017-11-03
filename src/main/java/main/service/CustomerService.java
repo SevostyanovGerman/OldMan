@@ -13,4 +13,5 @@ public interface CustomerService {
 	List <Customer> getByName(String name);
 	List <Customer> getAll();
 	List <Customer> searchCustomer(String searchWord);
+	Boolean checkEmail(String email);
 }

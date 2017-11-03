@@ -166,16 +166,13 @@ public class DesignerController {
 	//Удаление картинки дизайнера
 	@RequestMapping(value = {"/designer/order/item/delimage/{id}"}, method = RequestMethod.POST)
 	public ModelAndView delImage(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
-		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
 			Image image = imageService.get(id);
 			imageService.del(image);
-			model.addObject("item", image.getItem());
-			response.sendRedirect("/designer/order/item/" + image.getItem().getId());
+			return new ModelAndView("redirect:/designer/order/item/" + image.getItem().getId());
 		} catch (Exception e) {
 			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", id);
-			model = new ModelAndView("/designerView/DesignerDashBoard");
+			return new ModelAndView("/designerView/DesignerDashBoard");
 		}
-		return model;
 	}
 }

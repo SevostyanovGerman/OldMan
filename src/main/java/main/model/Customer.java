@@ -44,6 +44,7 @@ public class Customer {
 	private List <Order> orders;
 
 	public Customer() {
+		this.deliveries = new ArrayList <>();
 	}
 
 	public Customer(String firstName, String secName, String email, String phone, Delivery deliveries) {
@@ -116,9 +117,32 @@ public class Customer {
 		return this.orders;
 	}
 
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
 	@Override
 	public String toString() {
 		return firstName + " " + secName;
+	}
+
+	public String getDefaultDelivery(){
+		StringBuilder builder = new StringBuilder("");
+		if (this.deliveries != null) {
+			builder.append(this.deliveries.get(0).getCountry());
+			builder.append(" , ");
+			builder.append(this.deliveries.get(0).getCity());
+			builder.append(" , ");
+			builder.append(this.deliveries.get(0).getAddress());
+			builder.append(" , ");
+			builder.append(this.deliveries.get(0).getZip());
+			return builder.toString();
+		}
+		return "";
 	}
 
 	@Override

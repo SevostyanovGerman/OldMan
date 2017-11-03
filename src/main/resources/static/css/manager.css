@@ -20,7 +20,7 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     width: 300px;
-    height: 525px;
+    /*height: 525px;*/
     padding: 1px 20px 5px;
 }
 .customerField{
