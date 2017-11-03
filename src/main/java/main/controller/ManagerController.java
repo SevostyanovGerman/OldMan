@@ -198,17 +198,12 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
+	//Создание нового клиента
 	@RequestMapping(value = {"/manager/order/addcustomer/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView addCustomer(@PathVariable("orderId") Long orderId,
 									@ModelAttribute("newCustomer") Customer customer,
 									@ModelAttribute("newDelivery") Delivery delivery) {
-		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		Order order = orderService.get(orderId);
-		model.addObject("order", order);
-		if (customerService.checkEmail(customer.getEmail()) == false) {
-			model.addObject("error", "Пользователь существует");
-			return new ModelAndView("redirect:/manager/order/update/" + orderId);
-		}
 		try {
 			deliveryService.save(delivery);
 			customerService.save(customer);
@@ -216,26 +211,21 @@ public class ManagerController {
 			order.setCustomer(customer);
 			orderService.save(order);
 		} catch (DataIntegrityViolationException e) {
-			model.addObject("order", order);
-			model.addObject("error", "Пользователь существует");
+			logger.info("Пользователь существует");
 		} catch (Exception e) {
-			model = new ModelAndView("/managerView/ManagerDashBoard");
+			return new ModelAndView("redirect:/manager/order/update/" + orderId);
 		}
-		return model;
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
 	//Выбор/изменения клиента в заказе
-
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
-
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
 									   @ModelAttribute("firstNameField") String fName,
 									   @ModelAttribute("secNameField") String sName,
 									   @ModelAttribute("emailField") String eMail,
 									   @ModelAttribute("phoneField") String phone) {
-
 		Order order = orderService.get(orderId);
-
 		try {
 			Customer customer = customerService.getByEmail(eMail);
 			if (customer == null) {
@@ -251,7 +241,23 @@ public class ManagerController {
 		} catch (Exception e) {
 			logger.error("Ошибка изменения покупателя");
 		}
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
 
+	//Изменение создание адреса доставки
+	@RequestMapping(value = {"/manager/order/editDelivery/{orderId}"}, method = RequestMethod.POST)
+	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
+									   @ModelAttribute("editAddressCountry") String country,
+									   @ModelAttribute("editAddressCity") String city,
+									   @ModelAttribute("editAddressAddress") String address,
+									   @ModelAttribute("editAddressZip") String zip, HttpServletRequest request) {
+		Order order = orderService.get(orderId);
+		Customer customer = order.getCustomer();
+		customer.setCountry(country);
+		customer.setCity(city);
+		customer.setAddress(address);
+		customer.setZip(zip);
+		customerService.save(customer);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 }

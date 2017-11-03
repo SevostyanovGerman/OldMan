@@ -99,9 +99,13 @@ public class InitDB {
 		Delivery delivery2 = new Delivery("Kazahstan", "Almata", "bumbum street", "999");
 		deliveryService.save(delivery2);
 		//Customer//
-		Customer customer1 = new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1);
+		Customer customer1 =
+			new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1, "Russia", "saint-Petersburg",
+				"sizam street", "777");
 		customerService.save(customer1);
-		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
+		Customer customer2 =
+			new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2, "Kazahstan", "Almata", "bumbum street",
+				"999");
 		customerService.save(customer2);
 		//Item//
 		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
@@ -115,19 +119,23 @@ public class InitDB {
 		//Order//
 		Date createDate = new Date();
 		Order order1 =
-			new Order("1", false, false, 100d, createDate, "courier", payment1, status1, customer1, item1, user1, user2,
+			new Order("1", false, false, 100d, createDate, "courier", payment1, status1, customer1, item1, user1,
+				user2,
 				user3);
 		orderService.save(order1);
 		Order order2 =
-			new Order("2", false, false, 100d, createDate, "courier", payment2, status2, customer2, item2, user1, user2,
+			new Order("2", false, false, 100d, createDate, "courier", payment2, status2, customer2, item2, user1,
+				user2,
 				user3);
 		orderService.save(order2);
 		Order order3 =
-			new Order("3", false, false, 100d, createDate, "courier", payment1, status3, customer2, item3, user1, user2,
+			new Order("3", false, false, 100d, createDate, "courier", payment1, status3, customer2, item3, user1,
+				user2,
 				user3);
 		orderService.save(order3);
 		Order order4 =
-			new Order("4", false, false, 100d, createDate, "courier", payment2, status4, customer1, item4, user1, user2,
+			new Order("4", false, false, 100d, createDate, "courier", payment2, status4, customer1, item4, user1,
+				user2,
 				user3);
 		orderService.save(order4);
 	}

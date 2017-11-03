@@ -33,7 +33,7 @@ function showResult(str)
             for(var i = 0; i<count; i++){
 
 
-                list =list + "<a onclick=selectCustomer("+i+")>"+ result[i].firstName +  " "+ result[i].secName + "</a>" +"<br>" ;
+                list =list + "<a onclick=selectCustomer("+i+") style=\"cursor: pointer\">"+ result[i].firstName +  " "+ result[i].secName + "</a>" +"<br>" ;
             }
 
             list=list+"<a href='#' >Показать всех</a>";

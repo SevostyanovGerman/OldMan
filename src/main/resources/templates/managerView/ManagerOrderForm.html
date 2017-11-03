@@ -26,35 +26,35 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
                 	<span class="sr-only">
                 		Toggle navigation
                 	</span>
-                	<span class="icon-bar"></span>
-                	<span class="icon-bar"></span>
-                	<span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse">
-                <div class="col-lg-4">
-                    <ul class="nav navbar-nav">
-                        <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <h4 style="color: white" align="left"
-                        th:text="${'Заказ № ' + order.getNumber() + ' от ' + order.getCreated()}"></h4>
-                </div>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" th:text="${authUser}">Менеджер</a></li>
-                    <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse">
+            <div class="col-lg-4">
+                <ul class="nav navbar-nav">
+                    <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
                 </ul>
             </div>
+            <div class="col-lg-4">
+                <h4 style="color: white" align="left"
+                    th:text="${'Заказ № ' + order.getNumber() + ' от ' + order.getCreated()}"></h4>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" th:text="${authUser}">Менеджер</a></li>
+                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
 <br>
 <div class="container">
@@ -79,25 +79,27 @@
                                     <span class="input-group-addon customerField"
                                           th:text="'Дизайнер: ' + ${order?.getDesigner()?.toString()}"></span>
 
-                                    <a href="#designerModal" class="form-control" data-toggle="modal">...</a>
+                                    <a href="#designerModal" class="form-control btn-info" data-toggle="modal">...</a>
                                 </div>
                                 <div class="input-group">
                                     <span class="input-group-addon customerField"
                                           th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"></span>
 
-                                    <a href="#masterModal" class="form-control" data-toggle="modal">...</a>
+                                    <a href="#masterModal" class="form-control btn-info" data-toggle="modal">...</a>
 
                                 </div>
 
 
                                 <div class="input-group" style="float: right">
 
-
-                                    <a href="#myModal" class="btn btn-info" data-toggle="modal">Отправитьзаказ</a>
+                                     <span class="input-group-addon customerField"
+                                              th:text="'Текущий статус: ' + ${order?.getStatus()}"></span>
+                                    <a href="#myModal" class="btn btn-info" data-toggle="modal" >...</a>
 
                                 </div>
 
                             </div>
+                            <br>
 
                             <table class="table table-bordered data" text-align="center">
                                 <thead>
@@ -134,92 +136,110 @@
                                 </tbody>
                             </table>
 
-                                <div class="row">
-									<div class="col-sm-9">
-                                        <a href="#modalSetPaymentType" class="btn btn-info" data-toggle="modal">Установить тип оплаты</a>
-                                        <a href="#modalSetDesigner" class="btn btn-info" data-toggle="modal">Добавить дизайнера</a>
-                                        <a href="#modalSetMaster" class="btn btn-info" data-toggle="modal">Добавить мастера </a>
-                                    </div>
-                                    <div class="col-sm-3" align="Right">
-                                        <a class="btn btn-success" title="Добавить позицию к заказу" th:href="${'/manager/order/addItem/'+order.getId()}">Новая позиция</a>
-                                    </div>
+                            <div class="row">
+                                <div class="col-sm-9">
+                                    <a href="#modalSetPaymentType" class="btn btn-info" data-toggle="modal">Установить
+                                        тип оплаты</a>
+                                    <a href="#modalSetDesigner" class="btn btn-info" data-toggle="modal">Добавить
+                                        дизайнера</a>
+                                    <a href="#modalSetMaster" class="btn btn-info" data-toggle="modal">Добавить
+                                        мастера </a>
+                                </div>
+                                <div class="col-sm-3" align="Right">
+                                    <a class="btn btn-success" title="Добавить позицию к заказу"
+                                       th:href="${'/manager/order/addItem/'+order.getId()}">Новая позиция</a>
+                                </div>
 
-                                    <div class="col-sm-12">
-                                        <hr/>
-                                        <h4 align="left" th:text="${'Текущий статус: ' +order.getStatus()}">Статус заказа</h4>
-                                        <h4 th:if="${order.getPaymentType()==null}" align="left">Тип оплаты: - </h4>
-                                        <h4 th:if="${order.getPaymentType()!=null}"  th:text="${'Тип оплаты: ' + order.getPaymentType()}" align="left"></h4>
-                                        <h4 th:if="${order.getDesigner()==null}" align="left">Дизайнер: - </h4>
-                                        <h4 th:if="${order.getDesigner()!=null}" th:text="${'Дизайнер: ' + order.getDesigner()}" align="left"></h4>
-                                        <h4 th:if="${order.getMaster()==null}" align="left">Мастер: - </h4>
-                                        <h4 th:if="${order.getMaster()!=null}" th:text="${'Мастер: ' + order.getMaster()}" align="left"></h4>
-                                        <hr/>
-                                    </div>
-								</div>
+                                <div class="col-sm-12">
+                                    <hr/>
+                                    <h4 align="left" th:text="${'Текущий статус: ' +order.getStatus()}">Статус
+                                        заказа</h4>
+                                    <h4 th:if="${order.getPaymentType()==null}" align="left">Тип оплаты: - </h4>
+                                    <h4 th:if="${order.getPaymentType()!=null}"
+                                        th:text="${'Тип оплаты: ' + order.getPaymentType()}" align="left"></h4>
+                                    <h4 th:if="${order.getDesigner()==null}" align="left">Дизайнер: - </h4>
+                                    <h4 th:if="${order.getDesigner()!=null}"
+                                        th:text="${'Дизайнер: ' + order.getDesigner()}" align="left"></h4>
+                                    <h4 th:if="${order.getMaster()==null}" align="left">Мастер: - </h4>
+                                    <h4 th:if="${order.getMaster()!=null}" th:text="${'Мастер: ' + order.getMaster()}"
+                                        align="left"></h4>
+                                    <hr/>
+                                </div>
                             </div>
+                        </div>
 
-                            <!-- МОДАЛЬНЫЕ ОКНА -->
-                            <!-- Установка типа оплаты -->
-                            <div id="modalSetPaymentType" class="modal fade">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 align="center" class="modal-title">Выберите тип оплаты заказа</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <table class="table table-hover noborder">
-                                                <tbody >
-                                                    <tr th:each ="payment : ${paymentList}">
-                                                        <td align="left" th:text="${payment.name}">Наличный</td>
-                                                        <td align="right">
-                                                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Закрыть</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
+                        <!-- МОДАЛЬНЫЕ ОКНА -->
+                        <!-- Установка типа оплаты -->
+                        <div id="modalSetPaymentType" class="modal fade">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 align="center" class="modal-title">Выберите тип оплаты заказа</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <table class="table table-hover noborder">
+                                            <tbody>
+                                            <tr th:each="payment : ${paymentList}">
+                                                <td align="left" th:text="${payment.name}">Наличный</td>
+                                                <td align="right">
+                                                    <a class="btn btn-info btn-xs"
+                                                       th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"
+                                                       title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                                            Закрыть
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
 
-                            <!-- Установка дизайнера -->
-                            <div id="modalSetDesigner" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title">Выберите дизайнера</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>One fine body&hellip;</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
+                        <!-- Установка дизайнера -->
+                        <div id="modalSetDesigner" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">Выберите дизайнера</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>One fine body&hellip;</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
 
-                            <!-- Установка мастера -->
-                            <div id="modalSetMaster" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                            <h4 class="modal-title">Выберите мастера</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>One fine body&hellip;</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal-dialog -->
-                            </div><!-- /.modal -->
+                        <!-- Установка мастера -->
+                        <div id="modalSetMaster" class="modal fade">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            &times;
+                                        </button>
+                                        <h4 class="modal-title">Выберите мастера</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>One fine body&hellip;</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
 
                         <!-- КОММЕНТАРИИ -->
                         <div class="tab-pane" id="tabComments" role="tabpanel">
@@ -234,47 +254,49 @@
                                 <textarea name="area1" style="width: 848px; height: 100px;">
 										Текст комментария
 									</textarea>
-                    			</form>
-                    			<br/>
-                    			<button type="button" class="btn btn-success" data-toggle="tooltip" title="Добавить комментарий" style="width: 142px; text-align: center;">
-                    				Добавить
-                    			</button>
-                    			<br/>
-                    			<br/>
-                    			<form class="form-horizontal" style="border: 1px solid #ddd; border-radius: 3px; width: 848px; height: 400px ;padding: 1px 20px 5px;">
-    							</form>
-                            </div>
-
-							<!-- ИСТОРИЯ ЗАКАЗА -->
-                            <div class="tab-pane" id="tabHistory" role="tabpanel">
-                            	<br>
-                                <table class="table table-bordered data" text-align="center">
-                                    <thead>
-                                        <tr>
-                                            <th class="table-head">№ Заказа</th>
-                                            <th class="table-head">Дата получения</th>
-                                            <th class="table-head">Дата отправки</th>
-                                            <th class="table-head">Статус</th>
-                                            <th class="table-head">Отправитель</th>
-                                            <th class="table-head">Получатель</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each ="history : ${order.getHistories()}">
-                                            <td class="table-body" th:text="${history.getId()}"></td>
-                                            <td class="table-body" th:text="${history.getDateRecievedString()}"></td>
-                                            <td class="table-body" th:text="${history.getDateTransferredString()}"></td>
-                                            <td class="table-body" th:text="${history.getStatus()}"></td>
-                                            <td class="table-body" th:text="${history.getFrom()}"></td>
-                                            <td class="table-body" th:text="${history.getTo()}"></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            </form>
+                            <br/>
+                            <button type="button" class="btn btn-success" data-toggle="tooltip"
+                                    title="Добавить комментарий" style="width: 142px; text-align: center;">
+                                Добавить
+                            </button>
+                            <br/>
+                            <br/>
+                            <form class="form-horizontal"
+                                  style="border: 1px solid #ddd; border-radius: 3px; width: 848px; height: 400px ;padding: 1px 20px 5px;">
+                            </form>
                         </div>
-                    </fieldset>
-                </form>
-			</div> <!-- col-lg-9 -->
+
+                        <!-- ИСТОРИЯ ЗАКАЗА -->
+                        <div class="tab-pane" id="tabHistory" role="tabpanel">
+                            <br>
+                            <table class="table table-bordered data" text-align="center">
+                                <thead>
+                                <tr>
+                                    <th class="table-head">№ Заказа</th>
+                                    <th class="table-head">Дата получения</th>
+                                    <th class="table-head">Дата отправки</th>
+                                    <th class="table-head">Статус</th>
+                                    <th class="table-head">Отправитель</th>
+                                    <th class="table-head">Получатель</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="history : ${order.getHistories()}">
+                                    <td class="table-body" th:text="${history.getId()}"></td>
+                                    <td class="table-body" th:text="${history.getDateRecievedString()}"></td>
+                                    <td class="table-body" th:text="${history.getDateTransferredString()}"></td>
+                                    <td class="table-body" th:text="${history.getStatus()}"></td>
+                                    <td class="table-body" th:text="${history.getFrom()}"></td>
+                                    <td class="table-body" th:text="${history.getTo()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div> <!-- col-lg-9 -->
 
 
         <!-- ИНФОРМАЦИЯ О КЛИЕНТЕ -->
@@ -285,16 +307,19 @@
                     <h4 align="center">Информация о клиенте</h4>
                     <div class="form-group">
 
-                            <input type="text" class="form-control" id="liveText" onkeyup="showResult(this.value)"
-                                   placeholder="Клиент">
-                            <div id="livesearch"></div>
+                        <input type="text" class="form-control" id="liveText" onkeyup="showResult(this.value)"
+                               placeholder="Клиент">
+                        <div id="livesearch"></div>
 
                     </div>
 
                     <form th:action="${'/manager/order/changeCustomer/'+order.getId()}"
                           method="post"
                           id="addCustomer">
-                        <a href="#" onclick="editCustomer()" id="editBtn">Изменить</a>
+                        <div style="text-align: right">
+                            <a href="#" onclick="editCustomer()" id="editBtn" style="text-align: right">Изменить</a>
+
+                        </div>
 
                         <div class="form-group">
 
@@ -302,7 +327,8 @@
 
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
-                                       name="firstNameField" id="firstNameField" readonly="readonly" required="required"  pattern="[A-Za-z]{3,}"/>
+                                       name="firstNameField" id="firstNameField" readonly="readonly" required="required"
+                                       pattern="[A-Za-z]{3,}"/>
 
                             </div>
                         </div>
@@ -310,7 +336,8 @@
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Фамилия:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.secName}"
-                                       name="secNameField" id="secNameField" readonly="readonly" required="required"  pattern="[A-Za-z]{3,}"/>
+                                       name="secNameField" id="secNameField" readonly="readonly" required="required"
+                                       pattern="[A-Za-z]{3,}"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -325,13 +352,25 @@
                                 <span class="input-group-addon customerField">Телефон:</span>
                                 <input type="text" class="form-control customerField"
                                        th:value="${order.customer?.phone}" name="phoneField" id="phoneField"
-                                       readonly="readonly" required="required"  pattern="[0-9]{3,}"/>
+                                       readonly="readonly" required="required" pattern="[0-9]{3,}"/>
                             </div>
                         </div>
-                        <b><div>Адрес доставки:</div></b>
+
+
+                            <div class="form-inline">
+                              <b> <span th:text="'Способ оплаты: ' + ${order.getPaymentType()}"></span></b>
+                                <a href="#modalSetPaymentType"  data-toggle="modal"> Изменить</a>
+                            </div>
+                            <br>
+                        <b>
+                            <div>Адрес доставки:</div>
+                        </b>
 
                         <span th:text="${order?.getCustomer()?.getDefaultDelivery()}" id="deliveryField">
                             </span>
+                        <div style="text-align: right">
+                            <a href="#addressModal"  data-toggle="modal"> Изменить</a>
+                        </div>
 
                     </form>
                     <div class="form-group">
@@ -364,11 +403,6 @@
     </div>
 </div>
 <br/>
-
-
-
-
-
 
 
 <!-- HTML-код модального окна -->
@@ -480,26 +514,28 @@
                 <!-- Форма для регистрации -->
                 <form th:action="${'/manager/order/addcustomer/'+order.getId()}"
                       method="post" th:object="${newCustomer}" class="form-horizontal">
-                    <b><div style="color: #22a9ff;">Информация о клиенте:</div></b>
+                    <b>
+                        <div style="color: #22a9ff;">Информация о клиенте:</div>
+                    </b>
                     <br>
                     <!-- Блок для ввода логина -->
                     <div class="form-group has-feedback">
-                        <label  class="control-label col-xs-3">Имя:</label>
+                        <label class="control-label col-xs-3">Имя:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" required="required"  pattern="[A-Za-z]{3,}"
+                                <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
                                        th:field="*{firstName}">
                             </div>
                             <span class="glyphicon form-control-feedback"></span>
                         </div>
                     </div>
                     <div class="form-group has-feedback">
-                        <label  class="control-label col-xs-3">Фамилия:</label>
+                        <label class="control-label col-xs-3">Фамилия:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" required="required"  pattern="[A-Za-z]{3,}"
+                                <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
                                        th:field="*{secName}">
                             </div>
                             <span class="glyphicon form-control-feedback"></span>
@@ -512,7 +548,7 @@
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
                                 <input type="email" class="form-control" required="required"
-                                       onkeyup="checkUser(this.value)"  th:field="*{email}">
+                                       onkeyup="checkUser(this.value)" th:field="*{email}">
                             </div>
                             <span class="glyphicon form-control-feedback"></span>
                         </div>
@@ -521,67 +557,70 @@
                     <!-- Конец блока для ввода email-->
 
                     <div class="form-group has-feedback">
-                        <label  class="control-label col-xs-3">Телефон:</label>
+                        <label class="control-label col-xs-3">Телефон:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" required="required"  pattern="[0-9]{3,12}"
+                                <input type="text" class="form-control" required="required" pattern="[0-9]{3,12}"
                                        th:field="*{phone}">
                             </div>
                             <span class="glyphicon form-control-feedback"></span>
                         </div>
                     </div>
 
-                   <b><div style="color: #22a9ff;">Адрес доставки:</div></b>
+                    <b>
+                        <div style="color: #22a9ff;">Адрес доставки:</div>
+                    </b>
                     <br>
                     <div th:object="${newDelivery}">
-                    <div class="form-group has-feedback">
-                        <label  class="control-label col-xs-3">Страна:</label>
-                        <div class="col-xs-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" required="required"  pattern="[A-Za-z]{3,}"
-                                       th:field="*{country}">
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Страна:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
+                                           th:field="*{country}">
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
                             </div>
-                            <span class="glyphicon form-control-feedback"></span>
                         </div>
-                    </div>
 
-                    <div class="form-group has-feedback">
-                        <label  class="control-label col-xs-3">Город:</label>
-                        <div class="col-xs-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" required="required"  pattern="[A-Za-z]{3,}"
-                                       th:field="*{city}">
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Город:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
+                                           th:field="*{city}">
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
                             </div>
-                            <span class="glyphicon form-control-feedback"></span>
                         </div>
-                    </div>
 
-                    <div class="form-group has-feedback">
-                        <label  class="control-label col-xs-3">Адрес:</label>
-                        <div class="col-xs-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" required="required"  pattern="[A-Za-z,0-9]{3,}"
-                                       th:field="*{address}">
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Адрес:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required"
+                                           pattern="[a-zA-Z0-9\s]+{3,}"
+                                           th:field="*{address}">
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
                             </div>
-                            <span class="glyphicon form-control-feedback"></span>
                         </div>
-                    </div>
 
-                    <div class="form-group has-feedback">
-                        <label  class="control-label col-xs-3">Индекс:</label>
-                        <div class="col-xs-6">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" class="form-control" required="required"  pattern="[0-9]{3,}"
-                                       th:field="*{zip}">
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Индекс:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required" pattern="[0-9]{3,}"
+                                           th:field="*{zip}">
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
                             </div>
-                            <span class="glyphicon form-control-feedback"></span>
                         </div>
-                    </div>
 
                     </div>
 
@@ -600,6 +639,96 @@
 <!--- end modal -->
 
 
+<!--Адрес доставки модального окна -->
+<div id="addressModal" class="modal  ">
+    <div class="modal-dialog ">
+        <div class="modal-content ">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" th:text="'Текущий статус: ' + ${order.getStatus()}">Заголовок модального
+                    окна</h4>
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+
+                <!-- Форма для изменения адреса -->
+                <form th:action="${'/manager/order/editDelivery/'+ order.getId()}"
+                      method="post"  class="form-horizontal" th:object="${order.customer}" >
+
+                    <b>
+                        <div style="color: #22a9ff;">Адрес доставки:</div>
+                    </b>
+                    <br>
+                    <div>
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Страна:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}"
+                                            name="editAddressCountry"
+                                           th:value="${order?.getCustomer()?.getCountry()}"  >
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Город:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}"
+                                           name="editAddressCity"  th:value="${order?.getCustomer()?.getCity()}">
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Адрес:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required"
+                                           pattern="[a-zA-Z0-9\s]+{3,}"
+                                            name="editAddressAddress"
+                                           th:value="${order?.getCustomer()?.getAddress()}" />
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback">
+                            <label class="control-label col-xs-3">Индекс:</label>
+                            <div class="col-xs-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input type="text" class="form-control" required="required" pattern="[0-9]{3,}"
+                                        name="editAddressZip" th:value="${order?.getCustomer()?.getZip()}">
+                                </div>
+                                <span class="glyphicon form-control-feedback"></span>
+                            </div>
+                        </div>
+
+                    </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-default" id="editAdressBtn" >Создать</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+
+            </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+
+<!--- end modal -->
+
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -613,9 +742,6 @@
 <!--Sorting table-->
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
-
-
-
 
 
 </body>

@@ -31,6 +31,18 @@ public class Customer {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
+	@Column(name = "country")
+	private String country;
+
+	@Column(name = "city")
+	private String city;
+
+	@Column(name = "address")
+	private String address;
+
+	@Column(name = "zip")
+	private String zip;
+
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "keys_customer_delivery", joinColumns = {@JoinColumn(name = "customer_id")},
@@ -47,7 +59,8 @@ public class Customer {
 		this.deliveries = new ArrayList <>();
 	}
 
-	public Customer(String firstName, String secName, String email, String phone, Delivery deliveries) {
+	public Customer(String firstName, String secName, String email, String phone, Delivery deliveries, String country,
+					String city, String address, String zip) {
 		this.firstName = firstName;
 		this.secName = secName;
 		this.email = email;
@@ -59,6 +72,10 @@ public class Customer {
 		} else {
 			this.deliveries.add(deliveries);
 		}
+		this.country = country;
+		this.city = city;
+		this.address = address;
+		this.zip = zip;
 	}
 
 	public Long getId() {
@@ -130,19 +147,48 @@ public class Customer {
 		return firstName + " " + secName;
 	}
 
-	public String getDefaultDelivery(){
+	public String getDefaultDelivery() {
 		StringBuilder builder = new StringBuilder("");
-		if (this.deliveries != null) {
-			builder.append(this.deliveries.get(0).getCountry());
-			builder.append(" , ");
-			builder.append(this.deliveries.get(0).getCity());
-			builder.append(" , ");
-			builder.append(this.deliveries.get(0).getAddress());
-			builder.append(" , ");
-			builder.append(this.deliveries.get(0).getZip());
-			return builder.toString();
-		}
-		return "";
+		builder.append(this.country);
+		builder.append(" , ");
+		builder.append(this.city);
+		builder.append(" , ");
+		builder.append(this.address);
+		builder.append(" , ");
+		builder.append(this.zip);
+		return builder.toString();
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
 	@Override
@@ -155,7 +201,14 @@ public class Customer {
 		if (secName != null ? !secName.equals(customer.secName) : customer.secName != null) return false;
 		if (email != null ? !email.equals(customer.email) : customer.email != null) return false;
 		if (phone != null ? !phone.equals(customer.phone) : customer.phone != null) return false;
-		return deliveries != null ? deliveries.equals(customer.deliveries) : customer.deliveries == null;
+		if (creationDate != null ? !creationDate.equals(customer.creationDate) : customer.creationDate != null)
+			return false;
+		if (country != null ? !country.equals(customer.country) : customer.country != null) return false;
+		if (city != null ? !city.equals(customer.city) : customer.city != null) return false;
+		if (address != null ? !address.equals(customer.address) : customer.address != null) return false;
+		if (zip != null ? !zip.equals(customer.zip) : customer.zip != null) return false;
+		if (deliveries != null ? !deliveries.equals(customer.deliveries) : customer.deliveries != null) return false;
+		return orders != null ? orders.equals(customer.orders) : customer.orders == null;
 	}
 
 	@Override
@@ -165,7 +218,13 @@ public class Customer {
 		result = 31 * result + (secName != null ? secName.hashCode() : 0);
 		result = 31 * result + (email != null ? email.hashCode() : 0);
 		result = 31 * result + (phone != null ? phone.hashCode() : 0);
+		result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
+		result = 31 * result + (country != null ? country.hashCode() : 0);
+		result = 31 * result + (city != null ? city.hashCode() : 0);
+		result = 31 * result + (address != null ? address.hashCode() : 0);
+		result = 31 * result + (zip != null ? zip.hashCode() : 0);
 		result = 31 * result + (deliveries != null ? deliveries.hashCode() : 0);
+		result = 31 * result + (orders != null ? orders.hashCode() : 0);
 		return result;
 	}
 }
