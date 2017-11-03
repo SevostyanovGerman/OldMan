@@ -189,7 +189,8 @@ public class ManagerController {
 
 	//Устанавливаем тип оплаты в существующем заказе
 	@RequestMapping(value = {"/manager/order/setPaymentType/{orderId}/{paymentId}"}, method = RequestMethod.GET)
-	public ModelAndView setPaymentType(@PathVariable("orderId") Long orderId, @PathVariable("paymentId") Long paymentId) {
+	public ModelAndView setPaymentType(@PathVariable("orderId") Long orderId,
+									   @PathVariable("paymentId") Long paymentId) {
 		Order order = orderService.get(orderId);
 		Payment payment = paymentService.get(paymentId);
 		order.setPaymentType(payment);
@@ -233,6 +234,9 @@ public class ManagerController {
 		Order order = orderService.get(orderId);
 		try {
 			Customer customer = customerService.getByEmail(eMail);
+			if (customer == null) {
+				customer = order.getCustomer();
+			}
 			customer.setFirstName(fName);
 			customer.setSecName(sName);
 			customer.setEmail(eMail);
