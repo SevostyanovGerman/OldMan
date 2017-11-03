@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +47,7 @@ public class DirectorController {
 		try {
 			model.addObject("orders", orderService.getAll());
 		} catch (Exception e) {
-			logger.error("Can\'t get all orders", e);
+			logger.error("Can\'t getById all orders", e);
 		}
 		return model;
 	}
@@ -59,7 +58,7 @@ public class DirectorController {
 		try {
 			model.addObject("stuff", userService.getAllUsers());
 		} catch (Exception e) {
-			logger.error("Can\'t get stuff list", e);
+			logger.error("Can\'t getById stuff list", e);
 		}
 		return model;
 	}
@@ -99,7 +98,7 @@ public class DirectorController {
 			model.addObject("statuses", statusService.getAll());
 			model.addObject("newstatus", new Status());
 		} catch (Exception e) {
-			logger.error("Can\'t get status list", e);
+			logger.error("Can\'t getById status list", e);
 		}
 
 		return model;
@@ -177,9 +176,9 @@ public class DirectorController {
 
 		Status deletedStatus = null;
 		try {
-			deletedStatus = statusService.get(id);
+			deletedStatus = statusService.getById(id);
 		} catch (Exception e){
-			logger.error("Can\'t get status with id: ", id);
+			logger.error("Can\'t getById status with id: ", id);
 			String error = "Ошибка при запросе статуса c id: " + id + " из базы данных";
 			request.getSession().setAttribute("error", error);
 		}
@@ -228,7 +227,7 @@ public class DirectorController {
 			model.addObject("roles", roleService.getAll());
 			model.addObject("newrole", new Role());
 		} catch (Exception e) {
-			logger.error("Can\'t get role list", e);
+			logger.error("Can\'t getById role list", e);
 		}
 
 		return model;
@@ -308,7 +307,7 @@ public class DirectorController {
 		try {
 			deletedRole = roleService.get(id);
 		} catch (Exception e){
-			logger.error("Can\'t get role with id: ", id);
+			logger.error("Can\'t getById role with id: ", id);
 			String error = "Ошибка при запросе роли c id: " + id + " из базы данных";
 			request.getSession().setAttribute("error", error);
 		}
