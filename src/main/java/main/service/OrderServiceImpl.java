@@ -73,12 +73,13 @@ public class OrderServiceImpl implements OrderService {
 	public Order nextStatus(Long orderId) {
 		Date date = new Date();
 		Order order = orderService.get(orderId);
-		Long currentStatus = order.getStatus().getId();
+		Long currentStatus = order.getStatus().getNumber();
 		Status nextStatus = statusService.get(currentStatus + 1l);
 		order.setStatus(nextStatus);
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
+		order = setAllStatusItemFalse(order);
 		orderService.save(order);
 		return order;
 	}
@@ -87,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
 	public Order previousStatus(Long orderId) {
 		Date date = new Date();
 		Order order = orderService.get(orderId);
-		Long currentStatus = order.getStatus().getId();
+		Long currentStatus = order.getStatus().getNumber();
 		if (currentStatus > 1) {
 			Status nextStatus = statusService.get(currentStatus - 1l);
 			order.setStatus(nextStatus);
@@ -95,6 +96,7 @@ public class OrderServiceImpl implements OrderService {
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
+		order = setAllStatusItemFalse(order);
 		orderService.save(order);
 		return order;
 	}
@@ -139,7 +141,16 @@ public class OrderServiceImpl implements OrderService {
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
+		order = setAllStatusItemFalse(order);
 		orderService.save(order);
+		return order;
+	}
+
+	@Override
+	public Order setAllStatusItemFalse(Order order) {
+		for (int i = 0; i < order.getItems().size(); i++) {
+			order.getItems().get(i).setStatus(false);
+		}
 		return order;
 	}
 

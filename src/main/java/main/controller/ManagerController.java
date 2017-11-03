@@ -156,6 +156,7 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
+	// Создание клиента и адреса доставки
 	@RequestMapping(value = {"/manager/order/addcustomer/{id}"}, method = RequestMethod.POST)
 	public ModelAndView addCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
@@ -183,6 +184,7 @@ public class ManagerController {
 		} catch (Exception e) {
 			model = new ModelAndView("/managerView/ManagerDashBoard");
 		}
+		model.addObject("statuses", statusService.getAll());
 		return model;
 	}
 }

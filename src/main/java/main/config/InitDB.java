@@ -44,17 +44,17 @@ public class InitDB {
 	@PostConstruct
 	public void createDB() {
 		//Status//
-		Status status1 = new Status("new");
+		Status status1 = new Status("new", 1l);
 		statusService.save(status1);
-		Status status2 = new Status("design");
+		Status status2 = new Status("design", 2l);
 		statusService.save(status2);
-		Status status3 = new Status("design done");
+		Status status3 = new Status("design done", 3l);
 		statusService.save(status3);
-		Status status4 = new Status("production");
+		Status status4 = new Status("production", 4l);
 		statusService.save(status4);
-		Status status5 = new Status("delivery");
+		Status status5 = new Status("delivery", 5l);
 		statusService.save(status5);
-		Status status6 = new Status("finish");
+		Status status6 = new Status("finish", 6l);
 		statusService.save(status6);
 		//Роли//
 		Role role1 = new Role("MANAGER", "/manager/");
@@ -72,7 +72,7 @@ public class InitDB {
 		allStatus.add(status3);
 		allStatus.add(status4);
 		allStatus.add(status5);
-		allStatus.add(status1);
+		allStatus.add(status6);
 		User user1 = new User("manager", "123", "Donald", "Tramp", 0, 0, role1);
 		user1.setStatuses(allStatus);
 		user1.getStatuses().add(status1);
@@ -81,7 +81,7 @@ public class InitDB {
 		user2.getStatuses().add(status2);
 		userService.save(user2);
 		User user3 = new User("master", "123", "Papa", "Carlo", 0, 0, role3);
-		user3.getStatuses().add(status3);
+		user3.getStatuses().add(status4);
 		userService.save(user3);
 		User user4 = new User("boss", "123", "Hugo", "Boss", 0, 0, role4);
 		user4.setStatuses(allStatus);

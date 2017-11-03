@@ -8,16 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
-import java.sql.Blob;
 import java.util.Date;
-import java.util.Map;
 
 @Controller
 public class DesignerController {
@@ -47,6 +43,7 @@ public class DesignerController {
 		this.userService = userService;
 	}
 
+	//Designer dashboard
 	@RequestMapping(value = {"/designer"}, method = RequestMethod.GET)
 	public ModelAndView designer() {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
@@ -58,6 +55,7 @@ public class DesignerController {
 		return model;
 	}
 
+	//Order page
 	@RequestMapping(value = {"/designer/order/{id}"}, method = RequestMethod.GET)
 	public ModelAndView order(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
@@ -70,6 +68,7 @@ public class DesignerController {
 		return model;
 	}
 
+	//Item page
 	@RequestMapping(value = {"/designer/order/item/{id}"}, method = RequestMethod.GET)
 	public ModelAndView item(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
@@ -82,6 +81,7 @@ public class DesignerController {
 		return model;
 	}
 
+	//Search page DEPRECATED
 	@RequestMapping(value = {"/designer/{search}"}, method = RequestMethod.POST)
 	public ModelAndView search(@PathVariable("search") String search) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
@@ -94,6 +94,7 @@ public class DesignerController {
 		return model;
 	}
 
+	//Изменение статуса товара
 	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
 	public ModelAndView save(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
@@ -104,34 +105,19 @@ public class DesignerController {
 		return model;
 	}
 
+	//Загрузка файлов
 	@RequestMapping(value = "/uploadFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
 	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		String name = "drop";
-		Item item = itemService.get(id);
-		for (Map.Entry <String, MultipartFile> set : multipartRequest.getFileMap().entrySet()) {
-			MultipartFile file = set.getValue();
-			if (!file.isEmpty()) {
-				try {
-					name = file.getOriginalFilename();
-					byte[] bytes = file.getBytes();
-					Image image = new Image();
-					Blob blob = new SerialBlob(bytes);
-					image.setImage(blob);
-					imageService.save(image);
-					item.getImages().add(image);
-					itemService.save(item);
-					logger.info("Вы удачно загрузили файл {}", name);
-				} catch (Exception e) {
-					logger.info("Ошибка при загрузке файла");
-				}
-			}
+		if (imageService.saveBlobImage(multipartRequest, id)) {
+			return "Вы удачно загрузили файлы";
 		}
-		return "Вы удачно загрузили " + name + " в " + name + "-uploaded !";
+		return "Ошибка при загрузке файлов";
 	}
 
+	//Смена статуса заказа
 	@RequestMapping(value = {"/designer/send/order={id}"}, method = RequestMethod.POST)
 	public ModelAndView send(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
@@ -144,6 +130,7 @@ public class DesignerController {
 		return model;
 	}
 
+	//Добавление комментария
 	@RequestMapping(value = {"/designer/order/comment/add={id}"}, method = RequestMethod.POST)
 	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
@@ -158,6 +145,7 @@ public class DesignerController {
 		return model;
 	}
 
+	//Добавление ответа на комментарий
 	@RequestMapping(value = {"/designer/order/comment/sub/{id}"}, method = RequestMethod.POST)
 	public ModelAndView subComment(@PathVariable Long id, HttpServletRequest request) {
 		Long commentId = Long.parseLong(request.getParameter("commentBtnOrder"));
@@ -175,6 +163,7 @@ public class DesignerController {
 		return model;
 	}
 
+	//Удаление картинки дизайнера
 	@RequestMapping(value = {"/designer/order/item/delimage/{id}"}, method = RequestMethod.POST)
 	public ModelAndView delImage(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
