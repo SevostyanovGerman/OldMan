@@ -32,6 +32,7 @@ public class RoleServiceImpl implements RoleService {
 	public Role get(Long id) {
 		logger.debug("Searching role with id: {}", id);
 		return roleRepository.findOne(id);
+	}
 
 	public Role getByName(String name) {
 		logger.debug("Searching role with name: {}", name);

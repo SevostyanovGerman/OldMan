@@ -22,6 +22,15 @@ public class Role implements GrantedAuthority {
 	@Column(name = "deleted")
 	private boolean deleted;
 
+	public Role(){
+
+	}
+
+	public Role(String name, String url){
+		this.name = name;
+		this.url = url;
+	}
+
 	public String getUrl() {
 		return url;
 	}

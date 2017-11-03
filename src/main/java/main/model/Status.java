@@ -23,10 +23,6 @@ public class Status {
 	@Column(name = "deleted")
 	private boolean deleted;
 
-	public Long getNumber() {
-		return number;
-	}
-
 	public void setNumber(Long number) {
 		this.number = number;
 	}
@@ -38,11 +34,6 @@ public class Status {
 		this.name = name;
 		this.number = number;
 	}
-
-	private long number;
-
-	@Column(name = "deleted")
-	private boolean deleted;
 
 	public long getId() {
 		return id;
@@ -78,7 +69,7 @@ public class Status {
 
 	@Override
 	public String toString() {
-		return "id: " + this.id + ", название: " + this.name;
+		return this.name;
 	}
 
 	@Override

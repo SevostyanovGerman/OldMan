@@ -227,7 +227,7 @@ public class ManagerController {
 
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
 
-	public ModelAndView changeCustomer(@PathVariable(“orderId”) Long orderId,
+	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
 									   @ModelAttribute("firstNameField") String fName,
 									   @ModelAttribute("secNameField") String sName,
 									   @ModelAttribute("emailField") String eMail,
