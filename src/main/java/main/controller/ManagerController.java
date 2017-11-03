@@ -225,13 +225,17 @@ public class ManagerController {
 	}
 
 	//Выбор/изменения клиента в заказе
+
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
+
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
 									   @ModelAttribute("firstNameField") String fName,
 									   @ModelAttribute("secNameField") String sName,
 									   @ModelAttribute("emailField") String eMail,
 									   @ModelAttribute("phoneField") String phone) {
+
 		Order order = orderService.get(orderId);
+
 		try {
 			Customer customer = customerService.getByEmail(eMail);
 			if (customer == null) {
@@ -245,7 +249,9 @@ public class ManagerController {
 			order.setCustomer(customer);
 			orderService.save(order);
 		} catch (Exception e) {
+			logger.error("Ошибка изменения покупателя");
 		}
+
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 }

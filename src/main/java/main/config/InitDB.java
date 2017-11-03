@@ -63,7 +63,7 @@ public class InitDB {
 		roleService.save(role2);
 		Role role3 = new Role("MASTER", "/master/");
 		roleService.save(role3);
-		Role role4 = new Role("BOSS", "/boss/");
+		Role role4 = new Role("BOSS", "/director/");
 		roleService.save(role4);
 		//Пользователи//
 		HashSet <Status> allStatus = new HashSet <>();

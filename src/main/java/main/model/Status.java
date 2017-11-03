@@ -1,6 +1,9 @@
 package main.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 @Table(name = "statuses")
@@ -11,15 +14,14 @@ public class Status {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "name", nullable = false, unique = true)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "number")
-	private Long number;
+	private long number;
 
-	public Long getNumber() {
-		return number;
-	}
+	@Column(name = "deleted")
+	private boolean deleted;
 
 	public void setNumber(Long number) {
 		this.number = number;
@@ -49,26 +51,45 @@ public class Status {
 		this.name = name;
 	}
 
+	public boolean getDeleted(){
+		return this.deleted;
+	}
+
+	public void setDeleted(boolean deleted){
+		this.deleted = deleted;
+	}
+
+	public long getNumber(){
+		return  this.number;
+	}
+
+	public void setNumber(long number){
+		this.number = number;
+	}
+
 	@Override
 	public String toString() {
-		return name;
+		return this.name;
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if ( (o == null) || (getClass() != o.getClass()) ) return false;
 		Status status = (Status) o;
-		if (id != status.id) return false;
-		if (name != null ? !name.equals(status.name) : status.name != null) return false;
-		return number != null ? number.equals(status.number) : status.number == null;
+
+		if(!Objects.equals(this.id, status.id)) return false;
+		if(!Objects.equals(this.name, status.name)) return false;
+		if(!Objects.equals(this.number, status.number)) return false;
+		return Objects.equals(this.deleted, status.deleted);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = (int) (id ^ (id >>> 32));
-		result = 31 * result + (name != null ? name.hashCode() : 0);
-		result = 31 * result + (number != null ? number.hashCode() : 0);
+		result = 42 * result + Objects.hashCode(this.name);
+		result = 42 * result + Objects.hashCode(this.number);
+		result = 42 * result + Objects.hashCode(this.deleted);
 		return result;
 	}
 }
