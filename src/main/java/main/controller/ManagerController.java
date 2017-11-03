@@ -62,6 +62,8 @@ public class ManagerController {
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
 		model.addObject("statuses", statusService.getAll());
+		model.addObject("designerList", userService.getByRole(2l)); // Как избавиться от 2?
+		model.addObject("masterList", userService.getByRole(3l));   //Как избавиться от 3?
 		return model;
 	}
 
@@ -69,7 +71,7 @@ public class ManagerController {
 	public ModelAndView sendOrder(@PathVariable Long id) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("order", orderService.nextStatus(id));
-		return new ModelAndView("redirect:/manager");
+		return new ModelAndView("redirect:/manager/");
 	}
 
 	//Меняем статус заказа на новый
@@ -77,7 +79,29 @@ public class ManagerController {
 	public ModelAndView sendOrderTo(@PathVariable("id") Long id, @PathVariable("statusId") Long statusId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("order", orderService.changeStatusTo(id, statusId));
-		return new ModelAndView("redirect:/manager");
+		return new ModelAndView("redirect:/manager/order/update/" + id);
+	}
+
+	//Меняем дизайнера заказа
+	@RequestMapping(value = {"/manager/order/change/{id}/designer/{designerId}"}, method = RequestMethod.GET)
+	public ModelAndView changeDesigner(@PathVariable("id") Long id, @PathVariable("designerId") Long designerId) {
+		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
+		Order order = orderService.get(id);
+		User designer = userService.get(designerId);
+		order.setDesigner(designer);
+		orderService.save(order);
+		return new ModelAndView("redirect:/manager/order/update/" + id);
+	}
+
+	//Меняем мастера заказа
+	@RequestMapping(value = {"/manager/order/change/{id}/master/{masterId}"}, method = RequestMethod.GET)
+	public ModelAndView changeMaster(@PathVariable("id") Long id, @PathVariable("masterId") Long masterId) {
+		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
+		Order order = orderService.get(id);
+		User master = userService.get(masterId);
+		order.setMaster(master);
+		orderService.save(order);
+		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
 	//Добавляем новый заказ с новой позицией
