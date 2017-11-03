@@ -10,13 +10,13 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}" href="/css/bootstrap-theme.min.css"/>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
-
+    <script type="text/javascript" th:src="@{/js/masterScript.js}"></script>
 </head>
 
 <body>
@@ -47,49 +47,10 @@
 		</div>
 	</div>
 </nav>
-
 <div class="container">
     <h4>find orders by range</h4>
-    <input type="text" name="datefilter" value="" />
+    <input type="text" name="datefilter"  value="" />
 
-    <script type="text/javascript">
-        $(function() {
-
-            $('input[name="datefilter"]').daterangepicker({
-                autoUpdateInput: false,
-                locale: {
-                    cancelLabel: 'Clear'
-                }
-            });
-
-            $('input[name="datefilter"]').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-
-                var data = {
-                    startDate: picker.startDate.format('MM/DD/YYYY'),
-                    endDate: picker.endDate.format('MM/DD/YYYY')
-                };
-
-                $.ajax({
-                   type: "POST",
-                   data:  data,
-                   url: "/master/ordersByRange",
-                   success: function(result) {
-                       console.log("success");
-                   },
-                    error: function (result) {
-                        console.log(result);
-                    }
-                });
-            });
-
-
-            $('input[name="datefilter"]').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-
-        });
-    </script>
 </div>
 
 <br>
@@ -113,7 +74,7 @@
 <div class="container">
 	<div class="table-responsive">
 		<table class="table table-bordered data" text-align="center" id="example">
-			<thead>
+			<thead id="ex_head">
 			<tr>
 				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
 				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Мастер</th>
@@ -125,7 +86,7 @@
 				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Действие</th>
 			</tr>
 			</thead>
-			<tbody>
+			<tbody id="ex_body">
 			<tr th:each="order : ${masterOrders}">
 				<td th:text="${order.getId()}" style="text-align: center;"></td>
 				<td th:text="${order.master}" style="text-align: center;"></td>

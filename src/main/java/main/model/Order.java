@@ -1,5 +1,6 @@
 package main.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -53,46 +54,55 @@ public class Order {
 	@OneToOne(fetch = FetchType.EAGER, targetEntity = Payment.class)
 	@JoinTable(name = "keys_order_payment", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "payment_id")})
+	@JsonBackReference
 	private Payment paymentType;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Status.class)
 	@JoinTable(name = "keys_order_status", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "status_id")})
+	@JsonBackReference
 	private Status status;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Comment.class)
 	@JoinTable(name = "keys_order_comment", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "comment_id")})
+	@JsonBackReference
 	private List <Comment> comments;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
 	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "item_id")})
+	@JsonBackReference
 	private List <Item> items;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
 	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "customer_id")})
+	@JsonBackReference
 	private Customer customer;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = History.class)
 	@JoinTable(name = "keys_order_history", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "history_id")})
+	@JsonBackReference
 	private List <History> histories;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinTable(name = "keys_order_manager", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "manager_id")})
+	@JsonBackReference
 	private User manager;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinTable(name = "keys_order_master", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "master_id")})
+	@JsonBackReference
 	private User master;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinTable(name = "keys_order_designer", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "designer_id")})
+	@JsonBackReference
 	private User designer;
 
 	public Order() {
