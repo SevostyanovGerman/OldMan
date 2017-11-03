@@ -13,15 +13,33 @@ import java.util.List;
 @Transactional
 public class RoleServiceImpl implements RoleService {
 
-	@Autowired
+	private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+
 	private RoleRepository roleRepository;
 
-	private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+	@Autowired
+	public RoleServiceImpl(RoleRepository roleRepository){
+		this.roleRepository = roleRepository;
+	}
+
+	@Override
+	public Role getById(Long id) {
+		logger.debug("Searching role with id: {}", id);
+		return roleRepository.getById(id);
+	}
 
 	@Override
 	public Role get(Long id) {
 		logger.debug("Searching role with id: {}", id);
 		return roleRepository.findOne(id);
+
+	public Role getByName(String name) {
+		logger.debug("Searching role with name: {}", name);
+		Role searchingRole = roleRepository.getByNameAndDeleted(name, false);
+		if(searchingRole == null){
+			logger.debug("Role {} not found", name);
+		}
+		return searchingRole;
 	}
 
 	public Role save(Role role) {
@@ -36,7 +54,14 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List <Role> getAll() {
-		return roleRepository.findAll();
+	public List<Role> getAll() {
+		logger.debug("Getting list statuses.");
+		List<Role> listRole = roleRepository.getAllByDeleted(false);
+		if (listRole.size() > 0) {
+			logger.debug("The resulting list");
+		} else {
+			logger.debug("The list is empty");
+		}
+		return listRole;
 	}
 }

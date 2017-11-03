@@ -2,6 +2,7 @@ package main.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
@@ -18,13 +19,8 @@ public class Role implements GrantedAuthority {
 	@Column(name = "def_url")
 	private String url;
 
-	public Role() {
-	}
-
-	public Role(String name, String url) {
-		this.name = name;
-		this.url = url;
-	}
+	@Column(name = "deleted")
+	private boolean deleted;
 
 	public String getUrl() {
 		return url;
@@ -60,19 +56,32 @@ public class Role implements GrantedAuthority {
 		this.name = name;
 	}
 
+	public boolean getDeleted(){
+		return this.deleted;
+	}
+
+	public void setDeleted(boolean deleted){
+		this.deleted = deleted;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if ( (o == null) || (getClass() != o.getClass()) ) return false;
 		Role role = (Role) o;
-		if (id != role.id) return false;
-		return name != null ? name.equals(role.name) : role.name == null;
+
+		if(!Objects.equals(this.id, role.id)) return false;
+		if(!Objects.equals(this.name, role.name)) return false;
+		if(!Objects.equals(this.url, role.url)) return false;
+		return Objects.equals(this.deleted, role.deleted);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = (int) (id ^ (id >>> 32));
-		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 42 * result + Objects.hashCode(this.name);
+		result = 42 * result + Objects.hashCode(this.url);
+		result = 42 * result + Objects.hashCode(this.deleted);
 		return result;
 	}
 }
