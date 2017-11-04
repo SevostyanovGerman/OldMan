@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/masterComment.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
     <!-- Optional theme -->
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <!-- JavaScript libraries-->
@@ -100,7 +100,89 @@
                     </form>
                 </div>
                 <div id="comment" class="tab-pane fade, col-lg-9">
-                    <h3>Комментарии</h3>
+                    <ul class="comment-section">
+
+                        <li class="comment user-comment">
+
+                            <div class="info">
+                                <a href="#">Anie Silverston</a>
+                                <span>4 hours ago</span>
+                            </div>
+
+                            <a class="avatar" href="#">
+                                <img src="/images/avatar_user_1.jpg" width="35" alt="Profile Avatar" title="Anie Silverston" />
+                            </a>
+
+                            <p>Suspendisse gravida sem?</p>
+
+                        </li>
+
+                        <li class="comment author-comment">
+
+                            <div class="info">
+                                <a href="#">Jack Smith</a>
+                                <span>3 hours ago</span>
+                            </div>
+
+                            <a class="avatar" href="#">
+                                <img src="/images/avatar_author.jpg" width="35" alt="Profile Avatar" title="Master" />
+                            </a>
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida sem sit amet molestie portitor.</p>
+
+                        </li>
+
+                        <li class="comment user-comment">
+
+                            <div class="info">
+                                <a href="#">Bradley Jones</a>
+                                <span>1 hour ago</span>
+                            </div>
+
+                            <a class="avatar" href="#">
+                                <img src="/images/avatar_user_2.jpg" width="35" alt="Profile Avatar" title="Bradley Jones" />
+                            </a>
+
+                            <p>Suspendisse gravida sem sit amet molestie portitor?</p>
+
+                        </li>
+
+                        <li class="comment author-comment">
+
+                            <div class="info">
+                                <a href="#">Jack Smith</a>
+                                <span>1 hour ago</span>
+                            </div>
+
+                            <a class="avatar" href="#">
+                                <img src="/images/avatar_author.jpg" width="35" alt="Profile Avatar" title="Master" />
+                            </a>
+
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisee gravida sem sit amet molestie porttitor.</p>
+
+                        </li>
+
+                        <li class="write-new">
+
+                            <form action="#" method="post">
+
+                                <textarea placeholder="Write your comment here" name="comment"></textarea>
+
+                                <div>
+                                    <img src="/images/avatar_user_2.jpg" width="35" alt="Profile of Bradley Jones" title="Bradley Jones" />
+                                    <button type="submit">Submit</button>
+                                </div>
+
+                            </form>
+
+                        </li>
+
+                    </ul>
+
+                    <footer>
+                        <a class="tz" href="http://tutorialzine.com/2015/11/using-flexbox-to-create-a-responsive-comment-section/">Using Flexbox to Create a Responsive Comment Section</a>
+                    </footer>
+
 
                 </div>
                 <div id="history" class="tab-pane fade, col-lg-9">
