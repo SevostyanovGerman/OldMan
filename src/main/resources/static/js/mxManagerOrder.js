@@ -73,3 +73,54 @@ function editCustomer() {
         subEditBtn.disabled = true;
     }
 }
+
+
+
+
+
+//Рисуем DataTable при открытии модального окна
+$('#designerModal').on('shown.bs.modal', function() {
+    //Get the datatable which has previously been initialized
+    var dataTable= $('#designerTableMD').DataTable({
+        "dom": '<"top">f<"bottom"><"clear">',
+        "ordering": false
+    });
+    //recalculate the dimensions
+    dataTable.columns.adjust().responsive.recalc();
+
+});
+
+//Рисуем DataTable при открытии модального окна
+$('#masterModal').on('shown.bs.modal', function() {
+    //Get the datatable which has previously been initialized
+    var  dataTable = $('#masterTableMD').DataTable({
+        "dom": '<"top">f<"bottom"><"clear">',
+        "ordering": false
+    });
+
+    //recalculate the dimensions
+    dataTable.columns.adjust().responsive.recalc();
+
+
+
+});
+
+//удаляем DataTable при закрытии модального окна
+$('#masterModal').on(' hide.bs.modal', function() {
+    //Get the datatable which has previously been initialized
+
+    var  dataTable = $('#masterTableMD').DataTable();
+    dataTable.destroy();
+
+
+});
+
+//удаляем DataTable при закрытии модального окна
+$('#designerModal').on(' hide.bs.modal', function() {
+    //Get the datatable which has previously been initialized
+
+    var  dataTable = $('#designerTableMD').DataTable();
+    dataTable.destroy();
+
+
+});

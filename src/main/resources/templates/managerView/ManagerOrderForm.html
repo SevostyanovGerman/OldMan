@@ -394,8 +394,8 @@
 
 <!-- Выбор дизайнера модального окна -->
 <div id="designerModal" class="modal fade ">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content modal-lg">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-sm">
             <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -404,17 +404,19 @@
             </div>
             <!-- Основное содержимое модального окна -->
 
-            <div class="modal-body">
+            <div class="modal-body" style="text-align: center">
 
-                <table class="form-group" id="designerTableMD">
-                    <thead>
-                    <th>Дизайнер</th>
+                <table class="form-group" id="designerTableMD" style="text-align: center">
+                    <thead style="text-align: center">
+                    <th ></th>
                     </thead>
-                    <tbody>
-                    <tr th:each="element : ${designerList}">
-                        <td>
-                            <a th:href="'/manager/order/change/' + ${order.getId()} +'/designer/' + ${element.getId()}"
+                    <tbody style="text-align: center">
+                    <tr th:each="element : ${designerList}" style="text-align: center">
+                        <td style="text-align: center; width: 300px;">
+                           <h4> <a
+                            th:href="'/manager/order/change/' + ${order.getId()} +'/designer/' + ${element.getId()}"
                                 th:text="${element.toString()}"></a>
+                           </h4>
                         </td>
 
                     </tr>
@@ -435,8 +437,8 @@
 
 <!-- Выбор мастера модального окна -->
 <div id="masterModal" class="modal  ">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content modal-lg">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-sm">
             <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -448,22 +450,24 @@
 
                 <!--//Заменить на таблицу с js DataTable-->
 
-                <table class="form-group" id="masterTableMD">
-                    <thead>
-                    <th>Мастер</th>
+                <table class="form-group" id="masterTableMD" style="text-align: center">
+                    <thead style="text-align: center">
+                    <th></th>
                     </thead>
                     <tbody>
-                    <tr th:each="element : ${masterList}">
-                        <td>
+                    <tr th:each="element : ${masterList}" style="text-align: center">
+                        <td  style="text-align: center; width: 300px">
+                            <h4>
                             <a th:href="'/manager/order/change/' + ${order.getId()} +'/master/' + ${element.getId()}"
                                th:text="${element.toString()}"></a>
+                            </h4>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 </div>
 
-            </div>
+
             <!-- Футер модального окна -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -625,8 +629,7 @@
             <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" th:text="'Текущий статус: ' + ${order.getStatus()}">Заголовок модального
-                    окна</h4>
+                <h4 class="modal-title" >Адрес доставки</h4>
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
@@ -753,35 +756,16 @@
 
 <script src="/js/ajaxCustomer.js"></script>
 <script src="/js/ajaxCheckUser.js"></script>
-<script src="/js/mxManagerOrder.js"></script>
+
 <!--Sorting table-->
 <script type="text/javascript"
         src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
 
 
 
-
-<script>
-
-
-    $('#designerModal').on('shown.bs.modal', function() {
-        //Get the datatable which has previously been initialized
-        var dataTable= $('#designerTableMD').DataTable();
-        //recalculate the dimensions
-        dataTable.columns.adjust().responsive.recalc();
-
-    });
-
-    $('#masterModal').on('shown.bs.modal', function() {
-        //Get the datatable which has previously been initialized
-        var dataTable = $('#masterTableMD').DataTable();
-        //recalculate the dimensions
-        dataTable.columns.adjust().responsive.recalc();
-
-    });
+<script src="/js/mxManagerOrder.js"></script>
 
 
-</script>
 
 </body>
 </html>
