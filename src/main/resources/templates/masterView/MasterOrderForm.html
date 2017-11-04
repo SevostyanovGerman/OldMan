@@ -100,54 +100,55 @@
                     </form>
                 </div>
                 <div id="comment" class="tab-pane fade, col-lg-9">
-                    <ul class="comment-section">
+                    <div class="pre-scrollable">
+                        <ul class="comment-section" th:each="element: ${order.getComments()}">
 
-                        <li class="comment user-comment">
+                            <li class="comment user-comment">
 
-                            <div class="info">
-                                <a href="#">Anie Silverston</a>
-                                <span>4 hours ago</span>
-                            </div>
-
-                            <a class="avatar" href="#">
-                                <img src="/images/avatar_user_1.jpg" width="35" alt="Profile Avatar" title="Anie Silverston" />
-                            </a>
-
-                            <p>Suspendisse gravida sem?</p>
-
-                        </li>
-
-                        <li class="comment author-comment">
-
-                            <div class="info">
-                                <a href="#">Jack Smith</a>
-                                <span>3 hours ago</span>
-                            </div>
-
-                            <a class="avatar" href="#">
-                                <img src="/images/avatar_author.jpg" width="35" alt="Profile Avatar" title="Master" />
-                            </a>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida sem sit amet molestie portitor.</p>
-
-                        </li>
-
-
-                        <li class="write-new">
-
-                            <form action="#" method="post">
-
-                                <textarea placeholder="Write your comment here" name="comment"></textarea>
-
-                                <div>
-                                    <button type="submit">Submit</button>
+                                <div class="info">
+                                    <a href="#">Anie Silverston</a>
+                                    <span>4 hours ago</span>
                                 </div>
 
-                            </form>
+                                <a class="avatar" href="#">
+                                    <img src="/images/avatar_user_1.jpg" width="35" alt="Profile Avatar" title="Anie Silverston" />
+                                </a>
 
-                        </li>
+                                <p>Suspendisse gravida sem?</p>
 
-                    </ul>
+                            </li>
+
+                            <li class="comment author-comment">
+
+                                <div class="info">
+                                    <a href="#">Jack Smith</a>
+                                    <span>3 hours ago</span>
+                                </div>
+
+                                <a class="avatar" href="#">
+                                    <img src="/images/avatar_author.jpg" width="35" alt="Profile Avatar" title="Master" />
+                                </a>
+
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida sem sit amet molestie portitor.</p>
+
+                            </li>
+                        </ul>
+
+                    </div>
+
+                            <li class="write-new">
+
+                                <form action="#" method="post">
+
+                                    <textarea placeholder="Write your comment here" name="comment"></textarea>
+
+                                    <div>
+                                        <button type="submit">Submit</button>
+                                    </div>
+
+                                </form>
+
+                            </li>
 
 
                 </div>
