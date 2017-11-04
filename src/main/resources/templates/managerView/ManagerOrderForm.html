@@ -94,7 +94,11 @@
 
                                      <span class="input-group-addon customerField"
                                               th:text="'Текущий статус: ' + ${order?.getStatus()}"></span>
-                                    <a href="#myModal" class="btn btn-info" data-toggle="modal" >...</a>
+                                    <a href="#myModal" class="btn btn-info" data-toggle="modal"  th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0"  >...</a>
+                                    <a  href="#erroFieldModal"  data-toggle="modal"
+                                        class="btn btn-info"
+                                        data-toggle="modal"
+                                       th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0" >...</a>
 
                                 </div>
 
@@ -358,7 +362,12 @@
 
 
                             <div class="form-inline">
-                              <b> <span th:text="'Способ оплаты: ' + ${order.getPaymentType()}"></span></b>
+
+                              <b>
+                                  <span th:if="${order?.getPaymentType()} != null"
+                                        th:text="'Способ оплаты: ' + ${order?.getPaymentType()}"></span>
+                                  <span  th:if="${order?.getPaymentType()} == null">Способ оплаты: -- </span>
+                              </b>
                                 <a href="#modalSetPaymentType"  data-toggle="modal"> Изменить</a>
                             </div>
                             <br>
@@ -369,7 +378,7 @@
                         <span th:text="${order?.getCustomer()?.getDefaultDelivery()}" id="deliveryField">
                             </span>
                         <div style="text-align: right">
-                            <a href="#addressModal"  data-toggle="modal"> Изменить</a>
+                            <a href="#addressModal"  data-toggle="modal" th:if="${order.getCustomer()}"> Изменить</a>
                         </div>
 
                     </form>
@@ -395,7 +404,16 @@
                     <h3 align="center" class="statusTextBorder" th:text="${order.getStatus()}"></h3>
                     <div>
                         <!-- Кнопка, вызывающее модальное окно -->
-                        <a href="#myModal" class="btn btn-info" data-toggle="modal">Отправить заказ</a>
+                        <a
+                            th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0" href="#myModal"
+                           class="btn btn-info"
+                           data-toggle="modal">Отправить
+                            заказ</a>
+
+                        <a
+                            th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0"
+                           href="#erroFieldModal"  class="btn btn-info" data-toggle="modal">Отправить
+                            заказ</a>
                     </div>
                 </fieldset>
             </div>
@@ -639,6 +657,9 @@
 <!--- end modal -->
 
 
+
+
+
 <!--Адрес доставки модального окна -->
 <div id="addressModal" class="modal  ">
     <div class="modal-dialog ">
@@ -725,7 +746,39 @@
 </div>
 
 
+</div>
+
+    <!-- Ошибка отправки заказа модального окна -->
+    <div id="erroFieldModal" class="modal  ">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content modal-sm">
+                <!-- Заголовок модального окна -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"> Заполните обязательные поля, бля</h4>
+                </div>
+                <!-- Основное содержимое модального окна -->
+                <div class="modal-body">
+
+                    <b> <div style="color: red">
+                    <div th:if="${order.getMaster()} == null"> Выберете Мастера</div>
+                    <div th:if="${order.getDesigner()} == null"> Выберете Дизайнера</div>
+                    <div th:if="${order.getItems().size()} == 0"> Добавте товар в заказ</div>
+                </div>
+                </b>
+                </div>
+                <!-- Футер модального окна -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--- end modal -->
 <!--- end modal -->
+
 
 
 

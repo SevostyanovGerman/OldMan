@@ -191,6 +191,20 @@ public class Customer {
 		this.zip = zip;
 	}
 
+	public void updateAddressFields(String country, String city, String address, String zip) {
+		this.country = country;
+		this.city = city;
+		this.address = address;
+		this.zip = zip;
+	}
+
+	public void updateCustomerFields(String firstName, String secName, String email, String phone) {
+		this.firstName = firstName;
+		this.secName = secName;
+		this.email = email;
+		this.phone = phone;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;

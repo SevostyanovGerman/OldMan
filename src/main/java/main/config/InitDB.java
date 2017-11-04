@@ -44,17 +44,17 @@ public class InitDB {
 	@PostConstruct
 	public void createDB() {
 		//Status//
-		Status status1 = new Status("new", 1l);
+		Status status1 = new Status("new", 1L);
 		statusService.save(status1);
-		Status status2 = new Status("design", 2l);
+		Status status2 = new Status("design", 2L);
 		statusService.save(status2);
-		Status status3 = new Status("design done", 3l);
+		Status status3 = new Status("design done", 3L);
 		statusService.save(status3);
-		Status status4 = new Status("production", 4l);
+		Status status4 = new Status("production", 4L);
 		statusService.save(status4);
-		Status status5 = new Status("delivery", 5l);
+		Status status5 = new Status("delivery", 5L);
 		statusService.save(status5);
-		Status status6 = new Status("finish", 6l);
+		Status status6 = new Status("finish", 6L);
 		statusService.save(status6);
 		//Роли//
 		Role role1 = new Role("MANAGER", "/manager/");

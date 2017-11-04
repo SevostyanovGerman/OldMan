@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -107,8 +106,9 @@ public class Order {
 		this.manager = manager;
 	}
 
-	public Order(String number, Boolean payment, Boolean deleted, double price, Date created, String deliveryType, Payment paymentType,
-				 Status status, Customer customer, Item item, User manager, User designer, User master) {
+	public Order(String number, Boolean payment, Boolean deleted, double price, Date created, String deliveryType,
+				 Payment paymentType, Status status, Customer customer, Item item, User manager, User designer,
+				 User master) {
 		this.number = number;
 		this.payment = payment;
 		this.deleted = deleted;

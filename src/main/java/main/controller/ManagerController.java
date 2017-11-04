@@ -231,10 +231,7 @@ public class ManagerController {
 			if (customer == null) {
 				customer = order.getCustomer();
 			}
-			customer.setFirstName(fName);
-			customer.setSecName(sName);
-			customer.setEmail(eMail);
-			customer.setPhone(phone);
+			customer.updateCustomerFields(fName, sName, eMail, phone);
 			customerService.save(customer);
 			order.setCustomer(customer);
 			orderService.save(order);
@@ -252,12 +249,14 @@ public class ManagerController {
 									   @ModelAttribute("editAddressAddress") String address,
 									   @ModelAttribute("editAddressZip") String zip, HttpServletRequest request) {
 		Order order = orderService.get(orderId);
-		Customer customer = order.getCustomer();
-		customer.setCountry(country);
-		customer.setCity(city);
-		customer.setAddress(address);
-		customer.setZip(zip);
-		customerService.save(customer);
+		try {
+			Customer customer = order.getCustomer();
+			customer.updateAddressFields(country, city, address, zip);
+			customer.setZip(zip);
+			customerService.save(customer);
+		} catch (Exception e) {
+			logger.warn("Не удалось изменить адрес доставки");
+		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 }
