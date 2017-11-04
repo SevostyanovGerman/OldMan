@@ -158,4 +158,9 @@ public class OrderServiceImpl implements OrderService {
 	public void deleteOrder(Order order) {
 		order.setDeleted(true);
 	}
+
+	@Override
+	public List<Order> findOrdersByRange(Date startDate, Date endDate) {
+		return orderRepository.findOrdersByRange(startDate, endDate);
+	}
 }

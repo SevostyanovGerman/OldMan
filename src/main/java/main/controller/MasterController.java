@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.logging.LogManager;
+
 
 @Controller
 public class MasterController {
@@ -34,15 +34,15 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = {"/master"}, method = RequestMethod.GET)
-	public String getMasterDashBoard(Model model) {
+	public ModelAndView getMasterDashBoard() {
+		ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
 		try {
 			List <Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
-			model.addAttribute("masterOrders", masterOrders);
+			model.addObject("masterOrders", masterOrders);
 		} catch (Exception e) {
 			logger.error("Controller '/master' orderService.masterOrders() error");
 		}
-
-		return "masterView/MasterDashBoard";
+		return model;
 	}
 
 	@RequestMapping(value = {"/master/order/{id}"}, method = RequestMethod.GET)
@@ -119,4 +119,5 @@ public class MasterController {
 		}
 		return model;
 	}
+
 }

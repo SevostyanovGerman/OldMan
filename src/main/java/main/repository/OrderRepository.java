@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -25,4 +26,7 @@ public interface OrderRepository extends JpaRepository <Order, Long> {
 		"LOWER(o.dateTransferred) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		"LOWER(o.deliveryType) LIKE LOWER(CONCAT('%',:searchTerm, '%'))")
 	List <Order> findBySearchTerm(@Param("searchTerm") String searchTerm);
+
+	@Query("SELECT o FROM Order o WHERE o.created BETWEEN :startDate AND :endDate")
+	List <Order> findOrdersByRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }
