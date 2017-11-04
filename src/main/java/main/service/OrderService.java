@@ -25,4 +25,5 @@ public interface OrderService {
 	Order changeStatusTo(Long orderId, Long statusId);  //изменяем статус заказа на выбранный
 	void deleteOrder(Order order);//Change value "delete" from false to true. Order do not delete!
 	List <Order> findOrdersByRange(Date startDate, Date endDate);
+	Order setAllStatusItemFalse(Order order);
 }
