@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
 		Date date = new Date();
 		Order order = orderService.get(orderId);
 		Long currentStatus = order.getStatus().getNumber();
-		Status nextStatus = statusService.get(currentStatus + 1l);
+		Status nextStatus = statusService.get(currentStatus + 1L);
 		order.setStatus(nextStatus);
 		order = historyService.saveHistory(order);
 		order.setDateRecieved(order.getDateTransferredDate());

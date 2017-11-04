@@ -46,17 +46,17 @@ public class InitDB {
 	@PostConstruct
 	public void createDB() throws ParseException {
 		//Status//
-		Status status1 = new Status("new", 1l);
+		Status status1 = new Status("new", 1L);
 		statusService.save(status1);
-		Status status2 = new Status("design", 2l);
+		Status status2 = new Status("design", 2L);
 		statusService.save(status2);
-		Status status3 = new Status("design done", 3l);
+		Status status3 = new Status("design done", 3L);
 		statusService.save(status3);
-		Status status4 = new Status("production", 4l);
+		Status status4 = new Status("production", 4L);
 		statusService.save(status4);
-		Status status5 = new Status("delivery", 5l);
+		Status status5 = new Status("delivery", 5L);
 		statusService.save(status5);
-		Status status6 = new Status("finish", 6l);
+		Status status6 = new Status("finish", 6L);
 		statusService.save(status6);
 		//Роли//
 		Role role1 = new Role("MANAGER", "/manager/");
@@ -101,9 +101,13 @@ public class InitDB {
 		Delivery delivery2 = new Delivery("Kazahstan", "Almata", "bumbum street", "999");
 		deliveryService.save(delivery2);
 		//Customer//
-		Customer customer1 = new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1);
+		Customer customer1 =
+			new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1, "Russia", "saint-Petersburg",
+				"sizam street", "777");
 		customerService.save(customer1);
-		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
+		Customer customer2 =
+			new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2, "Kazahstan", "Almata", "bumbum street",
+				"999");
 		customerService.save(customer2);
 		//Item//
 		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
@@ -129,19 +133,23 @@ public class InitDB {
 		Date d2 = dateFormat.parse(date2);
 
 		Order order1 =
-			new Order("1", false, false, 100d, createDate, "courier", payment1, status1, customer1, item1, user1, user2,
+			new Order("1", false, false, 100d, createDate, "courier", payment1, status1, customer1, item1, user1,
+				user2,
 				user3);
 		orderService.save(order1);
 		Order order2 =
-			new Order("2", false, false, 100d, createDate, "courier", payment2, status2, customer2, item2, user1, user2,
+			new Order("2", false, false, 100d, createDate, "courier", payment2, status2, customer2, item2, user1,
+				user2,
 				user3);
 		orderService.save(order2);
 		Order order3 =
-			new Order("3", false, false, 100d, createDate, "courier", payment1, status3, customer2, item3, user1, user2,
+			new Order("3", false, false, 100d, createDate, "courier", payment1, status3, customer2, item3, user1,
+				user2,
 				user3);
 		orderService.save(order3);
 		Order order4 =
-			new Order("4", false, false, 100d, createDate, "courier", payment2, status4, customer1, item4, user1, user2,
+			new Order("4", false, false, 100d, createDate, "courier", payment2, status4, customer1, item4, user1,
+				user2,
 				user3);
 		orderService.save(order4);
 		Order order5 =

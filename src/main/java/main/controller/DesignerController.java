@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
@@ -132,9 +131,9 @@ public class DesignerController {
 
 	//Добавление комментария
 	@RequestMapping(value = {"/designer/order/comment/add={id}"}, method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id, HttpServletRequest request) {
+	public ModelAndView addComment(@PathVariable Long id, @ModelAttribute("commentText") String content) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		Comment comment = new Comment(request.getParameter("commentText"), userService.getCurrentUser().toString());
+		Comment comment = new Comment(content, userService.getCurrentUser().toString());
 		comment.setTime(new Date());
 		commentService.save(comment);
 		Order order = orderService.get(id);
@@ -147,11 +146,10 @@ public class DesignerController {
 
 	//Добавление ответа на комментарий
 	@RequestMapping(value = {"/designer/order/comment/sub/{id}"}, method = RequestMethod.POST)
-	public ModelAndView subComment(@PathVariable Long id, HttpServletRequest request) {
-		Long commentId = Long.parseLong(request.getParameter("commentBtnOrder"));
+	public ModelAndView subComment(@PathVariable Long id, @ModelAttribute("commentBtnOrder") Long commentId,
+								   @ModelAttribute("commentTextSub") String content) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		Comment comment = commentService.get(commentId);
-		String content = request.getParameter("commentTextSub");
 		Answer answer = new Answer(content, userService.getCurrentUser().toString());
 		answer.setTime(new Date());
 		answerService.save(answer);
@@ -165,7 +163,7 @@ public class DesignerController {
 
 	//Удаление картинки дизайнера
 	@RequestMapping(value = {"/designer/order/item/delimage/{id}"}, method = RequestMethod.POST)
-	public ModelAndView delImage(@PathVariable("id") Long id, HttpServletResponse response) throws IOException {
+	public ModelAndView delImage(@PathVariable("id") Long id) throws IOException {
 		try {
 			Image image = imageService.get(id);
 			imageService.del(image);
