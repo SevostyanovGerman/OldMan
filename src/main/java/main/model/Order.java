@@ -50,6 +50,12 @@ public class Order {
 	@Column(name = "o_to")
 	private String to;
 
+	@OneToOne(fetch = FetchType.EAGER, targetEntity = Delivery.class)
+	@JoinTable(name = "keys_order_delivery", joinColumns = {@JoinColumn(name = "order_id")},
+		inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
+	@JsonBackReference
+	private Delivery delivery;
+
 	@OneToOne(fetch = FetchType.EAGER, targetEntity = Payment.class)
 	@JoinTable(name = "keys_order_payment", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "payment_id")})
@@ -135,6 +141,15 @@ public class Order {
 			this.items = new ArrayList <>();
 		}
 		this.items.add(item);
+		this.delivery = customer.getDefaultDelivery();
+	}
+
+	public Delivery getDelivery() {
+		return delivery;
+	}
+
+	public void setDelivery(Delivery delivery) {
+		this.delivery = delivery;
 	}
 
 	public Long getId() {
@@ -313,6 +328,18 @@ public class Order {
 
 	public void setHistories(List <History> histories) {
 		this.histories = histories;
+	}
+
+	public String getDefaultDelivery() {
+				StringBuilder builder = new StringBuilder("");
+				builder.append(this.delivery.getCountry());
+				builder.append(" , ");
+				builder.append(this.delivery.getCity());
+				builder.append(" , ");
+				builder.append(this.delivery.getAddress());
+				builder.append(" , ");
+				builder.append(this.delivery.getZip());
+				return builder.toString();
 	}
 
 	@Override

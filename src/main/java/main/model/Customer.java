@@ -149,16 +149,11 @@ public class Customer {
 		return firstName + " " + secName;
 	}
 
-	public String getDefaultDelivery() {
-		StringBuilder builder = new StringBuilder("");
-		builder.append(this.country);
-		builder.append(" , ");
-		builder.append(this.city);
-		builder.append(" , ");
-		builder.append(this.address);
-		builder.append(" , ");
-		builder.append(this.zip);
-		return builder.toString();
+	public Delivery getDefaultDelivery() {
+		if (this.deliveries != null) {
+			return this.getDeliveries().get(0);
+		}
+		return null;
 	}
 
 	public String getCountry() {

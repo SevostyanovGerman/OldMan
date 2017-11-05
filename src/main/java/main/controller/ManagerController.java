@@ -209,6 +209,7 @@ public class ManagerController {
 			customerService.save(customer);
 			customer.getDeliveries().add(delivery);
 			order.setCustomer(customer);
+			order.setDelivery(customer.getDefaultDelivery());
 			orderService.save(order);
 		} catch (DataIntegrityViolationException e) {
 			logger.info("Пользователь существует");
@@ -250,10 +251,14 @@ public class ManagerController {
 									   @ModelAttribute("editAddressZip") String zip, HttpServletRequest request) {
 		Order order = orderService.get(orderId);
 		try {
-			Customer customer = order.getCustomer();
-			customer.updateAddressFields(country, city, address, zip);
-			customer.setZip(zip);
-			customerService.save(customer);
+			Delivery delivery = new Delivery();
+			delivery.setCountry(country);
+			delivery.setCity(city);
+			delivery.setAddress(address);
+			delivery.setZip(zip);
+			deliveryService.save(delivery);
+			order.setDelivery(delivery);
+			orderService.save(order);
 		} catch (Exception e) {
 			logger.warn("Не удалось изменить адрес доставки");
 		}
