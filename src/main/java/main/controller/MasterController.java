@@ -1,7 +1,9 @@
 package main.controller;
 
+import main.model.Comment;
 import main.model.Item;
 import main.model.Order;
+import main.service.CommentService;
 import main.service.ItemService;
 import main.service.OrderService;
 import main.service.UserService;
@@ -13,8 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 
@@ -25,12 +29,17 @@ public class MasterController {
 	private OrderService orderService;
 	private ItemService itemService;
 	private UserService userService;
+	private CommentService commentService;
 
 	@Autowired
-	public MasterController(OrderService orderService, ItemService itemService, UserService userService) {
+	public MasterController(OrderService orderService,
+							ItemService itemService,
+							UserService userService,
+							CommentService commentService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
+		this.commentService = commentService;
 	}
 
 	@RequestMapping(value = {"/master"}, method = RequestMethod.GET)
@@ -117,6 +126,19 @@ public class MasterController {
 			logger.warn("You couldn't change the status of item");
 			new ModelAndView("masterView/MasterItemForm");
 		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/master/order/comment/{id}"}, method = RequestMethod.POST)
+	public ModelAndView addComment(@PathVariable Long id, @RequestParam(value = "comment") String content) {
+		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
+		Comment comment = new Comment(content, userService.getCurrentUser().toString());
+		comment.setTime(new Date());
+		commentService.save(comment);
+		Order order = orderService.get(id);
+		order.getComments().add(comment);
+		orderService.save(order);
+		model.addObject("order", order);
 		return model;
 	}
 
