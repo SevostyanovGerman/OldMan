@@ -168,3 +168,4 @@ $('#designerModal').on(' hide.bs.modal', function() {
 
 
 });
+

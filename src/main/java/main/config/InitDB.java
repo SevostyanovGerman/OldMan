@@ -120,7 +120,8 @@ public class InitDB {
 		itemService.save(item4);
 		Item item5 = new Item("Case", "Nexus 6P", "wood", "через гравировка", 5, 230d, false);
 		itemService.save(item5);
-		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d, false);
+		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d,
+			false);
 		itemService.save(item6);
 		Item item7 = new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
 		itemService.save(item7);
@@ -131,7 +132,6 @@ public class InitDB {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date d1 = dateFormat.parse(date1);
 		Date d2 = dateFormat.parse(date2);
-
 		Order order1 =
 			new Order("1", false, false, 100d, createDate, "courier", payment1, status1, customer1, item1, user1,
 				user2,

@@ -322,7 +322,7 @@
                             </div>
                             <br>
                         <b>
-                            <div>Адрес доставки:   <a href="#addressModal"  data-toggle="modal" th:if="${order.getCustomer()}"> Изменить</a></div>
+                            <div>Адрес доставки:   <a href="#addressModal"  data-toggle="modal" > Изменить</a></div>
                         </b>
 
                         <span th:text="${order?.getDefaultDelivery()}" id="deliveryField">
@@ -370,7 +370,7 @@
 <br/>
 
 
-<!-- HTML-код модального окна -->
+<!-- Отправка заказа -->
 <div id="myModal" class="modal fade ">
     <div class="modal-dialog modal-sm">
         <div class="modal-content modal-sm">
@@ -642,9 +642,23 @@
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
 
+
                 <!-- Форма для изменения адреса -->
                 <form th:action="${'/manager/order/editDelivery/'+ order.getId()}"
                       method="post"  class="form-horizontal"  >
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default">Адреса клиента</button>
+                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+                        <ul class="dropdown-menu" th:each="element: ${order?.customer?.getDeliveries()}">
+                            <li><a href="#" th:text="${element.toString()}"
+                                   onclick="selectCustomerAddress(this)"
+
+                            >Пункт 1</a></li>
+                        </ul>
+                    </div>
+
+                    <br>
 
                     <b>
                         <div style="color: #22a9ff;">Адрес доставки:</div>
@@ -657,8 +671,8 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}"
-                                            name="editAddressCountry"
-                                           th:value="${order?.getDelivery()?.getCountry()}"  >
+                                            name="editAddressCountry" id="editAddressCountry"
+                                           th:value="${order?.getDelivery()?.getCountry()}">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
@@ -670,7 +684,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}"
-                                           name="editAddressCity"  th:value="${order?.getDelivery()?.getCity()}">
+                                           name="editAddressCity"  th:value="${order?.getDelivery()?.getCity()}" id="editAddressCity">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
@@ -683,7 +697,7 @@
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input type="text" class="form-control" required="required"
                                            pattern="[a-zA-Z0-9\s]+{3,}"
-                                            name="editAddressAddress"
+                                            name="editAddressAddress" id="editAddressAddress"
                                            th:value="${order?.getDelivery()?.getAddress()}" />
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
@@ -696,7 +710,7 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input type="text" class="form-control" required="required" pattern="[0-9]{3,}"
-                                        name="editAddressZip" th:value="${order?.getDelivery()?.getZip()}">
+                                        name="editAddressZip" th:value="${order?.getDelivery()?.getZip()}" id="editAddressZip">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
@@ -772,6 +786,7 @@
 
 
 <script src="/js/mxManagerOrder.js"></script>
+
 
 
 

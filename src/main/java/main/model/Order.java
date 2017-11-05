@@ -331,21 +331,24 @@ public class Order {
 	}
 
 	public String getDefaultDelivery() {
-				StringBuilder builder = new StringBuilder("");
-				builder.append(this.delivery.getCountry());
-				builder.append(" , ");
-				builder.append(this.delivery.getCity());
-				builder.append(" , ");
-				builder.append(this.delivery.getAddress());
-				builder.append(" , ");
-				builder.append(this.delivery.getZip());
-				return builder.toString();
+		if (this.delivery != null) {
+			StringBuilder builder = new StringBuilder("");
+			builder.append(this.delivery.getCountry());
+			builder.append(" , ");
+			builder.append(this.delivery.getCity());
+			builder.append(" , ");
+			builder.append(this.delivery.getAddress());
+			builder.append(" , ");
+			builder.append(this.delivery.getZip());
+			return builder.toString();
+		}
+		return "--";
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Order)) return false;
+		if (o == null || getClass() != o.getClass()) return false;
 		Order order = (Order) o;
 		if (Double.compare(order.price, price) != 0) return false;
 		if (id != null ? !id.equals(order.id) : order.id != null) return false;
@@ -359,6 +362,7 @@ public class Order {
 			return false;
 		if (from != null ? !from.equals(order.from) : order.from != null) return false;
 		if (to != null ? !to.equals(order.to) : order.to != null) return false;
+		if (delivery != null ? !delivery.equals(order.delivery) : order.delivery != null) return false;
 		if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) return false;
 		if (status != null ? !status.equals(order.status) : order.status != null) return false;
 		if (comments != null ? !comments.equals(order.comments) : order.comments != null) return false;
@@ -386,6 +390,7 @@ public class Order {
 		result = 31 * result + (dateTransferred != null ? dateTransferred.hashCode() : 0);
 		result = 31 * result + (from != null ? from.hashCode() : 0);
 		result = 31 * result + (to != null ? to.hashCode() : 0);
+		result = 31 * result + (delivery != null ? delivery.hashCode() : 0);
 		result = 31 * result + (paymentType != null ? paymentType.hashCode() : 0);
 		result = 31 * result + (status != null ? status.hashCode() : 0);
 		result = 31 * result + (comments != null ? comments.hashCode() : 0);

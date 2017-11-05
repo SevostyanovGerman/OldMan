@@ -33,18 +33,6 @@ public class Customer {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 
-	@Column(name = "country")
-	private String country;
-
-	@Column(name = "city")
-	private String city;
-
-	@Column(name = "address")
-	private String address;
-
-	@Column(name = "zip")
-	private String zip;
-
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "keys_customer_delivery", joinColumns = {@JoinColumn(name = "customer_id")},
@@ -74,10 +62,6 @@ public class Customer {
 		} else {
 			this.deliveries.add(deliveries);
 		}
-		this.country = country;
-		this.city = city;
-		this.address = address;
-		this.zip = zip;
 	}
 
 	public Long getId() {
@@ -156,45 +140,6 @@ public class Customer {
 		return null;
 	}
 
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getZip() {
-		return zip;
-	}
-
-	public void setZip(String zip) {
-		this.zip = zip;
-	}
-
-	public void updateAddressFields(String country, String city, String address, String zip) {
-		this.country = country;
-		this.city = city;
-		this.address = address;
-		this.zip = zip;
-	}
-
 	public void updateCustomerFields(String firstName, String secName, String email, String phone) {
 		this.firstName = firstName;
 		this.secName = secName;
@@ -214,10 +159,6 @@ public class Customer {
 		if (phone != null ? !phone.equals(customer.phone) : customer.phone != null) return false;
 		if (creationDate != null ? !creationDate.equals(customer.creationDate) : customer.creationDate != null)
 			return false;
-		if (country != null ? !country.equals(customer.country) : customer.country != null) return false;
-		if (city != null ? !city.equals(customer.city) : customer.city != null) return false;
-		if (address != null ? !address.equals(customer.address) : customer.address != null) return false;
-		if (zip != null ? !zip.equals(customer.zip) : customer.zip != null) return false;
 		if (deliveries != null ? !deliveries.equals(customer.deliveries) : customer.deliveries != null) return false;
 		return orders != null ? orders.equals(customer.orders) : customer.orders == null;
 	}
@@ -230,12 +171,9 @@ public class Customer {
 		result = 31 * result + (email != null ? email.hashCode() : 0);
 		result = 31 * result + (phone != null ? phone.hashCode() : 0);
 		result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
-		result = 31 * result + (country != null ? country.hashCode() : 0);
-		result = 31 * result + (city != null ? city.hashCode() : 0);
-		result = 31 * result + (address != null ? address.hashCode() : 0);
-		result = 31 * result + (zip != null ? zip.hashCode() : 0);
 		result = 31 * result + (deliveries != null ? deliveries.hashCode() : 0);
 		result = 31 * result + (orders != null ? orders.hashCode() : 0);
 		return result;
 	}
 }
+
