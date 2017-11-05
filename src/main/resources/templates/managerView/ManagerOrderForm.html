@@ -78,7 +78,11 @@
                                     <div class="col-lg-6">
                                 <div class="input-group">
                                   <span class="input-group-addon customerField"
-                                          th:text="'Дизайнер: ' + ${order?.getDesigner()?.toString()}" style="width: 100%; text-align: center"></span>
+                                       th:if="${order?.getDesigner()?.toString()}"   th:text="'Дизайнер: ' + ${order?.getDesigner()?.toString()}"
+                                        style="width: 100%; text-align: center"></span>
+                                    <span class="input-group-addon customerField"
+                                          th:if="${order?.getDesigner()?.toString() == null}"
+                                          style="width: 100%; text-align: center">Дизайнер: --</span>
 
                                     <a href="#designerModal" class="form-control btn-info" data-toggle="modal">...</a>
                                 </div>
@@ -86,8 +90,12 @@
                                 <div class="col-lg-6">
                                 <div class="input-group ">
                                     <span class="input-group-addon customerField"
-                                          th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
+                                          th:if="${order?.getMaster()?.toString()}"  th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
                                           style="width: 100%; text-align: center; font: bold"></span>
+
+                                    <span class="input-group-addon customerField"
+                                          th:if="${order?.getMaster()?.toString() == null}"
+                                          style="width: 100%; text-align: center">Мастер: --</span>
 
                                     <a href="#masterModal" class="form-control btn-info" data-toggle="modal">...</a>
 
