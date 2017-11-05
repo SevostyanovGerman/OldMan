@@ -1,16 +1,19 @@
 package main.controller;
 
-import java.util.Date;
-import java.util.List;
-import main.model.Order;
 import main.model.Customer;
-import main.service.OrderService;
-import org.springframework.ui.Model;
+import main.model.Order;
 import main.service.CustomerService;
+import main.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -38,6 +41,11 @@ public class AjaxController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(orderRange, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = {"/checkuser"}, method = RequestMethod.GET)
+	public String checkUser(@RequestParam(value = "q") String q) {
+		return customerService.checkEmail(q).toString();
 	}
 }
 

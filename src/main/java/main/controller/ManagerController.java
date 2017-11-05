@@ -234,6 +234,7 @@ public class ManagerController {
 			}
 			customer.updateCustomerFields(fName, sName, eMail, phone);
 			customerService.save(customer);
+			order.setDelivery(customer.getDefaultDelivery());
 			order.setCustomer(customer);
 			orderService.save(order);
 		} catch (Exception e) {

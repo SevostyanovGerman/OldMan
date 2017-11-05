@@ -42,7 +42,7 @@ function selectCustomer(ajaxCustomerId) {
     second.value = customer.secName;
     email.value = customer.email;
     phone.value = customer.phone;
-    delivery.textContent = customer.defaultDelivery;
+    delivery.textContent = customer.defaultDelivery.country +' , ' + customer.defaultDelivery.city +' , ' +  customer.defaultDelivery.address +' , ' +  customer.defaultDelivery.zip;
     var subEditBtn = document.getElementById("editBtnSub");
     subEditBtn.disabled = false;
 

@@ -74,6 +74,21 @@ public class Delivery {
 	}
 
 	@Override
+	public String toString() {
+
+			StringBuilder builder = new StringBuilder("");
+			builder.append(this.country);
+			builder.append(" , ");
+			builder.append(this.getCity());
+			builder.append(" , ");
+			builder.append(this.getAddress());
+			builder.append(" , ");
+			builder.append(this.zip);
+			return builder.toString();
+
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
