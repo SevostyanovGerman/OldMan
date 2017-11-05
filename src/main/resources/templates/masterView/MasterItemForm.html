@@ -63,13 +63,13 @@
                         <li th:text="${item.type}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
                     </div>
                         <br>
-                    <ul th:each="image : ${item.getImages()}" style="padding-left: 20px; display: inline-block">
+                    <span th:each="image : ${item.getImages()}" style="padding-left: 20px; display: inline-block">
+                        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modal-1"><span class="glyphicon glyphicon-picture"></span></button>
                         <a th:href="${image.getImage()}">
                             <img th:src="${image.getImage()}"width="50" height="50">
                         </a>
-                    </ul>
+                    </span>
                 </div>
-
                 <div class="col-lg-6">
                     <div class="form-group">
                         <label for="comment">Комментарий:</label>
@@ -94,6 +94,26 @@
     </div>
 </div>
 
+<!-- Modal window -->
+<div class="modal" id="modal-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" type="button" data-dismiss="modal">
+                    &times;
+                </button>
+                <h4 class="modal-title">Эскиз</h4>
+            </div>
+            <div class="modal-body" th:each="image : ${item.getImages()}">
+                <p>Hello world!</p>
+                <img th:src="${image.getImage()}">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-md" type="button" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Optional JavaScript -->
