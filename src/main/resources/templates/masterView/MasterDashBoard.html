@@ -48,7 +48,7 @@
 	</div>
 </nav>
 <div class="container">
-    <h4>find orders by range</h4>
+    <h4>Заказы за период</h4>
     <input type="text" name="datefilter"  value="" />
 
 </div>
@@ -123,15 +123,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-
+    <!-- JQuery scripts -->
     <script>
-        $(document).ready( function() {
+        $(function() {
+
         $('#example').DataTable({
             "scrollY":        "200px",
             "scrollCollapse": true,
             "paging":         false
         });
-            } );
+            });
     </script>
 
 </body>

@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/masterComment.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
     <!-- Optional theme -->
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <!-- JavaScript libraries-->
@@ -17,6 +17,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{/js/masterScript.js}"></script>
 </head>
 
 <body onload="checkStatus();">
@@ -51,13 +52,13 @@
 
     <br>
     <div class="container">
-            <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#order">Заказ</a></li>
-                <li><a data-toggle="tab" href="#comment">Комментарии</a></li>
-                <li><a data-toggle="tab" href="#history">История</a></li>
+            <ul class="nav nav-tabs" id="myTab" >
+                <li class="active"><a href="#order" data-toggle="tab">Заказ</a></li>
+                <li><a href="#comment" data-toggle="tab">Комментарии</a></li>
+                <li><a href="#history" data-toggle="tab">История</a></li>
             </ul>
             <div class="tab-content">
-                <div id="order" class="tab-pane fade in active col-lg-9">
+                <div class="tab-pane fade in active col-lg-9" id="order">
                     <form th:action="@{'/master/order/' + ${order.getId()}} + '/send'" class="form-horizontal" id="sendOrder">
                         <div class="container-fluid">
                             <div class="row" style="margin:15px 0px;">
@@ -99,11 +100,60 @@
                         </div>
                     </form>
                 </div>
-                <div id="comment" class="tab-pane fade, col-lg-9">
-                    <h3>Комментарии</h3>
+                <div class="tab-pane fade, col-lg-9" id="comment">
+                    <div class="pre-scrollable">
+                        <ul class="comment-section" th:each="element: ${order.getComments()}">
+
+                            <li class="comment user-comment">
+
+                                <div class="info">
+                                    <span th:text="${element.getLogin()}">Anie Silverston</span>
+                                    <span th:text="${element.getTime()}">4 hours ago</span>
+                                </div>
+
+                                <a class="avatar" href="#">
+                                    <img src="/images/avatar_user_1.jpg" width="35" alt="Profile Avatar" title="Anie Silverston" />
+                                </a>
+
+                                <p th:utext="${element.getContent()}">Suspendisse gravida sem?</p>
+
+                            </li>
+
+                            <li class="comment author-comment">
+
+                                <div class="info">
+                                    <span th:text="${element.getLogin()}">Jack Smith</span>
+                                    <span th:text="${element.getTime()}">3 hours ago</span>
+                                </div>
+
+                                <a class="avatar" href="#">
+                                    <img src="/images/avatar_author.jpg" width="35" alt="Profile Avatar" title="Master" />
+                                </a>
+
+                                <p th:utext="${element.getContent()}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida sem sit amet molestie portitor.</p>
+
+                            </li>
+                        </ul>
+
+                    </div>
+
+                            <li class="write-new">
+
+                                <form th:action="@{'/master/order/comment/' + ${order.getId()}}" method="post">
+
+                                    <textarea placeholder="Write your comment here" name="comment"></textarea>
+
+                                    <div>
+                                        <button class="btn btn-info" type="submit">Написать</button>
+                                    </div>
+
+                                </form>
+
+                            </li>
+
 
                 </div>
-                <div id="history" class="tab-pane fade, col-lg-9">
+                <div class="tab-pane fade, col-lg-9" id="history">
                     <table class="table table-bordered data">
                         <thead>
                         <tr>

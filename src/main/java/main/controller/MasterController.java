@@ -25,18 +25,14 @@ import java.util.List;
 public class MasterController {
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
-
 	private OrderService orderService;
-
 	private ItemService itemService;
-
 	private UserService userService;
-
 	private CommentService commentService;
 
 	@Autowired
-	public MasterController(OrderService orderService, ItemService itemService, UserService userService,
-							CommentService commentService) {
+	public MasterController(OrderService orderService, ItemService itemService,
+							UserService userService, CommentService commentService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
@@ -47,7 +43,7 @@ public class MasterController {
 	public ModelAndView getMasterDashBoard() {
 		ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
 		try {
-			List<Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
+			List <Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
 			model.addObject("masterOrders", masterOrders);
 		} catch (Exception e) {
 			logger.error("Controller '/master' orderService.masterOrders() error");
@@ -128,8 +124,8 @@ public class MasterController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/master/order/{id}/comment"}, method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id, @RequestParam("comment") String content) {
+	@RequestMapping(value = {"/master/order/comment/{id}"}, method = RequestMethod.POST)
+	public ModelAndView addComment(@PathVariable Long id, @RequestParam(value = "comment") String content) {
 		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
 		Comment comment = new Comment(content, userService.getCurrentUser().toString());
 		comment.setTime(new Date());
@@ -140,4 +136,5 @@ public class MasterController {
 		model.addObject("order", order);
 		return model;
 	}
+
 }

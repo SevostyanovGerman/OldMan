@@ -146,7 +146,6 @@ public class OrderServiceImpl implements OrderService {
 		return order;
 	}
 
-	@Override
 	public Order setAllStatusItemFalse(Order order) {
 		for (int i = 0; i < order.getItems().size(); i++) {
 			order.getItems().get(i).setStatus(false);
