@@ -2,7 +2,10 @@ package main.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
@@ -22,13 +25,35 @@ public class Role implements GrantedAuthority {
 	@Column(name = "deleted")
 	private boolean deleted;
 
-	public Role(){
+	@ManyToMany(mappedBy = "roles")
+	private List<User> users;
 
+	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Status.class)
+	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "role_id")},
+		inverseJoinColumns = {@JoinColumn(name = "status_id")})
+	private Set<Status> statuses;
+
+	public Role(){
 	}
 
-	public Role(String name, String url){
+
+
+	public Role(String name, String url, Status status){
 		this.name = name;
 		this.url = url;
+		if (this.statuses == null) {
+			Set<Status> setStatuses = new HashSet<>();
+			setStatuses.add(status);
+			this.statuses = setStatuses;
+		} else {
+			this.statuses.add(status);
+		}
+	}
+
+	public Role(String name, String url, HashSet<Status> statuses){
+		this.name = name;
+		this.url = url;
+		this.statuses = statuses;
 	}
 
 	public String getUrl() {
@@ -50,7 +75,7 @@ public class Role implements GrantedAuthority {
 	}
 
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(long id) {
@@ -65,12 +90,28 @@ public class Role implements GrantedAuthority {
 		this.name = name;
 	}
 
+	public void setUsers(List<User> users){
+		this.users = users;
+	}
+
+	public List<User> getUsers(){
+		return this.users;
+	}
+
 	public boolean getDeleted(){
 		return this.deleted;
 	}
 
 	public void setDeleted(boolean deleted){
 		this.deleted = deleted;
+	}
+
+	public Set<Status> getStatuses() {
+		return this.statuses;
+	}
+
+	public void setStatuses(Set<Status> statuses) {
+		this.statuses = statuses;
 	}
 
 	@Override
@@ -82,6 +123,7 @@ public class Role implements GrantedAuthority {
 		if(!Objects.equals(this.id, role.id)) return false;
 		if(!Objects.equals(this.name, role.name)) return false;
 		if(!Objects.equals(this.url, role.url)) return false;
+		if (!Objects.equals(this.statuses, role.statuses)) return false;
 		return Objects.equals(this.deleted, role.deleted);
 	}
 

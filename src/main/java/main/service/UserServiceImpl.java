@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getByName(String name) {
 		logger.debug("Searching user with name: {}", name);
-		return userRepository.findUserByNameAndDeletedAndDisable(name, 0, 0);
+		return userRepository.findUserByNameAndDeletedAndDisable(name, false, false);
 	}
 
 	@Override
@@ -48,10 +48,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User getByEmail(String email){
+		logger.debug("Search users by email {}", email);
+		User user = userRepository.findUserByEmailAndDeleted(email, false);
+		if (user == null){
+			logger.debug("User with email {} was not found", email);
+		}
+		return  user;
+	}
+
+	@Override
 	public List <User> getByRole(Long roleId) {
 		logger.debug("Search users by role {}", roleId);
 		Role role = roleService.get(roleId);
-		if (role != null) {
+		if (role == null) {
 			logger.debug("Role {} was not found", roleId);
 		}
 		return userRepository.getAllByRoles(role);
@@ -59,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
 	public List <User> getAllUsers() {
 		logger.debug("Getting all users");
-		List <User> listUsers = userRepository.getAllByDeleted(0);
+		List <User> listUsers = userRepository.getAllByDeleted(false);
 		if (listUsers.size() > 0) {
 			logger.debug("The resulting list");
 		} else {

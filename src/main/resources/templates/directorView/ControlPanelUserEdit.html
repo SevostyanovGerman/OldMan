@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Создание сотрудника</title>
+    <title>Профиль сотрудника</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -86,10 +86,10 @@
                     <div class="tab-content">
                         <div class="tab-pane active " id="newrole">
                             <!-- Default panel contents -->
-                            <div class="col-sm-offset-5 col-sm-10">
-                                <div class="panel-heading"><b>Создать нового сотрудника</b></div>
+                            <div class="col-sm-offset-4 col-sm-10">
+                                <div class="panel-heading"><b>Профиль сотрудника</b></div>
                             </div>
-                            <form class="form-horizontal" th:object="${user}" th:action="@{/director/controlpanel/user/create}" action="create" method="post">
+                            <form class="form-horizontal" th:object="${user}" th:action="@{/director/controlpanel/user/update}" action="create" method="post">
                                 <div class="form-group row">
                                     <label for="id" class="control-label col-sm-2">ID Сотрудника</label>
                                     <div class="col-sm-8">
@@ -152,24 +152,12 @@
                                             </div>
                                         </div>
                                     </fieldset>
-                                </div><div class="form-group row">
-                                <fieldset class="center-block" style="width: 95%;">
-                                    <legend>Статусы</legend>
-                                    <div class="panel panel-default">
-                                        <div class="panel-body">
-                                            <div th:each="status : ${allStatuses}">
-                                                <div style="display: inline-block; width: 25%; height: 15px; float: left; margin-bottom: 3%;">
-                                                    <input th:field="*{statuses}" th:value="${status.id}" type="checkbox">
-                                                    <label th:for="${#ids.prev('statuses')}" th:text="${status.name}"></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
+                                </div>
                                 <div class="form-group row">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <input class="btn btn-success" type="submit" value="Создать сотрудника" />
+                                    <div class="col-sm-offset-4 col-sm-10">
+                                        <input class="btn btn-warning" type="reset" value="Сбросить" />
+                                        <a class="btn btn-danger" href="/director/stuff">Закрыть</a>
+                                        <input class="btn btn-success" type="submit" value="Сохранить" />
                                     </div>
                                 </div>
                             </form>
@@ -177,10 +165,6 @@
                     </div>
                 </div>
             </div>
-
-        <br>
-
-
     </div>
 </div>
 

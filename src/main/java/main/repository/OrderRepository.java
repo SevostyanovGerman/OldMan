@@ -9,12 +9,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface OrderRepository extends JpaRepository <Order, Long> {
 
 	Order findByIdAndDeleted(Long id, Boolean deleted);
-	List <Order> findAllByStatusAndDeleted(Status status, Boolean deleted);
+	Set<Order> findAllByStatusAndDeleted(Status status, Boolean deleted);
 	List <Order> findAllByDeleted(Boolean deleted);
 	List <Order> findAllByCustomerFirstNameContainsAndDeleted(String name, Boolean deleted);
 	List <Order> findAllByDeletedAndNumberContains(Boolean deleted, String number);

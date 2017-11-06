@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Список сотрудников</title>
+    <title>Должности</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -39,7 +39,7 @@
                 <li role="presentation"><a href="/director">Заказы</a></li>
                 <li role="presentation"><a href="/customers">Клиенты</a></li>
                 <li role="presentation"><a href="/director/stuff">Сотрудники</a></li>
-                <li class="active" role="presentation"><a href="/director/controlpanel">Панель управления</a></li>
+                <li class="active" role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Директор</a></li>
@@ -60,9 +60,8 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li><a href="/director/controlpanel/statuses">Статусы</a></li>
-                <li  class="active"><a href="/director/controlpanel/roles">Роли <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
+                <li  class="active"><a href="/director/controlpanel/roles">Должности <span class="sr-only">(current)</span></a></li>
+                <li><a href="/director/controlpanel/user">Сотрудник</a></li>
             </ul>
         </div>
     </div>
@@ -86,73 +85,53 @@
 
                 <div class="panel panel-default">
                     <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active " id="newrole">
-                            <!-- Default panel contents -->
-                            <div class="col-sm-offset-5 col-sm-10">
-                                <div class="panel-heading"><b>Создать новую роль</b></div>
-                            </div>
-                            <form class="form-horizontal" th:action="@{/director/controlpanel/roles/create}" action="create" method="post">
-                                <div class="form-group row">
-                                    <label for="id" class="control-label col-sm-2">ID роли</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="id" th:value="${newrole.getId()}" readonly="readonly" placeholder="ID роли" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="name" class="control-label col-sm-2">Название роли</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="name" th:value="${newrole.getName()}" placeholder="Название роли" required />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="url" class="control-label col-sm-2">Начальная страница</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="url" th:value="${newrole.getUrl()}" placeholder="Начальная страница">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-offset-2 col-sm-10">
-                                        <input class="btn btn-success" type="submit" value="Создать статус" />
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+                    <div class="tab-content" th:object="${role}" >
 
-                        <th:block th:each="role : ${roles}">
-                            <div class="tab-pane" th:id="${role.getId()}">
-                                <!-- Default panel contents -->
-                                <div class="col-sm-offset-5 col-sm-10">
-                                    <div class="panel-heading"><b>Редактирование роли</b></div>
+
+                        <div class="col-sm-offset-4 col-sm-10">
+                            <div class="panel-heading"><b>Создать новую должность</b></div>
+                        </div>
+                        <form class="form-horizontal" th:action="@{/director/controlpanel/roles/create}" action="create" method="post">
+                            <div class="form-group row">
+                                <label for="id" class="control-label col-sm-2">ID должности</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="id" th:value="${role.getId()}" readonly="readonly" placeholder="ID должности" />
                                 </div>
-                                <form class="form-horizontal" th:action="@{/director/controlpanel/roles/update}" action="update" method="post">
-                                    <div class="form-group row">
-                                        <label for="id" class="control-label col-sm-2">ID роли</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="id" th:value="${role.getId()}" readonly="readonly" placeholder="ID роли" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="name" class="control-label col-sm-2">Название роли</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="name" th:value="${role.getName()}" placeholder="Название роли" required />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <label for="url" class="control-label col-sm-2">Начальная страница</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="url" th:value="${role.getUrl()}" placeholder="Начальная страница" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="button" class="btn btn-default" href="#newstatus" data-toggle="tab">Закрыть</button>
-                                            <input class="btn btn-success" type="submit" value="Cохранить изменения" />
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
-                        </th:block>
+                            <div class="form-group row">
+                                <label for="name" class="control-label col-sm-2">Название должности</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="name" th:value="${role.getName()}" placeholder="Название должности" required />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="url" class="control-label col-sm-2">Начальная страница</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="url" th:value="${role.getUrl()}" placeholder="Начальная страница">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <fieldset class="center-block" style="width: 95%;">
+                                    <legend>Статусы заказов</legend>
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div th:each="status : ${allStatuses}">
+                                                <div style="display: inline-block; width: 25%; height: 15px; float: left; margin-bottom: 3%;">
+                                                    <input th:field="${role.statuses}" th:value="${status.id}" type="checkbox">
+                                                    <label th:for="${#ids.prev('statuses')}" th:text="${status.name}"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-offset-4 col-sm-10">
+                                    <input class="btn btn-warning" type="reset" value="Сбросить" />
+                                    <input class="btn btn-success" type="submit" value="Сохранить" />
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -166,20 +145,26 @@
                         <th>#ID</th>
                         <th>Роль</th>
                         <th>Начальная страница</th>
+                        <th>Статусы</th>
                         <th></th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each ="role : ${roles}">
-                        <td th:text="${role.getId()}"></td>
-                        <td th:text="${role.getName()}"></td>
-                        <td th:text="${role.getUrl()}"></td>
+                    <tr th:each ="unit : ${roles}">
+                        <td th:text="${unit.getId()}"></td>
+                        <td th:text="${unit.getName()}"></td>
+                        <td th:text="${unit.getUrl()}"></td>
                         <td>
-                            <a class="btn btn-xs btn-info" th:href="'#' + ${role.getId()}" data-toggle="tab">Изменить</a>
+                            <div th:each="status : ${unit.statuses}">
+                                <span th:text="${status.name}"></span>
+                            </div>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" th:href="'role/delete/' + ${role.getId()}">Удалить</a>
+                            <a class="btn btn-xs btn-info" th:href="'role/edit/' + ${unit.getId()}">Изменить</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-danger" th:href="'role/delete/' + ${unit.getId()}">Удалить</a>
                         </td>
                     </tr>
                     </tbody>
