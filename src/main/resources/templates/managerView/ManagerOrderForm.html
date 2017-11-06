@@ -647,18 +647,17 @@
                 <form th:action="${'/manager/order/editDelivery/'+ order.getId()}"
                       method="post"  class="form-horizontal"  >
 
-                    <div class="btn-group">
+                    <div class="btn-group" style="margin-bottom: 10px">
                         <button type="button" class="btn btn-default">Адреса клиента</button>
                         <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
                         <ul class="dropdown-menu" th:each="element, stat: ${order?.customer?.getDeliveries()}">
                             <li><a href="#" th:text="${element.toString()}"
-                                   th:onclick="'selectCustomerAddress(' +${stat.index}+')'"
-
-                            >Пункт 1</a></li>
+                                   th:onclick="'selectCustomerAddress(' +${stat.index}+')'"></a></li>
                         </ul>
+
                     </div>
 
-                    <br>
+
 
                     <b>
                         <div style="color: #22a9ff;">Адрес доставки:</div>

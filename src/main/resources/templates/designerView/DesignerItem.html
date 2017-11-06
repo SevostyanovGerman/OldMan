@@ -102,7 +102,8 @@
                             <li class="list-group-item" th:text="${item.getComment()}"> Бла-бла-бла
                             </li>
                         </ul>
-                        <h5>Изображения:</h5>
+                        <h5 >Изображения:</h5>
+
                         <ul th:each="element: ${item.getFiles()}" style="padding-left: 20px; display: inline-block">
                             <a th:if="${element}" th:href="${element}"><img
                                 th:if="${element}" th:src="${element}" width="50"
@@ -161,7 +162,7 @@
         <br>
 
         <div class="col-lg-12 pagging20 ">
-            <div class="form-horizontal borderSimple pagging20 paggingL10">
+            <div class="form-horizontal borderSimple pagging20 paggingL10" >
                 <fieldset>
 
 
@@ -172,8 +173,8 @@
                     <div class="container">
                         <ul th:each="element: ${item.getImages()}" style="padding-left: 20px; display: inline-block">
 
-
-                            <a th:href="${element.getImage()}" class="js-smartPhoto">
+                            <br>
+                            <a th:href="${element.getImage()}" class="js-smartPhoto" >
                                 <img th:src="${element.getImage()}" width="50"
                                      height="50"></a>
 
