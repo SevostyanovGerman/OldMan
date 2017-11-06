@@ -650,9 +650,9 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-default">Адреса клиента</button>
                         <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
-                        <ul class="dropdown-menu" th:each="element: ${order?.customer?.getDeliveries()}">
+                        <ul class="dropdown-menu" th:each="element, stat: ${order?.customer?.getDeliveries()}">
                             <li><a href="#" th:text="${element.toString()}"
-                                   onclick="selectCustomerAddress(this)"
+                                   th:onclick="'selectCustomerAddress(' +${stat.index}+')'"
 
                             >Пункт 1</a></li>
                         </ul>
@@ -791,11 +791,12 @@
 
 
 <script th:inline="javascript">
-    function selectCustomerAddress( ) {
-        var tCountry = [[${order.customer.getDeliveries().get(0).getCountry()}]];
-        var tCity = [[${order.customer.getDeliveries().get(0).getCity()}]];
-        var tAddress = [[${order.customer.getDeliveries().get(0).getAddress()}]];
-        var tZip = [[${order.customer.getDeliveries().get(0).getZip()}]];
+    function selectCustomerAddress(i) {
+        var deliveries =  [[${order.customer.getDeliveries()}]];
+        var tCountry = deliveries[i].country;
+        var tCity = deliveries[i].city;
+        var tAddress = deliveries[i].address;
+        var tZip = deliveries[i].zip;
 
 
         var country = document.getElementById("editAddressCountry");
@@ -808,7 +809,6 @@
         address.value = tAddress;
         zip.value = tZip;
     }
-
 </script>
 
 
