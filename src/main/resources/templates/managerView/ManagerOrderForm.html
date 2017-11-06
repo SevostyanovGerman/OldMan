@@ -323,20 +323,19 @@
                                 disabled>Сохранить
                         </button>
 
-
-                            <div class="form-inline">
-                                <br>
-                              <b>
-                                  <span th:if="${order?.getPaymentType()} != null"
-                                        th:text="'Способ оплаты: ' + ${order?.getPaymentType()}"></span>
-                                  <span  th:if="${order?.getPaymentType()} == null">Способ оплаты: -- </span>
-
-                                <a href="#modalSetPaymentType"  data-toggle="modal"> Изменить</a>
-                              </b>
-                            </div>
-                            <br>
                         <b>
-                            <div>Адрес доставки:   <a href="#addressModal"  data-toggle="modal" > Изменить</a></div>
+
+                            <div class="form-inline" style="margin-top: 15px"> Способ оплаты: <a
+                                href="#modalSetPaymentType" data-toggle="modal"> Изменить</a> </div>  </b>
+                                    <div style="text-align: center;color:#1abb57"><h5>
+                                  <span  th:if="${order?.getPaymentType()} != null"
+                                        th:text=" ${order?.getPaymentType()}"></span>
+                                  <span  th:if="${order?.getPaymentType()} == null"> -- </span>
+                                    </h5>
+                                    </div>
+                        <b>
+                            <div style="margin-top: 10px">Адрес доставки:   <a href="#addressModal"  data-toggle="modal"
+                            > Изменить</a></div>
                         </b>
 
                         <span th:text="${order?.getDefaultDelivery()}" id="deliveryField">
@@ -525,7 +524,7 @@
                         <label class="control-label col-xs-3">Имя:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <span class="input-group-addon"></i></span>
                                 <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
                                        th:field="*{firstName}">
                             </div>
@@ -536,7 +535,7 @@
                         <label class="control-label col-xs-3">Фамилия:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <span class="input-group-addon"></span>
                                 <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
                                        th:field="*{secName}">
                             </div>
@@ -548,7 +547,7 @@
                         <label class="control-label col-xs-3">Email:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                <span class="input-group-addon"></span>
                                 <input type="email" class="form-control" required="required"
                                        onkeyup="checkUser(this.value)" th:field="*{email}">
                             </div>
@@ -562,7 +561,7 @@
                         <label class="control-label col-xs-3">Телефон:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <span class="input-group-addon"></span>
                                 <input type="text" class="form-control" required="required" pattern="[0-9]{3,12}"
                                        th:field="*{phone}">
                             </div>
@@ -579,7 +578,7 @@
                             <label class="control-label col-xs-3">Страна:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></span>
                                     <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
                                            th:field="*{country}">
                                 </div>
@@ -591,7 +590,7 @@
                             <label class="control-label col-xs-3">Город:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></span>
                                     <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
                                            th:field="*{city}">
                                 </div>
@@ -603,7 +602,7 @@
                             <label class="control-label col-xs-3">Адрес:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></i></span>
                                     <input type="text" class="form-control" required="required"
                                            pattern="[a-zA-Z0-9\s]+{3,}"
                                            th:field="*{address}">
@@ -616,7 +615,7 @@
                             <label class="control-label col-xs-3">Индекс:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></span>
                                     <input type="text" class="form-control" required="required" pattern="[0-9]{3,}"
                                            th:field="*{zip}">
                                 </div>
@@ -682,7 +681,7 @@
                             <label class="control-label col-xs-3">Страна:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></span>
                                     <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}"
                                             name="editAddressCountry" id="editAddressCountry"
                                            th:value="${order?.getDelivery()?.getCountry()}">
@@ -695,7 +694,7 @@
                             <label class="control-label col-xs-3">Город:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></span>
                                     <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}"
                                            name="editAddressCity"  th:value="${order?.getDelivery()?.getCity()}" id="editAddressCity">
                                 </div>
@@ -707,7 +706,7 @@
                             <label class="control-label col-xs-3">Адрес:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></span>
                                     <input type="text" class="form-control" required="required"
                                            pattern="[a-zA-Z0-9\s]+{3,}"
                                             name="editAddressAddress" id="editAddressAddress"
@@ -721,7 +720,7 @@
                             <label class="control-label col-xs-3">Индекс:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <span class="input-group-addon"></span>
                                     <input type="text" class="form-control" required="required" pattern="[0-9]{3,}"
                                         name="editAddressZip" th:value="${order?.getDelivery()?.getZip()}" id="editAddressZip">
                                 </div>
