@@ -33,6 +33,9 @@ public class Item {
 	@Column(name = "status")
 	private boolean status;
 
+	@Column(name = "amount")
+	private Double amount;
+
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
 	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
@@ -60,6 +63,7 @@ public class Item {
 		this.count = count;
 		this.price = price;
 		this.status = status;
+		this.amount = count * price;
 	}
 
 	public Long getId() {
@@ -154,7 +158,21 @@ public class Item {
 	}
 
 	public void setOrder(Order order) {
+		Double price = order.getPrice() + this.amount;
+		order.setPrice(price);
 		this.order = order;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public boolean isStatus() {
+		return status;
 	}
 
 	@Override
