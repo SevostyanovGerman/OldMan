@@ -1,7 +1,6 @@
 package main.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +30,7 @@ public class Comment {
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Answer.class)
 	@JoinTable(name = "keys_comment_answer", joinColumns = {@JoinColumn(name = "comment_id")},
 		inverseJoinColumns = {@JoinColumn(name = "answer_id")})
-	private List <Answer> answers;
+	private List<Answer> answers;
 
 	public Comment() {
 	}
@@ -81,11 +80,11 @@ public class Comment {
 		this.deleted = deleted;
 	}
 
-	public List <Answer> getAnswers() {
+	public List<Answer> getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(List <Answer> answers) {
+	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
 

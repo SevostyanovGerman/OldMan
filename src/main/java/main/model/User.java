@@ -49,12 +49,12 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
 		inverseJoinColumns = {@JoinColumn(name = "role_id")})
-	private Set <Role> roles;
+	private Set<Role> roles;
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Status.class)
 	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "user_id")},
 		inverseJoinColumns = {@JoinColumn(name = "role_id")})
-	private Set <Status> statuses;
+	private Set<Status> statuses;
 
 	public User() {
 	}
@@ -67,17 +67,17 @@ public class User implements UserDetails {
 		this.deleted = deleted;
 		this.disable = disable;
 		if (this.roles == null) {
-			Set <Role> list = new HashSet <>();
+			Set<Role> list = new HashSet<>();
 			list.add(role);
 			this.roles = list;
 		} else {
 			this.roles.add(role);
 		}
-		this.statuses = new HashSet <>();
+		this.statuses = new HashSet<>();
 	}
 
 	@Override
-	public Collection <? extends GrantedAuthority> getAuthorities() {
+	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return roles;
 	}
 
@@ -180,11 +180,11 @@ public class User implements UserDetails {
 		this.created = created;
 	}
 
-	public Set <Role> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set <Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
@@ -196,11 +196,11 @@ public class User implements UserDetails {
 		this.creator = creator;
 	}
 
-	public Set <Status> getStatuses() {
+	public Set<Status> getStatuses() {
 		return this.statuses;
 	}
 
-	public void setStatuses(Set <Status> statuses) {
+	public void setStatuses(Set<Status> statuses) {
 		this.statuses = statuses;
 	}
 

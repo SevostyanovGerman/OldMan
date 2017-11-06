@@ -18,7 +18,7 @@ public class StatusServiceImpl implements StatusService {
 	private StatusRepository statusRepository;
 
 	@Autowired
-	public StatusServiceImpl(StatusRepository statusRepository){
+	public StatusServiceImpl(StatusRepository statusRepository) {
 		this.statusRepository = statusRepository;
 	}
 
@@ -26,7 +26,7 @@ public class StatusServiceImpl implements StatusService {
 	public Status get(Long number) {
 		logger.debug("Searching status with id: {}", number);
 		return statusRepository.getByNumber(number);
-	}	
+	}
 
 	public Status getById(Long id) {
 		logger.debug("Searching status with id: {}", id);
@@ -37,7 +37,7 @@ public class StatusServiceImpl implements StatusService {
 	public Status getByName(String name) {
 		logger.debug("Searching status with name: {}", name);
 		Status searchingStatus = statusRepository.getByNameAndDeleted(name, false);
-		if(searchingStatus == null){
+		if (searchingStatus == null) {
 			logger.debug("Status {} not found", name);
 		}
 		return searchingStatus;
