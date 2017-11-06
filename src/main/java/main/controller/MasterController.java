@@ -32,10 +32,8 @@ public class MasterController {
 	private CommentService commentService;
 
 	@Autowired
-	public MasterController(OrderService orderService,
-							ItemService itemService,
-							UserService userService,
-							CommentService commentService) {
+	public MasterController(OrderService orderService, ItemService itemService,
+							UserService userService, CommentService commentService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
