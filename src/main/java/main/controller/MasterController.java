@@ -21,20 +21,21 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
-
 @Controller
 public class MasterController {
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
+
 	private OrderService orderService;
+
 	private ItemService itemService;
+
 	private UserService userService;
+
 	private CommentService commentService;
 
 	@Autowired
-	public MasterController(OrderService orderService,
-							ItemService itemService,
-							UserService userService,
+	public MasterController(OrderService orderService, ItemService itemService, UserService userService,
 							CommentService commentService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
@@ -46,7 +47,7 @@ public class MasterController {
 	public ModelAndView getMasterDashBoard() {
 		ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
 		try {
-			List <Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
+			List<Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
 			model.addObject("masterOrders", masterOrders);
 		} catch (Exception e) {
 			logger.error("Controller '/master' orderService.masterOrders() error");
@@ -62,7 +63,6 @@ public class MasterController {
 		} catch (Exception e) {
 			logger.error("Controller '/master/order/', orderId={}", id);
 		}
-
 		return "masterView/MasterOrderForm";
 	}
 
@@ -87,7 +87,6 @@ public class MasterController {
 			logger.error("Controller '/master/search' doesn't work ");
 			model = new ModelAndView("masterView/MasterDashBoard");
 		}
-
 		return model;
 	}
 
@@ -141,6 +140,4 @@ public class MasterController {
 		model.addObject("order", order);
 		return model;
 	}
-
-
 }

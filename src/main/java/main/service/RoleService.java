@@ -10,5 +10,5 @@ public interface RoleService {
 	Role getByName(String name);
 	Role save(Role role);
 	Role update(Role role);
-	List <Role> getAll();
+	List<Role> getAll();
 }

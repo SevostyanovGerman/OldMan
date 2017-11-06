@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 import java.util.List;
 
-
 @RestController
 public class AjaxController {
 
 	private CustomerService customerService;
+
 	private OrderService orderService;
 
 	@Autowired
@@ -29,15 +29,15 @@ public class AjaxController {
 	}
 
 	@RequestMapping(value = {"/customersearch"}, method = RequestMethod.GET)
-	public List <Customer> realCustomer(@RequestParam(value = "q") String q, Model model) {
-		List <Customer> list = customerService.searchCustomer(q);
+	public List<Customer> realCustomer(@RequestParam(value = "q") String q, Model model) {
+		List<Customer> list = customerService.searchCustomer(q);
 		return list;
 	}
 
 	@RequestMapping(value = {"master/ordersByRange"}, method = RequestMethod.POST)
 	public ResponseEntity<List<Order>> getOrderByRange(Date startDate, Date endDate) {
 		List<Order> orderRange = orderService.findOrdersByRange(startDate, endDate);
-		if(orderRange.isEmpty()){
+		if (orderRange.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(orderRange, HttpStatus.OK);

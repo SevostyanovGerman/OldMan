@@ -40,14 +40,14 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Deprecated
-	public List <Order> getAll() {
+	public List<Order> getAll() {
 		return orderRepository.findAllByDeleted(false);
 	}
 
 	@Override
-	public List <Order> getAllAllowed(User user) {
-		Set <Status> statusSet = user.getStatuses();
-		List <Order> list = new ArrayList <>();
+	public List<Order> getAllAllowed(User user) {
+		Set<Status> statusSet = user.getStatuses();
+		List<Order> list = new ArrayList<>();
 		for (Status status : statusSet) {
 			list.addAll(orderRepository.findAllByStatusAndDeleted(status, false));
 		}
@@ -55,12 +55,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List <Order> designerOrders() {
+	public List<Order> designerOrders() {
 		return orderRepository.findAllByDeletedAndStatusId(false, 1l);
 	}
 
 	@Override
-	public List <Order> designFindNumber(String number) {
+	public List<Order> designFindNumber(String number) {
 		return orderRepository.findAllByDeletedAndStatusIdAndNumberContains(false, 1l, number);
 	}
 
@@ -102,22 +102,22 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List <Order> findByCustomer(String name) {
+	public List<Order> findByCustomer(String name) {
 		return orderRepository.findAllByCustomerFirstNameContainsAndDeleted(name, false);
 	}
 
 	@Override
-	public List <Order> findByNumber(String number) {
+	public List<Order> findByNumber(String number) {
 		return orderRepository.findAllByDeletedAndNumberContains(false, number);
 	}
 
 	@Override
-	public List <Order> findByManager(String name) {
+	public List<Order> findByManager(String name) {
 		return orderRepository.findAllByDeletedAndManagerFirstNameContains(false, name);
 	}
 
 	@Override
-	public List <Order> searchByAllFields(String searchTerm) {
+	public List<Order> searchByAllFields(String searchTerm) {
 		return orderRepository.findBySearchTerm(searchTerm);
 	}
 

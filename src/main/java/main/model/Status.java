@@ -1,9 +1,7 @@
 package main.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Optional;
 
 @Entity
 @Table(name = "statuses")
@@ -51,19 +49,19 @@ public class Status {
 		this.name = name;
 	}
 
-	public boolean getDeleted(){
+	public boolean getDeleted() {
 		return this.deleted;
 	}
 
-	public void setDeleted(boolean deleted){
+	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
 
-	public long getNumber(){
-		return  this.number;
+	public long getNumber() {
+		return this.number;
 	}
 
-	public void setNumber(long number){
+	public void setNumber(long number) {
 		this.number = number;
 	}
 
@@ -75,12 +73,11 @@ public class Status {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if ( (o == null) || (getClass() != o.getClass()) ) return false;
+		if ((o == null) || (getClass() != o.getClass())) return false;
 		Status status = (Status) o;
-
-		if(!Objects.equals(this.id, status.id)) return false;
-		if(!Objects.equals(this.name, status.name)) return false;
-		if(!Objects.equals(this.number, status.number)) return false;
+		if (!Objects.equals(this.id, status.id)) return false;
+		if (!Objects.equals(this.name, status.name)) return false;
+		if (!Objects.equals(this.number, status.number)) return false;
 		return Objects.equals(this.deleted, status.deleted);
 	}
 

@@ -24,7 +24,7 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 										Authentication authentication) throws IOException, ServletException {
 		response.setStatus(HttpServletResponse.SC_OK);
 		boolean check = false;
-		List <Role> roleList = roleService.getAll();
+		List<Role> roleList = roleService.getAll();
 		String url = "/";
 		for (int i = 0; i < roleList.size(); i++) {
 			for (GrantedAuthority auth : authentication.getAuthorities()) {

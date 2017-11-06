@@ -10,8 +10,8 @@ public interface CustomerService {
 	Customer getByPhone(String phone);
 	Customer save(Customer customer);
 	Customer update(Customer customer);
-	List <Customer> getByName(String name);
-	List <Customer> getAll();
-	List <Customer> searchCustomer(String searchWord);
+	List<Customer> getByName(String name);
+	List<Customer> getAll();
+	List<Customer> searchCustomer(String searchWord);
 	Boolean checkEmail(String email);
 }

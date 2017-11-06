@@ -3,8 +3,6 @@ package main.service;
 import main.model.Status;
 import java.util.List;
 
-import java.util.List;
-
 public interface StatusService {
 
 	Status get(Long number);
@@ -12,5 +10,5 @@ public interface StatusService {
 	Status getByName(String name);
 	Status save(Status status);
 	Status update(Status status);
-	List <Status> getAll();
+	List<Status> getAll();
 }

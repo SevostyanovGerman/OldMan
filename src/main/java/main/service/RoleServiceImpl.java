@@ -18,7 +18,7 @@ public class RoleServiceImpl implements RoleService {
 	private RoleRepository roleRepository;
 
 	@Autowired
-	public RoleServiceImpl(RoleRepository roleRepository){
+	public RoleServiceImpl(RoleRepository roleRepository) {
 		this.roleRepository = roleRepository;
 	}
 
@@ -37,7 +37,7 @@ public class RoleServiceImpl implements RoleService {
 	public Role getByName(String name) {
 		logger.debug("Searching role with name: {}", name);
 		Role searchingRole = roleRepository.getByNameAndDeleted(name, false);
-		if(searchingRole == null){
+		if (searchingRole == null) {
 			logger.debug("Role {} not found", name);
 		}
 		return searchingRole;

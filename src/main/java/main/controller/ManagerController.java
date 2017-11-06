@@ -53,7 +53,7 @@ public class ManagerController {
 	public ModelAndView getOrderList() {
 		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
 		User authUser = userService.getCurrentUser();
-		List <Order> orderList = orderService.getAllAllowed(authUser);
+		List<Order> orderList = orderService.getAllAllowed(authUser);
 		model.addObject("authUser", authUser);
 		model.addObject("orderList", orderList);
 		return model;
@@ -245,18 +245,14 @@ public class ManagerController {
 
 	//Изменение создание адреса доставки
 	@RequestMapping(value = {"/manager/order/editDelivery/{orderId}"}, method = RequestMethod.POST)
-	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
-									   @ModelAttribute("editAddressCountry") String country,
-									   @ModelAttribute("editAddressCity") String city,
-									   @ModelAttribute("editAddressAddress") String address,
-									   @ModelAttribute("editAddressZip") String zip, HttpServletRequest request) {
+	public ModelAndView changeAddress(@PathVariable("orderId") Long orderId,
+									  @ModelAttribute("editAddressCountry") String country,
+									  @ModelAttribute("editAddressCity") String city,
+									  @ModelAttribute("editAddressAddress") String address,
+									  @ModelAttribute("editAddressZip") String zip) {
 		Order order = orderService.get(orderId);
 		try {
-			Delivery delivery = new Delivery();
-			delivery.setCountry(country);
-			delivery.setCity(city);
-			delivery.setAddress(address);
-			delivery.setZip(zip);
+			Delivery delivery = new Delivery(country, city, address, zip);
 			deliveryService.save(delivery);
 			order.setDelivery(delivery);
 			orderService.save(order);

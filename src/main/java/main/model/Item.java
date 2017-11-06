@@ -1,7 +1,6 @@
 package main.model;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -42,13 +41,13 @@ public class Item {
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = File.class)
 	@JoinTable(name = "keys_item_file", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "file_id")})
-	private List <File> files;
+	private List<File> files;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
 		cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "image_id")})
-	private List <Image> images;
+	private List<Image> images;
 
 	public Item() {
 	}
@@ -119,19 +118,19 @@ public class Item {
 		this.price = price;
 	}
 
-	public List <File> getFiles() {
+	public List<File> getFiles() {
 		return files;
 	}
 
-	public void setFiles(List <File> files) {
+	public void setFiles(List<File> files) {
 		this.files = files;
 	}
 
-	public List <Image> getImages() {
+	public List<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(List <Image> images) {
+	public void setImages(List<Image> images) {
 		this.images = images;
 	}
 
@@ -140,7 +139,7 @@ public class Item {
 	}
 
 	public String getStatusString() {
-		if(status) {
+		if (status) {
 			return "готов";
 		}
 		return "не готов";

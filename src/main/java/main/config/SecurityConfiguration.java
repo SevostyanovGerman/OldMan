@@ -35,7 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		CharacterEncodingFilter filter = new CharacterEncodingFilter();
 		filter.setEncoding("UTF-8");
 		filter.setForceEncoding(true);
-		List <Role> roleList = roleService.getAll();
+		List<Role> roleList = roleService.getAll();
 		http.csrf().disable().addFilterBefore(filter, CsrfFilter.class);
 		http.authorizeRequests().antMatchers("/").authenticated().
 			and().formLogin().successHandler(userSuccessHandler).loginPage("/login").

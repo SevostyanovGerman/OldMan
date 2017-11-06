@@ -37,16 +37,16 @@ public class Customer {
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "keys_customer_delivery", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
-	private List <Delivery> deliveries;
+	private List<Delivery> deliveries;
 
 	@JsonIgnore
 	@OneToMany
 	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
-	private List <Order> orders;
+	private List<Order> orders;
 
 	public Customer() {
-		this.deliveries = new ArrayList <>();
+		this.deliveries = new ArrayList<>();
 	}
 
 	public Customer(String firstName, String secName, String email, String phone, Delivery deliveries, String country,
@@ -56,7 +56,7 @@ public class Customer {
 		this.email = email;
 		this.phone = phone;
 		if (this.deliveries == null) {
-			List <Delivery> deliveryList = new ArrayList <>();
+			List<Delivery> deliveryList = new ArrayList<>();
 			this.deliveries = deliveryList;
 			this.deliveries.add(deliveries);
 		} else {
@@ -104,19 +104,19 @@ public class Customer {
 		this.phone = phone;
 	}
 
-	public List <Delivery> getDeliveries() {
+	public List<Delivery> getDeliveries() {
 		return deliveries;
 	}
 
-	public void setDeliveries(List <Delivery> deliveries) {
+	public void setDeliveries(List<Delivery> deliveries) {
 		this.deliveries = deliveries;
 	}
 
-	public void setOrders(List <Order> orders) {
+	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
 
-	public List <Order> getOrders() {
+	public List<Order> getOrders() {
 		return this.orders;
 	}
 

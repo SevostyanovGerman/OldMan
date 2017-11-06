@@ -72,13 +72,13 @@ public class Order {
 	@JoinTable(name = "keys_order_comment", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "comment_id")})
 	@JsonBackReference
-	private List <Comment> comments;
+	private List<Comment> comments;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
 	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "item_id")})
 	@JsonBackReference
-	private List <Item> items;
+	private List<Item> items;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
 	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "order_id")},
@@ -90,7 +90,7 @@ public class Order {
 	@JoinTable(name = "keys_order_history", joinColumns = {@JoinColumn(name = "order_id")},
 		inverseJoinColumns = {@JoinColumn(name = "history_id")})
 	@JsonBackReference
-	private List <History> histories;
+	private List<History> histories;
 
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
 	@JoinTable(name = "keys_order_manager", joinColumns = {@JoinColumn(name = "order_id")},
@@ -138,7 +138,7 @@ public class Order {
 		this.designer = designer;
 		this.master = master;
 		if (this.items == null) {
-			this.items = new ArrayList <>();
+			this.items = new ArrayList<>();
 		}
 		this.items.add(item);
 		this.delivery = customer.getDefaultDelivery();
@@ -231,19 +231,19 @@ public class Order {
 		this.deliveryType = deliveryType;
 	}
 
-	public List <Comment> getComments() {
+	public List<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List <Comment> comments) {
+	public void setComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 
-	public List <Item> getItems() {
+	public List<Item> getItems() {
 		return items;
 	}
 
-	public void setItems(List <Item> items) {
+	public void setItems(List<Item> items) {
 		this.items = items;
 	}
 
@@ -322,11 +322,11 @@ public class Order {
 		this.customer = customer;
 	}
 
-	public List <History> getHistories() {
+	public List<History> getHistories() {
 		return histories;
 	}
 
-	public void setHistories(List <History> histories) {
+	public void setHistories(List<History> histories) {
 		this.histories = histories;
 	}
 

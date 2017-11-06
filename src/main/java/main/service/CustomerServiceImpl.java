@@ -35,19 +35,19 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List <Customer> getByName(String name) {
+	public List<Customer> getByName(String name) {
 		logger.debug("Getting list customers with Firstname: {}", name);
 		return customerRepository.getAllByFirstNameContains(name);
 	}
 
 	@Override
-	public List <Customer> getAll() {
+	public List<Customer> getAll() {
 		logger.debug("Getting customer list");
 		return customerRepository.findAll();
 	}
 
 	@Override
-	public List <Customer> searchCustomer(String searchWord) {
+	public List<Customer> searchCustomer(String searchWord) {
 		logger.debug("Looking word {}", searchWord);
 		return customerRepository.findBySearchWord(searchWord);
 	}

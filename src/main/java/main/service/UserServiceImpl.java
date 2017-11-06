@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List <User> getByRole(Long roleId) {
+	public List<User> getByRole(Long roleId) {
 		logger.debug("Search users by role {}", roleId);
 		Role role = roleService.get(roleId);
 		if (role != null) {
@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
 		return userRepository.getAllByRoles(role);
 	}
 
-	public List <User> getAllUsers() {
+	public List<User> getAllUsers() {
 		logger.debug("Getting all users");
-		List <User> listUsers = userRepository.getAllByDeleted(0);
+		List<User> listUsers = userRepository.getAllByDeleted(0);
 		if (listUsers.size() > 0) {
 			logger.debug("The resulting list");
 		} else {
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List <User> getUsersByRole(long roleId) {
+	public List<User> getUsersByRole(long roleId) {
 		Role role = roleService.get(roleId);
 		return userRepository.getAllByRoles(role);
 	}

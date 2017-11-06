@@ -68,7 +68,7 @@ public class InitDB {
 		Role role4 = new Role("BOSS", "/director/");
 		roleService.save(role4);
 		//Пользователи//
-		HashSet <Status> allStatus = new HashSet <>();
+		HashSet<Status> allStatus = new HashSet<>();
 		allStatus.add(status1);
 		allStatus.add(status2);
 		allStatus.add(status3);

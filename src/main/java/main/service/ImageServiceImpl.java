@@ -48,7 +48,7 @@ public class ImageServiceImpl implements ImageService {
 	public boolean saveBlobImage(MultipartHttpServletRequest multipartRequest, Long itemId) {
 		String name;
 		Item item = itemService.get(itemId);
-		for (Map.Entry <String, MultipartFile> set : multipartRequest.getFileMap().entrySet()) {
+		for (Map.Entry<String, MultipartFile> set : multipartRequest.getFileMap().entrySet()) {
 			MultipartFile file = set.getValue();
 			if (!file.isEmpty()) {
 				try {
