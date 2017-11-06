@@ -44,8 +44,8 @@ public class AjaxController {
 	}
 
 	@RequestMapping(value = {"/checkuser"}, method = RequestMethod.GET)
-	public String checkUser(@RequestParam(value = "q") String q) {
-		return customerService.checkEmail(q).toString();
+	public String checkUser(@RequestParam(value = "email") String email) {
+		return customerService.checkEmail(email).toString();
 	}
 }
 
