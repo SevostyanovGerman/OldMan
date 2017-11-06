@@ -790,5 +790,28 @@
 
 
 
+<script th:inline="javascript">
+    function selectCustomerAddress( ) {
+        var tCountry = [[${order.customer.getDeliveries().get(0).getCountry()}]];
+        var tCity = [[${order.customer.getDeliveries().get(0).getCity()}]];
+        var tAddress = [[${order.customer.getDeliveries().get(0).getAddress()}]];
+        var tZip = [[${order.customer.getDeliveries().get(0).getZip()}]];
+
+
+        var country = document.getElementById("editAddressCountry");
+        var city = document.getElementById("editAddressCity");
+        var address = document.getElementById("editAddressAddress");
+        var zip = document.getElementById("editAddressZip");
+
+        country.value = tCountry;
+        city.value = tCity;
+        address.value = tAddress;
+        zip.value = tZip;
+    }
+
+</script>
+
+
+
 </body>
 </html>
