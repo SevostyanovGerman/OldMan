@@ -54,8 +54,8 @@
     <div class="container">
             <ul class="nav nav-tabs" id="myTab" >
                 <li class="active"><a href="#order" data-toggle="tab">Заказ</a></li>
-                <li><a href="#comment" data-toggle="tab">Комментарии</a></li>
-                <li><a href="#history" data-toggle="tab">История</a></li>
+                <li class=""><a href="#comment" data-toggle="tab">Комментарии</a></li>
+                <li class=""><a href="#history" data-toggle="tab">История</a></li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade in active col-lg-9" id="order">
@@ -100,7 +100,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="tab-pane fade, col-lg-9" id="comment">
+                <div class="tab-pane fade col-lg-9" id="comment">
                     <div class="pre-scrollable">
                         <ul class="comment-section" th:each="element: ${order.getComments()}">
 
@@ -153,7 +153,7 @@
 
 
                 </div>
-                <div class="tab-pane fade, col-lg-9" id="history">
+                <div class="tab-pane fade col-lg-9" id="history">
                     <table class="table table-bordered data">
                         <thead>
                         <tr>

@@ -1,4 +1,4 @@
-// Lock button
+/* Lock button */
 function checkStatus() {
 
 
@@ -14,7 +14,7 @@ function checkStatus() {
     }
 }
 
-// Date range picker
+/* Date range picker */
 $(function() {
 
     $('input[name="datefilter"]').daterangepicker({
@@ -79,7 +79,7 @@ $(function() {
 
 });
 
-// Tabs
+/* Tabs */
 $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
     localStorage.setItem('activeTab', $(e.target).attr('href'));
 });
@@ -91,3 +91,8 @@ console.log(activeTab);
 if (activeTab) {
     $('a[href="' + activeTab + '"]').tab('show');
 }
+
+/* SmartPhoto */
+window.addEventListener('DOMContentLoaded',function(){
+    new smartPhoto(".js-smartPhoto");
+});
