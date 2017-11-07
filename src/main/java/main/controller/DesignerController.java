@@ -5,12 +5,12 @@ import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
 
@@ -107,18 +107,6 @@ public class DesignerController {
 			return new ModelAndView("redirect:/designer/order/" + id);
 		}
 		return model;
-	}
-
-	//Загрузка файлов
-	@RequestMapping(value = "/uploadFile/", method = RequestMethod.POST)
-	@ResponseBody
-	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		if (imageService.saveBlobImage(multipartRequest, id)) {
-			return "Вы удачно загрузили файлы";
-		}
-		return "Ошибка при загрузке файлов";
 	}
 
 	//Смена статуса заказа
