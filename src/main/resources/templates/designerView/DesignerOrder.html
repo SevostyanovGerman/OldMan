@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
 
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/mxComment.css"/>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
@@ -92,110 +95,104 @@
                             </table>
                         </div>
 
-                        <div class="tab-pane fade" id="tabComments" role="tabpanel">
-
-                            <div class="pre-scrollable">
-
-                            <ul th:each="element: ${order.getComments()}" class="chat">
-                                <li class="left clearfix"><span class="chat-img pull-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle"/>
-                        </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <strong class="primary-font" th:text="${element.getLogin()}">Jack
-                                                Sparrow</strong>
-                                            <small
-                                                class="pull-right text-muted" th:text="${element.getTime()}">
-                                                <span class="glyphicon glyphicon-time"></span>12 mins ago
-                                            </small>
-                                        </div>
-                                        <p th:utext="${element.getContent()}" style="text-indent:20%;font-size: 18">
-
-                                        </p>
-
-                                    </div>
-                                    <div style="text-align: right">
-                                        <a class="btn btn-info btn-sm"
-                                           th:onclick="'showHide(\'' + ${element} + '\');'"
-                                           th:id="${element}+'Btn'">Ответить</a>
-                                    </div>
-                                </li>
+                        <div class="tab-pane fade" id="tabComments" role="tabpanel" >
+                            <div>
 
 
-                                <ul th:each="element2: ${element.getAnswers()}">
-                                    <li class="right clearfix"><span class="chat-img pull-right">
-                            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle"/>
-                        </span>
-                                        <div class="chat-body clearfix">
-                                            <div class="header">
-                                                <small class=" text-muted" th:text="${element2.getTime()} "><span
-                                                    class="glyphicon glyphicon-time"
-                                                ></span></small>
-                                                <strong class="pull-right primary-font" th:text="${element2.getLogin()}"
-                                                >Bhaumik Patel</strong>
-                                            </div>
-                                            <p th:utext="${element2.getContent()}" style="text-indent:20%; text-align:
-                                        right; font-size: 18px">
+                                <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
+                                    <div class="panel-footer">
 
-                                            </p>
-
-                                        </div>
-
-                                    </li>
-
-                                </ul>
-
-
-                                <div class="panel-footer">
-                                    <div th:id="${element}" style="display: none; " class="container-fluid">
-
-
-                                        <form th:action="'/designer/order/comment/sub/'+ ${order.getId()}" method="post"
-                                              th:id="${element}+'Frm'">
-
-                                            <textarea class="form-control " th:id="${element}+'Text'"
-                                                      name="commentTextSub"></textarea>
-
-                                            <div style="text-align: right">
-                                                <button class="btn btn-warning btn-sm" type="submit"
-                                                         name="commentBtnOrder"
-                                                        th:value="${element.getId()}">Отправить
-                                                </button>
-
-                                            </div>
+                                        <form th:action="'/order/comment/add='+${order.getId()}" method="post">
+                                <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
+                                          id="e_content"></textarea>
+                                            <button class="btn btn-warning btn-sm" type="submit" id="btn-chat"
+                                                    style="text-align: right">Написать комментарий
+                                            </button>
                                         </form>
 
 
+
+
+
+
+
                                     </div>
+                                    <!-- Contenedor Principal -->
+                                    <div class="comments-container" >
 
+                                        <ul id="comments-list" class="comments-list"
+                                            th:each="element: ${order.getComments()}">
+                                            <li>
+                                                <div class="comment-main-level">
+                                                    <!-- Avatar -->
+                                                    <!--<div class="comment-avatar"> <a href="#" class="btn btn-info btn-lg">-->
+                                                        <!--<span class="glyphicon glyphicon-user"></span> User-->
+                                                    <!--</a> <span th:text="${element.getLogin()}"> </span></div>-->
+                                                    <!-- Contenedor del Comentario -->
+                                                    <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
 
+                                                    <div class="comment-box">
+                                                        <div class="comment-head">
+                                                            <h6 class="comment-name by-author" th:text="${element.getLogin()}"></h6>
+                                                            <span th:text="${element.getTime()}"></span>
+                                                            <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
+                                                               th:id="${element}+'Btn'">Ответить</i>
+                                                        </div>
+                                                        <div class="comment-content" th:utext="${element.getContent()}">
 
+                                                        </div>
+
+                                                        <div th:id="${element}" style="display: none; " class="container-fluid">
+                                                        <form th:action="'/order/comment/sub/'+ ${order.getId()}" method="post"
+                                                              th:id="${element}+'Frm'">
+
+                                                            <textarea class="form-control " th:id="${element}+'Text'"
+                                                                name="commentTextSub"></textarea>
+
+                                                                 <div style="text-align: right">
+                                                                <button class="btn btn-warning btn-sm" type="submit"
+                                                                        name="commentBtnOrder"
+                                                                        th:value="${element.getId()}">Отправить
+                                                                </button>
+
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Respuestas de los comentarios -->
+                                                <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
+                                                    <li>
+                                                        <!-- Avatar -->
+                                                        <!--<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>-->
+                                                        <!--&lt;!&ndash; Contenedor del Comentario &ndash;&gt;-->
+                                                        <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+
+                                                        <div class="comment-box">
+                                                            <div class="comment-head">
+                                                                <h6 class="comment-name" th:text="${element2.getLogin()}"></h6>
+                                                                <span th:text="${element2.getTime()} ">hace 10 minutos</span>
+                                                            </div>
+                                                            <div class="comment-content" th:utext="${element2.getContent()}">
+
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </ul>
-
-
                             </div>
 
 
-                        <div class="panel-footer">
-
-                            <form th:action="'/designer/order/comment/add='+${order.getId()}" method="post">
-                                <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
-                                          id="e_content"></textarea>
-                                <button class="btn btn-warning btn-sm" type="submit" id="btn-chat"
-                                        style="text-align: right"
-                                >Написать
-                                    комментарий
-                                </button>
-                            </form>
 
 
 
 
 
-
-
-                        </div>
 
 
                     </div>

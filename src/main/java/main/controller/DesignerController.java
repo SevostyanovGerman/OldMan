@@ -1,18 +1,17 @@
 package main.controller;
 
-import main.model.*;
+import main.model.Image;
+import main.model.Item;
 import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
-import java.util.Date;
 
 @Controller
 public class DesignerController {
@@ -118,46 +117,6 @@ public class DesignerController {
 		} catch (Exception e) {
 			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}", id);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
-		}
-		return model;
-	}
-
-	//Добавление комментария
-	@RequestMapping(value = {"/designer/order/comment/add={id}"}, method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id, @ModelAttribute("commentText") String content) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		try {
-			Comment comment = new Comment(content, userService.getCurrentUser().toString(), new Date());
-			commentService.save(comment);
-			Order order = orderService.get(id);
-			order.getComments().add(comment);
-			orderService.save(order);
-			model.addObject("order", order);
-			model.addObject("tabIndex", 1);
-		} catch (Exception e) {
-			logger.error("Ошибка при создании комментария, заказ id={}");
-			return new ModelAndView("redirect:/designer/order/" + id);
-		}
-		return model;
-	}
-
-	//Добавление ответа на комментарий
-	@RequestMapping(value = {"/designer/order/comment/sub/{id}"}, method = RequestMethod.POST)
-	public ModelAndView subComment(@PathVariable Long id, @ModelAttribute("commentBtnOrder") Long commentId,
-								   @ModelAttribute("commentTextSub") String content) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
-		try {
-			Comment comment = commentService.get(commentId);
-			Answer answer = new Answer(content, userService.getCurrentUser().toString(), new Date());
-			answerService.save(answer);
-			comment.getAnswers().add(answer);
-			commentService.save(comment);
-			Order order = orderService.get(id);
-			model.addObject("order", order);
-			model.addObject("tabIndex", 1);
-		} catch (Exception e) {
-			logger.error("Ошибка создании ответа на комментарий  коментарий id={}", commentId);
-			return new ModelAndView("redirect:/designer/order/" + id);
 		}
 		return model;
 	}
