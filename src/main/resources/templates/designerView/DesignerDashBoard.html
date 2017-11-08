@@ -115,6 +115,12 @@
         $(document).ready(function() {
             $('#example').DataTable( {
 
+                "columnDefs": [
+                    {
+                        "targets": [ 4,5 ],
+                        "searchable": false
+                    }],
+
                 language: {
                     "processing": "Подождите...",
                     "search": "Поиск:",

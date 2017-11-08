@@ -4,5 +4,6 @@ import main.model.Order;
 
 public interface HistoryService {
 
-	Order saveHistory(Order order);
+	Order saveHistoryFromManager(Order order); //история от менеджера
+	Order saveHistoryToManager(Order order);  //история от остальных
 }

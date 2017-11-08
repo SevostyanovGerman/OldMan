@@ -111,14 +111,13 @@ public class DesignerController {
 	//Смена статуса заказа
 	@RequestMapping(value = {"/designer/send/order={id}"}, method = RequestMethod.POST)
 	public ModelAndView send(@PathVariable Long id) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
-			model.addObject("order", orderService.nextStatus(id));
+			orderService.nextStatus(id);
 		} catch (Exception e) {
 			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}", id);
-			model = new ModelAndView("/designerView/DesignerDashBoard");
+			return new ModelAndView("redirect:/designer/");
 		}
-		return model;
+		return new ModelAndView("redirect:/designer/");
 	}
 
 	//Удаление картинки дизайнера

@@ -54,9 +54,8 @@ public class ImageServiceImpl implements ImageService {
 				try {
 					name = file.getOriginalFilename();
 					byte[] bytes = file.getBytes();
-					Image image = new Image();
 					Blob blob = new SerialBlob(bytes);
-					image.setImage(blob);
+					Image image = new Image(blob);
 					imageService.save(image);
 					item.getImages().add(image);
 					itemService.save(item);
