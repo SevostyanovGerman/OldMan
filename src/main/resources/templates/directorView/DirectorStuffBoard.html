@@ -38,7 +38,7 @@
                 <li role="presentation"><a href="/director">Заказы</a></li>
                 <li role="presentation"><a href="/customers">Клиенты</a></li>
                 <li class="active" role="presentation"><a href="/director/stuff">Сотрудники</a></li>
-                <li role="presentation"><a href="/director/controlpanel">Панель управления</a></li>
+                <li role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Директор</a></li>
@@ -57,11 +57,26 @@
 <br>
 <div class="container">
     <div class="row">
-        <a style="float: right; margin-right: 2%;" class="btn btn-md btn-info">Добавить сотрудника</a>
+        <a style="float: right; margin-right: 2%;" href="/director/controlpanel/user" class="btn btn-md btn-info">Добавить сотрудника</a>
     </div>
 </div>
 <br>
 <div class="container">
+
+    <div class="row" style="margin-top: 1%;">
+        <th:block th:if="${success}">
+            <div class="alert alert-success" role="alert">
+                <span th:text="${success}"></span>
+            </div>
+        </th:block>
+
+        <th:block th:if="${error}">
+            <div class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+        </th:block>
+    </div>
+
     <div class="table-responsive">
         <table id="myTable" class="display table table-bordered data" >
             <thead>
@@ -71,7 +86,7 @@
                 <th>Фамилия</th>
                 <th>Email</th>
                 <th>Телефон</th>
-                <th>Позиция</th>
+                <th>Должность</th>
                 <th>Редактировать</th>
                 <th>Удалить</th>
             </tr>
@@ -81,14 +96,18 @@
                     <td th:text="${unit.getId()}"></td>
                     <td th:text="${unit.getFirstName()}"></td>
                     <td th:text="${unit.getSecName()}"></td>
-                    <td>n/a</td>
-                    <td>n/a</td>
-                    <td th:text="${unit.getPosition()}"></td>
+                    <td th:text="${unit.getEmail()}">n/a</td>
+                    <td th:text="${unit.getPhone()}">n/a</td>
                     <td>
-                        <a data-toggle="modal" class="btn btn-xs btn-info" th:href="'stuff/#' + ${unit.getId()}">Изменить</a>
+                        <div th:each="role : ${unit.getRoles()}">
+                            <span th:text="${role.getName()}"></span>
+                        </div>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-danger" th:href="'stuff/delete/' + ${unit.getId()}">Удалить</a>
+                        <a class="btn btn-xs btn-info" th:href="'controlpanel/user/edit/' + ${unit.getId()}">Изменить</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-danger" th:href="'controlpanel/user/delete/' + ${unit.getId()}">Удалить</a>
                     </td>
                 </tr>
             </tbody>

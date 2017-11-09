@@ -82,16 +82,12 @@
             </div>
 
             <div class="row" style="margin-top: 1%;">
-
                 <div class="panel panel-default">
-                    <!-- Tab panes -->
                     <div class="tab-content" th:object="${role}" >
-
-
-                        <div class="col-sm-offset-4 col-sm-10">
-                            <div class="panel-heading"><b>Создать новую должность</b></div>
+                        <div class="col-sm-offset-5 col-sm-10">
+                            <div class="panel-heading"><b>Редактировать должность</b></div>
                         </div>
-                        <form class="form-horizontal" th:action="@{/director/controlpanel/roles/create}" action="create" method="post">
+                        <form class="form-horizontal" th:action="@{/director/controlpanel/roles/update}" action="create" method="post">
                             <div class="form-group row">
                                 <label for="id" class="control-label col-sm-2">ID должности</label>
                                 <div class="col-sm-8">
@@ -126,7 +122,7 @@
                                 </fieldset>
                             </div>
                             <div class="form-group row">
-                                <div class="col-sm-offset-4 col-sm-10">
+                                <div class="col-sm-offset-2 col-sm-10">
                                     <input class="btn btn-warning" type="reset" value="Сбросить" />
                                     <input class="btn btn-success" type="submit" value="Сохранить" />
                                 </div>

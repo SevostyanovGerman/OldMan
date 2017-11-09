@@ -59,34 +59,29 @@ public class InitDB {
 		Status status6 = new Status("finish", 6L);
 		statusService.save(status6);
 		//Роли//
-		Role role1 = new Role("MANAGER", "/manager/");
-		roleService.save(role1);
-		Role role2 = new Role("DESIGNER", "/designer/");
-		roleService.save(role2);
-		Role role3 = new Role("MASTER", "/master/");
-		roleService.save(role3);
-		Role role4 = new Role("BOSS", "/director/");
-		roleService.save(role4);
-		//Пользователи//
-		HashSet<Status> allStatus = new HashSet<>();
+		HashSet<Status> allStatus = new HashSet <>();
 		allStatus.add(status1);
 		allStatus.add(status2);
 		allStatus.add(status3);
 		allStatus.add(status4);
 		allStatus.add(status5);
 		allStatus.add(status6);
-		User user1 = new User("manager", "123", "Donald", "Tramp", 0, 0, role1);
-		user1.setStatuses(allStatus);
-		user1.getStatuses().add(status1);
+		Role role1 = new Role("MANAGER", "/manager/", allStatus);
+		roleService.save(role1);
+		Role role2 = new Role("DESIGNER", "/designer/", status2);
+		roleService.save(role2);
+		Role role3 = new Role("MASTER", "/master/", status3);
+		roleService.save(role3);
+		Role role4 = new Role("BOSS", "/director/", allStatus);
+		roleService.save(role4);
+		//Пользователи//
+		User user1 = new User("manager", "123", "Donald", "Tramp", false, false, role1, "putin@kremlin.ru", "123");
 		userService.save(user1);
-		User user2 = new User("designer", "123", "GUCCIO", "GUCCI", 0, 0, role2);
-		user2.getStatuses().add(status2);
+		User user2 = new User("designer", "123", "GUCCIO", "GUCCI", false, false, role2, "medvedev@kremlin.ru", "321");
 		userService.save(user2);
-		User user3 = new User("master", "123", "Papa", "Carlo", 0, 0, role3);
-		user3.getStatuses().add(status4);
+		User user3 = new User("master", "123", "Papa", "Carlo", false, false, role3, "pupkin@kremlin.ru", "456");
 		userService.save(user3);
-		User user4 = new User("boss", "123", "Hugo", "Boss", 0, 0, role4);
-		user4.setStatuses(allStatus);
+		User user4 = new User("boss", "123", "Hugo", "Boss", false, false, role4, "vasya@kremlin.ru", "654");
 		userService.save(user4);
 		//Payment//
 		Payment payment1 = new Payment("Cash");

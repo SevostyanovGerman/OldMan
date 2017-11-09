@@ -7,6 +7,7 @@ public interface UserService {
 
 	User get(Long id);
 	User getByName(String name);
+	User getByEmail(String email);
 	User save(User user);
 	User update(User user);
 	List<User> getByRole(Long roleId);

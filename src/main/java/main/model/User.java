@@ -2,13 +2,11 @@ package main.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -19,17 +17,17 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "name", unique = true, nullable = false)
+	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "password", nullable = false)
 	private String password;
 
 	@Column(name = "deleted")
-	private int deleted;
+	private boolean deleted;
 
 	@Column(name = "disable")
-	private int disable;
+	private boolean disable;
 
 	@Column(name = "first_name")
 	private String firstName;
@@ -40,30 +38,33 @@ public class User implements UserDetails {
 	@Column(name = "position")
 	private String position;
 
-	@Column(name = "created")
+	@Column(name = "creation_date", updatable = false)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 
-	@Column(name = "creator")
-	private String creator;
+	@Column(name = "email", nullable = false)
+	private String email;
+
+	@Column(name = "phone", nullable = false)
+	private String phone;
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
 		inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set<Role> roles;
 
-	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Status.class)
-	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "user_id")},
-		inverseJoinColumns = {@JoinColumn(name = "role_id")})
-	private Set<Status> statuses;
-
 	public User() {
 	}
 
-	public User(String name, String password, String firstName, String secName, int deleted, int disable, Role role) {
+	public User(String name, String password, String firstName,
+				String secName, boolean deleted, boolean disable,
+				Role role, String email, String phone) {
 		this.name = name;
 		this.password = password;
 		this.firstName = firstName;
 		this.secName = secName;
+		this.phone = phone;
+		this.email = email;
 		this.deleted = deleted;
 		this.disable = disable;
 		if (this.roles == null) {
@@ -73,12 +74,11 @@ public class User implements UserDetails {
 		} else {
 			this.roles.add(role);
 		}
-		this.statuses = new HashSet<>();
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return roles;
+		return this.roles;
 	}
 
 	@Override
@@ -131,19 +131,19 @@ public class User implements UserDetails {
 		this.password = password;
 	}
 
-	public int getDeleted() {
+	public boolean getDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(int deleted) {
+	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
 
-	public int getDisable() {
+	public boolean getDisable() {
 		return disable;
 	}
 
-	public void setDisable(int disable) {
+	public void setDisable(boolean disable) {
 		this.disable = disable;
 	}
 
@@ -161,6 +161,22 @@ public class User implements UserDetails {
 
 	public void setSecName(String secName) {
 		this.secName = secName;
+	}
+
+	public String getPhone(){
+		return this.phone;
+	}
+
+	public void setPhone(String phone){
+		this.phone = phone;
+	}
+
+	public String getEmail(){
+		return this.email;
+	}
+
+	public void setEmail(String email){
+		this.email = email;
 	}
 
 	public String getPosition() {
@@ -188,22 +204,6 @@ public class User implements UserDetails {
 		this.roles = roles;
 	}
 
-	public String getCreator() {
-		return creator;
-	}
-
-	public void setCreator(String creator) {
-		this.creator = creator;
-	}
-
-	public Set<Status> getStatuses() {
-		return this.statuses;
-	}
-
-	public void setStatuses(Set<Status> statuses) {
-		this.statuses = statuses;
-	}
-
 	@Override
 	public String toString() {
 		return firstName + " " + secName;
@@ -214,34 +214,29 @@ public class User implements UserDetails {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		User user = (User) o;
-		if (id != user.id) return false;
-		if (deleted != user.deleted) return false;
-		if (disable != user.disable) return false;
-		if (name != null ? !name.equals(user.name) : user.name != null) return false;
-		if (password != null ? !password.equals(user.password) : user.password != null) return false;
-		if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-		if (secName != null ? !secName.equals(user.secName) : user.secName != null) return false;
-		if (position != null ? !position.equals(user.position) : user.position != null) return false;
-		if (created != null ? !created.equals(user.created) : user.created != null) return false;
-		if (creator != null ? !creator.equals(user.creator) : user.creator != null) return false;
-		if (statuses != null ? !statuses.equals(user.statuses) : user.statuses != null) return false;
-		return roles != null ? roles.equals(user.roles) : user.roles == null;
+		if (!Objects.equals(this.id, user.id)) return false;
+		if (!Objects.equals(this.deleted, user.deleted)) return false;
+		if (!Objects.equals(this.disable, user.disable)) return false;
+		if (!Objects.equals(this.name, user.name)) return false;
+		if (!Objects.equals(this.password, user.password)) return false;
+		if (!Objects.equals(this.firstName, user.firstName)) return false;
+		if (!Objects.equals(this.secName, user.secName)) return false;
+		if (!Objects.equals(this.position, user.position)) return false;
+		if (!Objects.equals(this.created, user.created)) return false;
+		return Objects.equals(this.roles, user.roles);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = (int) (id ^ (id >>> 32));
-		result = 31 * result + (name != null ? name.hashCode() : 0);
-		result = 31 * result + (password != null ? password.hashCode() : 0);
-		result = 31 * result + deleted;
-		result = 31 * result + disable;
-		result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-		result = 31 * result + (secName != null ? secName.hashCode() : 0);
-		result = 31 * result + (position != null ? position.hashCode() : 0);
-		result = 31 * result + (created != null ? created.hashCode() : 0);
-		result = 31 * result + (creator != null ? creator.hashCode() : 0);
-		result = 31 * result + (roles != null ? roles.hashCode() : 0);
-		result = 31 * result + (statuses != null ? statuses.hashCode() : 0);
+		result = 31 * result + Objects.hashCode(this.name);
+		result = 31 * result + Objects.hashCode(this.password);
+		result = 31 * result + Objects.hashCode(this.deleted);
+		result = 31 * result + Objects.hashCode(this.disable);
+		result = 31 * result + Objects.hashCode(this.firstName);
+		result = 31 * result + Objects.hashCode(this.secName);
+		result = 31 * result + Objects.hashCode(this.position);
+		result = 31 * result + Objects.hashCode(this.created);
 		return result;
 	}
 }

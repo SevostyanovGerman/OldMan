@@ -1,6 +1,7 @@
 package main.service;
 
 import main.model.Order;
+import main.model.Role;
 import main.model.Status;
 import main.model.User;
 import main.repository.OrderRepository;
@@ -9,10 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -45,13 +43,18 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getAllAllowed(User user) {
-		Set<Status> statusSet = user.getStatuses();
-		List<Order> list = new ArrayList<>();
-		for (Status status : statusSet) {
-			list.addAll(orderRepository.findAllByStatusAndDeleted(status, false));
+	public List <Order> getAllAllowed(User user) {
+		Set<Role> roleSet = user.getRoles();
+		Set<Order> statusSet = new HashSet<>();
+
+		for (Role role : roleSet){
+			Set<Status> tmpStatusSet = role.getStatuses();
+			for (Status status : tmpStatusSet) {
+				statusSet.addAll(orderRepository.findByUser(user, status, false));
+			}
 		}
-		return list;
+
+		return new ArrayList<>(statusSet);
 	}
 
 	@Override
