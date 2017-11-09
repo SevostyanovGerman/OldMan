@@ -35,9 +35,10 @@ public class Comment {
 	public Comment() {
 	}
 
-	public Comment(String content, String login) {
+	public Comment(String content, String login, Date time) {
 		this.content = content;
 		this.login = login;
+		this.time = time;
 	}
 
 	public Date getTime() {

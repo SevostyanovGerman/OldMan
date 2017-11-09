@@ -127,8 +127,7 @@ public class MasterController {
 	@RequestMapping(value = {"/master/order/comment/{id}"}, method = RequestMethod.POST)
 	public ModelAndView addComment(@PathVariable Long id, @RequestParam(value = "comment") String content) {
 		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
-		Comment comment = new Comment(content, userService.getCurrentUser().toString());
-		comment.setTime(new Date());
+		Comment comment = new Comment(content, userService.getCurrentUser().toString(), new Date());
 		commentService.save(comment);
 		Order order = orderService.get(id);
 		order.getComments().add(comment);

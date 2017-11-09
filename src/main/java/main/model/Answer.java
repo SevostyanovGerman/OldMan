@@ -67,9 +67,10 @@ public class Answer {
 	public Answer() {
 	}
 
-	public Answer(String content, String login) {
+	public Answer(String content, String login, Date time) {
 		this.content = content;
 		this.login = login;
+		this.time = time;
 	}
 
 	@Override

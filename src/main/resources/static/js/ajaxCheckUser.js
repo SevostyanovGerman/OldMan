@@ -1,4 +1,6 @@
 
+//Проверяем email клиента//
+
 function checkUser(str)
 {
     if (str.length==0)
@@ -34,7 +36,7 @@ function checkUser(str)
            }
         }
     }
-    xmlhttp.open("GET","/checkuser?q="+str,true);
+    xmlhttp.open("GET","/checkuser?email="+str,true);
     xmlhttp.send();
 }
 
