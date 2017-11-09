@@ -81,7 +81,6 @@ public class InitDB {
 		userService.save(user1);
 		User user2 = new User("designer", "123", "GUCCIO", "GUCCI", 0, 0, role2);
 		user2.getStatuses().add(status2);
-		user2.getStatuses().add(status3);
 		userService.save(user2);
 		User user3 = new User("master", "123", "Papa", "Carlo", 0, 0, role3);
 		user3.getStatuses().add(status4);
