@@ -1,6 +1,7 @@
 package main.service;
 
 import main.model.Role;
+import main.model.Status;
 import java.util.List;
 
 public interface RoleService {
@@ -11,4 +12,5 @@ public interface RoleService {
 	Role save(Role role);
 	Role update(Role role);
 	List<Role> getAll();
+	List<Role> getAllByStatus(Status status);
 }

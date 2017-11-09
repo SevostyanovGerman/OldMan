@@ -158,8 +158,6 @@ public class Item {
 	}
 
 	public void setOrder(Order order) {
-		Double price = order.getPrice() + this.amount;
-		order.setPrice(price);
 		this.order = order;
 	}
 

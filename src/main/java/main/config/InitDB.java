@@ -70,7 +70,7 @@ public class InitDB {
 		roleService.save(role1);
 		Role role2 = new Role("DESIGNER", "/designer/", status2);
 		roleService.save(role2);
-		Role role3 = new Role("MASTER", "/master/", status3);
+		Role role3 = new Role("MASTER", "/master/", status4);
 		roleService.save(role3);
 		Role role4 = new Role("BOSS", "/director/", allStatus);
 		roleService.save(role4);
@@ -128,31 +128,31 @@ public class InitDB {
 		Date d1 = dateFormat.parse(date1);
 		Date d2 = dateFormat.parse(date2);
 		Order order1 =
-			new Order("1", false, false, 100d, createDate, "courier", payment1, status1, customer1, item1, user1,
+			new Order("1", false, false, createDate, "courier", payment1, status1, customer1, item1, user1,
 				user2,
 				user3);
 		orderService.save(order1);
 		Order order2 =
-			new Order("2", false, false, 100d, createDate, "courier", payment2, status2, customer2, item2, user1,
+			new Order("2", false, false, createDate, "courier", payment2, status2, customer2, item2, user1,
 				user2,
 				user3);
 		orderService.save(order2);
 		Order order3 =
-			new Order("3", false, false, 100d, createDate, "courier", payment1, status3, customer2, item3, user1,
+			new Order("3", false, false, createDate, "courier", payment1, status3, customer2, item3, user1,
 				user2,
 				user3);
 		orderService.save(order3);
 		Order order4 =
-			new Order("4", false, false, 100d, createDate, "courier", payment2, status4, customer1, item4, user1,
+			new Order("4", false, false, createDate, "courier", payment2, status4, customer1, item4, user1,
 				user2,
 				user3);
 		orderService.save(order4);
 		Order order5 =
-			new Order("5", false, false, 200d, d1, "take away", payment2, status3, customer1, item5, user1, user2,
+			new Order("5", false, false, d1, "take away", payment2, status3, customer1, item5, user1, user2,
 				user3);
 		orderService.save(order5);
 		Order order6 =
-			new Order("6", false, false, 350d, d2, "take away", payment2, status3, customer1, item6, user1, user2,
+			new Order("6", false, false, d2, "take away", payment2, status3, customer1, item6, user1, user2,
 				user3);
 		orderService.save(order6);
 	}

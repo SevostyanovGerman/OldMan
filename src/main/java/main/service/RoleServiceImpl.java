@@ -1,6 +1,7 @@
 package main.service;
 
 import main.model.Role;
+import main.model.Status;
 import main.repository.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,5 +65,10 @@ public class RoleServiceImpl implements RoleService {
 			logger.debug("The list is empty");
 		}
 		return listRole;
+	}
+
+	@Override
+	public List<Role> getAllByStatus(Status status) {
+		return roleRepository.getAllByStatuses(status);
 	}
 }

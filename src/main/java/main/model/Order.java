@@ -122,13 +122,12 @@ public class Order {
 		this.manager = manager;
 	}
 
-	public Order(String number, Boolean payment, Boolean deleted, double price, Date created, String deliveryType,
+	public Order(String number, Boolean payment, Boolean deleted, Date created, String deliveryType,
 				 Payment paymentType, Status status, Customer customer, Item item, User manager, User designer,
 				 User master) {
 		this.number = number;
 		this.payment = payment;
 		this.deleted = deleted;
-		this.price = price;
 		this.created = created;
 		this.deliveryType = deliveryType;
 		this.paymentType = paymentType;
@@ -142,6 +141,7 @@ public class Order {
 		}
 		this.items.add(item);
 		this.delivery = customer.getDefaultDelivery();
+		this.price = item.getAmount();
 	}
 
 	public Delivery getDelivery() {
@@ -177,6 +177,11 @@ public class Order {
 	}
 
 	public double getPrice() {
+		double amount = 0;
+		for (int i = 0; i < items.size(); i++) {
+			amount = amount + items.get(i).getAmount();
+		}
+		this.price = amount;
 		return price;
 	}
 

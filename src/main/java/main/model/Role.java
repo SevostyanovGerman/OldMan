@@ -33,12 +33,10 @@ public class Role implements GrantedAuthority {
 		inverseJoinColumns = {@JoinColumn(name = "status_id")})
 	private Set<Status> statuses;
 
-	public Role(){
+	public Role() {
 	}
 
-
-
-	public Role(String name, String url, Status status){
+	public Role(String name, String url, Status status) {
 		this.name = name;
 		this.url = url;
 		if (this.statuses == null) {
@@ -50,7 +48,7 @@ public class Role implements GrantedAuthority {
 		}
 	}
 
-	public Role(String name, String url, HashSet<Status> statuses){
+	public Role(String name, String url, HashSet<Status> statuses) {
 		this.name = name;
 		this.url = url;
 		this.statuses = statuses;
@@ -90,19 +88,19 @@ public class Role implements GrantedAuthority {
 		this.name = name;
 	}
 
-	public void setUsers(List<User> users){
+	public void setUsers(List<User> users) {
 		this.users = users;
 	}
 
-	public List<User> getUsers(){
+	public List<User> getUsers() {
 		return this.users;
 	}
 
-	public boolean getDeleted(){
+	public boolean getDeleted() {
 		return this.deleted;
 	}
 
-	public void setDeleted(boolean deleted){
+	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
 	}
 
@@ -117,12 +115,11 @@ public class Role implements GrantedAuthority {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if ( (o == null) || (getClass() != o.getClass()) ) return false;
+		if ((o == null) || (getClass() != o.getClass())) return false;
 		Role role = (Role) o;
-
-		if(!Objects.equals(this.id, role.id)) return false;
-		if(!Objects.equals(this.name, role.name)) return false;
-		if(!Objects.equals(this.url, role.url)) return false;
+		if (!Objects.equals(this.id, role.id)) return false;
+		if (!Objects.equals(this.name, role.name)) return false;
+		if (!Objects.equals(this.url, role.url)) return false;
 		if (!Objects.equals(this.statuses, role.statuses)) return false;
 		return Objects.equals(this.deleted, role.deleted);
 	}
