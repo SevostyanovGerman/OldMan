@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
 		for (Role role : roleSet){
 			Set<Status> tmpStatusSet = role.getStatuses();
 			for (Status status : tmpStatusSet) {
-				statusSet.addAll(orderRepository.findAllByStatusAndDeleted(status, false));
+				statusSet.addAll(orderRepository.findByUser(user, status, false));
 			}
 		}
 
