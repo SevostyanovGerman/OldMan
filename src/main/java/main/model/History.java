@@ -32,6 +32,17 @@ public class History {
 	@Column(name = "h_to")
 	private String to;
 
+	public History(){
+	};
+
+	public History(Date dateRecieved, Date dateTransferred, String status, String from, String to) {
+		this.dateRecieved = dateRecieved;
+		this.dateTransferred = dateTransferred;
+		this.status = status;
+		this.from = from;
+		this.to = to;
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -27,6 +27,13 @@ public class Image {
 		inverseJoinColumns = {@JoinColumn(name = "item_id")})
 	private Item item;
 
+	public Image() {
+	}
+
+	public Image(Blob image) {
+		this.image = image;
+	}
+
 	public Item getItem() {
 		return item;
 	}

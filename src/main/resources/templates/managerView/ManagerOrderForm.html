@@ -5,9 +5,14 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Order</title>
+        <!--для комментов-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
 
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
+
+    <link rel="stylesheet" href="/css/mxComment.css"/>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -60,9 +65,9 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-9">
-            <form class="form-horizontal">
+            <div class="form-horizontal">
                 <fieldset>
-                    <ul class="nav nav-tabs nav-justified">
+                    <ul class="nav nav-tabs nav-justified" id="myTab2">
                         <li class="active"><a href="#tabItem" data-toggle="tab" aria-expanded="true">Заказ</a></li>
                         <li class=""><a href="#tabComments" data-toggle="tab" aria-expanded="false">Комментарии</a></li>
                         <li class=""><a href="#tabHistory" data-toggle="tab" aria-expanded="false">История</a></li>
@@ -203,28 +208,95 @@
 
                         <!-- КОММЕНТАРИИ -->
                         <div class="tab-pane" id="tabComments" role="tabpanel">
-                            <form class="form-horizontal">
-                                <br/>
-                                <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-                                <script type="text/javascript">
-                                    bkLib.onDomLoaded(function () {
-                                        nicEditors.allTextAreas()
-                                    });
-                                </script>
-                                <textarea name="area1" style="width: 848px; height: 100px;">
-										Текст комментария
-									</textarea>
-                            </form>
-                            <br/>
-                            <button type="button" class="btn btn-success" data-toggle="tooltip"
-                                    title="Добавить комментарий" style="width: 142px; text-align: center;">
-                                Добавить
-                            </button>
-                            <br/>
-                            <br/>
-                            <form class="form-horizontal"
-                                  style="border: 1px solid #ddd; border-radius: 3px; width: 848px; height: 400px ;padding: 1px 20px 5px;">
-                            </form>
+                            <div>
+                                <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
+                                    <div class="panel-footer">
+
+                                        <form th:action="'/order/comment/add='+${order.getId()}" method="post">
+                                <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
+                                          id="e_content"></textarea>
+                                            <button class="btn btn-warning btn-sm" type="submit" id="btn-chat"
+
+                                                    style="text-align: right">Написать комментарий
+                                            </button>
+                                        </form>
+
+
+
+
+
+
+
+                                    </div>
+                                    <!-- Contenedor Principal -->
+                                    <div class="comments-container" >
+
+                                        <ul id="comments-list" class="comments-list"
+                                            th:each="element: ${order.getComments()}">
+                                            <li>
+                                                <div class="comment-main-level">
+                                                    <!-- Avatar -->
+                                                    <!--<div class="comment-avatar"> <a href="#" class="btn btn-info btn-lg">-->
+                                                    <!--<span class="glyphicon glyphicon-user"></span> User-->
+                                                    <!--</a> <span th:text="${element.getLogin()}"> </span></div>-->
+                                                    <!-- Contenedor del Comentario -->
+                                                    <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+
+                                                    <div class="comment-box">
+                                                        <div class="comment-head">
+                                                            <h6 class="comment-name by-author" th:text="${element.getLogin()}"></h6>
+                                                            <span th:text="${element.getTime()}"></span>
+                                                            <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
+                                                               th:id="${element}+'Btn'">Ответить</i>
+                                                        </div>
+                                                        <div class="comment-content" th:utext="${element.getContent()}">
+
+                                                        </div>
+
+                                                        <div th:id="${element}" style="display: none; " class="container-fluid">
+                                                            <form th:action="'/order/comment/sub/'+ ${order.getId()}" method="post"
+                                                                  th:id="${element}+'Frm'">
+
+                                                            <textarea class="form-control " th:id="${element}+'Text'"
+                                                                      name="commentTextSub"></textarea>
+
+                                                                <div style="text-align: right">
+                                                                    <button class="btn btn-warning btn-sm" type="submit"
+                                                                            name="commentBtnOrder"
+                                                                            th:value="${element.getId()}">Отправить
+                                                                    </button>
+
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- Respuestas de los comentarios -->
+                                                <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
+                                                    <li>
+                                                        <!-- Avatar -->
+                                                        <!--<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>-->
+                                                        <!--&lt;!&ndash; Contenedor del Comentario &ndash;&gt;-->
+                                                        <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+
+                                                        <div class="comment-box">
+                                                            <div class="comment-head">
+                                                                <h6 class="comment-name" th:text="${element2.getLogin()}"></h6>
+                                                                <span th:text="${element2.getTime()} ">hace 10 minutos</span>
+                                                            </div>
+                                                            <div class="comment-content" th:utext="${element2.getContent()}">
+
+                                                            </div>
+                                                        </div>
+                                                    </li>
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- ИСТОРИЯ ЗАКАЗА -->
@@ -256,7 +328,7 @@
                     </div>
 
                 </fieldset>
-            </form>
+            </div>
         </div> <!-- col-lg-9 -->
 
 
@@ -823,7 +895,10 @@
     }
 </script>
 
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 
+
+<script src="/js/tabs.js"></script>
 
 </body>
 </html>

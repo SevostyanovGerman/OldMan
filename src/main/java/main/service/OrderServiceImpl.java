@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 		Long currentStatus = order.getStatus().getNumber();
 		Status nextStatus = statusService.get(currentStatus + 1L);
 		order.setStatus(nextStatus);
-		order = historyService.saveHistory(order);
+		order = historyService.saveHistoryToManager(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
 		order = setAllStatusItemFalse(order);
@@ -93,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
 			Status nextStatus = statusService.get(currentStatus - 1l);
 			order.setStatus(nextStatus);
 		}
-		order = historyService.saveHistory(order);
+		order = historyService.saveHistoryToManager(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
 		order = setAllStatusItemFalse(order);
@@ -138,7 +138,7 @@ public class OrderServiceImpl implements OrderService {
 		Order order = orderService.get(orderId);
 		Status newStatus = statusService.get(statusId);
 		order.setStatus(newStatus);
-		order = historyService.saveHistory(order);
+		order = historyService.saveHistoryFromManager(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
 		order = setAllStatusItemFalse(order);

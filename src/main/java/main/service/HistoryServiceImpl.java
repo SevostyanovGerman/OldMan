@@ -12,21 +12,41 @@ import java.util.Date;
 @Transactional
 public class HistoryServiceImpl implements HistoryService {
 
-	@Autowired
 	private HistoryRepository historyRepository;
 
-	@Autowired
 	private UserService userService;
 
+	private RoleService roleService;
+
+	@Autowired
+	public HistoryServiceImpl(HistoryRepository historyRepository, UserService userService, RoleService roleService) {
+		this.historyRepository = historyRepository;
+		this.userService = userService;
+		this.roleService = roleService;
+	}
+
 	@Override
-	public Order saveHistory(Order order) {
+	public Order saveHistoryFromManager(Order order) {
 		Date dateTime = new Date();
-		History history = new History();
-		history.setFrom(userService.getCurrentUser().toString());
-		history.setTo(order.getManager().toString());
-		history.setDateRecieved(order.getDateRecievedDate());
-		history.setDateTransferred(dateTime);
-		history.setStatus(order.getStatus().getName());
+		String to;
+		if (order.getDesigner().getStatuses().contains(order.getStatus())) {
+			to = order.getDesigner().toString();
+		} else {
+			to = order.getMaster().toString();
+		}
+		History history = new History(order.getDateRecievedDate(), dateTime, order.getStatus().getName(),
+			userService.getCurrentUser().toString(), to);
+		historyRepository.saveAndFlush(history);
+		order.getHistories().add(history);
+		return order;
+	}
+
+	@Override
+	public Order saveHistoryToManager(Order order) {
+		Date dateTime = new Date();
+		String to = order.getManager().toString();
+		History history = new History(order.getDateRecievedDate(), dateTime, order.getStatus().getName(),
+			userService.getCurrentUser().toString(), to);
 		historyRepository.saveAndFlush(history);
 		order.getHistories().add(history);
 		return order;
