@@ -44,6 +44,16 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 	@Override
+	public Status getByNumber(Long statusNumber) {
+		logger.debug("Searching status with number: {}", statusNumber.toString());
+		Status searchingStatus = statusRepository.getByNumberAndDeleted(statusNumber, false);
+		if (searchingStatus==null){
+			logger.debug("Status with number {} not found", statusNumber.toString());
+		}
+		return searchingStatus;
+	}
+
+	@Override
 	public Status save(Status status) {
 		logger.debug("Save status: {}", status.toString());
 		return statusRepository.save(status);

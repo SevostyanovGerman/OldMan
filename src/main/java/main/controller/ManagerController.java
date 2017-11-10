@@ -6,14 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -34,12 +34,22 @@ public class ManagerController {
 
 	private PaymentService paymentService;
 
+	private ImageService imageService;
+
+	private FileService fileService;
+
 	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	@Autowired
-	public ManagerController(OrderService orderService, DeliveryService deliveryService,
-							 CustomerService customerService, ItemService itemService, UserService userService,
-							 StatusService statusService, PaymentService paymentService) {
+	public ManagerController(OrderService orderService,
+							 DeliveryService deliveryService,
+							 CustomerService customerService,
+							 ItemService itemService,
+							 UserService userService,
+							 StatusService statusService,
+							 PaymentService paymentService,
+							 ImageService imageService,
+							 FileService fileService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -47,6 +57,8 @@ public class ManagerController {
 		this.userService = userService;
 		this.statusService = statusService;
 		this.paymentService = paymentService;
+		this.imageService = imageService;
+		this.fileService = fileService;
 	}
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
@@ -115,7 +127,7 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/order/add"}, method = RequestMethod.GET)
 	public ModelAndView addItem(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerNewOrder");
-		Order order = new Order(false, false, new Date(), statusService.get(1L), userService.getCurrentUser());
+		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		HttpSession session = request.getSession();
 		session.setAttribute("order", order);
 		Item item = new Item();
@@ -260,5 +272,28 @@ public class ManagerController {
 			logger.warn("Не удалось изменить адрес доставки");
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Загрузка файлов
+	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
+	@ResponseBody
+	@ResponseStatus(HttpStatus.OK)
+	public String uploadSampleFiles(@RequestParam(value = "id") Long id,
+									HttpServletRequest request) {
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		if (fileService.saveBlobFile(multipartRequest, id)) {
+			return "Вы удачно загрузили файлы";
+		}
+		return "Ошибка при загрузке файлов";
+	}
+
+	//Удаление файла
+	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
+	public ModelAndView delImage(@PathVariable("orderId") Long orderId,
+								 @PathVariable("itemId") Long itemId,
+								 @PathVariable("fileId") Long fileId) throws IOException {
+		File file = fileService.get(fileId);
+		fileService.delete(file);
+		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
 	}
 }

@@ -4,14 +4,14 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/images/OldManFavicon.png">
+
     <title>Order</title>
-        <!--для комментов-->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
-
-    <link rel="stylesheet" type="text/css"
-          href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
-
+    <!--Стили для комментариев-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
+          rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1"
+          crossorigin="anonymous">
     <link rel="stylesheet" href="/css/mxComment.css"/>
 
     <!-- Latest compiled and minified CSS -->
@@ -24,16 +24,19 @@
 
     <!-- Setup local bootstrap3 -->
     <!--<link rel="stylesheet" href="/css/bootstrap.min.css"/>
-
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>-->
 
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
+
     <link rel="stylesheet" href="/css/manager.css"/>
+
 </head>
 
 <body data-spy="scroll" data-target="#formItemTable">
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-        <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+        <div class="navbar-header"><a class="navbar-brand navbar-link" th:href="@{/manager}">CaseMobile</a>
             <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
                 	<span class="sr-only">
                 		Toggle navigation
@@ -93,36 +96,33 @@
                                 </div>
                             </div>
                                 <div class="col-lg-6">
-                                <div class="input-group ">
-                                    <span class="input-group-addon customerField"
-                                          th:if="${order?.getMaster()?.toString()}"  th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
-                                          style="width: 100%; text-align: center; font: bold"></span>
+                                    <div class="input-group ">
+                                        <span class="input-group-addon customerField"
+                                              th:if="${order?.getMaster()?.toString()}"  th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
+                                              style="width: 100%; text-align: center; font: bold"></span>
 
-                                    <span class="input-group-addon customerField"
-                                          th:if="${order?.getMaster()?.toString() == null}"
-                                          style="width: 100%; text-align: center">Мастер: --</span>
+                                        <span class="input-group-addon customerField"
+                                              th:if="${order?.getMaster()?.toString() == null}"
+                                              style="width: 100%; text-align: center">Мастер: --</span>
 
-                                    <a href="#masterModal" class="form-control btn-info" data-toggle="modal">...</a>
+                                        <a href="#masterModal" class="form-control btn-info" data-toggle="modal">...</a>
 
-                                </div>
+                                    </div>
                                 </div>
                             </div>
-
                             <br>
-
                             <div  id="formItemTable"  >
                             <table class="table table-bordered data" text-align="center" >
                                 <thead>
                                 <tr>
-                                    <th class="table-head">№ Позиции</th>
+                                    <th class="table-head">№</th>
                                     <th class="table-head">Продукт</th>
                                     <th class="table-head">Материал</th>
                                     <th class="table-head">Модель</th>
                                     <th class="table-head">Количество</th>
                                     <th class="table-head">Цена за шт.(руб.)</th>
                                     <th class="table-head">Сумма(руб.)</th>
-                                    <th class="table-head"></th>
-                                    <th class="table-head"></th>
+                                    <th colspan="2" class="table-head">Действия</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -146,33 +146,23 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style="border: none"> </td>
-                                    <td style="border: none"></td>
-                                    <td style="border: none"></td>
-                                    <td style="border: none"></td>
-                                    <td style="border: none"> </td>
-                                    <td style="border: none"></td>
-                                    <td th:text="'Итого: ' + ${order?.price}"
+                                    <td colspan="6" align="left"><strong>Стоимость заказа:</strong></td>
+                                    <td colspan="3" align="center" th:text="${order?.price} + ' рублей'"
                                         style="text-align: center; font-weight: 700;">
-
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
                                 <div class="row">
-                                    <div class="col-sm-9">
-
-                                    </div>
-                                    <div class="col-sm-3" align="Right">
+                                    <!--<div class="col-sm-9"></div>-->
+                                    <div class="col-sm-3 col-sm-offset-9" align="Right">
                                         <a class="btn btn-success" title="Добавить позицию к заказу"
                                            th:href="${'/manager/order/addItem/'+order.getId()}">Новая позиция</a>
                                     </div>
 
                                 </div>
                             </div>
-
-
-                        </div>
+                       </div>
 
                         <!-- МОДАЛЬНЫЕ ОКНА -->
                         <!-- Установка типа оплаты -->
@@ -205,32 +195,21 @@
                             </div><!-- /.modal-dialog -->
                         </div><!-- /.modal -->
 
-
                         <!-- КОММЕНТАРИИ -->
                         <div class="tab-pane" id="tabComments" role="tabpanel">
                             <div>
                                 <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
                                     <div class="panel-footer">
-
                                         <form th:action="'/order/comment/add='+${order.getId()}" method="post">
-                                <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
-                                          id="e_content"></textarea>
+                                            <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
+                                            id="e_content"></textarea>
                                             <button class="btn btn-warning btn-sm" type="submit" id="btn-chat"
-
                                                     style="text-align: right">Написать комментарий
                                             </button>
                                         </form>
-
-
-
-
-
-
-
-                                    </div>
+                                 </div>
                                     <!-- Contenedor Principal -->
                                     <div class="comments-container" >
-
                                         <ul id="comments-list" class="comments-list"
                                             th:each="element: ${order.getComments()}">
                                             <li>
