@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/images/OldManFavicon.png">
     <title>Item</title>
     
     <!-- Latest compiled and minified CSS -->
@@ -13,19 +14,20 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <link rel="stylesheet" href="https://unpkg.com/smartphoto@0.7.6/css/smartphoto.min.css">
 </head>
 
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+            <div class="navbar-header">
+                <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
                 <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                	<span class="sr-only">
-                		Toggle navigation
-                	</span>
-                	<span class="icon-bar"></span>
-                	<span class="icon-bar"></span>
-                	<span class="icon-bar"></span>
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
                 </button>
             </div>
             <div class="collapse navbar-collapse" >
@@ -48,69 +50,161 @@
     <br>
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" >
+            <div class="col-lg-6" >
                 <form class="form-horizontal" th:object="${item}" th:action="${'/manager/item/save/'+order.getId()}">
-                    <div class="col-lg-6">
-                        <input type="hidden" th:field="*{id}"/>
-                        <div class="form-group">
-                            <div class="input-group" style="width: 100%">
-                                <span class="input-group-addon" style="width: 150px; text-align: left;">Тип продукта:</span>
-                                <input type="text" class="form-control" th:field="*{name}" required="required" pattern="{1,}">
-                            </div>
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group">
+                        <div class="input-group" style="width: 100%">
+                            <span class="input-group-addon" style="width: 150px; text-align: left;">Тип продукта:</span>
+                            <input type="text" class="form-control" th:field="*{name}" required="required" pattern="{1,}">
                         </div>
-                        <div class="form-group" >
-                            <div class="input-group" style="width: 100%">
-                                <span class="input-group-addon" style="width: 150px; text-align: left;">Материал:</span>
-                                <input type="text" class="form-control" style="width: 100%;" th:field="*{type}" required="required" pattern="{1,}">
-                            </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="input-group" style="width: 100%">
+                            <span class="input-group-addon" style="width: 150px; text-align: left;">Материал:</span>
+                            <input type="text" class="form-control" style="width: 100%;" th:field="*{type}" required="required" pattern="{1,}">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group" style="width: 100%">
-                                <span class="input-group-addon" style="width: 150px; text-align: left;">Модель телефона:</span>
-                                <input type="text" class="form-control" style="width: 100%;" th:field="*{model}" required="required" pattern="{1,}">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" style="width: 100%">
+                            <span class="input-group-addon" style="width: 150px; text-align: left;">Модель телефона:</span>
+                            <input type="text" class="form-control" style="width: 100%;" th:field="*{model}" required="required" pattern="{1,}">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group" style="width: 100%">
-                                <span class="input-group-addon" style="width: 150px; text-align: left;">Количество:</span>
-                                <input class="form-control"  style="width: 100%;" th:field="*{count}"
-                                       id="numberItemField" onchange="amountItem()" required="required" pattern="{1,}">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" style="width: 100%">
+                            <span class="input-group-addon" style="width: 150px; text-align: left;">Количество:</span>
+                            <input class="form-control"  style="width: 100%;" th:field="*{count}"
+                                   id="numberItemField" onchange="amountItem()" required="required" pattern="{1,}">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group" style="width: 100%">
-                                <span class="input-group-addon" style="width: 150px; text-align: left;">Цена за ед. (руб.):</span>
-                                <input class="form-control"  style="width: 100%;"
-                                       th:field="*{price}" id="priceItemField" onchange="amountItem()" required="required"
-                                       pattern="{1,}">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" style="width: 100%">
+                            <span class="input-group-addon" style="width: 150px; text-align: left;">Цена за ед. (руб.):</span>
+                            <input class="form-control"  style="width: 100%;"
+                                   th:field="*{price}" id="priceItemField" onchange="amountItem()" required="required"
+                                   pattern="{1,}">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group" style="width: 100%">
-                                <span class="input-group-addon" style="width: 150px; text-align: left;">Сумма (руб.):</span>
-                                <input class="form-control"   style="width: 100%;"
-                                       th:field="*{amount}" id="amountItemField" required="required" readonly >
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group" style="width: 100%">
+                            <span class="input-group-addon" style="width: 150px; text-align: left;">Сумма (руб.):</span>
+                            <input class="form-control"   style="width: 100%;"
+                                   th:field="*{amount}" id="amountItemField" required="required" readonly >
                         </div>
-                        <div class="form-group">
-                            <button type="button" class="btn btn-info" data-toggle="tooltip" style="position: absolute;">
-                                Загрузить изображение
-                            </button>
-                        </div>
-                        <br/><br/>
-                    </div> <!-- end col-lg-6 -->
-                    <div class="col-lg-6">
+                    </div>
+                    <div class="form-group">
                         <h4 align="left">Комментарий к позиции заказа</h4>
                         <textarea style="resize: none; width: 100%" class="form-control" rows="4" th:field="*{comment}"></textarea>
-                    </div> <!-- end col-lg-6 -->
-                    <div class="col-lg-12" align="right">
-                        <a class="btn btn-primary" th:href="@{/manager}">Отмена</a>
+                    </div>
+                    <br/>
+                    <div class="form-group" align="left">
+                        <a class="btn btn-primary" th:href="${'/manager/order/update/' + order.getId()}">Отмена</a>
                         <button type="submit" class="btn btn-primary" id="saveItemBtn" disabled>Сохранить</button>
                     </div>
                 </form> <!-- end form -->
-            </div> <!-- end col-lg-12 -->
+            </div> <!-- end col-lg-6 -->
+
+            <div class="col-lg-6">
+                <div>
+                    <h4>Изображения от дизайнера:</h4>
+                    <ul th:each="image: ${item.getImages()}" style="padding-left: 10px; display: inline-block">
+                        <a th:href="${image.getImage()}" class="js-smartPhoto" >
+                            <img th:src="${image.getImage()}" width="100" height="100">
+                        </a>
+                    </ul>
+                </div>
+                <hr>
+                <div class="form-horizontal borderSimple">
+                    <div>
+                        <h4>Изображения от пользователя:</h4>
+                        <span id="ItemId" th:value="${item.getId()}" hidden></span> <!--Передаём параметр ItemId в скрипт fileDropzone.js-->
+                        <ul th:each="file: ${item.getFiles()}" style="padding-left: 10px; display: inline-block">
+                            <br>
+                            <a th:href="${file.getFile()}" class="js-smartPhoto" >
+                                <img th:src="${file.getFile()}" width="100" height="100">
+                            </a>
+                            <a class="btn btn-danger btn-xs" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}" title="Удалить" style="vertical-align:top; left:140px;">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+            </div> <!-- end col-lg-6 -->
         </div>
     </div> <!-- end container -->
+    <hr>
+    <div class="col-lg-12">
+        <div class="form-horizontal borderSimple">
+            <fieldset>
+                <div class="container">
+                    <!-- HTML heavily inspired by https://blueimp.github.io/jQuery-File-Upload/ -->
+                    <div id="actions" class="row">
+                        <div class="col-lg-8">
+                            <!-- The fileinput-button span is used to style the file input field as button -->
+                            <span class="btn btn-success fileinput-button dz-clickable">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <span>Добавить файл</span>
+                            </span>
+
+                            <button type="submit" class="btn btn-primary start">
+                                <i class="glyphicon glyphicon-upload"></i>
+                                <span>Загрузить все</span>
+                            </button>
+
+                            <button type="reset" class="btn btn-warning cancel">
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                                <span>Отменить загрузку</span>
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
+                            <!-- The global file processing state -->
+                            <span class="fileupload-process">
+                                <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0"
+                                     aria-valuemax="100" aria-valuenow="0">
+                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="table table-striped files" id="previews">
+                        <div id="template" class="file-row dz-image-preview">
+                            <!-- This is used as the file preview template -->
+                            <div>
+                                <span class="preview"><img data-dz-thumbnail></span>
+                            </div>
+                            <div>
+                                <p class="name" data-dz-name></p>
+                                <strong class="error text-danger" data-dz-errormessage></strong>
+                            </div>
+                            <div>
+                                <p class="size" data-dz-size></p>
+                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0"
+                                     aria-valuemax="100" aria-valuenow="0">
+                                    <div class="progress-bar progress-bar-success" style="width:0%;"
+                                         data-dz-uploadprogress></div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary start" type="button">
+                                    <i class="glyphicon glyphicon-upload"></i>
+                                    <span>Загрузить</span>
+                                </button>
+                                <button data-dz-remove class="btn btn-warning cancel">
+                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                    <span>Отмена</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <script src="/js/dropzone.js"></script>
+    <script src="/js/uploadFile.js"></script>
+    <script src="/js/mxscript.js"></script>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -121,6 +215,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
+    <script src="https://unpkg.com/smartphoto@0.7.6/js/smartphoto.min.js"></script>
 
     <script src="/js/mxItemManager.js"></script>
 
