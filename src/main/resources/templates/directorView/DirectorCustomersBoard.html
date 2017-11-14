@@ -57,7 +57,7 @@
 <br>
 <div class="container">
     <div class="row">
-        <a style="float: right; margin-right: 2%;" href="/director/controlpanel/user" class="btn btn-md btn-info">Добавить сотрудника</a>
+        <a style="float: right; margin-right: 2%;" href="/director/controlpanel/user" class="btn btn-md btn-info">Добавить покупателя</a>
     </div>
 </div>
 <br>
@@ -86,28 +86,28 @@
                 <th>Фамилия</th>
                 <th>Email</th>
                 <th>Телефон</th>
-                <th>Должность</th>
+                <th>Адрес</th>
                 <th>Редактировать</th>
+                <th>Добавить в заказ</th>
                 <th>Удалить</th>
             </tr>
             </thead>
             <tbody>
-                <tr th:each ="unit: ${stuff}">
-                    <td th:text="${unit.getId()}"></td>
-                    <td th:text="${unit.getFirstName()}"></td>
-                    <td th:text="${unit.getSecName()}"></td>
-                    <td th:text="${unit.getEmail()}">n/a</td>
-                    <td th:text="${unit.getPhone()}">n/a</td>
+                <tr th:each ="customer: ${allCustomers}">
+                    <td th:text="${customer.getId()}"></td>
+                    <td th:text="${customer.getFirstName()}"></td>
+                    <td th:text="${customer.getSecName()}"></td>
+                    <td th:text="${customer.getEmail()}">n/a</td>
+                    <td th:text="${customer.getPhone()}">n/a</td>
+                    <td th:text="${customer.getDefaultDelivery()}"></td>
                     <td>
-                        <div th:each="role : ${unit.getRoles()}">
-                            <span th:text="${role.getName()}"></span>
-                        </div>
+                        <a class="btn btn-xs btn-info" th:href="'controlpanel/customer/edit/' + ${customer.getId()}">Изменить</a>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-info" th:href="'controlpanel/user/edit/' + ${unit.getId()}">Изменить</a>
+                        <a class="btn btn-xs btn-info" th:href="'controlpanel/user/edit/' + ${customer.getId()}">Добавить в заказ</a>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-danger" th:href="'controlpanel/user/delete/' + ${unit.getId()}">Удалить</a>
+                        <a class="btn btn-xs btn-danger" th:href="'customer/delete/' + ${customer.getId()}">Удалить</a>
                     </td>
                 </tr>
             </tbody>

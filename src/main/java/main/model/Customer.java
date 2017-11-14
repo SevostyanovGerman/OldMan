@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "customers")
@@ -44,6 +45,9 @@ public class Customer {
 	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
 	private List<Order> orders;
+
+	@Column(name = "deleted")
+	private boolean deleted;
 
 	public Customer() {
 		this.deliveries = new ArrayList<>();
@@ -147,32 +151,41 @@ public class Customer {
 		this.phone = phone;
 	}
 
+	public boolean getDeleted() {
+		return this.deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Customer customer = (Customer) o;
-		if (id != null ? !id.equals(customer.id) : customer.id != null) return false;
-		if (firstName != null ? !firstName.equals(customer.firstName) : customer.firstName != null) return false;
-		if (secName != null ? !secName.equals(customer.secName) : customer.secName != null) return false;
-		if (email != null ? !email.equals(customer.email) : customer.email != null) return false;
-		if (phone != null ? !phone.equals(customer.phone) : customer.phone != null) return false;
-		if (creationDate != null ? !creationDate.equals(customer.creationDate) : customer.creationDate != null)
-			return false;
-		if (deliveries != null ? !deliveries.equals(customer.deliveries) : customer.deliveries != null) return false;
-		return orders != null ? orders.equals(customer.orders) : customer.orders == null;
+		if (!Objects.equals( this.id, customer.id)) return false;
+		if (!Objects.equals( this.firstName,  customer.firstName)) return false;
+		if (!Objects.equals( this.secName, customer.secName)) return false;
+		if (!Objects.equals( this.email, customer.email)) return false;
+		if (!Objects.equals( this.phone, customer.phone)) return false;
+		if (!Objects.equals( this.creationDate, customer.creationDate)) return false;
+		if (!Objects.equals( this.deliveries, customer.deliveries)) return false;
+		if (!Objects.equals( this.deleted, customer.deleted)) return false;
+		return Objects.equals( this.orders, customer.orders);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
-		result = 31 * result + (secName != null ? secName.hashCode() : 0);
-		result = 31 * result + (email != null ? email.hashCode() : 0);
-		result = 31 * result + (phone != null ? phone.hashCode() : 0);
-		result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
-		result = 31 * result + (deliveries != null ? deliveries.hashCode() : 0);
-		result = 31 * result + (orders != null ? orders.hashCode() : 0);
+		int result = Objects.hashCode(this.id);
+		result = 42 * result + (Objects.hashCode(this.firstName));
+		result = 42 * result + (Objects.hashCode(this.secName));
+		result = 42 * result + (Objects.hashCode(this.email));
+		result = 42 * result + (Objects.hashCode(this.phone));
+		result = 42 * result + (Objects.hashCode(this.creationDate));
+		result = 42 * result + (Objects.hashCode(this.deliveries));
+		result = 42 * result + (Objects.hashCode(this.orders));
+		result = 42 * result + (Objects.hashCode(this.deleted));
 		return result;
 	}
 }

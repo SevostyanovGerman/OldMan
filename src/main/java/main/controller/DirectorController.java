@@ -1,12 +1,10 @@
 package main.controller;
 
+import main.model.Customer;
 import main.model.Role;
 import main.model.Status;
 import main.model.User;
-import main.service.OrderService;
-import main.service.RoleService;
-import main.service.StatusService;
-import main.service.UserService;
+import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +31,18 @@ public class DirectorController {
 
 	private RoleService roleService;
 
+	private CustomerService customerService;
+
 	private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	@Autowired
 	public DirectorController (UserService userService, OrderService orderService,
-							   StatusService statusService, RoleService roleService){
+							   StatusService statusService, RoleService roleService, CustomerService customerService){
 		this.userService = userService;
 		this.orderService = orderService;
 		this.statusService = statusService;
 		this.roleService = roleService;
+		this.customerService = customerService;
 	}
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
@@ -538,7 +539,7 @@ public class DirectorController {
 		try {
 			deletedUser = userService.get(id);
 		} catch (Exception e){
-			logger.error("Can\'t getById user with id: ", id);
+			logger.error("Can\'t get user with id: ", id);
 			String error = "Ошибка при запросе пользователя c id: " + id + " из базы данных";
 			request.getSession().setAttribute("error", error);
 		}
@@ -558,5 +559,68 @@ public class DirectorController {
 		}
 
 		return "redirect:/director/stuff";
+	}
+
+	//---------------------- Customer block ---------------------
+
+	@RequestMapping(value = {"/director/controlpanel/customers"}, method = RequestMethod.GET)
+	public ModelAndView controlPanelCustomers (HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/directorView/DirectorCustomersBoard");
+
+		String success = (String) request.getSession().getAttribute("success");
+		String error = (String) request.getSession().getAttribute("error");
+
+		if(success != null){
+			model.addObject("success", success);
+			request.getSession().removeAttribute("success");
+		} else if(error != null){
+			model.addObject("error", error);
+			request.getSession().removeAttribute("error");
+		}
+
+		try {
+			model.addObject("allCustomers", customerService.getAll());
+		} catch (Exception e) {
+			logger.error("Can\'t get customer list", e);
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/customer/delete/{id}"}, method = RequestMethod.GET)
+	public String deleteCustomer (@PathVariable("id") Long id, HttpServletRequest request) {
+
+		logger.info("Deleting user with id: ", id);
+
+		/*
+		 * Перед удалением получаем покупателя из базы данных и устанавливаем значение поля
+		 * Deleted в true. По умолчание у всех установлено значение false. Далее данная
+		 * сущность не отображается.
+		 */
+
+		Customer deletedCustomer = null;
+		try {
+			deletedCustomer = customerService.get(id);
+		} catch (Exception e){
+			logger.error("Can\'t get customer with id: ", id);
+			String error = "Ошибка при запросе пользователя c id: " + id + " из базы данных";
+			request.getSession().setAttribute("error", error);
+		}
+
+		if (deletedCustomer != null){
+			deletedCustomer.setDeleted(true);
+			try {
+				customerService.save(deletedCustomer);
+			} catch (Exception e){
+				logger.error("Can\'t delete customer with id: ", id);
+				String error = "Ошибка при удалении покупателя c id: " + id + " из базы данных";
+				request.getSession().setAttribute("error", error);
+			}
+
+			String success = "Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " + deletedCustomer.getSecName() + " успешно удалён";
+			request.getSession().setAttribute("success", success);
+		}
+
+		return "redirect:/director/controlpanel/customers";
 	}
 }
