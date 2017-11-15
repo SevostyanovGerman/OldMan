@@ -265,13 +265,6 @@
 <div class="container-fluid">
     <form method="POST" enctype="multipart/form-data"  th:action="'/uploadImage/'+ ${item.getId()}" >
         <input type="file" id="files" name="files[]" multiple class="btn btn-info"  />
-        <button type="reset" class="btn btn-warning"  >Отменить</button>
-        <input type="file" id="files2" name="files[]" multiple class="btn btn-info"  />
-
-    
-            <input type="file" id="files3" name="files[]" multiple class="btn btn-info"  />
-            <button type="reset" class="btn btn-warning"  >Отменить</button>
-
 
         <output id="list" ></output>
 
@@ -352,7 +345,6 @@
 
 </script>
 
-<button type="button" onclick="cancelUplodFunc(2);"> max</button>
 
 <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js'></script> -->
 <script src="/js/dropzone.js"></script>
