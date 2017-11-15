@@ -261,6 +261,99 @@
 </div>
 
 
+
+<div class="container-fluid">
+    <form method="POST" enctype="multipart/form-data"  th:action="'/uploadImage/'+ ${item.getId()}" >
+        <input type="file" id="files" name="files[]" multiple class="btn btn-info"  />
+        <button type="reset" class="btn btn-warning"  >Отменить</button>
+        <input type="file" id="files2" name="files[]" multiple class="btn btn-info"  />
+
+    
+            <input type="file" id="files3" name="files[]" multiple class="btn btn-info"  />
+            <button type="reset" class="btn btn-warning"  >Отменить</button>
+
+
+        <output id="list" ></output>
+
+       <input type="submit" value="Загрузить" class="btn btn-primary"  />
+        <button type="reset" class="btn btn-warning" >Отменить</button>
+
+    </form>
+</div>
+
+
+
+
+
+
+<style>
+    .thumb {
+        height: 75px;
+        border: 1px solid #000;
+        margin: 10px 5px 0 0;
+    }
+</style>
+
+
+
+<script>
+   var spanGlob = [];
+    var files;
+    function handleFileSelect(evt) {
+         files = evt.target.files; // FileList object
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+            var j = 0;
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                continue;
+            }
+
+            var reader = new FileReader();
+
+            // Closure to capture the file information.
+            reader.onload = (function(theFile) {
+
+                return function(e) {
+
+                    // Render thumbnail.
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb" onclick=\"cancelUplodFunc(',j,');\"  src="', e.target.result,
+                        '" title="', escape(theFile.name), '"/> <br>'].join('');
+                    document.getElementById('list').insertBefore(span, null);
+
+
+                     spanGlob.push(span);
+                    j++;
+                };
+            })(f);
+
+            // Read in the image file as a data URL.
+
+            reader.readAsDataURL(f);
+        }
+    }
+
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+    function cancelUplodFunc(i) {
+      spanGlob[i].innerHTML="";
+      var fileArray = Array.prototype.slice.call(files);
+      fileArray.splice(1,1);
+      files=fileArray;
+
+        var z = document.getElementById("files").files;
+        z = files;
+
+    }
+
+
+
+</script>
+
+<button type="button" onclick="cancelUplodFunc(2);"> max</button>
+
 <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js'></script> -->
 <script src="/js/dropzone.js"></script>
 <script src="/js/mxdropzone.js"></script>

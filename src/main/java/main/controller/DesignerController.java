@@ -10,8 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class DesignerController {
@@ -132,4 +136,16 @@ public class DesignerController {
 			return new ModelAndView("/designerView/DesignerDashBoard");
 		}
 	}
+
+	@RequestMapping(value = "/uploadImage/{id}", method = RequestMethod.POST)
+	public ModelAndView uploadSampleFiles(@PathVariable("id") Long id, HttpServletRequest request, @RequestParam
+		("files[]") List<MultipartFile> files) {
+
+		Object x = request.getParameter("maxim");
+
+			if (imageService.saveBlobImage(files, id)) {
+			return new ModelAndView("redirect:/designer/order/item/" + id);
+		}
+	return new ModelAndView("redirect:/designer/order/item/" + id);
+}
 }

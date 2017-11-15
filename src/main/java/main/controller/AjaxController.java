@@ -58,9 +58,9 @@ public class AjaxController {
 	@ResponseStatus(HttpStatus.OK)
 	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		if (imageService.saveBlobImage(multipartRequest, id)) {
-			return "Вы удачно загрузили файлы";
-		}
+//		if (imageService.saveBlobImage(multipartRequest, id)) {
+//			return "Вы удачно загрузили файлы";
+//		}
 		return "Ошибка при загрузке файлов";
 	}
 }
