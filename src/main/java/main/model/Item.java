@@ -1,5 +1,7 @@
 package main.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -35,6 +37,9 @@ public class Item {
 
 	@Column(name = "amount")
 	private Double amount;
+
+	@Transient
+	private MultipartFile[] uploadCustomerFiles;
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
 	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "item_id")},
@@ -167,6 +172,14 @@ public class Item {
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+
+	public MultipartFile[] getUploadCustomerFiles() {
+		return uploadCustomerFiles;
+	}
+
+	public void setUploadCustomerFiles(MultipartFile[] uploadCustomerFiles) {
+		this.uploadCustomerFiles = uploadCustomerFiles;
 	}
 
 	public boolean isStatus() {

@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.model.File;
 import main.model.*;
 import main.service.*;
 import org.slf4j.Logger;
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -78,8 +79,8 @@ public class ManagerController {
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
 		model.addObject("statuses", statusService.getAll());
-		model.addObject("designerList", userService.getByRole(2l)); // Как избавиться от 2?
-		model.addObject("masterList", userService.getByRole(3l));   //Как избавиться от 3?
+		model.addObject("designerList", userService.getByRole(2L)); // Как избавиться от 2?
+		model.addObject("masterList", userService.getByRole(3L));   //Как избавиться от 3?
 		model.addObject("newCustomer", new Customer());
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());
@@ -123,33 +124,28 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
-	//Добавляем новый заказ с новой позицией
+	//Создаём новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/order/add"}, method = RequestMethod.GET)
-	public ModelAndView addItem(HttpServletRequest request) {
+	public ModelAndView madeNewOrder() {
 		ModelAndView model = new ModelAndView("/managerView/ManagerNewOrder");
-		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
-		HttpSession session = request.getSession();
-		session.setAttribute("order", order);
 		Item item = new Item();
 		model.addObject("authUser", userService.getCurrentUser());
-		model.addObject("order", order);
 		model.addObject("item", item);
 		return model;
 	}
 
 	//Сохраняем новый заказ с новой позицией
-	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.GET)
-	public ModelAndView saveNewOrder(HttpServletRequest request, @ModelAttribute("item") Item item) {
-		HttpSession session = request.getSession();
-		Order order = (Order) session.getAttribute("order");
+	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.POST)
+	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item) throws IOException, SQLException {
+		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		orderService.save(order);
-		item.setStatus(false);
+		order.setNumber(order.getId().toString());
+		orderService.save(order);
+		List<File> uploadCustomerFiles = fileService.uploadFile(item.getUploadCustomerFiles());
+		item.setFiles(uploadCustomerFiles);
 		item.setOrder(order);
 		itemService.save(item);
-		Long orderId = order.getId();
-		order.setNumber(orderId.toString());
-		orderService.save(order);
-		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+		return new ModelAndView("redirect:/manager/order/update/" + order.getId());
 	}
 
 	//Удаляем заказ
@@ -274,20 +270,21 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
-	//Загрузка файлов
+	//Загрузка файлов заказчика в существующую позицию
 	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "id") Long id,
-									HttpServletRequest request) {
+	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, HttpServletRequest request) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		if (fileService.saveBlobFile(multipartRequest, id)) {
-			return "Вы удачно загрузили файлы";
-		}
-		return "Ошибка при загрузке файлов";
+		List<File> uploadedCustomerFiles = fileService.saveBlobFile(multipartRequest);
+		Item item = itemService.get(itemId);
+		List<File> customerFiles = item.getFiles();
+		customerFiles.addAll(uploadedCustomerFiles);
+		item.setFiles(customerFiles);
+		itemService.save(item);
 	}
 
-	//Удаление файла
+	//Удаление загруженного файла заказчик
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
 	public ModelAndView delImage(@PathVariable("orderId") Long orderId,
 								 @PathVariable("itemId") Long itemId,

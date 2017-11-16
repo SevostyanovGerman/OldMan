@@ -33,10 +33,10 @@
                     </ul>
                 </div>
                 <div class="col-lg-4">
-                    <h4 style="color: white" align="left" th:text="${'Новый заказ от ' + order.getCreated()}"></h4>
+                    <h4 style="color: white" align="left">Новый заказ</h4>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" th:text="${authUser}">Менеджер</a></li>
+                    <li><a href="#" th:text="${authUser}"></a></li>
                     <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
 				</ul>
             </div>
@@ -47,60 +47,61 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12" >
-                <form class="form-horizontal" th:object="${item}" th:action="@{/manager/item/saveNewOrder}">
+                <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="@{/manager/item/saveNewOrder}" method="post">
                     <div class="col-lg-6">
                         <input type="hidden" th:field="*{id}"/>
                         <div class="form-group">
                             <div class="input-group" style="width: 100%">
                                 <span class="input-group-addon" style="width: 150px; text-align: left;">Тип продукта:</span>
-                                <input type="text" class="form-control" th:field="*{name}" required="required"
-                                       pattern="{1,}">
+                                <input type="text" class="form-control" th:field="*{name}" required="required">
                             </div>
                         </div>
                         <div class="form-group" >
                             <div class="input-group" style="width: 100%">
                                 <span class="input-group-addon" style="width: 150px; text-align: left;">Материал:</span>
                                 <input type="text" class="form-control" style="width: 100%;" th:field="*{type}"
-                                       required="required" pattern="{1,}">
+                                       required="required">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" style="width: 100%">
                                 <span class="input-group-addon" style="width: 150px; text-align: left;">Модель телефона:</span>
                                 <input type="text" class="form-control" style="width: 100%;" th:field="*{model}"
-                                       required="required" pattern="{1,}">
+                                       required="required">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" style="width: 100%">
                                 <span class="input-group-addon" style="width: 150px; text-align: left;">Количество:</span>
-                                <input class="form-control"  style="width: 100%;" th:field="*{count}"
-                                       id="numberItemField" onchange="amountItem()" type="text" required="required"
-                                       pattern="{1,}">
+                                <input class="form-control"  style="width: 100%;" type="number" th:field="*{count}"
+                                       id="numberItemField" onchange="amountItem()" required="required" value="1" min="1" step="1">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" style="width: 100%">
                                 <span class="input-group-addon" style="width: 150px; text-align: left;">Цена за ед. (руб.):</span>
                                 <input class="form-control"  style="width: 100%;"
-                                       th:field="*{price}" id="priceItemField" onchange="amountItem()"
-                                       required="required" pattern="{1,}">
+                                       th:field="*{price}" type="number"  id="priceItemField" onchange="amountItem()"
+                                       required="required" value="0" min="0" step="0.01">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" style="width: 100%">
                                 <span class="input-group-addon" style="width: 150px; text-align: left;">Сумма (руб.):</span>
                                 <input class="form-control"  style="width: 100%;"
-                                       th:field="*{amount}" id="amountItemField"  readonly required="required" pattern="{1,}">
+                                       th:field="*{amount}" type="number" id="amountItemField"  readonly>
                             </div>
                         </div>
-                        <br/><br/>
                     </div> <!-- end col-lg-6 -->
                     <div class="col-lg-6">
                         <h4 align="left">Комментарий к позиции заказа</h4>
-                        <textarea style="resize: none; width: 100%" class="form-control" rows="4" th:field="*{comment}"></textarea>
+                        <textarea style="resize: none; width: 100%" class="form-control" rows="3" th:field="*{comment}"></textarea>
+                        <hr/>
+                        <h4>Загрузка файлов</h4>
+                        <input type="file"  name="uploadCustomerFiles" multiple>
                     </div> <!-- end col-lg-6 -->
                     <div class="col-lg-12" align="right">
+                        <button type="reset" class="btn btn-primary" id="resetItemBtn"></button>
                         <a class="btn btn-primary" th:href="@{/manager}">Отмена</a>
                         <button type="submit" class="btn btn-primary" disabled id="saveItemBtn">Сохранить</button>
                     </div>
@@ -119,7 +120,6 @@
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
     <script src="/js/mxItemManager.js"></script>
-
 
 </body>
 </html>
