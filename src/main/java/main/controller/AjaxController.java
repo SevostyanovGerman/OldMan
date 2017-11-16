@@ -52,12 +52,13 @@ public class AjaxController {
 	public String checkUser(@RequestParam(value = "email") String email) {
 		return customerService.checkEmail(email).toString();
 	}
+
 	//Загрузка файлов//
 	@RequestMapping(value = "/uploadImage/{id}", method = RequestMethod.POST)
-	public void uploadSampleFiles(@PathVariable("id") Long id,
+	public void uploadSampleFiles(@PathVariable("id") Long itemId,
 								  MultipartHttpServletRequest multipartHttpServletRequest) {
 		List<MultipartFile> files = multipartHttpServletRequest.getFiles("files");
-		if (imageService.saveBlobImage(files, id)) {
+		if (imageService.saveBlobImage(files, itemId)) {
 		}
 	}
 }
