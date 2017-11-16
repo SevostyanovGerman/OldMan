@@ -58,7 +58,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li><a href="/director/controlpanel/statuses">Статусы</a></li>
-                <li><a href="/director/controlpanel/roles">Роли</a></li>
+                <li><a href="/director/controlpanel/roles">Должности</a></li>
                 <li class="active"><a href="/director/controlpanel/user">Сотрудник <span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
@@ -88,12 +88,7 @@
                                 <div class="panel-heading"><b>Создать нового сотрудника</b></div>
                             </div>
                             <form class="form-horizontal" th:object="${user}" th:action="@{/director/controlpanel/user/create}" action="create" method="post">
-                                <div class="form-group row">
-                                    <label for="id" class="control-label col-sm-2">ID Сотрудника</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="id" th:value="${user.getId()}" readonly="readonly" placeholder="ID Сотрудника" />
-                                    </div>
-                                </div>
+
                                 <div class="form-group row">
                                     <label for="name" class="control-label col-sm-2">Логин</label>
                                     <div class="col-sm-8">
@@ -131,14 +126,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="position" class="control-label col-sm-2">Должность</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="position" th:value="${user.getPosition()}" placeholder="Должность">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <fieldset class="center-block" style="width: 95%;">
-                                        <legend>Роли</legend>
+                                        <legend>Должности</legend>
                                         <div class="panel panel-default">
                                             <div class="panel-body">
                                                 <div th:each="role : ${allRoles}">

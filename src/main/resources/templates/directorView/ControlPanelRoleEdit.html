@@ -88,10 +88,9 @@
                             <div class="panel-heading"><b>Редактировать должность</b></div>
                         </div>
                         <form class="form-horizontal" th:action="@{/director/controlpanel/roles/update}" action="create" method="post">
-                            <div class="form-group row">
-                                <label for="id" class="control-label col-sm-2">ID должности</label>
+                            <div class="form-group row noneVisible">
                                 <div class="col-sm-8">
-                                    <input class="form-control" type="text" name="id" th:value="${role.getId()}" readonly="readonly" placeholder="ID должности" />
+                                    <input class="noneVisible" type="text" name="id" th:value="${role.getId()}" readonly="readonly" placeholder="ID должности" hidden="hidden" />
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -143,7 +142,6 @@
                         <th>Начальная страница</th>
                         <th>Статусы</th>
                         <th></th>
-                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -157,10 +155,7 @@
                             </div>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-info" th:href="'role/edit/' + ${unit.getId()}">Изменить</a>
-                        </td>
-                        <td>
-                            <a class="btn btn-xs btn-danger" th:href="'role/delete/' + ${unit.getId()}">Удалить</a>
+                            <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/role/edit/' + ${unit.getId()}">Изменить</a>
                         </td>
                     </tr>
                     </tbody>

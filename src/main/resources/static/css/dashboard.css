@@ -28,3 +28,7 @@ tr th, tr td {
 #myTable{
     width: 98%;
 }
+
+#noneVisible {
+    display: none;
+}

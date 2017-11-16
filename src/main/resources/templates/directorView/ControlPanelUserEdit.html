@@ -90,12 +90,9 @@
                                 <div class="panel-heading"><b>Профиль сотрудника</b></div>
                             </div>
                             <form class="form-horizontal" th:object="${user}" th:action="@{/director/controlpanel/user/update}" action="create" method="post">
-                                <div class="form-group row">
-                                    <label for="id" class="control-label col-sm-2">ID Сотрудника</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="id" th:value="${user.getId()}" readonly="readonly" placeholder="ID Сотрудника" />
-                                    </div>
-                                </div>
+
+                                <input class="noneVisible" type="text" name="id" th:value="${user.getId()}" readonly="readonly" hidden="hidden" />
+
                                 <div class="form-group row">
                                     <label for="name" class="control-label col-sm-2">Логин</label>
                                     <div class="col-sm-8">
@@ -133,14 +130,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="position" class="control-label col-sm-2">Должность</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="position" th:value="${user.getPosition()}" placeholder="Должность">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <fieldset class="center-block" style="width: 95%;">
-                                        <legend>Роли</legend>
+                                        <legend>Должности</legend>
                                         <div class="panel panel-default">
                                             <div class="panel-body">
                                                 <div th:each="role : ${allRoles}">
