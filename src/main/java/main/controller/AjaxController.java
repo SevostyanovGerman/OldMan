@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -62,6 +63,14 @@ public class AjaxController {
 //			return "Вы удачно загрузили файлы";
 //		}
 		return "Ошибка при загрузке файлов";
+	}
+
+	@RequestMapping(value = "/uploadImage/{id}", method = RequestMethod.POST)
+	public void uploadSampleFiles(@PathVariable("id") Long id,
+										  MultipartHttpServletRequest multipartHttpServletRequest) {
+		List<MultipartFile> files = multipartHttpServletRequest.getFiles("files");
+		if (imageService.saveBlobImage(files, id)) {
+		}
 	}
 }
 

@@ -3,10 +3,7 @@ package main.controller;
 import main.model.Answer;
 import main.model.Comment;
 import main.model.Order;
-import main.service.AnswerService;
-import main.service.CommentService;
-import main.service.OrderService;
-import main.service.UserService;
+import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +28,16 @@ public class MainController {
 
 	private UserService userService;
 
+	private ImageService imageService;
+
 	@Autowired
 	public MainController(CommentService commentService, AnswerService answerService, OrderService orderService,
-						  UserService userService) {
+						  UserService userService, ImageService imageService) {
 		this.commentService = commentService;
 		this.answerService = answerService;
 		this.orderService = orderService;
 		this.userService = userService;
+		this.imageService = imageService;
 	}
 
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
@@ -110,6 +110,8 @@ public class MainController {
 		}
 		return model;
 	}
+
+
 
 	private String getUrl(String referer) {
 		String url;

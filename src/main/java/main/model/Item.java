@@ -36,7 +36,7 @@ public class Item {
 	@Column(name = "amount")
 	private Double amount;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
 	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
 	private Order order;
