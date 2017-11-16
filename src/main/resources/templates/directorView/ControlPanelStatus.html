@@ -37,7 +37,7 @@
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="nav navbar-nav">
                 <li role="presentation"><a href="/director">Заказы</a></li>
-                <li role="presentation"><a href="/customers">Клиенты</a></li>
+                <li role="presentation"><a href="/director/controlpanel/customers">Клиенты</a></li>
                 <li role="presentation"><a href="/director/stuff">Сотрудники</a></li>
                 <li class="active" role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
             </ul>
@@ -60,7 +60,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="/director/controlpanel/statuses">Статусы <span class="sr-only">(current)</span></a></li>
-                <li><a href="/director/controlpanel/roles">Роли</a></li>
+                <li><a href="/director/controlpanel/roles">Должности</a></li>
                 <li><a href="/director/controlpanel/user">Сотрудник</a></li>
             </ul>
         </div>
@@ -92,12 +92,9 @@
                                 <div class="panel-heading"><b>Создать новый статус</b></div>
                             </div>
                             <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/create}" action="create" method="post">
-                                <div class="form-group row">
-                                    <label for="id" class="control-label col-sm-2">ID статуса</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="id" th:value="${newstatus.getId()}" readonly="readonly" placeholder="ID статуса" />
-                                    </div>
-                                </div>
+
+                                <input class="noneVisible" type="text" name="id" th:value="${newstatus.getId()}" readonly="readonly" hidden="hidden" />
+
                                 <div class="form-group row">
                                     <label for="name" class="control-label col-sm-2">Название статуса</label>
                                     <div class="col-sm-8">
@@ -125,12 +122,9 @@
                                     <div class="panel-heading"><b>Редактирование статуса</b></div>
                                 </div>
                                 <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/update}" action="update" method="post">
-                                    <div class="form-group row">
-                                        <label for="id" class="control-label col-sm-2">ID статуса</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="id" th:value="${status.getId()}" readonly="readonly" placeholder="ID статуса" />
-                                        </div>
-                                    </div>
+
+                                    <input class="noneVisible" type="text" name="id" th:value="${status.getId()}" readonly="readonly" placeholder="ID статуса" hidden="hidden" />
+
                                     <div class="form-group row">
                                         <label for="name" class="control-label col-sm-2">SНазвание статуса</label>
                                         <div class="col-sm-8">

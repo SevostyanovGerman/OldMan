@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public List<Customer> getAll() {
 		logger.debug("Getting customer list");
-		return customerRepository.findAll();
+		return customerRepository.getAllByDeleted(false);
 	}
 
 	@Override

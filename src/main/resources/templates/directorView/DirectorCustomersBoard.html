@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Должности</title>
+    <title>Список сотрудников</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -16,13 +16,12 @@
 
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://getbootstrap.com/docs/3.3/examples/dashboard/dashboard.css">
     <link rel="stylesheet" href="/css/dashboard.css">
 
 </head>
 
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
             <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
@@ -38,8 +37,8 @@
             <ul class="nav navbar-nav">
                 <li role="presentation"><a href="/director">Заказы</a></li>
                 <li role="presentation"><a href="/director/controlpanel/customers">Клиенты</a></li>
-                <li role="presentation"><a href="/director/stuff">Сотрудники</a></li>
-                <li class="active" role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
+                <li class="active" role="presentation"><a href="/director/stuff">Сотрудники</a></li>
+                <li role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Директор</a></li>
@@ -54,82 +53,80 @@
         </div>
     </div>
 </nav>
+
 <br>
-<div class="container-fluid" style="margin-top: 10px;">
+<div class="container">
     <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li><a href="/director/controlpanel/statuses">Статусы</a></li>
-                <li  class="active"><a href="/director/controlpanel/roles">Должности <span class="sr-only">(current)</span></a></li>
-                <li><a href="/director/controlpanel/user">Сотрудник</a></li>
-            </ul>
-        </div>
+        <a style="float: right; margin-right: 2%;" href="/director/controlpanel/user" class="btn btn-md btn-info">Добавить покупателя</a>
     </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+</div>
+<br>
+<div class="container">
 
-            <div class="row" style="margin-top: 1%;">
-                <th:block th:if="${success}">
-                    <div class="alert alert-success" role="alert">
-                        <span th:text="${success}"></span>
-                    </div>
-                </th:block>
-
-                <th:block th:if="${error}">
-                    <div class="alert alert-danger" role="alert">
-                        <span th:text="${error}"></span>
-                    </div>
-                </th:block>
+    <div class="row" style="margin-top: 1%;">
+        <th:block th:if="${success}">
+            <div class="alert alert-success" role="alert">
+                <span th:text="${success}"></span>
             </div>
+        </th:block>
 
-        <br>
-
-            <div class="table-responsive">
-                <table id="myTable" class="display table table-bordered data" >
-                    <thead>
-                    <tr>
-                        <th>#ID</th>
-                        <th>Роль</th>
-                        <th>Начальная страница</th>
-                        <th>Статусы</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each ="unit : ${roles}">
-                        <td th:text="${unit.getId()}"></td>
-                        <td th:text="${unit.getName()}"></td>
-                        <td th:text="${unit.getUrl()}"></td>
-                        <td>
-                            <div th:each="status : ${unit.statuses}">
-                                <span th:text="${status.name}"></span>
-                            </div>
-                        </td>
-                        <td>
-                            <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/role/edit/' + ${unit.getId()}">Изменить</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <th:block th:if="${error}">
+            <div class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
             </div>
+        </th:block>
+    </div>
+
+    <div class="table-responsive">
+        <table id="myTable" class="display table table-bordered data" >
+            <thead>
+            <tr>
+                <th>#ID</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Email</th>
+                <th>Телефон</th>
+                <th>Адрес</th>
+                <th>Редактировать</th>
+                <th>Добавить в заказ</th>
+                <th>Удалить</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each ="customer: ${allCustomers}">
+                    <td th:text="${customer.getId()}"></td>
+                    <td th:text="${customer.getFirstName()}"></td>
+                    <td th:text="${customer.getSecName()}"></td>
+                    <td th:text="${customer.getEmail()}">n/a</td>
+                    <td th:text="${customer.getPhone()}">n/a</td>
+                    <td th:text="${customer.getDefaultDelivery()}"></td>
+                    <td>
+                        <a class="btn btn-xs btn-info" th:href="'controlpanel/customer/edit/' + ${customer.getId()}">Изменить</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-info" th:href="'controlpanel/user/edit/' + ${customer.getId()}">Добавить в заказ</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-danger" th:href="'customer/delete/' + ${customer.getId()}">Удалить</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="/js/jquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
         integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="/js/bootstrap.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-
-
-
-
-
 
 <script>
     function settingUpTable() {
@@ -153,8 +150,6 @@
         settingUpTable();
     });
 </script>
-
-
 
 </body>
 </html>
