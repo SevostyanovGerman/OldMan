@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -53,21 +52,10 @@ public class AjaxController {
 	public String checkUser(@RequestParam(value = "email") String email) {
 		return customerService.checkEmail(email).toString();
 	}
-
-	//Загрузка файлов
-	@RequestMapping(value = "/uploadFile/", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-//		if (imageService.saveBlobImage(multipartRequest, id)) {
-//			return "Вы удачно загрузили файлы";
-//		}
-		return "Ошибка при загрузке файлов";
-	}
-
+	//Загрузка файлов//
 	@RequestMapping(value = "/uploadImage/{id}", method = RequestMethod.POST)
 	public void uploadSampleFiles(@PathVariable("id") Long id,
-										  MultipartHttpServletRequest multipartHttpServletRequest) {
+								  MultipartHttpServletRequest multipartHttpServletRequest) {
 		List<MultipartFile> files = multipartHttpServletRequest.getFiles("files");
 		if (imageService.saveBlobImage(files, id)) {
 		}
