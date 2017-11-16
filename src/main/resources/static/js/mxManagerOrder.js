@@ -31,7 +31,7 @@ $(function() {
 
 //выбор клиента в ajax поиске//
 
-function selectCustomer(ajaxCustomerId) {
+function selectCustomer(ajaxCustomerId, order) {
     var name = document.getElementById("firstNameField");
     var second = document.getElementById("secNameField");
     var email = document.getElementById("emailField");
@@ -43,8 +43,8 @@ function selectCustomer(ajaxCustomerId) {
     email.value = customer.email;
     phone.value = customer.phone;
     delivery.textContent = customer.defaultDelivery.country +' , ' + customer.defaultDelivery.city +' , ' +  customer.defaultDelivery.address +' , ' +  customer.defaultDelivery.zip;
-    var subEditBtn = document.getElementById("editBtnSub");
-    subEditBtn.disabled = false;
+    $.post("/selectCustomer/"+customer.id+"/"+ order);
+
 
     };
 

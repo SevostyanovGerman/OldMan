@@ -319,7 +319,8 @@
                     <h4 align="center">Информация о клиенте</h4>
                     <div class="form-group">
 
-                        <input type="text" class="form-control" id="liveText" onkeyup="showResult(this.value)"
+                        <input type="text" class="form-control" id="liveText"
+                               th:onkeyup="'showResult(this.value,'+ ${order.getId()} +')'"
                                placeholder="Клиент">
                         <div id="livesearch"></div>
 

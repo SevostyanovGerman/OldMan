@@ -63,6 +63,15 @@ public class AjaxController {
 		}
 		return "Ошибка при загрузке файлов";
 	}
+
+	//Выбор клиента//
+	@RequestMapping(value = "/selectCustomer/{customerId}/{orderId}", method = RequestMethod.POST)
+	public void uploadSampleFiles(@PathVariable("customerId") Long customerId, @PathVariable("orderId") Long orderId) {
+		Order order = orderService.get(orderId);
+		Customer customer = customerService.get(customerId);
+		order.setCustomer(customer);
+		orderService.save(order);
+	}
 }
 
 
