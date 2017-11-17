@@ -1,10 +1,8 @@
-function checkStatus() {
 
+function checkStatus() {
 
     var status = document.getElementsByName("status");
     var check = document.getElementsByName("sendBtn");
-
-
 
     for (var i = 0; i < status.length; i++) {
         if (status[i].getAttribute("value") == "true" ) {
@@ -13,11 +11,7 @@ function checkStatus() {
             check[0].disabled = true;
         }
     }
-
-
 }
-
-
 
 function showHide(element_id) {
     //Если элемент с id-шником element_id существует
@@ -50,8 +44,6 @@ function toggleArea1() {
         myNicEditor.panelInstance(els[i]);
     }
 }
-//bkLib.onDomLoaded(function() {toggleArea1();});
-
 
 window.addEventListener('DOMContentLoaded',function(){
     new smartPhoto(".js-smartPhoto");
