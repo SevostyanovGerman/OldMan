@@ -1,6 +1,5 @@
 package main.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class Customer {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonBackReference
+	//@JsonBackReference
 	private Long id;
 
 	@Column(name = "first_name", nullable = false)
