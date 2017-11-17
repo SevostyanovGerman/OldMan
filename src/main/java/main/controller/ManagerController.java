@@ -41,14 +41,9 @@ public class ManagerController {
 	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	@Autowired
-	public ManagerController(OrderService orderService,
-							 DeliveryService deliveryService,
-							 CustomerService customerService,
-							 ItemService itemService,
-							 UserService userService,
-							 StatusService statusService,
-							 PaymentService paymentService,
-							 ImageService imageService,
+	public ManagerController(OrderService orderService, DeliveryService deliveryService,
+							 CustomerService customerService, ItemService itemService, UserService userService,
+							 StatusService statusService, PaymentService paymentService, ImageService imageService,
 							 FileService fileService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
@@ -234,17 +229,15 @@ public class ManagerController {
 	//Выбор/изменения клиента в заказе
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
-									   @ModelAttribute("firstNameField") String fName,
-									   @ModelAttribute("secNameField") String sName,
-									   @ModelAttribute("emailField") String eMail,
-									   @ModelAttribute("phoneField") String phone) {
+									   @ModelAttribute("newCustomer") Customer newCustomer) {
 		Order order = orderService.get(orderId);
 		try {
-			Customer customer = customerService.getByEmail(eMail);
+			Customer customer = customerService.getByEmail(newCustomer.getEmail());
 			if (customer == null) {
 				customer = order.getCustomer();
 			}
-			customer.updateCustomerFields(fName, sName, eMail, phone);
+			customer.updateCustomerFields(newCustomer.getFirstName(), newCustomer.getSecName(), newCustomer.getEmail(),
+				newCustomer.getPhone());
 			customerService.save(customer);
 			order.setDelivery(customer.getDefaultDelivery());
 			order.setCustomer(customer);
@@ -255,16 +248,12 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
-	//Изменение создание адреса доставки
+	//Изменение/Создание адреса доставки
 	@RequestMapping(value = {"/manager/order/editDelivery/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView changeAddress(@PathVariable("orderId") Long orderId,
-									  @ModelAttribute("editAddressCountry") String country,
-									  @ModelAttribute("editAddressCity") String city,
-									  @ModelAttribute("editAddressAddress") String address,
-									  @ModelAttribute("editAddressZip") String zip) {
+									  @ModelAttribute("newDelivery") Delivery delivery) {
 		Order order = orderService.get(orderId);
 		try {
-			Delivery delivery = new Delivery(country, city, address, zip);
 			deliveryService.save(delivery);
 			order.setDelivery(delivery);
 			orderService.save(order);
@@ -278,8 +267,7 @@ public class ManagerController {
 	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "id") Long id,
-									HttpServletRequest request) {
+	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		if (fileService.saveBlobFile(multipartRequest, id)) {
 			return "Вы удачно загрузили файлы";
@@ -289,11 +277,10 @@ public class ManagerController {
 
 	//Удаление файла
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
-	public ModelAndView delImage(@PathVariable("orderId") Long orderId,
-								 @PathVariable("itemId") Long itemId,
+	public ModelAndView delImage(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
 								 @PathVariable("fileId") Long fileId) throws IOException {
 		File file = fileService.get(fileId);
 		fileService.delete(file);
-		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
+		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
 }
