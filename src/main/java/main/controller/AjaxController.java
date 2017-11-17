@@ -5,6 +5,8 @@ import main.model.Order;
 import main.service.CustomerService;
 import main.service.ImageService;
 import main.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ public class AjaxController {
 	private OrderService orderService;
 
 	private ImageService imageService;
+
+	private final Logger logger = LoggerFactory.getLogger(AjaxController.class);
 
 	@Autowired
 	public AjaxController(CustomerService customerService, OrderService orderService, ImageService imageService) {
@@ -57,8 +61,11 @@ public class AjaxController {
 	@RequestMapping(value = "/uploadImage/{id}", method = RequestMethod.POST)
 	public void uploadSampleFiles(@PathVariable("id") Long itemId,
 								  MultipartHttpServletRequest multipartHttpServletRequest) {
-		List<MultipartFile> files = multipartHttpServletRequest.getFiles("files");
-		if (imageService.saveBlobImage(files, itemId)) {
+		try {
+			List<MultipartFile> files = multipartHttpServletRequest.getFiles("files");
+			imageService.saveBlobImage(files, itemId);
+		} catch (Exception e) {
+			logger.error("Не удалось сохранить файл");
 		}
 	}
 }
