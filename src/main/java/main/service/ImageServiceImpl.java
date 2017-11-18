@@ -8,11 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.transaction.Transactional;
 import java.sql.Blob;
-import java.util.Map;
+import java.util.List;
 
 @Service
 @Transactional
@@ -45,11 +44,11 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public boolean saveBlobImage(MultipartHttpServletRequest multipartRequest, Long itemId) {
+	public boolean saveBlobImage(List<MultipartFile> files, Long itemId) {
 		String name;
 		Item item = itemService.get(itemId);
-		for (Map.Entry<String, MultipartFile> set : multipartRequest.getFileMap().entrySet()) {
-			MultipartFile file = set.getValue();
+		for (int i = 0; i < files.size() ; i++)  {
+			MultipartFile file = files.get(i);
 			if (!file.isEmpty()) {
 				try {
 					name = file.getOriginalFilename();

@@ -9,7 +9,7 @@ function amountItem() {
     try{
         if (price.value != 0 & number.value != 0) {
             amount.value = price.value * number.value ;
-            if (isNaN(amount.value)) {
+            if (isNaN(amount.value) | amount.value<= 0) {
                 btn.disabled = true;
                 amount.value = "";
             } else {
