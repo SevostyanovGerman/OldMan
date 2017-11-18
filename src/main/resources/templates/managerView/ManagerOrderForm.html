@@ -142,7 +142,7 @@
                                     <td align="center">
                                         <a class="btn btn-danger btn-xs"
                                            th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}"><span
-                                            class="glyphicon glyphicon-trash"></span></a>
+                                            class="glyphicon glyphicon-remove"></span></a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -269,7 +269,6 @@
                                                             </div>
                                                         </div>
                                                     </li>
-
                                                 </ul>
                                             </li>
                                         </ul>
@@ -330,20 +329,17 @@
                           id="addCustomer">
                         <div style="text-align: right">
                             <a href="#" onclick="editCustomer()" id="editBtn" style="text-align: right">Изменить</a>
-
                         </div>
 
                         <div class="form-group">
-
                             <div class="input-group">
-
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
                                        name="firstNameField" id="firstNameField" readonly="readonly" required="required"
                                        pattern="[A-Za-z]{3,}"/>
-
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Фамилия:</span>
@@ -352,6 +348,7 @@
                                        pattern="[A-Za-z]{3,}"/>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Email:</span>
@@ -359,6 +356,7 @@
                                        name="emailField" id="emailField" readonly="readonly" required="required"/>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Телефон:</span>
@@ -375,61 +373,46 @@
                         </button>
 
                         <b>
-
-                            <div class="form-inline" style="margin-top: 15px"> Способ оплаты: <a
-                                href="#modalSetPaymentType" data-toggle="modal"> Изменить</a> </div>  </b>
-                                    <div style="text-align: center;color:#1abb57"><h5>
-                                  <span  th:if="${order?.getPaymentType()} != null"
-                                        th:text=" ${order?.getPaymentType()}"></span>
-                                  <span  th:if="${order?.getPaymentType()} == null"> -- </span>
-                                    </h5>
-                                    </div>
-                        <b>
-                            <div style="margin-top: 10px">Адрес доставки:   <a href="#addressModal"  data-toggle="modal"
-                            > Изменить</a></div>
+                            <div class="form-inline" style="margin-top: 15px"> Способ оплаты:
+                                <a href="#modalSetPaymentType" data-toggle="modal"> Изменить</a>
+                            </div>
                         </b>
-
-                        <span th:text="${order?.getDefaultDelivery()}" id="deliveryField">
-                        </span>
-
-
+                            <div style="text-align: center;color:#1abb57">
+                                <h5>
+                                    <span  th:if="${order?.getPaymentType()} != null" th:text=" ${order?.getPaymentType()}"></span>
+                                    <span  th:if="${order?.getPaymentType()} == null"> -- </span>
+                                </h5>
+                            </div>
+                        <b>
+                            <div style="margin-top: 10px">Адрес доставки:   <a href="#addressModal"  data-toggle="modal"> Изменить</a></div>
+                        </b>
+                        <span th:text="${order?.getDefaultDelivery()}" id="deliveryField"></span>
                     </form>
 
 
                     <br>
-                            <a href="#newCustomerModal" class="btn btn-info form-control" data-toggle="modal"
-                               style=" text-align: center; ">Создать</a>
-
-
-                </fieldset>
+                    <a href="#newCustomerModal" class="btn btn-info form-control" data-toggle="modal" style=" text-align: center; ">Создать</a>
+               </fieldset>
             </div>
             <br>
-
-
-
         </div> <!-- col-lg-3 -->
     </div>
 
     <div class="container-fluid" style="background-color: lightgrey;padding: 0px;margin: 0px">
         <div class="row col-sm-12" style="padding: 0px;margin: 0px"  >
-            <div class="col-sm-9" >
+            <div class="col-sm-9">
 
             </div>
             <div class="col-sm-3" style="text-align: center; "  >
-                <a
-                    th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null" href="#myModal"
+                <a th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null" href="#myModal"
                     class="btn btn-warning  " data-toggle="modal">Отправить заказ</a>
 
-                <a
-                    th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0 OR ${order.getCustomer()} == null OR ${order.getPaymentType()} == null"
+                <a th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0 OR ${order.getCustomer()} == null OR ${order.getPaymentType()} == null"
                    href="#erroFieldModal"  class="btn btn-warning " data-toggle="modal">Отправить
                     заказ</a>
             </div>
-
         </div>
-
     </div>
-
 </div>
 <br/>
 
@@ -446,13 +429,11 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-
                 <div th:each="element : ${statuses}" class="form-group">
                     <form th:action="'/manager/order/send/' + ${order.getId()} +'/to/' + ${element.getId()}">
                         <button class="form-control btn btn-warning" th:text="${element.getName()}"></button>
                     </form>
                 </div>
-
             </div>
             <!-- Футер модального окна -->
             <div class="modal-footer">
@@ -468,35 +449,32 @@
 <div id="designerModal" class="modal fade ">
     <div class="modal-dialog modal-sm">
         <div class="modal-content modal-sm">
+
             <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h4 class="modal-title" th:text="'Текущий дизайнер: ' + ${order.getDesigner()}">Заголовок модального
-                    окна</h4>
+                <h4 class="modal-title" th:text="'Текущий дизайнер: ' + ${order.getDesigner()}">Заголовок модального окна</h4>
             </div>
+
             <!-- Основное содержимое модального окна -->
-
             <div class="modal-body" style="text-align: center">
-
                 <table class="form-group" id="designerTableMD" style="text-align: center">
                     <thead style="text-align: center">
-                    <th ></th>
+                        <th></th>
                     </thead>
                     <tbody style="text-align: center">
-                    <tr th:each="element : ${designerList}" style="text-align: center">
-                        <td style="text-align: center; width: 300px;">
-                           <h4> <a
-                            th:href="'/manager/order/change/' + ${order.getId()} +'/designer/' + ${element.getId()}"
-                                th:text="${element.toString()}"></a>
-                           </h4>
-                        </td>
-
-                    </tr>
-
+                        <tr th:each="element : ${designerList}" style="text-align: center">
+                            <td style="text-align: center; width: 300px;">
+                               <h4> <a
+                                th:href="'/manager/order/change/' + ${order.getId()} +'/designer/' + ${element.getId()}"
+                                    th:text="${element.toString()}"></a>
+                               </h4>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-
             </div>
+
             <!-- Футер модального окна -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -519,9 +497,7 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-
                 <!--//Заменить на таблицу с js DataTable-->
-
                 <table class="form-group" id="masterTableMD" style="text-align: center">
                     <thead style="text-align: center">
                     <th></th>
@@ -715,14 +691,9 @@
                         <button type="button" class="btn btn-default">Адреса клиента</button>
                         <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
                         <ul class="dropdown-menu" th:each="element, stat: ${order?.customer?.getDeliveries()}">
-                            <li><a href="#" th:text="${element.toString()}"
-                                   th:onclick="'selectCustomerAddress(' +${stat.index}+')'"></a></li>
+                            <li><a href="#" th:text="${element.toString()}" th:onclick="'selectCustomerAddress(' +${stat.index}+')'"></a></li>
                         </ul>
-
                     </div>
-
-
-
                     <b>
                         <div style="color: #22a9ff;">Адрес доставки:</div>
                     </b>

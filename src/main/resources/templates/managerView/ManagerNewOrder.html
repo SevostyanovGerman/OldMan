@@ -5,14 +5,11 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Item</title>
-    
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet" crossorigin="anonymous"/>
+
+    <link href="/css/styleManagerNewOrder.css" rel="stylesheet" />
 </head>
 
 <body th:object="${order}">
@@ -35,7 +32,8 @@
                 <div class="col-lg-4">
                     <h4 style="color: white" align="left">Новый заказ</h4>
                 </div>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-
+ ght">
                     <li><a href="#" th:text="${authUser}"></a></li>
                     <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
 				</ul>
@@ -95,13 +93,23 @@
                     </div> <!-- end col-lg-6 -->
                     <div class="col-lg-6">
                         <h4 align="left">Комментарий к позиции заказа</h4>
-                        <textarea style="resize: none; width: 100%" class="form-control" rows="3" th:field="*{comment}"></textarea>
+                        <textarea style="resize: none; width: 100%" class="form-control" rows="2" th:field="*{comment}"></textarea>
                         <hr/>
                         <h4>Загрузка файлов</h4>
-                        <input type="file"  name="uploadCustomerFiles" multiple>
+                        <!--<input type="file"  name="uploadCustomerFiles" multiple>-->
+
+                        <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
+                        <label for="fileMulti" class="btn btn-default">
+                            <span>Обзор...</span>
+                        </label>
+                        <br/>
+                        <span id="outputMulti"></span>
+
                     </div> <!-- end col-lg-6 -->
+
                     <div class="col-lg-12" align="right">
-                        <button type="reset" class="btn btn-primary" id="resetItemBtn"></button>
+                        <hr/>
+                        <button type="reset" class="btn btn-primary" id="resetItemBtn">Сбросить значения</button>
                         <a class="btn btn-primary" th:href="@{/manager}">Отмена</a>
                         <button type="submit" class="btn btn-primary" disabled id="saveItemBtn">Сохранить</button>
                     </div>
@@ -119,6 +127,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 
+    <script src="/js/previewUploadCustomerFile.js"></script>
     <script src="/js/mxItemManager.js"></script>
 
 </body>

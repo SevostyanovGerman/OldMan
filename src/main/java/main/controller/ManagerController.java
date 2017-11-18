@@ -35,8 +35,6 @@ public class ManagerController {
 
 	private PaymentService paymentService;
 
-	private ImageService imageService;
-
 	private FileService fileService;
 
 	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
@@ -49,7 +47,6 @@ public class ManagerController {
 							 UserService userService,
 							 StatusService statusService,
 							 PaymentService paymentService,
-							 ImageService imageService,
 							 FileService fileService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
@@ -58,7 +55,6 @@ public class ManagerController {
 		this.userService = userService;
 		this.statusService = statusService;
 		this.paymentService = paymentService;
-		this.imageService = imageService;
 		this.fileService = fileService;
 	}
 
@@ -292,5 +288,15 @@ public class ManagerController {
 		File file = fileService.get(fileId);
 		fileService.delete(file);
 		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
+	}
+
+	@RequestMapping(value = {"/manager/customers"}, method = RequestMethod.GET)
+	public ModelAndView getCustomerList() {
+		ModelAndView model = new ModelAndView("/managerView/ManagerCustomerDashBoard");
+		User authUser = userService.getCurrentUser();
+		List<Customer> customerList = customerService.getAll();
+		model.addObject("authUser", authUser);
+		model.addObject("customerList", customerList);
+		return model;
 	}
 }
