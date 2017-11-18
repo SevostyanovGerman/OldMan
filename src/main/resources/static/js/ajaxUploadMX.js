@@ -68,7 +68,7 @@ function sendImage(item) {
 
     setTimeout(function(){
         window.location.reload();
-    }, 100);
+    }, 300);
 }
 
 function miniPicDel() {
