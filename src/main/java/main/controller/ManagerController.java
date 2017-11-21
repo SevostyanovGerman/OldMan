@@ -177,19 +177,19 @@ public class ManagerController {
 
 	//Сохраняем позицию заказа (новую или обновлённую) в существующем заказе
 	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.POST)
-	public ModelAndView save(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
+	public ModelAndView saveItem(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
 							 MultipartHttpServletRequest uploadCustomerFiles) {
 		Order order = orderService.get(Long.parseLong(orderId));
-		List<File> currentItemFiles = new ArrayList<>();
 		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
 		if (item.getId()!=null){
-			currentItemFiles = itemService.get(item.getId()).getFiles();
-			currentItemFiles.addAll(uploadFiles);
-			item.setImages(itemService.get(item.getId()).getImages());
+			Item updateItem = itemService.get(item.getId());
+			item.setFiles(updateItem.getFiles());
+			item.setImages(updateItem.getImages());
+			item.getFiles().addAll(uploadFiles);
+		}else {
+			item.setFiles(uploadFiles);
 		}
-		currentItemFiles.addAll(uploadFiles);
 		item.setOrder(order);
-		item.setFiles(currentItemFiles);
 		itemService.save(item);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
