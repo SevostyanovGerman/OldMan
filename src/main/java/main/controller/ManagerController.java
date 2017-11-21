@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.model.File;
 import main.model.*;
 import main.service.*;
 import org.slf4j.Logger;
@@ -12,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -73,8 +75,8 @@ public class ManagerController {
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
 		model.addObject("statuses", statusService.getAll());
-		model.addObject("designerList", userService.getByRole(2l)); // Как избавиться от 2?
-		model.addObject("masterList", userService.getByRole(3l));   //Как избавиться от 3?
+		model.addObject("designerList", userService.getByRoleName("DESIGNER"));
+		model.addObject("masterList", userService.getByRoleName("MASTER"));
 		model.addObject("newCustomer", new Customer());
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());
@@ -118,33 +120,29 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
-	//Добавляем новый заказ с новой позицией
+	//Создаём новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/order/add"}, method = RequestMethod.GET)
-	public ModelAndView addItem(HttpServletRequest request) {
+	public ModelAndView madeNewOrder() {
 		ModelAndView model = new ModelAndView("/managerView/ManagerNewOrder");
-		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
-		HttpSession session = request.getSession();
-		session.setAttribute("order", order);
 		Item item = new Item();
 		model.addObject("authUser", userService.getCurrentUser());
-		model.addObject("order", order);
 		model.addObject("item", item);
 		return model;
 	}
 
 	//Сохраняем новый заказ с новой позицией
-	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.GET)
-	public ModelAndView saveNewOrder(HttpServletRequest request, @ModelAttribute("item") Item item) {
-		HttpSession session = request.getSession();
-		Order order = (Order) session.getAttribute("order");
+	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.POST)
+	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item,
+									 MultipartHttpServletRequest uploadCustomerFiles) throws IOException, SQLException {
+		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		orderService.save(order);
-		item.setStatus(false);
+		order.setNumber(order.getId().toString());
+		orderService.save(order);
+		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
+		item.setFiles(uploadFiles);
 		item.setOrder(order);
 		itemService.save(item);
-		Long orderId = order.getId();
-		order.setNumber(orderId.toString());
-		orderService.save(order);
-		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+		return new ModelAndView("redirect:/manager/order/update/" + order.getId());
 	}
 
 	//Удаляем заказ
@@ -177,14 +175,23 @@ public class ManagerController {
 		return model;
 	}
 
-	//Сохраняем позицию (новую или обновлённую) в существующем заказе
-	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.GET)
-	public ModelAndView save(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item) {
+	//Сохраняем позицию заказа (новую или обновлённую) в существующем заказе
+	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.POST)
+	public ModelAndView save(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
+							 MultipartHttpServletRequest uploadCustomerFiles) {
 		Order order = orderService.get(Long.parseLong(orderId));
+		List<File> currentItemFiles = new ArrayList<>();
+		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
+		if (item.getId()!=null){
+			currentItemFiles = itemService.get(item.getId()).getFiles();
+			currentItemFiles.addAll(uploadFiles);
+			item.setImages(itemService.get(item.getId()).getImages());
+		}
+		currentItemFiles.addAll(uploadFiles);
 		item.setOrder(order);
+		item.setFiles(currentItemFiles);
 		itemService.save(item);
-		Long redirectOrderId = order.getId();
-		return new ModelAndView("redirect:/manager/order/update/" + redirectOrderId);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
 	//Удаляем позицию из заказа
@@ -263,24 +270,37 @@ public class ManagerController {
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
-	//Загрузка файлов
+	//Загрузка файлов заказчика в существующую позицию
 	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public String uploadSampleFiles(@RequestParam(value = "id") Long id, HttpServletRequest request) {
+	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, HttpServletRequest request) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		if (fileService.saveBlobFile(multipartRequest, id)) {
-			return "Вы удачно загрузили файлы";
-		}
-		return "Ошибка при загрузке файлов";
+		List<File> uploadedCustomerFiles = fileService.uploadAndSaveBlobFile(multipartRequest);
+		Item item = itemService.get(itemId);
+		List<File> customerFiles = item.getFiles();
+		customerFiles.addAll(uploadedCustomerFiles);
+		item.setFiles(customerFiles);
+		itemService.save(item);
 	}
 
-	//Удаление файла
+	//Удаление загруженного файла заказчик
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
-	public ModelAndView delImage(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
+	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
+								 @PathVariable("itemId") Long itemId,
 								 @PathVariable("fileId") Long fileId) throws IOException {
 		File file = fileService.get(fileId);
 		fileService.delete(file);
-		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
+		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
+	}
+
+	@RequestMapping(value = {"/manager/customers"}, method = RequestMethod.GET)
+	public ModelAndView getCustomerList() {
+		ModelAndView model = new ModelAndView("/managerView/ManagerCustomerDashBoard");
+		User authUser = userService.getCurrentUser();
+		List<Customer> customerList = customerService.getAll();
+		model.addObject("authUser", authUser);
+		model.addObject("customerList", customerList);
+		return model;
 	}
 }

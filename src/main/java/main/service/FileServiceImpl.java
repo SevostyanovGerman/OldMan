@@ -1,7 +1,6 @@
 package main.service;
 
 import main.model.File;
-import main.model.Item;
 import main.repository.FileRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.sql.rowset.serial.SerialBlob;
+import java.io.*;
+import java.nio.file.Files;
 import java.sql.Blob;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class FileServiceImpl implements FileService{
@@ -22,9 +26,6 @@ public class FileServiceImpl implements FileService{
 
 	@Autowired
 	private FileService fileService;
-
-	@Autowired
-	private ItemService itemService;
 
 	private final Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
@@ -44,28 +45,24 @@ public class FileServiceImpl implements FileService{
 	}
 
 	@Override
-	public boolean saveBlobFile(MultipartHttpServletRequest multipartRequest, Long itemId) {
-		String name;
-		Item item = itemService.get(itemId);
-		for (Map.Entry<String, MultipartFile> set : multipartRequest.getFileMap().entrySet()) {
-			MultipartFile file = set.getValue();
+	public List<File> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles) {
+		List<File> blobFilesList = new ArrayList<>();
+		List<MultipartFile> fileList = uploadFiles.getFiles("uploadCustomerFiles");
+		for (MultipartFile file : fileList) {
 			if (!file.isEmpty()) {
 				try {
-					name = file.getOriginalFilename();
 					byte[] bytes = file.getBytes();
 					File newFile = new File();
-					Blob blob = new SerialBlob(bytes);
-					newFile.setFile(blob);
+					Blob blobFile = new SerialBlob(bytes);
+					newFile.setFile(blobFile);
 					fileService.save(newFile);
-					item.getFiles().add(newFile);
-					itemService.save(item);
-					logger.info("Вы удачно загрузили файл {}", name);
+					blobFilesList.add(newFile);
+					logger.info("Вы удачно загрузили файл {}", file.getOriginalFilename());
 				} catch (Exception e) {
 					logger.info("Ошибка при загрузке файла");
-					return false;
 				}
 			}
 		}
-		return true;
+		return blobFilesList;
 	}
 }
