@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Item</title>
+    <title> New Item</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet" crossorigin="anonymous"/>
@@ -32,8 +32,7 @@
                 <div class="col-lg-4">
                     <h4 style="color: white" align="left">Новый заказ</h4>
                 </div>
-                <ul class="nav navbar-nav navbar-
- ght">
+                <ul class="nav navbar-nav navbar-right">
                     <li><a href="#" th:text="${authUser}"></a></li>
                     <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
 				</ul>
@@ -90,27 +89,25 @@
                                        th:field="*{amount}" type="number" id="amountItemField"  readonly>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <h4 align="left">Комментарий к позиции заказа</h4>
+                            <textarea style="resize: none; width: 100%" class="form-control" rows="3" th:field="*{comment}"></textarea>
+                        </div>
                     </div> <!-- end col-lg-6 -->
                     <div class="col-lg-6">
-                        <h4 align="left">Комментарий к позиции заказа</h4>
-                        <textarea style="resize: none; width: 100%" class="form-control" rows="2" th:field="*{comment}"></textarea>
-                        <hr/>
                         <h4>Загрузка файлов</h4>
-                        <!--<input type="file"  name="uploadCustomerFiles" multiple>-->
-
                         <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
                         <label for="fileMulti" class="btn btn-default">
                             <span>Обзор...</span>
                         </label>
                         <br/>
                         <span id="outputMulti"></span>
-
                     </div> <!-- end col-lg-6 -->
 
                     <div class="col-lg-12" align="right">
                         <hr/>
-                        <button type="reset" class="btn btn-primary" id="resetItemBtn">Сбросить значения</button>
-                        <a class="btn btn-primary" th:href="@{/manager}">Отмена</a>
+                        <button type="reset" class="btn btn-success" id="resetItemBtn">Сбросить</button>
+                        <a class="btn btn-default" th:href="@{/manager}">Отмена</a>
                         <button type="submit" class="btn btn-primary" disabled id="saveItemBtn">Сохранить</button>
                     </div>
                 </form> <!-- end form -->
@@ -120,14 +117,14 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
+    <!--Предпросмотр файлов загрузки-->
     <script src="/js/previewUploadCustomerFile.js"></script>
+
+    <!--Рассчёт суммы позиции-->
     <script src="/js/mxItemManager.js"></script>
 
 </body>

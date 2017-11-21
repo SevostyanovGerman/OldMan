@@ -67,6 +67,12 @@ public class UserServiceImpl implements UserService {
 		return userRepository.getAllByRoles(role);
 	}
 
+	@Override
+ 	public List <User> getByRoleName(String roleName) {
+		Role role = roleService.getByName(roleName);
+		return userRepository.getAllByRoles(role);
+	}
+
 	public List<User> getAllUsers() {
 		logger.debug("Getting all users");
 		List <User> listUsers = userRepository.getAllByDeleted(false);
@@ -81,11 +87,5 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getCurrentUser() {
 		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	}
-
-	@Override
-	public List <User> getUsersByRole(long roleId) {
-		Role role = roleService.get(roleId);
-		return userRepository.getAllByRoles(role);
 	}
 }

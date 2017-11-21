@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class ManagerController {
 
 	private PaymentService paymentService;
 
+	private ImageService imageService;
+
 	private FileService fileService;
 
 	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
@@ -47,6 +50,7 @@ public class ManagerController {
 							 UserService userService,
 							 StatusService statusService,
 							 PaymentService paymentService,
+							 ImageService imageService,
 							 FileService fileService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
@@ -55,6 +59,7 @@ public class ManagerController {
 		this.userService = userService;
 		this.statusService = statusService;
 		this.paymentService = paymentService;
+		this.imageService = imageService;
 		this.fileService = fileService;
 	}
 
@@ -75,8 +80,8 @@ public class ManagerController {
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
 		model.addObject("statuses", statusService.getAll());
-		model.addObject("designerList", userService.getByRole(2L)); // Как избавиться от 2?
-		model.addObject("masterList", userService.getByRole(3L));   //Как избавиться от 3?
+		model.addObject("designerList", userService.getByRoleName("DESIGNER"));
+		model.addObject("masterList", userService.getByRoleName("MASTER"));
 		model.addObject("newCustomer", new Customer());
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());
@@ -132,13 +137,14 @@ public class ManagerController {
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.POST)
-	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item) throws IOException, SQLException {
+	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item,
+									 MultipartHttpServletRequest uploadCustomerFiles) throws IOException, SQLException {
 		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		orderService.save(order);
 		order.setNumber(order.getId().toString());
 		orderService.save(order);
-		List<File> uploadCustomerFiles = fileService.uploadFile(item.getUploadCustomerFiles());
-		item.setFiles(uploadCustomerFiles);
+		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
+		item.setFiles(uploadFiles);
 		item.setOrder(order);
 		itemService.save(item);
 		return new ModelAndView("redirect:/manager/order/update/" + order.getId());
@@ -174,14 +180,23 @@ public class ManagerController {
 		return model;
 	}
 
-	//Сохраняем позицию (новую или обновлённую) в существующем заказе
-	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.GET)
-	public ModelAndView save(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item) {
+	//Сохраняем позицию заказа (новую или обновлённую) в существующем заказе
+	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.POST)
+	public ModelAndView save(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
+							 MultipartHttpServletRequest uploadCustomerFiles) {
 		Order order = orderService.get(Long.parseLong(orderId));
+		List<File> currentItemFiles = new ArrayList<>();
+		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
+		if (item.getId()!=null){
+			currentItemFiles = itemService.get(item.getId()).getFiles();
+			currentItemFiles.addAll(uploadFiles);
+			item.setImages(itemService.get(item.getId()).getImages());
+		}
+		currentItemFiles.addAll(uploadFiles);
 		item.setOrder(order);
+		item.setFiles(currentItemFiles);
 		itemService.save(item);
-		Long redirectOrderId = order.getId();
-		return new ModelAndView("redirect:/manager/order/update/" + redirectOrderId);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
 	//Удаляем позицию из заказа
@@ -272,7 +287,7 @@ public class ManagerController {
 	@ResponseStatus(HttpStatus.OK)
 	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, HttpServletRequest request) {
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		List<File> uploadedCustomerFiles = fileService.saveBlobFile(multipartRequest);
+		List<File> uploadedCustomerFiles = fileService.uploadAndSaveBlobFile(multipartRequest);
 		Item item = itemService.get(itemId);
 		List<File> customerFiles = item.getFiles();
 		customerFiles.addAll(uploadedCustomerFiles);
@@ -282,7 +297,7 @@ public class ManagerController {
 
 	//Удаление загруженного файла заказчик
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
-	public ModelAndView delImage(@PathVariable("orderId") Long orderId,
+	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
 								 @PathVariable("itemId") Long itemId,
 								 @PathVariable("fileId") Long fileId) throws IOException {
 		File file = fileService.get(fileId);

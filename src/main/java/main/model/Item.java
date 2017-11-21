@@ -38,8 +38,8 @@ public class Item {
 	@Column(name = "amount")
 	private Double amount;
 
-	@Transient
-	private MultipartFile[] uploadCustomerFiles;
+	/*@Transient
+	private MultipartFile[] uploadCustomerFiles;*/
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
 	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "item_id")},
@@ -174,13 +174,13 @@ public class Item {
 		this.amount = amount;
 	}
 
-	public MultipartFile[] getUploadCustomerFiles() {
+	/*public MultipartFile[] getUploadCustomerFiles() {
 		return uploadCustomerFiles;
 	}
 
 	public void setUploadCustomerFiles(MultipartFile[] uploadCustomerFiles) {
 		this.uploadCustomerFiles = uploadCustomerFiles;
-	}
+	}*/
 
 	public boolean isStatus() {
 		return status;

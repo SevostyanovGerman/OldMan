@@ -6,218 +6,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" href="/images/OldManFavicon.png">
     <title>Item</title>
-    
+
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous"/>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" crossorigin="anonymous"/>
 
-    <link rel="stylesheet" href="https://unpkg.com/smartphoto@0.7.6/css/smartphoto.min.css">
+    <link href="/css/ekko-lightbox.css" rel="stylesheet">
+    <link href="/css/styleManagerNewOrder.css" rel="stylesheet" />
+
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse" >
-                <div class="col-lg-4">
-                    <ul class="nav navbar-nav">
-                        <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-4">
-                    <h4 style="color: white" align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4>
-                </div>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" th:text="${authUser}">Менеджер</a></li>
-                    <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
-				</ul>
-            </div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
-    </nav>
+        <div class="collapse navbar-collapse" >
+            <div class="col-lg-4">
+                <ul class="nav navbar-nav">
+                    <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h4 style="color: white" align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" th:text="${authUser}">Менеджер</a></li>
+                <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <br>
-    <div class="container">
-        <div class="row">
+<br>
+<div class="container">
+    <div class="row">
+        <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="${'/manager/item/save/'+order.getId()}" method="post">
             <div class="col-lg-6" >
-                <form class="form-horizontal" th:object="${item}" th:action="${'/manager/item/save/'+order.getId()}">
+                <div class="form-group">
                     <input type="hidden" th:field="*{id}"/>
-                    <div class="form-group">
-                        <div class="input-group" style="width: 100%">
-                            <span class="input-group-addon" style="width: 150px; text-align: left;">Тип продукта:</span>
-                            <input type="text" class="form-control" th:field="*{name}" required="required" pattern="{1,}">
-                        </div>
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon" style="width: 150px; text-align: left;">Тип продукта:</span>
+                        <input type="text" class="form-control" th:field="*{name}" required>
                     </div>
-                    <div class="form-group" >
-                        <div class="input-group" style="width: 100%">
-                            <span class="input-group-addon" style="width: 150px; text-align: left;">Материал:</span>
-                            <input type="text" class="form-control" style="width: 100%;" th:field="*{type}" required="required" pattern="{1,}">
-                        </div>
+                </div>
+                <div class="form-group" >
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon" style="width: 150px; text-align: left;">Материал:</span>
+                        <input type="text" class="form-control" style="width: 100%;" th:field="*{type}" required>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group" style="width: 100%">
-                            <span class="input-group-addon" style="width: 150px; text-align: left;">Модель телефона:</span>
-                            <input type="text" class="form-control" style="width: 100%;" th:field="*{model}" required="required" pattern="{1,}">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon" style="width: 150px; text-align: left;">Модель телефона:</span>
+                        <input type="text" class="form-control" style="width: 100%;" th:field="*{model}" required>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group" style="width: 100%">
-                            <span class="input-group-addon" style="width: 150px; text-align: left;">Количество:</span>
-                            <input class="form-control"  style="width: 100%;" th:field="*{count}"
-                                   id="numberItemField" onchange="amountItem()" required="required" pattern="{1,}">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon" style="width: 150px; text-align: left;">Количество:</span>
+                        <input class="form-control"  style="width: 100%;" th:field="*{count}" required
+                               id="numberItemField" onchange="amountItem()" type="number" value="1" min="1" step="1">
                     </div>
-                    <div class="form-group">
-                        <div class="input-group" style="width: 100%">
-                            <span class="input-group-addon" style="width: 150px; text-align: left;">Цена за ед. (руб.):</span>
-                            <input class="form-control"  style="width: 100%;"
-                                   th:field="*{price}" id="priceItemField" onchange="amountItem()" required="required"
-                                   pattern="{1,}">
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon" style="width: 150px; text-align: left;">Цена за ед. (руб.):</span>
+                        <input class="form-control"  style="width: 100%;" th:field="*{price}" id="priceItemField" onchange="amountItem()" type="number"
+                               required value="0" min="0" step="0.01">
                     </div>
-                    <div class="form-group">
-                        <div class="input-group" style="width: 100%">
-                            <span class="input-group-addon" style="width: 150px; text-align: left;">Сумма (руб.):</span>
-                            <input class="form-control"   style="width: 100%;"
-                                   th:field="*{amount}" id="amountItemField" required="required" readonly >
-                        </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group" style="width: 100%">
+                        <span class="input-group-addon" style="width: 150px; text-align: left;">Сумма (руб.):</span>
+                        <input class="form-control"   style="width: 100%;" th:field="*{amount}" required id="amountItemField" readonly>
                     </div>
-                    <div class="form-group">
-                        <h4 align="left">Комментарий к позиции заказа</h4>
-                        <textarea style="resize: none; width: 100%" class="form-control" rows="4" th:field="*{comment}"></textarea>
-                    </div>
-                    <br/>
-                    <div class="form-group" align="left">
-                        <a class="btn btn-primary" th:href="${'/manager/order/update/' + order.getId()}">Отмена</a>
-                        <button type="submit" class="btn btn-primary" id="saveItemBtn" disabled>Сохранить</button>
-                    </div>
-                </form> <!-- end form -->
+                </div>
+                <div class="form-group">
+                    <h4 align="left">Комментарий к позиции заказа</h4>
+                    <textarea style="resize: none; width: 100%" class="form-control" rows="3" th:field="*{comment}"></textarea>
+                </div>
             </div> <!-- end col-lg-6 -->
 
             <div class="col-lg-6">
-                <div>
-                    <h4>Изображения от дизайнера:</h4>
-                    <ul th:each="image: ${item.getImages()}" style="padding-left: 10px; display: inline-block">
-                        <a th:href="${image.getImage()}" class="js-smartPhoto" >
-                            <img th:src="${image.getImage()}" width="100" height="100">
-                        </a>
-                    </ul>
-                </div>
-                <hr>
-                <div class="form-horizontal borderSimple">
+                <th:block th:if="${item.getImages()}">
                     <div>
-                        <h4>Изображения от пользователя:</h4>
-                        <span id="ItemId" th:value="${item.getId()}" hidden></span> <!--Передаём параметр ItemId в скрипт fileDropzone.js-->
-                        <ul th:each="file: ${item.getFiles()}" style="padding-left: 10px; display: inline-block">
-                            <br>
-                            <a th:href="${file.getFile()}" class="js-smartPhoto" >
-                                <img th:src="${file.getFile()}" width="100" height="100">
-                            </a>
-                            <a class="btn btn-danger btn-xs" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}" title="Удалить" style="vertical-align:top; left:140px;">
-                                <span class="glyphicon glyphicon-trash"></span>
+                        <h4>Изображения от дизайнера:</h4>
+                        <ul th:each="image: ${item.getImages()}" style="padding-left: 10px; display: inline-block">
+                            <a th:href="${image.getImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                <img th:src="${image.getImage()}" height="75">
                             </a>
                         </ul>
                     </div>
-                </div>
-            </div> <!-- end col-lg-6 -->
-        </div>
-    </div> <!-- end container -->
-    <hr>
-    <div class="col-lg-12">
-        <div class="form-horizontal borderSimple">
-            <fieldset>
-                <div class="container">
-                    <!-- HTML heavily inspired by https://blueimp.github.io/jQuery-File-Upload/ -->
-                    <div id="actions" class="row">
-                        <div class="col-lg-8">
-                            <!-- The fileinput-button span is used to style the file input field as button -->
-                            <span class="btn btn-success fileinput-button dz-clickable">
-                                    <i class="glyphicon glyphicon-plus"></i>
-                                    <span>Добавить файл</span>
-                            </span>
+                    <hr>
+                </th:block>
 
-                            <button type="submit" class="btn btn-primary start">
-                                <i class="glyphicon glyphicon-upload"></i>
-                                <span>Загрузить все</span>
-                            </button>
-
-                            <button type="reset" class="btn btn-warning cancel">
-                                <i class="glyphicon glyphicon-ban-circle"></i>
-                                <span>Отменить загрузку</span>
-                            </button>
-                        </div>
-                        <div class="col-lg-4">
-                            <!-- The global file processing state -->
-                            <span class="fileupload-process">
-                                <div id="total-progress" class="progress progress-striped active" role="progressbar" aria-valuemin="0"
-                                     aria-valuemax="100" aria-valuenow="0">
-                                    <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress=""></div>
-                                </div>
-                            </span>
-                        </div>
+                <th:block th:if="${item.getFiles()}">
+                    <div>
+                        <h4>Изображения от пользователя:</h4>
+                        <ul th:each="file: ${item.getFiles()}" style="padding-left: 10px; display: inline-block">
+                            <br>
+                            <a th:href="${file.getFile()}" data-toggle="lightbox" data-gallery="mygallery">
+                                <img th:src="${file.getFile()}" height="75">
+                            </a>
+                            <a class="btn btn-danger btn-xs" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
+                               title="Удалить изображение" style="vertical-align: top; left:125px;">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        </ul>
                     </div>
-                    <div class="table table-striped files" id="previews">
-                        <div id="template" class="file-row dz-image-preview">
-                            <!-- This is used as the file preview template -->
-                            <div>
-                                <span class="preview"><img data-dz-thumbnail></span>
-                            </div>
-                            <div>
-                                <p class="name" data-dz-name></p>
-                                <strong class="error text-danger" data-dz-errormessage></strong>
-                            </div>
-                            <div>
-                                <p class="size" data-dz-size></p>
-                                <div class="progress progress-striped active" role="progressbar" aria-valuemin="0"
-                                     aria-valuemax="100" aria-valuenow="0">
-                                    <div class="progress-bar progress-bar-success" style="width:0%;"
-                                         data-dz-uploadprogress></div>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary start" type="button">
-                                    <i class="glyphicon glyphicon-upload"></i>
-                                    <span>Загрузить</span>
-                                </button>
-                                <button data-dz-remove class="btn btn-warning cancel">
-                                    <i class="glyphicon glyphicon-ban-circle"></i>
-                                    <span>Отмена</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <hr>
+                </th:block>
+
+                <h4>Загрузка файлов</h4>
+                <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
+                <label for="fileMulti" class="btn btn-default">
+                    <span>Обзор...</span>
+                </label>
+                <br/>
+                <span id="outputMulti"></span>
+            </div>  <!--end col-lg-6-->
+            <div class="col-lg-12">
+                <hr>
+                <div class="form-group" align="center">
+                    <a class="btn btn-default" th:href="${'/manager/order/update/' + order.getId()}">Отмена</a>
+                    <button type="submit" class="btn btn-primary" id="saveItemBtn">Сохранить</button>
                 </div>
-            </fieldset>
-        </div>
-    </div>
+            </div>
+        </form> <!-- end form -->
+   </div>
+</div> <!-- end container -->
 
-    <script src="/js/dropzone.js"></script>
-    <script src="/js/uploadFile.js"></script>
-    <script src="/js/mxscript.js"></script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<!--Предпросмотр файлов загрузки-->
+<script src="/js/previewUploadCustomerFile.js"></script>
 
-    <script src="https://unpkg.com/smartphoto@0.7.6/js/smartphoto.min.js"></script>
+<!--Рассчёт суммы позиции-->
+<script src="/js/mxItemManager.js"></script>
 
-    <script src="/js/mxItemManager.js"></script>
+<!--Просмотр загруженных изображений-->
+<script src="/js/ekko-lightbox.js"></script>
+<script>
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
 
 </body>
 </html>

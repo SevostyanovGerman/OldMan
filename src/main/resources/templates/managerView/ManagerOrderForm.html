@@ -137,12 +137,12 @@
                                     <td align="center">
                                         <a class="btn btn btn-info btn-xs"
                                            th:href="${'/manager/item/update/'+ order.getId()+'/'+item.getId()}"
-                                           title="Редактировать"><span class="glyphicon glyphicon-pencil"></span></a>
+                                           title="Редактировать данную позицию"><span class="glyphicon glyphicon-pencil"></span></a>
                                     </td>
                                     <td align="center">
                                         <a class="btn btn-danger btn-xs"
-                                           th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}"><span
-                                            class="glyphicon glyphicon-remove"></span></a>
+                                           th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}"
+                                           title="Удалить данную позицию"><span class="glyphicon glyphicon-remove"></span></a>
                                     </td>
                                 </tr>
                                 <tr>
