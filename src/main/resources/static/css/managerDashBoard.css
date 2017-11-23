@@ -1,0 +1,20 @@
+thead{
+    background-color: #777777;
+    color: white;
+    text-align: center;
+}
+
+tbody{
+    text-align: center;
+}
+
+.btn-new-object{
+    float: right;
+    margin-right: 15px;
+}
+
+.btn-exit{
+    background: #777777;
+    border: #777777;
+    color: #FFFFFF;
+}
