@@ -83,6 +83,7 @@ public class ManagerController {
 		model.addObject("newCustomer", new Customer());
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());
+		model.addObject("customersList", customerService.getAll());
 		String typeOprationSystem = System.getProperty("os.name");
 		String pathDownloadDirectory = System.getProperty("user.home");
 		return model;
@@ -229,7 +230,9 @@ public class ManagerController {
 			customerService.save(customer);
 			customer.getDeliveries().add(delivery);
 			order.setCustomer(customer);
-			order.setDelivery(customer.getDefaultDelivery());
+			if (order.getDeliveryType() == null || !order.getDeliveryType().getPickup()) {
+				order.setDelivery(customer.getDefaultDelivery());
+			}
 			orderService.save(order);
 		} catch (DataIntegrityViolationException e) {
 			logger.info("Пользователь существует");
@@ -252,7 +255,9 @@ public class ManagerController {
 			customer.updateCustomerFields(newCustomer.getFirstName(), newCustomer.getSecName(), newCustomer.getEmail(),
 				newCustomer.getPhone());
 			customerService.save(customer);
-			order.setDelivery(customer.getDefaultDelivery());
+			if (order.getDeliveryType() == null || !order.getDeliveryType().getPickup()) {
+				order.setDelivery(customer.getDefaultDelivery());
+			}
 			order.setCustomer(customer);
 			orderService.save(order);
 		} catch (Exception e) {
@@ -334,6 +339,24 @@ public class ManagerController {
 		order.setDelivery(null);
 		order.setDeliveryType(deliveryType);
 		orderService.save(order);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Выбор клиента из списка
+	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}/{customerId}"}, method = RequestMethod.GET)
+	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
+									   @PathVariable("customerId") Long customerId) {
+		Order order = orderService.get(orderId);
+		Customer customer = customerService.get(customerId);
+		try {
+			if (order.getDeliveryType() == null || !order.getDeliveryType().getPickup()) {
+				order.setDelivery(customer.getDefaultDelivery());
+			}
+			order.setCustomer(customer);
+			orderService.save(order);
+		}catch (Exception e) {
+			logger.error("Ошибка выбора покупателя из списка");
+		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 }

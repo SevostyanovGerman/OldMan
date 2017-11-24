@@ -148,8 +148,6 @@ $('#masterModal').on('shown.bs.modal', function() {
     //recalculate the dimensions
     dataTable.columns.adjust().responsive.recalc();
 
-
-
 });
 
 //удаляем DataTable при закрытии модального окна
@@ -173,6 +171,52 @@ $('#designerModal').on(' hide.bs.modal', function() {
 });
 
 
+
+
+//Рисуем DataTable при открытии модального окна
+$('#customerList').on('shown.bs.modal', function() {
+    //Get the datatable which has previously been initialized
+    var  dataTable = $('#customerTableMD').DataTable({
+        "dom": '<"top">f<"bottom"><"clear">',
+        "ordering": false,
+        language: {
+            "processing": "Подождите...",
+            "search": "Поиск:",
+            "lengthMenu": "Показать _MENU_ записей",
+            "info": "Записи с _START_ до _END_ из _TOTAL_ записей",
+            "infoEmpty": "Записи с 0 до 0 из 0 записей",
+            "infoFiltered": "(отфильтровано из _MAX_ записей)",
+            "infoPostFix": "",
+            "loadingRecords": "Загрузка записей...",
+            "zeroRecords": "Записи отсутствуют.",
+            "emptyTable": "В таблице отсутствуют данные",
+            "paginate": {
+                "first": "Первая",
+                "previous": "Предыдущая",
+                "next": "Следующая",
+                "last": "Последняя"
+            },
+            "aria": {
+                "sortAscending": ": активировать для сортировки столбца по возрастанию",
+                "sortDescending": ": активировать для сортировки столбца по убыванию"
+            }
+        }
+    });
+
+    //recalculate the dimensions
+    dataTable.columns.adjust().responsive.recalc();
+
+});
+
+//удаляем DataTable при закрытии модального окна
+$('#customerList').on(' hide.bs.modal', function() {
+    //Get the datatable which has previously been initialized
+
+    var  dataTable = $('#customerTableMD').DataTable();
+    dataTable.destroy();
+
+
+});
 
 
 function showHide(element_id) {

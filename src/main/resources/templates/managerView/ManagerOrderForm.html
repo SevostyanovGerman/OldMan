@@ -408,7 +408,7 @@
 
                     <br>
                             <a href="#newCustomerModal" class="btn btn-info form-control" data-toggle="modal"
-                               style=" text-align: center; ">Создать</a>
+                               style=" text-align: center; ">Создать Клиента</a>
 
 
                 </fieldset>
@@ -557,8 +557,6 @@
         </div>
     </div>
 </div>
-
-
 <!--- end modal -->
 
 
@@ -897,6 +895,50 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+
+
+
+<!-- Список клиентов модального окна -->
+<div id="customerList" class="modal  ">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-sm">
+            <!-- Заголовок модального окна -->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Список клиентов</h4>
+            </div>
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+
+                <!--//Заменить на таблицу с js DataTable-->
+
+                <table class="form-group" id="customerTableMD" style="text-align: center">
+                    <thead style="text-align: center">
+                    <th></th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="element : ${customersList}" style="text-align: center">
+                        <td  style="text-align: center; width: 300px">
+                            <h4>
+                                <a th:href="'/manager/order/changeCustomer/' + ${order.getId()} +'/' + ${element.getId()}"
+                                   th:text="${element.toString()}"></a>
+                            </h4>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--- end modal -->
 
 
 

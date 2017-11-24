@@ -36,7 +36,7 @@ function showResult(str,order)
                 list =list + "<U><a onclick=selectCustomer("+i+','+order+") style=\"cursor: pointer\">"+ result[i].firstName +  " "+ result[i].secName + "</a></U>" +"<br>" ;
             }
 
-            list=list+"<a href='#' >Показать всех</a>";
+            list=list+"<a href='#customerList' data-toggle=\"modal\">Показать всех</a>";
             document.getElementById("livesearch").innerHTML=list;
             document.getElementById("livesearch").style.border="1px solid #A5ACB2";
         }
