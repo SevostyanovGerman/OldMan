@@ -1,6 +1,5 @@
 package main.controller;
 
-import main.model.File;
 import main.model.*;
 import main.service.*;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,13 +38,15 @@ public class ManagerController {
 
 	private FileService fileService;
 
+	private final DeliveryTypeService deliveryTypeService;
+
 	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	@Autowired
 	public ManagerController(OrderService orderService, DeliveryService deliveryService,
 							 CustomerService customerService, ItemService itemService, UserService userService,
 							 StatusService statusService, PaymentService paymentService, ImageService imageService,
-							 FileService fileService) {
+							 FileService fileService, DeliveryTypeService deliveryTypeService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -56,6 +56,7 @@ public class ManagerController {
 		this.paymentService = paymentService;
 		this.imageService = imageService;
 		this.fileService = fileService;
+		this.deliveryTypeService = deliveryTypeService;
 	}
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
@@ -75,11 +76,15 @@ public class ManagerController {
 		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
 		model.addObject("statuses", statusService.getAll());
+		model.addObject("deliveryTypeList", deliveryTypeService.getAll());
+		model.addObject("pickUpList", deliveryService.pickupDeliveries());
 		model.addObject("designerList", userService.getByRoleName("DESIGNER"));
 		model.addObject("masterList", userService.getByRoleName("MASTER"));
 		model.addObject("newCustomer", new Customer());
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());
+		String typeOprationSystem = System.getProperty("os.name");
+		String pathDownloadDirectory = System.getProperty("user.home");
 		return model;
 	}
 
@@ -132,8 +137,9 @@ public class ManagerController {
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.POST)
-	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item,
-									 MultipartHttpServletRequest uploadCustomerFiles) throws IOException, SQLException {
+	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item, MultipartHttpServletRequest
+		uploadCustomerFiles)
+		throws IOException, SQLException {
 		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		orderService.save(order);
 		order.setNumber(order.getId().toString());
@@ -178,15 +184,15 @@ public class ManagerController {
 	//Сохраняем позицию заказа (новую или обновлённую) в существующем заказе
 	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView saveItem(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
-							 MultipartHttpServletRequest uploadCustomerFiles) {
+								 MultipartHttpServletRequest uploadCustomerFiles) {
 		Order order = orderService.get(Long.parseLong(orderId));
 		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
-		if (item.getId()!=null){
+		if (item.getId() != null) {
 			Item updateItem = itemService.get(item.getId());
 			item.setFiles(updateItem.getFiles());
 			item.setImages(updateItem.getImages());
 			item.getFiles().addAll(uploadFiles);
-		}else {
+		} else {
 			item.setFiles(uploadFiles);
 		}
 		item.setOrder(order);
@@ -262,6 +268,22 @@ public class ManagerController {
 		Order order = orderService.get(orderId);
 		try {
 			deliveryService.save(delivery);
+			order.getCustomer().getDeliveries().add(delivery);
+			order.setDelivery(delivery);
+			orderService.save(order);
+		} catch (Exception e) {
+			logger.warn("Не удалось изменить адрес доставки");
+		}
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Выбор адреса доставки
+	@RequestMapping(value = {"/manager/order/selectDelivery/{orderId}/{deliveryId}"}, method = RequestMethod.GET)
+	public ModelAndView selectAddress(@PathVariable("orderId") Long orderId,
+									  @PathVariable("deliveryId") Long deliveryId) {
+		try {
+			Order order = orderService.get(orderId);
+			Delivery delivery = deliveryService.get(deliveryId);
 			order.setDelivery(delivery);
 			orderService.save(order);
 		} catch (Exception e) {
@@ -286,12 +308,11 @@ public class ManagerController {
 
 	//Удаление загруженного файла заказчик
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
-	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
-								 @PathVariable("itemId") Long itemId,
-								 @PathVariable("fileId") Long fileId) throws IOException {
+	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
+								   @PathVariable("fileId") Long fileId) throws IOException {
 		File file = fileService.get(fileId);
 		fileService.delete(file);
-		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
+		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
 
 	@RequestMapping(value = {"/manager/customers"}, method = RequestMethod.GET)
@@ -302,5 +323,17 @@ public class ManagerController {
 		model.addObject("authUser", authUser);
 		model.addObject("customerList", customerList);
 		return model;
+	}
+
+	//Устанавливаем тип доставки в существующем заказе
+	@RequestMapping(value = {"/manager/order/setDeliveryType/{orderId}/{paymentId}"}, method = RequestMethod.GET)
+	public ModelAndView setDeliveryType(@PathVariable("orderId") Long orderId,
+										@PathVariable("paymentId") Long deliveryTypeId) {
+		Order order = orderService.get(orderId);
+		DeliveryType deliveryType = deliveryTypeService.get(deliveryTypeId);
+		order.setDelivery(null);
+		order.setDeliveryType(deliveryType);
+		orderService.save(order);
+		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 }

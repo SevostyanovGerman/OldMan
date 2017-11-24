@@ -1,8 +1,11 @@
 package main.service;
 
 import main.model.Delivery;
+import java.util.List;
 
 public interface DeliveryService {
 
-	public void save(Delivery delivery);
+	void save(Delivery delivery);
+	List<Delivery> pickupDeliveries();
+	Delivery get(Long id);
 }

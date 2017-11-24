@@ -42,9 +42,12 @@ function selectCustomer(ajaxCustomerId, order) {
     second.value = customer.secName;
     email.value = customer.email;
     phone.value = customer.phone;
-    delivery.textContent = customer.defaultDelivery.country +' , ' + customer.defaultDelivery.city +' , ' +  customer.defaultDelivery.address +' , ' +  customer.defaultDelivery.zip;
-    $.post("/selectCustomer/"+customer.id+"/"+ order);
-
+    if (delivery != null) {
+        delivery.textContent = customer.defaultDelivery.country + ' , ' + customer.defaultDelivery.city + ' , ' + customer.defaultDelivery.address + ' , ' + customer.defaultDelivery.zip;
+    }
+    $.post("/selectCustomer/"+customer.id+"/"+ order, function( ) {
+       window.location.reload();
+    });
 
     };
 

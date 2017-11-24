@@ -35,8 +35,10 @@ public class Order {
 	@Column(name = "created")
 	private Date created;
 
-	@Column(name = "delivery_type")
-	private String deliveryType;
+	@OneToOne(fetch = FetchType.EAGER, targetEntity = DeliveryType.class)
+	@JoinTable(name = "keys_order_deliveryType", joinColumns = {@JoinColumn(name = "order_id")},
+		inverseJoinColumns = {@JoinColumn(name = "deliveryType_id")})
+	private DeliveryType deliveryType;
 
 	@Column(name = "date_recieved")
 	private Date dateRecieved;
@@ -122,7 +124,7 @@ public class Order {
 		this.manager = manager;
 	}
 
-	public Order(String number, Boolean payment, Boolean deleted, Date created, String deliveryType,
+	public Order(String number, Boolean payment, Boolean deleted, Date created, DeliveryType deliveryType,
 				 Payment paymentType, Status status, Customer customer, Item item, User manager, User designer,
 				 User master) {
 		this.number = number;
@@ -141,6 +143,28 @@ public class Order {
 		}
 		this.items.add(item);
 		this.delivery = customer.getDefaultDelivery();
+		this.price = item.getAmount();
+	}
+
+	public Order(String number, Boolean payment, Boolean deleted, Date created, DeliveryType deliveryType,
+				 Payment paymentType, Status status, Customer customer, Item item, User manager, User designer,
+				 User master, Delivery delivery) {
+		this.number = number;
+		this.payment = payment;
+		this.deleted = deleted;
+		this.created = created;
+		this.deliveryType = deliveryType;
+		this.paymentType = paymentType;
+		this.status = status;
+		this.customer = customer;
+		this.manager = manager;
+		this.designer = designer;
+		this.master = master;
+		if (this.items == null) {
+			this.items = new ArrayList<>();
+		}
+		this.items.add(item);
+		this.delivery = delivery;
 		this.price = item.getAmount();
 	}
 
@@ -228,11 +252,11 @@ public class Order {
 		this.deleted = deleted;
 	}
 
-	public String getDeliveryType() {
+	public DeliveryType getDeliveryType() {
 		return deliveryType;
 	}
 
-	public void setDeliveryType(String deliveryType) {
+	public void setDeliveryType(DeliveryType deliveryType) {
 		this.deliveryType = deliveryType;
 	}
 

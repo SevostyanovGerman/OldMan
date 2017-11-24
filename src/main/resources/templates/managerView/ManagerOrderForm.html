@@ -164,37 +164,6 @@
                             </div>
                        </div>
 
-                        <!-- МОДАЛЬНЫЕ ОКНА -->
-                        <!-- Установка типа оплаты -->
-                        <div id="modalSetPaymentType" class="modal fade">
-                            <div class="modal-dialog modal-sm">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 align="center" class="modal-title">Выберите тип оплаты заказа</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <table class="table table-hover noborder">
-                                            <tbody>
-                                            <tr th:each="payment : ${paymentList}">
-                                                <td align="left" th:text="${payment.name}">Наличный</td>
-                                                <td align="right">
-                                                    <a class="btn btn-info btn-xs"
-                                                       th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"
-                                                       title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                                            Закрыть
-                                        </button>
-                                    </div>
-                                </div><!-- /.modal-content -->
-                            </div><!-- /.modal-dialog -->
-                        </div><!-- /.modal -->
-
                         <!-- КОММЕНТАРИИ -->
                         <div class="tab-pane" id="tabComments" role="tabpanel">
                             <div>
@@ -269,6 +238,7 @@
                                                             </div>
                                                         </div>
                                                     </li>
+
                                                 </ul>
                                             </li>
                                         </ul>
@@ -330,14 +300,18 @@
                           id="addCustomer" th:object="${newCustomer}">
                         <div style="text-align: right">
                             <a href="#" onclick="editCustomer()" id="editBtn" style="text-align: right">Изменить</a>
+
                         </div>
 
                         <div class="form-group">
+
                             <div class="input-group">
+
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
                                        name="firstName" id="firstNameField" readonly="readonly" required="required"
                                        pattern="[A-Za-z]{3,}"/>
+
                             </div>
                         </div>
 
@@ -377,21 +351,58 @@
 
                             <div class="form-inline" style="margin-top: 15px"> Способ оплаты: <a
                                 href="#modalSetPaymentType" data-toggle="modal"> Изменить</a> </div>  </b>
-                                    <div style="text-align: center;color:#1abb57"><h5>
-                                  <span  th:if="${order?.getPaymentType()} != null"
-                                        th:text=" ${order?.getPaymentType()}"></span>
-                                  <span  th:if="${order?.getPaymentType()} == null"> -- </span>
-                                    </h5>
-                                    </div>
+
+                        <div style="text-align: center;color:#1abb57">
+                            <h5>
+                            <span  th:if="${order?.getPaymentType()} != null"
+                                   th:text=" ${order?.getPaymentType()}"></span>
+                                <span  th:if="${order?.getPaymentType()} == null"> -- </span>
+                            </h5>
+                        </div>
+
                         <b>
-                            <div style="margin-top: 10px">Адрес доставки:   <a href="#addressModal"  data-toggle="modal"
-                            > Изменить</a></div>
+                            <div>Тип доставки:   <a href="#modalSetDeliveryType" data-toggle="modal"> Изменить</a></div>
+                        </b>
+
+                        <div style="text-align: center;color:#1abb57">
+                            <h5>
+                            <span  th:if="${order?.getDeliveryType()} != null"
+                                         th:text=" ${order?.getDeliveryType()}"></span>
+                            <span  th:if="${order?.getDeliveryType()} == null"> -- </span>
+                            </h5>
+                        </div>
+
+                        <th:block th:if="${order?.getDeliveryType()?.getPickup()} == false">
+                        <b>
+                            <div>Адрес доставки:   <a href="#addressModal"  data-toggle="modal"> Изменить</a></div>
                         </b>
 
                         <span th:text="${order?.getDefaultDelivery()}" id="deliveryField">
                         </span>
 
+                        </th:block>
 
+                        <th:block th:if="${order?.getDeliveryType()?.getPickup()} == true">
+
+                            <div class="dropdown" style="text-align: center">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Адреса самовывоза:
+                                    <span class="caret"></span>
+                                </button>
+
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <th:block th:each="element, stat: ${pickUpList}">
+                                        <li >
+                                            <a th:href="'/manager/order/selectDelivery/'+${order.id}+'/'+${element.id}"
+                                               th:text="${element}"> </a> </li>
+                                    </th:block>
+                                </ul>
+                            </div>
+
+                            <span th:if="${order?.getDelivery()?.getPickup()} == true"
+                                  th:text="${order?.getDelivery()}"> </span>
+
+                        </th:block>
                     </form>
 
 
@@ -403,6 +414,9 @@
                 </fieldset>
             </div>
             <br>
+
+
+
         </div> <!-- col-lg-3 -->
     </div>
 
@@ -413,16 +427,19 @@
             </div>
             <div class="col-sm-3" style="text-align: center; "  >
                 <a
-                    th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null" href="#myModal"
+                    th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null AND ${order.getDelivery()} != null" href="#myModal"
                     class="btn btn-warning  " data-toggle="modal">Отправить заказ</a>
 
                 <a
-                    th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0 OR ${order.getCustomer()} == null OR ${order.getPaymentType()} == null"
+                    th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0 OR ${order.getCustomer()} == null OR ${order.getPaymentType()} == null OR ${order.getDelivery()} == null"
                    href="#erroFieldModal"  class="btn btn-warning " data-toggle="modal">Отправить
                     заказ</a>
             </div>
+
         </div>
+
     </div>
+
 </div>
 <br/>
 
@@ -439,11 +456,13 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
+
                 <div th:each="element : ${statuses}" class="form-group">
                     <form th:action="'/manager/order/send/' + ${order.getId()} +'/to/' + ${element.getId()}">
                         <button class="form-control btn btn-warning" th:text="${element.getName()}"></button>
                     </form>
                 </div>
+
             </div>
             <!-- Футер модального окна -->
             <div class="modal-footer">
@@ -467,7 +486,9 @@
             </div>
 
             <!-- Основное содержимое модального окна -->
+
             <div class="modal-body" style="text-align: center">
+
                 <table class="form-group" id="designerTableMD" style="text-align: center">
                     <thead style="text-align: center">
                         <th></th>
@@ -483,6 +504,7 @@
                         </tr>
                     </tbody>
                 </table>
+
             </div>
 
             <!-- Футер модального окна -->
@@ -507,7 +529,9 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
+
                 <!--//Заменить на таблицу с js DataTable-->
+
                 <table class="form-group" id="masterTableMD" style="text-align: center">
                     <thead style="text-align: center">
                     <th></th>
@@ -677,12 +701,9 @@
 <!--- end modal -->
 
 
-
-
-
 <!--Адрес доставки модального окна -->
 <div id="addressModal" class="modal  ">
-    <div class="modal-dialog ">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content ">
             <!-- Заголовок модального окна -->
             <div class="modal-header">
@@ -697,17 +718,21 @@
                 <form th:action="${'/manager/order/editDelivery/'+ order.getId()}"
                       method="post"  class="form-horizontal"  th:object="${newDelivery}">
 
-                    <div class="btn-group" style="margin-bottom: 10px">
-                        <button type="button" class="btn btn-default">Адреса клиента</button>
-                        <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
-                        <ul class="dropdown-menu" th:each="element, stat: ${order?.customer?.getDeliveries()}">
-                            <li><a href="#" th:text="${element.toString()}"
-                                   th:onclick="'selectCustomerAddress(' +${stat.index}+')'"  ></a></li>
-                        </ul>
-                    </div>
-                    <b>
-                        <div style="color: #22a9ff;">Адрес доставки:</div>
-                    </b>
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                Адреса клиента:
+                                <span class="caret"></span>
+                            </button>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" >
+                                <th:block th:each="element, stat: ${order?.customer?.getDeliveries()}">
+                                    <li >
+                                        <a href="#" href="#" th:text="${element}"
+                                           th:onclick="'selectCustomerAddress(' +${stat.index}+')'"> </a> </li>
+                                </th:block>
+                            </ul>
+                        </div>
+
                     <br>
                     <div>
                         <div class="form-group has-feedback">
@@ -795,6 +820,7 @@
                         <div th:if="${order.getCustomer()} == null"> Выберете 'Клиента'</div>
                         <div th:if="${order.getPaymentType()} == null"> Выберете 'Способ оплаты'</div>
                     <div th:if="${order.getItems().size()} == 0"> Добавте товар в заказ</div>
+                        <div th:if="${order.getDelivery()} == null"> Выберете 'Адрес доставки'</div>
                 </div>
                 </b>
                 </div>
@@ -811,7 +837,66 @@
 <!--- end modal -->
 
 
+<!-- Установка типа оплаты -->
+<div id="modalSetPaymentType" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 align="center" class="modal-title">Выберите тип оплаты заказа</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover noborder">
+                    <tbody>
+                    <tr th:each="payment : ${paymentList}">
+                        <td align="left" th:text="${payment.name}">Наличный</td>
+                        <td align="right">
+                            <a class="btn btn-info btn-xs"
+                               th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"
+                               title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                    Закрыть
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
+
+<!-- Установка типа доставки -->
+<div id="modalSetDeliveryType" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 align="center" class="modal-title">Выберите тип доставки заказа</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover noborder">
+                    <tbody>
+                    <tr th:each="delivery : ${deliveryTypeList}">
+                        <td align="left" th:text="${delivery.name}"></td>
+                        <td align="right">
+                            <a class="btn btn-info btn-xs"
+                               th:href="${'/manager/order/setDeliveryType/'+ order.id+'/'+ delivery.id}"
+                               title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                    Закрыть
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
@@ -855,6 +940,7 @@
         address.value = tAddress;
         zip.value = tZip;
     }
+
 </script>
 
 <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>

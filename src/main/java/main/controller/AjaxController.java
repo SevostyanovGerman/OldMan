@@ -75,9 +75,10 @@ public class AjaxController {
 		Order order = orderService.get(orderId);
 		Customer customer = customerService.get(customerId);
 		order.setCustomer(customer);
-		order.setDelivery(customer.getDefaultDelivery());
+		if (order.getDelivery().getPickup() == false) {
+			order.setDelivery(customer.getDefaultDelivery());
+		}
 		orderService.save(order);
-
 	}
 }
 

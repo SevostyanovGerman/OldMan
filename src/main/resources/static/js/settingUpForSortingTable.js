@@ -1,5 +1,13 @@
 function settingUpTable() {
+
     $('#sortingTable').dataTable({
+
+        "columnDefs": [
+            {
+                "targets": [ 1,6 ],
+                "searchable": false
+            }],
+
         "oLanguage": {
             "sLengthMenu": "Показать _MENU_ записей на странице",
             "sZeroRecords": "Извините - ничего не найдено",

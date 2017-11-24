@@ -29,10 +29,12 @@ public class InitDB {
 
 	private ItemService itemService;
 
+	private DeliveryTypeService deliveryTypeService;
+
 	@Autowired
 	public InitDB(UserService userService, RoleService roleService, PaymentService paymentService,
 				  StatusService statusService, DeliveryService deliveryService, OrderService orderService,
-				  CustomerService customerService, ItemService itemService) {
+				  CustomerService customerService, ItemService itemService, DeliveryTypeService deliveryTypeService) {
 		this.userService = userService;
 		this.roleService = roleService;
 		this.paymentService = paymentService;
@@ -41,10 +43,16 @@ public class InitDB {
 		this.orderService = orderService;
 		this.customerService = customerService;
 		this.itemService = itemService;
+		this.deliveryTypeService = deliveryTypeService;
 	}
 
 	@PostConstruct
 	public void createDB() throws ParseException {
+		//DeliveryType//
+		DeliveryType toAddress = new DeliveryType("address", false);
+		DeliveryType pickup = new DeliveryType("pickup", true);
+		deliveryTypeService.save(toAddress);
+		deliveryTypeService.save(pickup);
 		//Status//
 		Status status1 = new Status("new", 1L);
 		statusService.save(status1);
@@ -59,7 +67,7 @@ public class InitDB {
 		Status status6 = new Status("finish", 6L);
 		statusService.save(status6);
 		//Роли//
-		HashSet<Status> allStatus = new HashSet <>();
+		HashSet<Status> allStatus = new HashSet<>();
 		allStatus.add(status1);
 		allStatus.add(status2);
 		allStatus.add(status3);
@@ -95,6 +103,10 @@ public class InitDB {
 		deliveryService.save(delivery1);
 		Delivery delivery2 = new Delivery("Kazahstan", "Almata", "bumbum street", "999");
 		deliveryService.save(delivery2);
+		Delivery deliveryPickup = new Delivery("USA", "Springfield", "Gomer street", "123", true);
+		deliveryService.save(deliveryPickup);
+		Delivery deliveryPickup2 = new Delivery("Canada", "Toronto", "NHL street", "321", true);
+		deliveryService.save(deliveryPickup2);
 		//Customer//
 		Customer customer1 =
 			new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1, "Russia", "saint-Petersburg",
@@ -128,32 +140,26 @@ public class InitDB {
 		Date d1 = dateFormat.parse(date1);
 		Date d2 = dateFormat.parse(date2);
 		Order order1 =
-			new Order("1", false, false, createDate, "courier", payment1, status1, customer1, item1, user1,
-				user2,
+			new Order("1", false, false, createDate, toAddress, payment1, status1, customer1, item1, user1, user2,
 				user3);
 		orderService.save(order1);
 		Order order2 =
-			new Order("2", false, false, createDate, "courier", payment2, status2, customer2, item2, user1,
-				user2,
+			new Order("2", false, false, createDate, toAddress, payment2, status2, customer2, item2, user1, user2,
 				user3);
 		orderService.save(order2);
 		Order order3 =
-			new Order("3", false, false, createDate, "courier", payment1, status3, customer2, item3, user1,
-				user2,
-				user3);
+			new Order("3", false, false, createDate, pickup, payment1, status3, customer2, item3, user1, user2, user3,
+				deliveryPickup2);
 		orderService.save(order3);
 		Order order4 =
-			new Order("4", false, false, createDate, "courier", payment2, status4, customer1, item4, user1,
-				user2,
-				user3);
+			new Order("4", false, false, createDate, pickup, payment2, status4, customer1, item4, user1, user2, user3,
+				deliveryPickup);
 		orderService.save(order4);
 		Order order5 =
-			new Order("5", false, false, d1, "take away", payment2, status3, customer1, item5, user1, user2,
-				user3);
+			new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1, user2, user3);
 		orderService.save(order5);
 		Order order6 =
-			new Order("6", false, false, d2, "take away", payment2, status3, customer1, item6, user1, user2,
-				user3);
+			new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1, user2, user3);
 		orderService.save(order6);
 	}
 }

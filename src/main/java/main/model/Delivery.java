@@ -23,6 +23,9 @@ public class Delivery {
 	@Column(name = "zip")
 	private String zip;
 
+	@Column(name = "pickup")
+	private Boolean pickup;
+
 	public Delivery() {
 	}
 
@@ -31,6 +34,14 @@ public class Delivery {
 		this.city = city;
 		this.address = address;
 		this.zip = zip;
+	}
+
+	public Delivery(String country, String city, String address, String zip, boolean pickup) {
+		this.country = country;
+		this.city = city;
+		this.address = address;
+		this.zip = zip;
+		this.pickup = pickup;
 	}
 
 	public Long getId() {
@@ -84,6 +95,14 @@ public class Delivery {
 		builder.append(" , ");
 		builder.append(this.zip);
 		return builder.toString();
+	}
+
+	public Boolean getPickup() {
+		return pickup;
+	}
+
+	public void setPickup(Boolean pickup) {
+		this.pickup = pickup;
 	}
 
 	@Override
