@@ -2,11 +2,22 @@ function settingUpTable() {
 
     $('#sortingTable').dataTable({
 
+        "order": [[ 9, "asc" ]],
+
         "columnDefs": [
             {
                 "targets": [ 1,7 ],
                 "searchable": false
-            }],
+
+
+            },
+
+            {
+                "targets": [ 9 ],
+                "visible": false,
+                "searchable": false
+            }
+        ],
 
         "oLanguage": {
             "sLengthMenu": "Показать _MENU_ записей на странице",
@@ -19,7 +30,20 @@ function settingUpTable() {
                 "sNext": "След. стр.",
                 "sPrevious": "Пред. стр."
             }
+        },
+
+        "createdRow": function( row, data, dataIndex ) {
+            if ( data["9"] == "1" ) {
+                // $( row ).css( "background-color", "Orange" );
+                // $( row ).addClass( "warning" );
+                $( row ).addClass( "info" );
+            }
+            if ( data["9"] == "3" ) {
+                 $( row ).addClass( "warning" );
+                $( row ).addClass( "info" );
+            }
         }
+
     });
 }
 $(document).ready(function () {

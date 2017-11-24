@@ -63,6 +63,8 @@
                         <th class="table-head">Статус заказа</th>
                         <th class="table-head"></th>
                         <th class="table-head"></th>
+                        <th class="table-head"></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -76,6 +78,7 @@
                         <td class="table-body" th:text="${order.getPaymentString()}"></td>
                         <td class="table-body" th:text="${order.getPrice()}"></td>
                         <td class="table-body" th:text="${order.getStatus()}"></td>
+                        <td class="table-body" th:text="${order.getStatus().getNumber()}" ></td>
                         <td align="center">
                             <a class="btn btn-info btn-xs" th:href="${'/manager/order/update/' + order.getId()}" title="Редактировать заказ">
                                 <span class="glyphicon glyphicon-pencil"></span>
