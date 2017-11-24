@@ -56,6 +56,7 @@
                         <th class="table-head">Дата создания</th>
                         <th class="table-head">Клиент</th>
                         <th class="table-head">Менеджер</th>
+                        <th class="table-head">Способ доставки</th>
                         <th class="table-head">Способ оплаты</th>
                         <th class="table-head">Статус оплаты</th>
                         <th class="table-head">Стоимость (руб.)</th>
@@ -70,6 +71,7 @@
                         <td class="table-body" th:text="${order.getCreated()}"></td>
                         <td class="table-body" th:text="${order.getCustomer()}"></td>
                         <td class="table-body" th:text="${order.getManager()}"></td>
+                        <td class="table-body" th:text="${order.getDeliveryType()}"></td>
                         <td class="table-body" th:text="${order.paymentType?.getName()}"></td>
                         <td class="table-body" th:text="${order.getPaymentString()}"></td>
                         <td class="table-body" th:text="${order.getPrice()}"></td>

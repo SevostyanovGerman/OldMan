@@ -2,6 +2,7 @@ package main.controller;
 
 import main.model.Image;
 import main.model.Item;
+import main.model.User;
 import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,8 @@ public class DesignerController {
 	public ModelAndView designer() {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		try {
+			User authUser = userService.getCurrentUser();
+			model.addObject("authUser", authUser);
 			model.addObject("orders", orderService.getAllAllowed(userService.getCurrentUser()));
 		} catch (Exception e) {
 			logger.error("Controller '/designer', orderService.designerOrders() error ");
@@ -58,6 +61,8 @@ public class DesignerController {
 	public ModelAndView order(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
 		try {
+			User authUser = userService.getCurrentUser();
+			model.addObject("authUser", authUser);
 			model.addObject("order", orderService.get(id));
 		} catch (Exception e) {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
@@ -71,6 +76,8 @@ public class DesignerController {
 	public ModelAndView item(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
+			User authUser = userService.getCurrentUser();
+			model.addObject("authUser", authUser);
 			model.addObject("item", itemService.get(id));
 		} catch (Exception e) {
 			logger.error("Controller '/designer/order/item', itemId={}", id);

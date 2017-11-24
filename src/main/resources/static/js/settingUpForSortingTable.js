@@ -4,7 +4,7 @@ function settingUpTable() {
 
         "columnDefs": [
             {
-                "targets": [ 1,6 ],
+                "targets": [ 1,7 ],
                 "searchable": false
             }],
 
