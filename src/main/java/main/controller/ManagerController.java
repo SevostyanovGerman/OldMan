@@ -354,7 +354,7 @@ public class ManagerController {
 			}
 			order.setCustomer(customer);
 			orderService.save(order);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			logger.error("Ошибка выбора покупателя из списка");
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
