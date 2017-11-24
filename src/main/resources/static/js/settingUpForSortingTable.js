@@ -34,13 +34,10 @@ function settingUpTable() {
 
         "createdRow": function( row, data, dataIndex ) {
             if ( data["9"] == "1" ) {
-                // $( row ).css( "background-color", "Orange" );
-                // $( row ).addClass( "warning" );
                 $( row ).addClass( "info" );
             }
             if ( data["9"] == "3" ) {
                  $( row ).addClass( "warning" );
-                $( row ).addClass( "info" );
             }
         }
 
