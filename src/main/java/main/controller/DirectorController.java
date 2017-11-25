@@ -1,9 +1,6 @@
 package main.controller;
 
-import main.model.Customer;
-import main.model.Role;
-import main.model.Status;
-import main.model.User;
+import main.model.*;
 import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,16 +30,20 @@ public class DirectorController {
 
 	private CustomerService customerService;
 
+	private DeliveryService deliveryService;
+
 	private final Logger logger = LoggerFactory.getLogger(DirectorController.class);
 
 	@Autowired
 	public DirectorController(UserService userService, OrderService orderService,
-							  StatusService statusService, RoleService roleService, CustomerService customerService) {
+							  StatusService statusService, RoleService roleService,
+							  CustomerService customerService, DeliveryService deliveryService) {
 		this.userService = userService;
 		this.orderService = orderService;
 		this.statusService = statusService;
 		this.roleService = roleService;
 		this.customerService = customerService;
+		this.deliveryService = deliveryService;
 	}
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
@@ -563,8 +564,8 @@ public class DirectorController {
 
 	//---------------------- Customer block ---------------------
 
-	@RequestMapping(value = {"/director/controlpanel/customers"}, method = RequestMethod.GET)
-	public ModelAndView controlPanelCustomers(HttpServletRequest request) {
+	@RequestMapping(value = {"/director/customers"}, method = RequestMethod.GET)
+	public ModelAndView listCustomers(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/directorView/DirectorCustomersBoard");
 
 		String success = (String) request.getSession().getAttribute("success");
@@ -587,7 +588,7 @@ public class DirectorController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/director/controlpanel/customer/delete/{id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/director/customers/delete/{id}"}, method = RequestMethod.GET)
 	public String deleteCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
 
 		logger.info("Deleting user with id: ", id);
@@ -611,16 +612,227 @@ public class DirectorController {
 			deletedCustomer.setDeleted(true);
 			try {
 				customerService.save(deletedCustomer);
+
+				String success = "Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " + deletedCustomer.getSecName() + " успешно удалён";
+				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete customer with id: ", id);
 				String error = "Ошибка при удалении покупателя c id: " + id + " из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
-
-			String success = "Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " + deletedCustomer.getSecName() + " успешно удалён";
-			request.getSession().setAttribute("success", success);
 		}
 
-		return "redirect:/director/controlpanel/customers";
+		return "redirect:/director/customers";
+	}
+
+	@RequestMapping(value = {"/director/customer"}, method = RequestMethod.GET)
+	public ModelAndView panelCustomer(HttpServletRequest request) {
+		ModelAndView model = new ModelAndView("/directorView/DirectorCustomer");
+
+		/*
+		 * Вначале извлекаем информацию о успешности выполнения предыдущих операций,
+		 * если таковые имели место. Если есть, то передаём их в model чтобы отобразить на странице.
+		 */
+
+		String success = (String) request.getSession().getAttribute("success");
+		String error = (String) request.getSession().getAttribute("error");
+
+		if (success != null) {
+			model.addObject("success", success);
+			request.getSession().removeAttribute("success");
+		} else if (error != null) {
+			model.addObject("error", error);
+			request.getSession().removeAttribute("error");
+		}
+
+		model.addObject("customer", new Customer());
+		model.addObject("delivery", new Delivery());
+
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/customer/create"}, method = RequestMethod.POST)
+	public String createCustomer(@ModelAttribute("customer") Customer incomingCustomer, @ModelAttribute("delivery") Delivery incomingDelivery,
+								 HttpServletRequest request) {
+
+		/*
+		 * Ищем в базе покупателя с такой же почтой или телефоном.
+		 * В случае нахождения покупателя с такой же почтой или телефоном генерим сообщение error.
+		 * Если же ничего не находим то записываем покупателя в базу данных и создаём сообщение о усрехе.
+		 */
+		String searchingEmail = incomingCustomer.getEmail();
+		String searchingPhone = incomingCustomer.getPhone();
+		Customer foundCustomerByEmail = customerService.getByEmail(searchingEmail);
+		Customer foundCustomerByPhone = customerService.getByPhone(searchingPhone);
+
+		if (foundCustomerByEmail != null) { //проверяем есть ли покупатель с такой почтой
+			String error = "Покупатель с такой почтой: " + searchingEmail + " уже существует";
+			request.getSession().setAttribute("error", error);
+		} else if (foundCustomerByPhone != null) { //проверяем есть ли покупатель с таким телефоном
+			String error = "Покуптаель с таким телефоном" + searchingPhone + " уже существует";
+			request.getSession().setAttribute("error", error);
+		} else if ((incomingCustomer.getPhone() == null) || "".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
+			String error = "Необходимо указать телепхон";
+			request.getSession().setAttribute("error", error);
+		} else if ((incomingCustomer.getEmail() == null) || "".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
+			String error = "Необходимо указать Email";
+			request.getSession().setAttribute("error", error);
+		} else {
+			try {
+				incomingCustomer.setCreationDate(new Date());
+				List<Delivery> deliveryList = new ArrayList<>();
+				deliveryList.add(incomingDelivery);
+				incomingCustomer.setDeliveries(deliveryList);
+				deliveryService.save(incomingDelivery);
+				customerService.save(incomingCustomer);
+
+				String success = "Клиент успешно создан";
+				request.getSession().setAttribute("success", success);
+			} catch (Exception e) {
+				logger.error("Can\'t save customer", e);
+				String error = "Ошибка при записи в базу данных";
+				request.getSession().setAttribute("error", error);
+			}
+		}
+
+		return "redirect:/director/customer";
+	}
+
+	@RequestMapping(value = {"/director/customer/edit/{id}"}, method = RequestMethod.GET)
+	public ModelAndView editCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
+
+		logger.info("Edit customer with id: ", id);
+
+		ModelAndView model = new ModelAndView();
+
+		String success = (String) request.getSession().getAttribute("success");
+		String error = (String) request.getSession().getAttribute("error");
+
+		if (success != null) {
+			model.addObject("success", success);
+			request.getSession().removeAttribute("success");
+		} else if (error != null) {
+			model.addObject("error", error);
+			request.getSession().removeAttribute("error");
+		}
+
+		Customer customer = null;
+		try {
+			customer = customerService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get customer with id: ", id);
+			error = "Ошибка при обращении к базе данных";
+			request.getSession().setAttribute("error", error);
+
+			model.setViewName("redirect:/director/customers");
+
+			return model;
+		}
+
+		if (customer != null) {
+			model.setViewName("/directorView/DirectorCustomerEdit");
+			model.addObject("customer", customer);
+			model.addObject("newdelivery", new Delivery());
+		} else {
+			error = "Клиент не найден";
+			request.getSession().setAttribute("error", error);
+			model.setViewName("redirect:/director/customers");
+		}
+
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/customer/adddelivery/{id}"}, method = RequestMethod.POST)
+	public ModelAndView addDelivery(@PathVariable("id") Long id, @ModelAttribute("newdelivery") Delivery incomingDelivery,
+								 HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView();
+
+		Customer customer = null;
+		try {
+			customer = customerService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get customer with id: ", id);
+			String error = "Ошибка при обращении к базе данных";
+			request.getSession().setAttribute("error", error);
+			model.setViewName("redirect:/director/customers");
+
+			return model;
+		}
+
+		try {
+			customer.getDeliveries().add(incomingDelivery);
+			deliveryService.save(incomingDelivery);
+			customerService.save(customer);
+			String success = "Адрес доставки успешно добавлен.";
+			request.getSession().setAttribute("success", success);
+			model.setViewName("redirect:/director/customer/edit/" + customer.getId());
+		} catch (Exception e) {
+			logger.error("Can\'t save delivery", e);
+			String error = "Ошибка при записи в базу данных";
+			request.getSession().setAttribute("error", error);
+		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/customer/update"}, method = RequestMethod.POST)
+	public String updateCustomer(@ModelAttribute("customer") Customer incomingCustomer, @ModelAttribute("includeDeliveries") ArrayList<Delivery> incomingDeliveries,
+								 HttpServletRequest request) {
+
+		/*
+		 * Ищем в базе пользователя с таким же логином.
+		 * В случае нахождения пользователя с таким логином, проверяем id и в случае если они разные генерим сообщение error.
+		 * Если же ничего не находим или если id совпадают, то обновляем пользователя в базе данных и создаём сообщение о усрехе.
+		 */
+		Customer foundCustommer = customerService.getByEmail(incomingCustomer.getEmail());
+
+		if ((foundCustommer != null) && !(foundCustommer.getId().equals(incomingCustomer.getId()))) {
+			String error = "Покупатель с такой почтой: " + incomingCustomer.getEmail() + " уже существует";
+			request.getSession().setAttribute("error", error);
+		} else {
+			try {
+				customerService.save(incomingCustomer);
+				String success = "Информация о покупателе успешно обновлена в базе данных.";
+				request.getSession().setAttribute("success", success);
+			} catch (Exception e) {
+				logger.error("Can\'t update customer", e);
+				String error = "Ошибка при записи в базу данных";
+				request.getSession().setAttribute("error", error);
+			}
+		}
+
+		return "redirect:/director/customer/edit/" + incomingCustomer.getId();
+	}
+
+	@RequestMapping(value = {"/director/customer/removedelivery/{customerId}/{deliveryIndex}"}, method = RequestMethod.GET)
+	public ModelAndView removeDelivery(@PathVariable("customerId") Long customerId, @PathVariable("deliveryIndex") int deliveryIndex,
+									HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView();
+
+		Customer customer = null;
+		try {
+			customer = customerService.get(customerId);
+		} catch (Exception e) {
+			logger.error("Can\'t get customer with id: ", customerId);
+			String error = "Ошибка при обращении к базе данных";
+			request.getSession().setAttribute("error", error);
+			model.setViewName("redirect:/director/customers");
+
+			return model;
+		}
+
+		try {
+			customer.getDeliveries().remove(deliveryIndex);
+			customerService.save(customer);
+			String success = "Адрес доставки удален.";
+			request.getSession().setAttribute("success", success);
+			model.setViewName("redirect:/director/customer/edit/" + customer.getId());
+		} catch (Exception e) {
+			logger.error("Can\'t save delivery", e);
+			String error = "Ошибка при записи в базу данных";
+			request.getSession().setAttribute("error", error);
+		}
+		return model;
 	}
 }

@@ -23,10 +23,10 @@ public class Customer {
 	@Column(name = "sec_name")
 	private String secName;
 
-	@Column(name = "email", unique = true, nullable = false)
+	@Column(name = "email", nullable = false)
 	private String email;
 
-	@Column(name = "phone", unique = true, nullable = false)
+	@Column(name = "phone", nullable = false)
 	private String phone;
 
 	@Column(name = "creation_date", updatable = false)
@@ -34,7 +34,7 @@ public class Customer {
 	private Date creationDate;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.ALL})
 	@JoinTable(name = "keys_customer_delivery", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
 	private List<Delivery> deliveries;
