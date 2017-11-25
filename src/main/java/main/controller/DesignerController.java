@@ -25,19 +25,16 @@ public class DesignerController {
 
 	private CommentService commentService;
 
-	private AnswerService answerService;
-
 	private ImageService imageService;
 
 	private UserService userService;
 
 	@Autowired
 	public DesignerController(OrderService orderService, ItemService itemService, CommentService commentService,
-							  AnswerService answerService, ImageService imageService, UserService userService) {
+							  ImageService imageService, UserService userService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.commentService = commentService;
-		this.answerService = answerService;
 		this.imageService = imageService;
 		this.userService = userService;
 	}

@@ -1,9 +1,11 @@
 package main.controller;
 
-import main.model.Answer;
 import main.model.Comment;
 import main.model.Order;
-import main.service.*;
+import main.service.CommentService;
+import main.service.ImageService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,6 @@ public class MainController {
 
 	private CommentService commentService;
 
-	private AnswerService answerService;
-
 	private OrderService orderService;
 
 	private UserService userService;
@@ -31,10 +31,9 @@ public class MainController {
 	private ImageService imageService;
 
 	@Autowired
-	public MainController(CommentService commentService, AnswerService answerService, OrderService orderService,
-						  UserService userService, ImageService imageService) {
+	public MainController(CommentService commentService, OrderService orderService, UserService userService,
+						  ImageService imageService) {
 		this.commentService = commentService;
-		this.answerService = answerService;
 		this.orderService = orderService;
 		this.userService = userService;
 		this.imageService = imageService;
@@ -97,8 +96,8 @@ public class MainController {
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
 			Comment comment = commentService.get(commentId);
-			Answer answer = new Answer(content, userService.getCurrentUser().toString(), new Date());
-			answerService.save(answer);
+			Comment answer = new Comment(content, userService.getCurrentUser().toString(), new Date());
+			commentService.save(answer);
 			comment.getAnswers().add(answer);
 			commentService.save(comment);
 			Order order = orderService.get(id);
@@ -110,8 +109,6 @@ public class MainController {
 		}
 		return model;
 	}
-
-
 
 	private String getUrl(String referer) {
 		String url;

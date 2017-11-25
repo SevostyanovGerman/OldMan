@@ -27,10 +27,10 @@ public class Comment {
 	@Column(name = "time")
 	private Date time;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = Answer.class)
+	@OneToMany(fetch = FetchType.EAGER, targetEntity = Comment.class)
 	@JoinTable(name = "keys_comment_answer", joinColumns = {@JoinColumn(name = "comment_id")},
 		inverseJoinColumns = {@JoinColumn(name = "answer_id")})
-	private List<Answer> answers;
+	private List<Comment> answers;
 
 	public Comment() {
 	}
@@ -81,11 +81,11 @@ public class Comment {
 		this.deleted = deleted;
 	}
 
-	public List<Answer> getAnswers() {
+	public List<Comment> getAnswers() {
 		return answers;
 	}
 
-	public void setAnswers(List<Answer> answers) {
+	public void setAnswers(List<Comment> answers) {
 		this.answers = answers;
 	}
 
@@ -96,7 +96,10 @@ public class Comment {
 		Comment comment = (Comment) o;
 		if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
 		if (login != null ? !login.equals(comment.login) : comment.login != null) return false;
-		return content != null ? content.equals(comment.content) : comment.content == null;
+		if (content != null ? !content.equals(comment.content) : comment.content != null) return false;
+		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null) return false;
+		if (time != null ? !time.equals(comment.time) : comment.time != null) return false;
+		return answers != null ? answers.equals(comment.answers) : comment.answers == null;
 	}
 
 	@Override
@@ -104,6 +107,9 @@ public class Comment {
 		int result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (login != null ? login.hashCode() : 0);
 		result = 31 * result + (content != null ? content.hashCode() : 0);
+		result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
+		result = 31 * result + (time != null ? time.hashCode() : 0);
+		result = 31 * result + (answers != null ? answers.hashCode() : 0);
 		return result;
 	}
 }
