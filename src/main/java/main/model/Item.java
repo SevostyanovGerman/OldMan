@@ -1,5 +1,6 @@
 package main.model;
 
+import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import java.util.List;
 
@@ -41,15 +42,18 @@ public class Item {
 		inverseJoinColumns = {@JoinColumn(name = "order_id")})
 	private Order order;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = File.class)
-	@JoinTable(name = "keys_item_file", joinColumns = {@JoinColumn(name = "item_id")},
-		inverseJoinColumns = {@JoinColumn(name = "file_id")})
-	private List<File> files;
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
+		cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
+		inverseJoinColumns = {@JoinColumn(name = "image_id")})
+	@Where(clause="type=true")
+	private List<Image> files;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
 		cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
 		inverseJoinColumns = {@JoinColumn(name = "image_id")})
+	@Where(clause="type=false")
 	private List<Image> images;
 
 	public Item() {
@@ -122,11 +126,11 @@ public class Item {
 		this.price = price;
 	}
 
-	public List<File> getFiles() {
+	public List<Image> getFiles() {
 		return files;
 	}
 
-	public void setFiles(List<File> files) {
+	public void setFiles(List<Image> files) {
 		this.files = files;
 	}
 

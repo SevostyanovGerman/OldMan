@@ -22,12 +22,23 @@ public class Image {
 	@Column(name = "image")
 	private Blob image;
 
+	@Column(name = "type")
+	private boolean type;
+
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Item.class)
 	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "image_id")},
 		inverseJoinColumns = {@JoinColumn(name = "item_id")})
 	private Item item;
 
 	public Image() {
+	}
+
+	public boolean isType() {
+		return type;
+	}
+
+	public void setType(boolean type) {
+		this.type = type;
 	}
 
 	public Image(Blob image) {

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
@@ -36,8 +35,6 @@ public class ManagerController {
 
 	private ImageService imageService;
 
-	private FileService fileService;
-
 	private final DeliveryTypeService deliveryTypeService;
 
 	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
@@ -46,7 +43,7 @@ public class ManagerController {
 	public ManagerController(OrderService orderService, DeliveryService deliveryService,
 							 CustomerService customerService, ItemService itemService, UserService userService,
 							 StatusService statusService, PaymentService paymentService, ImageService imageService,
-							 FileService fileService, DeliveryTypeService deliveryTypeService) {
+							 DeliveryTypeService deliveryTypeService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -55,7 +52,6 @@ public class ManagerController {
 		this.statusService = statusService;
 		this.paymentService = paymentService;
 		this.imageService = imageService;
-		this.fileService = fileService;
 		this.deliveryTypeService = deliveryTypeService;
 	}
 
@@ -145,7 +141,7 @@ public class ManagerController {
 		orderService.save(order);
 		order.setNumber(order.getId().toString());
 		orderService.save(order);
-		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
+		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
 		item.setFiles(uploadFiles);
 		item.setOrder(order);
 		itemService.save(item);
@@ -187,7 +183,7 @@ public class ManagerController {
 	public ModelAndView saveItem(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
 								 MultipartHttpServletRequest uploadCustomerFiles) {
 		Order order = orderService.get(Long.parseLong(orderId));
-		List<File> uploadFiles = fileService.uploadAndSaveBlobFile(uploadCustomerFiles);
+		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
 		if (item.getId() != null) {
 			Item updateItem = itemService.get(item.getId());
 			item.setFiles(updateItem.getFiles());
@@ -301,13 +297,11 @@ public class ManagerController {
 	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, HttpServletRequest request) {
-		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-		List<File> uploadedCustomerFiles = fileService.uploadAndSaveBlobFile(multipartRequest);
+	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, MultipartHttpServletRequest
+		uploadFiles) {
+		List<Image> uploadedCustomerFiles = imageService.uploadAndSaveBlobFile(uploadFiles);
 		Item item = itemService.get(itemId);
-		List<File> customerFiles = item.getFiles();
-		customerFiles.addAll(uploadedCustomerFiles);
-		item.setFiles(customerFiles);
+		item.getFiles().addAll(uploadedCustomerFiles);
 		itemService.save(item);
 	}
 
@@ -315,8 +309,8 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
 	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
 								   @PathVariable("fileId") Long fileId) throws IOException {
-		File file = fileService.get(fileId);
-		fileService.delete(file);
+		Image file = imageService.get(fileId);
+		imageService.delete(file);
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
 

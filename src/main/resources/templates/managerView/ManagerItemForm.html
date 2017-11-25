@@ -114,8 +114,8 @@
                         <h4>Изображения от пользователя:</h4>
                         <ul th:each="file: ${item.getFiles()}" style="padding-left: 10px; display: inline-block">
                             <br>
-                            <a th:href="${file.getFile()}" data-toggle="lightbox" data-gallery="mygallery">
-                                <img th:src="${file.getFile()}" height="75">
+                            <a th:href="${file.getImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                <img th:src="${file.getImage()}" height="75">
                             </a>
                             <a class="btn btn-danger btn-xs" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
                                title="Удалить изображение" style="vertical-align: top; left:125px;">

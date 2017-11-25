@@ -132,7 +132,7 @@ public class DesignerController {
 	public ModelAndView delImage(@PathVariable("id") Long id) throws IOException {
 		try {
 			Image image = imageService.get(id);
-			imageService.del(image);
+			imageService.delete(image);
 			return new ModelAndView("redirect:/designer/order/item/" + image.getItem().getId());
 		} catch (Exception e) {
 			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", id);

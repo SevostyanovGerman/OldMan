@@ -105,8 +105,8 @@
                         <h5 >Изображения от клиента:</h5>
 
                         <ul th:each="element: ${item.getFiles()}" style="padding-left: 20px; display: inline-block">
-                            <a th:href="${element.getFile()}" class="js-smartPhoto" >
-                                <img th:src="${element.getFile()}" width="50" height="50">
+                            <a th:href="${element.getImage()}" class="js-smartPhoto" >
+                                <img th:src="${element.getImage()}" width="50" height="50">
                             </a>
                         </ul>
 
