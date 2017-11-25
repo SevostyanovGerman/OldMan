@@ -2,7 +2,7 @@ function settingUpTable() {
 
     $('#sortingTable').dataTable({
 
-        "order": [[ 9, "asc" ]],
+        "order": [[ 9, "asc" ], [0, "desc"]],
 
         "columnDefs": [
             {
