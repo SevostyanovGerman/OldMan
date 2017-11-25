@@ -84,14 +84,18 @@ public class Image {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Image image1 = (Image) o;
+		if (type != image1.type) return false;
 		if (id != null ? !id.equals(image1.id) : image1.id != null) return false;
-		return image != null ? image.equals(image1.image) : image1.image == null;
+		if (image != null ? !image.equals(image1.image) : image1.image != null) return false;
+		return item != null ? item.equals(image1.item) : image1.item == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (image != null ? image.hashCode() : 0);
+		result = 31 * result + (type ? 1 : 0);
+		result = 31 * result + (item != null ? item.hashCode() : 0);
 		return result;
 	}
 }

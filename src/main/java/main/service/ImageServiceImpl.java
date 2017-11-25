@@ -49,7 +49,7 @@ public class ImageServiceImpl implements ImageService {
 	public void saveBlobImage(List<MultipartFile> files, Long itemId) {
 		String name;
 		Item item = itemService.get(itemId);
-		for (int i = 0; i < files.size() ; i++)  {
+		for (int i = 0; i < files.size(); i++) {
 			MultipartFile file = files.get(i);
 			if (!file.isEmpty()) {
 				try {

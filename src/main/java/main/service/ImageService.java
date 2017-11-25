@@ -12,5 +12,4 @@ public interface ImageService {
 	Image get(Long id);
 	void saveBlobImage(List<MultipartFile> files, Long itemId);
 	List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles);
-
 }

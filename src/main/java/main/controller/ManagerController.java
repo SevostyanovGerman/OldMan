@@ -297,8 +297,7 @@ public class ManagerController {
 	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, MultipartHttpServletRequest
-		uploadFiles) {
+	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, MultipartHttpServletRequest uploadFiles) {
 		List<Image> uploadedCustomerFiles = imageService.uploadAndSaveBlobFile(uploadFiles);
 		Item item = itemService.get(itemId);
 		item.getFiles().addAll(uploadedCustomerFiles);
