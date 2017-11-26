@@ -34,7 +34,7 @@ public class Customer {
 	private Date creationDate;
 
 	@JsonIgnore
-	@OneToMany(cascade = {CascadeType.ALL})
+	@OneToMany(cascade = {CascadeType.MERGE})
 	@JoinTable(name = "keys_customer_delivery", joinColumns = {@JoinColumn(name = "customer_id")},
 		inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
 	private List<Delivery> deliveries;
