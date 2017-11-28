@@ -42,17 +42,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List <Order> getAllAllowed(User user) {
+	public List<Order> getAllAllowed(User user) {
 		Set<Role> roleSet = user.getRoles();
 		Set<Order> statusSet = new HashSet<>();
-
-		for (Role role : roleSet){
+		for (Role role : roleSet) {
 			Set<Status> tmpStatusSet = role.getStatuses();
 			for (Status status : tmpStatusSet) {
 				statusSet.addAll(orderRepository.findByUser(user, status, false));
 			}
 		}
-
 		return new ArrayList<>(statusSet);
 	}
 
@@ -153,6 +151,11 @@ public class OrderServiceImpl implements OrderService {
 			order.getItems().get(i).setStatus(false);
 		}
 		return order;
+	}
+
+	@Override
+	public List<Object> avgPriceByMonth(Date start, Date end) {
+		return orderRepository.priceAvgByMonth(start, end);
 	}
 
 	@Override

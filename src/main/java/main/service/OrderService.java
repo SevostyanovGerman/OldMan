@@ -25,4 +25,5 @@ public interface OrderService {
 	void deleteOrder(Order order);//Change value "delete" from false to true. Order do not delete!
 	List<Order> findOrdersByRange(Date startDate, Date endDate);
 	Order setAllStatusItemFalse(Order order);
+	List<Object> avgPriceByMonth(Date start, Date end);
 }
