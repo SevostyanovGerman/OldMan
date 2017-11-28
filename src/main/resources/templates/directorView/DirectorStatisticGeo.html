@@ -19,7 +19,7 @@
 
 </head>
 
-<body>
+<body onload="geoStat()">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -48,6 +48,7 @@
                             <li><a href="/director/statistic/geo/">Гео анализ</a></li>
                         </ul>
                     </li>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Директор</a></li>
@@ -63,12 +64,7 @@
 
 	<br>
     <div >
-    <h2 style="text-align: center">Средняя сумма заказа, по месяцам</h2>
-    <!--Календарь-->
-    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
-        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-        <span></span> <b class="caret"></b>
-    </div>
+    <h2 style="text-align: center">Оплаченные заказы по странам</h2>
 
     <div class="container">
 
@@ -115,7 +111,7 @@
 
 
 
-    <script src="/js/statisticAvgMx.js"></script>
+    <script src="/js/statisticGeo.js"></script>
 
 </body>
 </html>

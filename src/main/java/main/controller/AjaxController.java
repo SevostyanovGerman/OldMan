@@ -92,6 +92,13 @@ public class AjaxController {
 		endDate.setHours(23);
 		return orderService.avgPriceByMonth(startDate, endDate);
 	}
+
+	//Статистика гео//
+	@RequestMapping(value = "/statistic/geo/getGeoObjects", method = RequestMethod.GET)
+	public List<Object> statisticGeoOrder() {
+		List<Object> list = orderService.statisticGeo();
+		return orderService.statisticGeo();
+	}
 }
 
 

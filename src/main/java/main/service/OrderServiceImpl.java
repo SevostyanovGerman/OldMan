@@ -159,6 +159,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public List<Object> statisticGeo() {
+		return orderRepository.statisticGeo();
+	}
+
+	@Override
 	public void deleteOrder(Order order) {
 		order.setDeleted(true);
 	}
