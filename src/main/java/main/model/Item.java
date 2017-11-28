@@ -1,6 +1,7 @@
 package main.model;
 
 import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -192,7 +193,6 @@ public class Item {
 		if (comment != null ? !comment.equals(item.comment) : item.comment != null) return false;
 		if (amount != null ? !amount.equals(item.amount) : item.amount != null) return false;
 		if (order != null ? !order.equals(item.order) : item.order != null) return false;
-		if (files != null ? !files.equals(item.files) : item.files != null) return false;
 		return images != null ? images.equals(item.images) : item.images == null;
 	}
 
@@ -208,7 +208,6 @@ public class Item {
 		result = 31 * result + count;
 		temp = Double.doubleToLongBits(price);
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		result = 31 * result + (files != null ? files.hashCode() : 0);
 		result = 31 * result + (images != null ? images.hashCode() : 0);
 		return result;
 	}

@@ -3,6 +3,9 @@ package main.service;
 import main.model.Image;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ImageService {
@@ -11,5 +14,7 @@ public interface ImageService {
 	void delete(Image image);
 	Image get(Long id);
 	void saveBlobImage(List<MultipartFile> files, Long itemId);
-	List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles);
+	List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles) throws IOException, SQLException;
+	void downloadAllFiles(List<Image> downloadFiles) throws IOException, SQLException;
+	void downloadOneFile(Image downloadFile) throws IOException, SQLException;
 }

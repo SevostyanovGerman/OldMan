@@ -25,6 +25,9 @@ public class Image {
 	@Column(name = "type")
 	private boolean type;
 
+	@Column(name = "file_name")
+	private String fileName;
+
 	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Item.class)
 	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "image_id")},
 		inverseJoinColumns = {@JoinColumn(name = "item_id")})
@@ -61,6 +64,18 @@ public class Image {
 		this.id = id;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public Blob getBlobFile(){
+		return image;
+	}
+
 	public String getImage() throws IOException, SQLException {
 		if (this.image != null) {
 			InputStream in = this.image.getBinaryStream();
@@ -68,9 +83,7 @@ public class Image {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(image, "png", baos);
 			String data = DatatypeConverter.printBase64Binary(baos.toByteArray());
-			String imageString = "data:image/png;base64," + data;
-			String html = imageString;
-			return html;
+			return "data:image/png;base64," + data;
 		}
 		return null;
 	}
@@ -82,20 +95,18 @@ public class Image {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (!(o instanceof Image)) return false;
 		Image image1 = (Image) o;
-		if (type != image1.type) return false;
 		if (id != null ? !id.equals(image1.id) : image1.id != null) return false;
 		if (image != null ? !image.equals(image1.image) : image1.image != null) return false;
-		return item != null ? item.equals(image1.item) : image1.item == null;
+		return fileName != null ? fileName.equals(image1.fileName) : image1.fileName == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (image != null ? image.hashCode() : 0);
-		result = 31 * result + (type ? 1 : 0);
-		result = 31 * result + (item != null ? item.hashCode() : 0);
+		result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
 		return result;
 	}
 }

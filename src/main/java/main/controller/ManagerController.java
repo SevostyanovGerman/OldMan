@@ -142,7 +142,7 @@ public class ManagerController {
 		order.setNumber(order.getId().toString());
 		orderService.save(order);
 		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
-		item.setFiles(uploadFiles);
+		item.setImages(uploadFiles);
 		item.setOrder(order);
 		itemService.save(item);
 		return new ModelAndView("redirect:/manager/order/update/" + order.getId());
@@ -181,7 +181,7 @@ public class ManagerController {
 	//Сохраняем позицию заказа (новую или обновлённую) в существующем заказе
 	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView saveItem(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
-								 MultipartHttpServletRequest uploadCustomerFiles) {
+								 MultipartHttpServletRequest uploadCustomerFiles) throws IOException, SQLException {
 		Order order = orderService.get(Long.parseLong(orderId));
 		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
 		if (item.getId() != null) {
@@ -190,7 +190,7 @@ public class ManagerController {
 			item.setImages(updateItem.getImages());
 			item.getFiles().addAll(uploadFiles);
 		} else {
-			item.setFiles(uploadFiles);
+			item.setImages(uploadFiles);
 		}
 		item.setOrder(order);
 		itemService.save(item);
@@ -297,10 +297,11 @@ public class ManagerController {
 	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, MultipartHttpServletRequest uploadFiles) {
+	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId,
+								  MultipartHttpServletRequest uploadFiles) throws IOException, SQLException {
 		List<Image> uploadedCustomerFiles = imageService.uploadAndSaveBlobFile(uploadFiles);
 		Item item = itemService.get(itemId);
-		item.getFiles().addAll(uploadedCustomerFiles);
+		item.getImages().addAll(uploadedCustomerFiles);
 		itemService.save(item);
 	}
 
@@ -351,5 +352,50 @@ public class ManagerController {
 			logger.error("Ошибка выбора покупателя из списка");
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+	}
+
+	//Загрузка на компьютер всех файлов заказчика
+	@RequestMapping(value = "/manager/downloadAllFiles/{orderId}/{itemId}", method = RequestMethod.GET)
+	public ModelAndView downloadAllFiles(@PathVariable("orderId") Long orderId,
+										 @PathVariable("itemId") Long itemId){
+		List<Image> customerFileList = itemService.get(itemId).getFiles();
+ 		try {
+			imageService.downloadAllFiles(customerFileList);
+		} catch (IOException ioe) {
+			logger.info("Ошибка в чтении файла: " + ioe);
+		} catch (SQLException sqle) {
+			logger.info("Ошибка выборки из базы данных: " + sqle);
+		}
+		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
+	}
+
+	//Загрузка на компьютер всех файлов дизайнера
+	@RequestMapping(value = "/manager/downloadAllImages/{orderId}/{itemId}", method = RequestMethod.GET)
+	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId,
+										 @PathVariable("itemId") Long itemId){
+		List<Image> designerFileList = itemService.get(itemId).getImages();
+		try {
+			imageService.downloadAllFiles(designerFileList);
+		} catch (IOException ioe) {
+			logger.info("Ошибка в чтении файла: " + ioe);
+		} catch (SQLException sqle) {
+			logger.info("Ошибка выборки из базы данных: " + sqle);
+		}
+		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
+	}
+
+	//Загрузка на компьютер одного файла заказчика
+	@RequestMapping(value = "/manager/downloadOneFile/{orderId}/{itemId}/{fileId}", method = RequestMethod.GET)
+	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId,
+										@PathVariable("itemId") Long itemId,
+										@PathVariable("fileId") Long fileId){
+		try {
+			imageService.downloadOneFile(imageService.get(fileId));
+		} catch (IOException ioe) {
+			logger.info("Ошибка в чтении файла: " + ioe);
+		} catch (SQLException sqle) {
+			logger.info("Ошибка выборки из базы данных: " + sqle);
+		}
+		return new ModelAndView("redirect:/manager/item/update/"+ orderId + "/" + itemId);
 	}
 }

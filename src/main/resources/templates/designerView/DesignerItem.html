@@ -57,16 +57,10 @@
     <div class="row">
         <div class="col-lg-9">
             <div class="form-horizontal borderSimple ">
-
                 <div class="tab-content">
                     <div class="tab-pane active" id="tabItem">
-
                         <br>
-
-
                         <table class="table">
-
-                            <tr>
                             <tr>
                                 <td>
                                     <li class="list-group-item lighGrey">Продукт</li>
@@ -76,7 +70,6 @@
                                 </td>
                             </tr>
                             <br>
-
                             <tr>
                                 <td>
                                     <li class="list-group-item lighGrey">Модель телефона</li>
@@ -85,7 +78,6 @@
                                     <li class="list-group-item" th:text="${item.getModel()}">Iphone</li>
                                 </td>
                             </tr>
-
                             <tr>
                                 <td>
                                     <li class="list-group-item lighGrey">Тип</li>
@@ -95,46 +87,34 @@
                                 </td>
                             </tr>
 
-                            </tr>
                         </table>
                         <ul style="padding-left: 20px; ">
                             Комментарий:
                             <li class="list-group-item" th:text="${item.getComment()}"> Бла-бла-бла
                             </li>
                         </ul>
-                        <h5 >Изображения от клиента:</h5>
-
-                        <ul th:each="element: ${item.getFiles()}" style="padding-left: 20px; display: inline-block">
-                            <a th:href="${element.getImage()}" class="js-smartPhoto" >
-                                <img th:src="${element.getImage()}" width="50" height="50">
+                        <h5>Изображения от клиента:</h5>
+                        <ul th:each="file: ${item.getFiles()}" style="padding-left: 20px; display: inline-block">
+                            <a th:href="${file.getImage()}" class="js-smartPhoto" >
+                                <img th:src="${file.getImage()}" height="75">
                             </a>
                         </ul>
-
-
-                    </div>
-
-
+                   </div>
                 </div>
-
                 </fieldset>
             </div>
-        </div>
-
+        </div> <!--end col-lg-9-->
 
         <div class="col-lg-3">
             <div class="form-horizontal borderSimple ">
                 <fieldset>
                     <h4 align="center">Текущий статус</h4>
-
-
                     <label class="form-control statusL" th:text="${item.getStatusString()}">Новый </label>
                 </fieldset>
                 <br>
                 <fieldset>
-
                     <div th:switch="${item.getStatus()}">
                         <form th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
-
                             <button th:case="true" class="btn btn-success width100" type="submit" form="save"
                                     name="status"
                             >Вернуть
@@ -144,89 +124,57 @@
                             </button>
                         </form>
                     </div>
-
                 </fieldset>
                 <br>
                 <form th:action="'/designer/order/' + ${item.getOrder().getId()}" id="backBtn" method="get">
                     <button class="btn btn-success width100" type="submit">Назад</button>
                 </form>
             </div>
-
-
             <br>
-
-        </div>
-
-
+        </div> <!--end col-lg-3-->
         <br>
-
         <div class="col-lg-12 pagging20 ">
             <h4>Дизайн проект:</h4>
-            <div class="form-horizontal borderSimple pagging20 paggingL10" >
-
-
-
-                    <span id="OrderId" th:value="${item.getId()}" hidden></span>
-
-
+            <div class="form-horizontal borderSimple pagging20 paggingL10">
+                <span id="OrderId" th:value="${item.getId()}" hidden></span>
                 <!--Показываем картинки item-->
+                <div class="container">
+                    <ul th:each="element: ${item.getImages()}" style="padding-left: 20px; display: inline-block">
+                        <br>
+                        <a th:href="${element.getImage()}" class="js-smartPhoto" >
+                            <img th:src="${element.getImage()}" width="50" height="50">
+                        </a>
 
-                    <div class="container">
-                        <ul th:each="element: ${item.getImages()}" style="padding-left: 20px; display: inline-block">
-
-                            <br>
-                            <a th:href="${element.getImage()}" class="js-smartPhoto" >
-                                <img th:src="${element.getImage()}" width="50"
-                                     height="50"></a>
-
-                            <form th:action="'/designer/order/item/delimage/' +${element.getId()}"
-                                  method="post">
-                                <p>
-                                    <button type="submit" class="btn btn-default btn-sm" >
-                                        <i class="glyphicon glyphicon-trash" aria-hidden="true" style="color: red;"></i>
-                                    </button>
-                                </p>
-                            </form>
-                        </ul>
-
-                        <!--// Выбор и загрузка картинок///-->
-
-                        <div class="container-fluid">
-
-                                <div class="fileUpload btn btn-success">
-                                    <span>Добавить файлы</span>
-                                <input type="file" id="files" name="files[]" multiple class="upload"
-                                       onclick="showUpload()"  />
-
-                                </div>
-
-                                <output id="list" ></output>
-
-                                <br>
-
-                                <button type="reset" class="btn btn-warning" onclick="miniPicDel()"
-                                        style="display: none;" id="cancelBtn">Отменить
+                        <form th:action="'/designer/order/item/delimage/' +${element.getId()}"
+                              method="post">
+                            <p>
+                                <button type="submit" class="btn btn-default btn-sm" >
+                                    <i class="glyphicon glyphicon-trash" aria-hidden="true" style="color: red;"></i>
                                 </button>
+                            </p>
+                        </form>
+                    </ul>
 
-                                <button type="button" th:onclick="'sendImage(' + ${item.getId()} +')'"
-                                        class="btn btn-primary" style="display: none;" id="uploadBtn">Загрузить
-                                </button>
-
+                    <!--// Выбор и загрузка картинок///-->
+                    <div class="container-fluid">
+                        <div class="fileUpload btn btn-success">
+                            <span>Добавить файлы</span>
+                            <input type="file" id="files" name="files[]" multiple class="upload" onclick="showUpload()"/>
                         </div>
-
-
-
+                        <output id="list"></output>
+                        <br>
+                        <button type="reset" class="btn btn-warning" onclick="miniPicDel()"
+                                id="cancelBtn" style="display: none;">Отменить
+                        </button>
+                        <button type="button" th:onclick="'sendImage(' + ${item.getId()} +')'"
+                                class="btn btn-primary" style="display: none;" id="uploadBtn">Загрузить
+                        </button>
                     </div>
-
-
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
+                </div> <!--container end-->
+            </div> <!--form-horizontal end-->
+        </div> <!--col-lg-12 end-->
+    </div> <!--end row-->
+</div> <!--end container-->
 
 
 <style>

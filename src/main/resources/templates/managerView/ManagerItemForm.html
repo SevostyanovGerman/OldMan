@@ -104,8 +104,13 @@
                             <a th:href="${image.getImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${image.getImage()}" height="75">
                             </a>
+                            <a class="btn btn-primary btn-xs" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
+                               title="Загрузить один файл" style="vertical-align: top; left:125px;">
+                                <span class="glyphicon glyphicon-download"></span>
+                            </a>
                         </ul>
                     </div>
+                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
                     <hr>
                 </th:block>
 
@@ -121,14 +126,18 @@
                                title="Удалить изображение" style="vertical-align: top; left:125px;">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
+                            <a class="btn btn-primary btn-xs" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
+                               title="Загрузить один файл" style="vertical-align: top; left:125px;">
+                                <span class="glyphicon glyphicon-download"></span>
+                            </a>
                         </ul>
                     </div>
+                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
                     <hr>
                 </th:block>
-
-                <h4>Загрузка файлов</h4>
+                <h4>Добавить файлы</h4>
                 <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
-                <label for="fileMulti" class="btn btn-default">
+                <label for="fileMulti" class="btn btn-default btn-xs">
                     <span>Обзор...</span>
                 </label>
                 <br/>
