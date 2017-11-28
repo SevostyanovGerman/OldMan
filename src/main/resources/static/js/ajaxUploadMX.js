@@ -56,12 +56,10 @@ function sendImage(item) {
     }
 
     $.ajax({
-        type: "POST",
-        url: "/uploadImage/"+item,
-        data: formData,
-        enctype: 'multipart/form-data',
-        contentType: false,
-        processData: false
+        url: "/statistic/middle/middleOrderPrice",
+        success: function(data){
+            alert( "Прибыли данные: " + data );
+        }
     });
 
     hideUpload();

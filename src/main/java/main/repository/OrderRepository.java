@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface OrderRepository extends JpaRepository <Order, Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	Order findByIdAndDeleted(Long id, Boolean deleted);
 	Set<Order> findAllByStatusAndDeleted(Status status, Boolean deleted);
@@ -22,6 +22,7 @@ public interface OrderRepository extends JpaRepository <Order, Long> {
 	List<Order> findAllByDeletedAndManagerFirstNameContains(Boolean deleted, String name);
 	List<Order> findAllByDeletedAndStatusId(Boolean deleted, Long id);
 	List<Order> findAllByDeletedAndStatusIdAndNumberContains(Boolean deleted, Long statusId, String number);
+
 	@Query("SELECT o FROM Order o WHERE " + "LOWER(o.payment) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		"LOWER(o.dateRecieved) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		"LOWER(o.dateTransferred) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
@@ -31,10 +32,12 @@ public interface OrderRepository extends JpaRepository <Order, Long> {
 	@Query("SELECT o FROM Order o WHERE o.created BETWEEN :startDate AND :endDate")
 	List<Order> findOrdersByRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " +
-		"o.master = :user OR " +
-		"o.designer = :user) AND " +
-		"o.status = :status AND " +
-		"o.deleted = :deleted ")
+	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " + "o.master = :user OR " +
+		"o.designer = :user) AND " + "o.status = :status AND " + "o.deleted = :deleted ")
 	Set<Order> findByUser(@Param("user") User user, @Param("status") Status status, @Param("deleted") boolean deleted);
+
+	@Query("SELECT  date_format(o.created, '%Y-%m') as created ,  AVG(o.price) as price FROM Order o WHERE o" +
+		".deleted=0 AND o.created >= :startDate AND o.created <= :endDate " + "GROUP BY " +
+		"date_format(o.created, '%Y-%m') ORDER BY date_format(o.created, '%Y-%m')")
+	List<Object> priceAvgByMonth(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

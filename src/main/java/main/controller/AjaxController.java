@@ -5,6 +5,8 @@ import main.model.Order;
 import main.service.CustomerService;
 import main.service.ImageService;
 import main.service.OrderService;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class AjaxController {
 	private ImageService imageService;
 
 	private final Logger logger = LoggerFactory.getLogger(AjaxController.class);
+
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy/mm/dd");
 
 	@Autowired
 	public AjaxController(CustomerService customerService, OrderService orderService, ImageService imageService) {
@@ -79,6 +83,14 @@ public class AjaxController {
 			order.setDelivery(customer.getDefaultDelivery());
 		}
 		orderService.save(order);
+	}
+
+	//Данные для статистики средней цены заказа
+	//Средняя сумма заказа//
+	@RequestMapping(value = "/statistic/middle/averageOrderPrice", method = RequestMethod.GET)
+	public List<Object> statisticAverageOrderPrice(Date startDate, Date endDate) {
+		endDate.setHours(23);
+		return orderService.avgPriceByMonth(startDate, endDate);
 	}
 }
 
