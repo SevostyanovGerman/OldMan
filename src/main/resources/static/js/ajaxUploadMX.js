@@ -48,7 +48,6 @@ function cancelUplodFunc(i) {
 //Отправляем сервлету массив картинок//
 function sendImage(item) {
 
-
     var formData = new FormData();
 
     for(var i = 0; i<files.length; i++) {
@@ -56,10 +55,12 @@ function sendImage(item) {
     }
 
     $.ajax({
-        url: "/statistic/middle/middleOrderPrice",
-        success: function(data){
-            alert( "Прибыли данные: " + data );
-        }
+        type: "POST",
+        url: "/uploadImage/"+item,
+        data: formData,
+        enctype: 'multipart/form-data',
+        contentType: false,
+        processData: false
     });
 
     hideUpload();
