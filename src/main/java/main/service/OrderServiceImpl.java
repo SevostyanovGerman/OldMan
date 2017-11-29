@@ -164,6 +164,11 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public List<Object> statisticNewCustomers(Date start, Date end) {
+		return orderRepository.statisticNewCustomers(start, end);
+	}
+
+	@Override
 	public void deleteOrder(Order order) {
 		order.setDeleted(true);
 	}

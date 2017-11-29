@@ -27,4 +27,5 @@ public interface OrderService {
 	Order setAllStatusItemFalse(Order order);
 	List<Object> avgPriceByMonth(Date start, Date end);
 	List<Object> statisticGeo();
+	List<Object> statisticNewCustomers(Date start, Date end);
 }

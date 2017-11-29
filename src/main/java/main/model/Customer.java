@@ -58,6 +58,7 @@ public class Customer {
 		this.secName = secName;
 		this.email = email;
 		this.phone = phone;
+		this.creationDate =new Date();
 		if (this.deliveries == null) {
 			List<Delivery> deliveryList = new ArrayList<>();
 			this.deliveries = deliveryList;
