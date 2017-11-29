@@ -301,7 +301,8 @@
                           method="post"
                           id="addCustomer" th:object="${newCustomer}">
                         <div style="text-align: right">
-                            <a href="#" onclick="editCustomer()" id="editBtn" style="text-align: right">Изменить</a>
+                            <a th:if="${order.getCustomer()}" href="#" onclick="editCustomer()" id="editBtn" style="text-align: right">
+                                Изменить</a>
 
                         </div>
 

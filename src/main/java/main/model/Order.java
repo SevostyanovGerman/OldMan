@@ -201,16 +201,11 @@ public class Order {
 	}
 
 	public double getPrice() {
-		double amount = 0;
-		for (int i = 0; i < items.size(); i++) {
-			amount = amount + items.get(i).getAmount();
-		}
-		this.price = amount;
-		return price;
+		return this.price;
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+		this.price += price;
 	}
 
 	public Boolean getPayment() {
