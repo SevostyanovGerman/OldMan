@@ -1,0 +1,44 @@
+.order-title{
+    color: white;
+    padding-top: 5px;
+    margin-left: 50px;
+}
+
+.img-thumbnail {
+    height: 75px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+}
+
+.input-group{
+    width: 100%;
+}
+
+.input-group-addon{
+    width: 150px;
+    text-align: left;
+}
+
+.form-control{
+    width: 100%;
+}
+
+textarea{
+    resize: none;
+    width: 100%;
+}
+
+.btn-delete{
+    vertical-align: top;
+    left: 125px;
+}
+
+.btn-download{
+    vertical-align: top;
+    left: 125px;
+}
+
+.show-image{
+    padding-left: 10px;
+    display: inline-block;
+}
