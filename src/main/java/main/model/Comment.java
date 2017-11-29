@@ -22,7 +22,7 @@ public class Comment {
 	private String content;
 
 	@Column(name = "deleted")
-	private String deleted;
+	private Boolean deleted;
 
 	@Column(name = "time")
 	private Date time;
@@ -39,6 +39,7 @@ public class Comment {
 		this.content = content;
 		this.login = login;
 		this.time = time;
+		this.deleted = false;
 	}
 
 	public Date getTime() {
@@ -73,11 +74,11 @@ public class Comment {
 		this.content = content;
 	}
 
-	public String getDeleted() {
+	public Boolean getDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(String deleted) {
+	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
 

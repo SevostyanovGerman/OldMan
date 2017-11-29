@@ -7,14 +7,14 @@
     <title>Заказы</title>
     
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="/css/bootstrap.css"/>
 
 
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
 
 </head>
@@ -34,7 +34,7 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a href="/director">Заказы</a></li>
+                    <li role="presentation"><a href="/director">Заказы</a></li>
                     <li role="presentation"><a href="/director/customers">Клиенты</a></li>
                     <li role="presentation"><a href="/director/stuff">Сотрудники</a></li>
                     <li role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
@@ -63,49 +63,25 @@
     </nav>
 
 	<br>
+    <div >
+    <h2 style="text-align: center">Кол-во новых клиентов по месяцам</h2>
+        <br>
+    <!--Календарь-->
+    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+        <span></span> <b class="caret"></b>
+    </div>
 
     <div class="container">
-        <div class="table-responsive">
-            <table id="myTable" class="display table table-bordered data" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>№ Заказа</th>
-                        <th>Дата создания</th>
-                        <th>Клиент</th>
-                        <th>Менеджер</th>
-                        <th>Дизайнер</th>
-                        <th>Мастер</th>
-                        <th>Способ оплаты</th>
-                        <th>Статус оплаты</th>
-                        <th>Статус заказа</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
 
 
-					<tr th:each ="element: ${orders}">
-						<td th:text="${element.getNumber()}"></td>
-						<td th:text="${element.getCreated()}"></td>
-						<td th:text="${element.getCustomer()}"></td>
-						<td th:text="${element.getManager().getSecName()}"></td>
-						<td	th:text="${element.getDesigner() == null? 'Не назначен' : element.getDesigner().getSecName()}"></td>
-						<td th:text="${element.getMaster() == null? 'Не назначен' : element.getMaster().getSecName()}"></td>
-						<td th:text="${element.getPaymentType()}"></td>
-						<td th:text="${element.getPayment()}"></td>
-						<td th:text="${element.getStatus()}"></td>
-						<td align="center">
-							<button class="btn btn-info btn-xs" type="button">
-								Оплата произведена
-							</button>
-						</td>
-					</tr>
-                </tbody>
-            </table>
-        </div>
+        <!--График-->
+        <div id="chart_div"></div>
+        <!--Конец графика-->
+
     </div>
-    
 
+    </div>
      <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -118,28 +94,30 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
-    <script>
-        function settingUpTable() {
-            $('#myTable').dataTable({
-                "oLanguage": {
-                    "sLengthMenu": "Показать _MENU_ записей на странице",
-                    "sZeroRecords": "Извините - ничего не найдено",
-                    "sInfo": "Показано _START_ до _END_ из _TOTAL_ записей",
-                    "sInfoEmpty": "Нет записей",
-                    "sInfoFiltered": "(из _MAX_ записей)",
-                    "sSearch": "Поиск:",
-                    "oPaginate": {
-                        "sNext": "След. стр.",
-                        "sPrevious": "Пред. стр."
-                    }
-                }
-            });
-        }
 
-        $(document).ready(function () {
-            settingUpTable();
-        });
-    </script>
+
+    <!--Load the AJAX API-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+    <!-- Include Required Prerequisites -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+
+    <!--<script type="text/javascript">-->
+        <!--$(function() {-->
+            <!--$('input[name="daterange"]').daterangepicker();-->
+        <!--});-->
+    <!--</script>-->
+
+
+
+    <script src="/js/statisticNewCustomers.js"></script>
 
 </body>
 </html>

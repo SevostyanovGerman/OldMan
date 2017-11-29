@@ -15,13 +15,21 @@ import java.util.Set;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	Order findByIdAndDeleted(Long id, Boolean deleted);
+
 	Set<Order> findAllByStatusAndDeleted(Status status, Boolean deleted);
+
 	List<Order> findAllByDeleted(Boolean deleted);
+
 	List<Order> findAllByCustomerFirstNameContainsAndDeleted(String name, Boolean deleted);
+
 	List<Order> findAllByDeletedAndNumberContains(Boolean deleted, String number);
+
 	List<Order> findAllByDeletedAndManagerFirstNameContains(Boolean deleted, String name);
+
 	List<Order> findAllByDeletedAndStatusId(Boolean deleted, Long id);
+
 	List<Order> findAllByDeletedAndStatusIdAndNumberContains(Boolean deleted, Long statusId, String number);
+
 	@Query("SELECT o FROM Order o WHERE " + "LOWER(o.payment) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		"LOWER(o.dateRecieved) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		"LOWER(o.dateTransferred) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
@@ -44,4 +52,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	@Query("select o.delivery.country, count(o.delivery.country) from Order o " +
 		"  where o.deleted =0 and o.payment=1 group by o.delivery.country order by o" + ".delivery.country")
 	List<Object> statisticGeo();
+
+	@Query("SELECT  date_format(o.creationDate, '%Y-%m') as created ,  count(o.creationDate) FROM Customer o " +
+		"WHERE o.deleted=0 AND o.creationDate between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
+		"STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
+		"date_format(o.creationDate, '%Y-%m') ORDER BY date_format(o.creationDate, '%Y-%m')")
+	List<Object> statisticNewCustomers(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 }

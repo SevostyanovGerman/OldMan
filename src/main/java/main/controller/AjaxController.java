@@ -99,6 +99,13 @@ public class AjaxController {
 		List<Object> list = orderService.statisticGeo();
 		return orderService.statisticGeo();
 	}
+
+	//Новые клиенты//
+	@RequestMapping(value = "/statistic/newCustomers/ajaxData", method = RequestMethod.GET)
+	public List<Object> statisticNewCustomers(Date startDate, Date endDate) {
+		endDate.setHours(23);
+		return orderService.statisticNewCustomers(startDate, endDate);
+	}
 }
 
 
