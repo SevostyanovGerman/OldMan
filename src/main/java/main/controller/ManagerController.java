@@ -80,8 +80,6 @@ public class ManagerController {
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());
 		model.addObject("customersList", customerService.getAll());
-		String typeOprationSystem = System.getProperty("os.name");
-		String pathDownloadDirectory = System.getProperty("user.home");
 		return model;
 	}
 

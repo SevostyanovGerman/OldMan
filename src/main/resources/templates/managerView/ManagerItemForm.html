@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" crossorigin="anonymous"/>
 
     <link href="/css/ekko-lightbox.css" rel="stylesheet">
-    <link href="/css/styleManagerNewOrder.css" rel="stylesheet" />
+    <link href="/css/managerItemForm.css" rel="stylesheet" />
 
 </head>
 
@@ -22,22 +22,14 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
         </div>
         <div class="collapse navbar-collapse" >
-            <div class="col-lg-4">
-                <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-4">
-                <h4 style="color: white" align="left" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4>
-            </div>
+            <ul class="nav navbar-nav">
+                <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
+                <li><h4 class="order-title" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4></li>
+                <li><h4 class="order-title" th:text="${'Статус заказа: ' + order?.getStatus().toString()}"></h4></li>
+                <li><h4 class="order-title" th:text="${'Тип оплаты: ' + order?.getPaymentType()}"></h4></li>
+            </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#" th:text="${authUser}">Менеджер</a></li>
                 <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
@@ -53,46 +45,46 @@
             <div class="col-lg-6" >
                 <div class="form-group">
                     <input type="hidden" th:field="*{id}"/>
-                    <div class="input-group" style="width: 100%">
-                        <span class="input-group-addon" style="width: 150px; text-align: left;">Тип продукта:</span>
+                    <div class="input-group">
+                        <span class="input-group-addon">Тип продукта:</span>
                         <input type="text" class="form-control" th:field="*{name}" required>
                     </div>
                 </div>
                 <div class="form-group" >
                     <div class="input-group" style="width: 100%">
-                        <span class="input-group-addon" style="width: 150px; text-align: left;">Материал:</span>
-                        <input type="text" class="form-control" style="width: 100%;" th:field="*{type}" required>
+                        <span class="input-group-addon">Материал:</span>
+                        <input type="text" class="form-control" th:field="*{type}" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="input-group" style="width: 100%">
-                        <span class="input-group-addon" style="width: 150px; text-align: left;">Модель телефона:</span>
-                        <input type="text" class="form-control" style="width: 100%;" th:field="*{model}" required>
+                    <div class="input-group">
+                        <span class="input-group-addon">Модель телефона:</span>
+                        <input type="text" class="form-control" th:field="*{model}" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="input-group" style="width: 100%">
-                        <span class="input-group-addon" style="width: 150px; text-align: left;">Количество:</span>
-                        <input class="form-control"  style="width: 100%;" th:field="*{count}" required
+                    <div class="input-group" >
+                        <span class="input-group-addon" >Количество:</span>
+                        <input class="form-control" th:field="*{count}" required
                                id="numberItemField" onchange="amountItem()" type="number" value="1" min="1" step="1">
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="input-group" style="width: 100%">
-                        <span class="input-group-addon" style="width: 150px; text-align: left;">Цена за ед. (руб.):</span>
-                        <input class="form-control"  style="width: 100%;" th:field="*{price}" id="priceItemField" onchange="amountItem()" type="number"
+                    <div class="input-group">
+                        <span class="input-group-addon">Цена за ед. (руб.):</span>
+                        <input class="form-control" th:field="*{price}" id="priceItemField" onchange="amountItem()" type="number"
                                required value="0" min="0" step="0.01">
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="input-group" style="width: 100%">
-                        <span class="input-group-addon" style="width: 150px; text-align: left;">Сумма (руб.):</span>
-                        <input class="form-control"   style="width: 100%;" th:field="*{amount}" required id="amountItemField" readonly>
+                    <div class="input-group">
+                        <span class="input-group-addon">Сумма (руб.):</span>
+                        <input class="form-control" th:field="*{amount}" required id="amountItemField" readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <h4 align="left">Комментарий к позиции заказа</h4>
-                    <textarea style="resize: none; width: 100%" class="form-control" rows="3" th:field="*{comment}"></textarea>
+                    <textarea class="form-control" rows="3" th:field="*{comment}"></textarea>
                 </div>
             </div> <!-- end col-lg-6 -->
 
@@ -100,12 +92,12 @@
                 <th:block th:if="${item.getImages()}">
                     <div>
                         <h4>Изображения от дизайнера:</h4>
-                        <ul th:each="image: ${item.getImages()}" style="padding-left: 10px; display: inline-block">
+                        <ul class="show-image" th:each="image: ${item.getImages()}">
                             <a th:href="${image.getImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${image.getImage()}" height="75">
                             </a>
-                            <a class="btn btn-primary btn-xs" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
-                               title="Загрузить один файл" style="vertical-align: top; left:125px;">
+                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
+                               title="Загрузить один файл">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
@@ -117,17 +109,17 @@
                 <th:block th:if="${item.getFiles()}">
                     <div>
                         <h4>Изображения от пользователя:</h4>
-                        <ul th:each="file: ${item.getFiles()}" style="padding-left: 10px; display: inline-block">
+                        <ul class="show-image" th:each="file: ${item.getFiles()}">
                             <br>
                             <a th:href="${file.getImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${file.getImage()}" height="75">
                             </a>
-                            <a class="btn btn-danger btn-xs" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
-                               title="Удалить изображение" style="vertical-align: top; left:125px;">
+                            <a class="btn btn-danger btn-xs btn-delete" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
+                               title="Удалить изображение">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
-                            <a class="btn btn-primary btn-xs" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
-                               title="Загрузить один файл" style="vertical-align: top; left:125px;">
+                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
+                               title="Загрузить один файл">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
