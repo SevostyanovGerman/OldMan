@@ -142,7 +142,7 @@ public class ManagerController {
 		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
 		item.setImages(uploadFiles);
 		item.setOrder(order);
-		order.setPrice(item.getAmount());
+		order.addPrice(item.getAmount());
 		itemService.save(item);
 		return new ModelAndView("redirect:/manager/order/update/" + order.getId());
 	}
@@ -192,7 +192,7 @@ public class ManagerController {
 			item.setImages(uploadFiles);
 		}
 		item.setOrder(order);
-		order.setPrice(item.getAmount());
+		order.addPrice(item.getAmount());
 		itemService.save(item);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
