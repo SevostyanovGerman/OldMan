@@ -21,7 +21,12 @@
             <div class="collapse navbar-collapse" >
                 <div class="col-lg-4">
                     <ul class="nav navbar-nav">
-                        <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
+                        <th:block th:each="element:  ${#authentication.getAuthorities()}">
+                            <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
+                                <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                                                                          th:href="${function.getLink()}"></a></li>
+                            </ul>
+                        </th:block>
                     </ul>
                 </div>
                 <div class="col-lg-4">

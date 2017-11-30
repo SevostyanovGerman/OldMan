@@ -2,14 +2,14 @@ package main.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority, Comparable<Role> {
 
 	@Id
 	@Column(name = "id")
@@ -28,12 +28,22 @@ public class Role implements GrantedAuthority {
 	@ManyToMany(mappedBy = "roles")
 	private List<User> users;
 
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "keys_roles_functions", joinColumns = {@JoinColumn(name = "role_id")},
+		inverseJoinColumns = {@JoinColumn(name = "function_id")})
+	private List<FuncMenu> functions;
+
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Status.class)
 	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "role_id")},
 		inverseJoinColumns = {@JoinColumn(name = "status_id")})
 	private Set<Status> statuses;
 
 	public Role() {
+	}
+
+	public Role(String name, List<FuncMenu> functions) {
+		this.name = name;
+		this.functions = functions;
 	}
 
 	public Role(String name, String url, Status status) {
@@ -46,12 +56,14 @@ public class Role implements GrantedAuthority {
 		} else {
 			this.statuses.add(status);
 		}
+		this.functions = new ArrayList<>();
 	}
 
 	public Role(String name, String url, HashSet<Status> statuses) {
 		this.name = name;
 		this.url = url;
 		this.statuses = statuses;
+		this.functions = new ArrayList<>();
 	}
 
 	public String getUrl() {
@@ -112,24 +124,46 @@ public class Role implements GrantedAuthority {
 		this.statuses = statuses;
 	}
 
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public List<FuncMenu> getFunctions() {
+		return functions;
+	}
+
+	public void setFunctions(List<FuncMenu> functions) {
+		this.functions = functions;
+	}
+
+	@Override
+	public int compareTo(Role o) {
+		return this.name.compareTo(o.name);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if ((o == null) || (getClass() != o.getClass())) return false;
+		if (o == null || getClass() != o.getClass()) return false;
 		Role role = (Role) o;
-		if (!Objects.equals(this.id, role.id)) return false;
-		if (!Objects.equals(this.name, role.name)) return false;
-		if (!Objects.equals(this.url, role.url)) return false;
-		if (!Objects.equals(this.statuses, role.statuses)) return false;
-		return Objects.equals(this.deleted, role.deleted);
+		if (id != role.id) return false;
+		if (deleted != role.deleted) return false;
+		if (name != null ? !name.equals(role.name) : role.name != null) return false;
+		if (url != null ? !url.equals(role.url) : role.url != null) return false;
+		if (users != null ? !users.equals(role.users) : role.users != null) return false;
+		if (functions != null ? !functions.equals(role.functions) : role.functions != null) return false;
+		return statuses != null ? statuses.equals(role.statuses) : role.statuses == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = (int) (id ^ (id >>> 32));
-		result = 42 * result + Objects.hashCode(this.name);
-		result = 42 * result + Objects.hashCode(this.url);
-		result = 42 * result + Objects.hashCode(this.deleted);
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (url != null ? url.hashCode() : 0);
+		result = 31 * result + (deleted ? 1 : 0);
+		result = 31 * result + (users != null ? users.hashCode() : 0);
+		result = 31 * result + (functions != null ? functions.hashCode() : 0);
+		result = 31 * result + (statuses != null ? statuses.hashCode() : 0);
 		return result;
 	}
 }

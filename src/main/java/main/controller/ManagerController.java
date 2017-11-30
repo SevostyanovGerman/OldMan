@@ -60,7 +60,6 @@ public class ManagerController {
 		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
 		User authUser = userService.getCurrentUser();
 		List<Order> orderList = orderService.getAllAllowed(authUser);
-		model.addObject("authUser", authUser);
 		model.addObject("orderList", orderList);
 		return model;
 	}
@@ -69,7 +68,6 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/order/update/{id}"}, method = RequestMethod.GET)
 	public ModelAndView updateOrder(@PathVariable("id") Long id) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
-		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(id));
 		model.addObject("statuses", statusService.getAll());
 		model.addObject("deliveryTypeList", deliveryTypeService.getAll());
@@ -125,7 +123,6 @@ public class ManagerController {
 	public ModelAndView madeNewOrder() {
 		ModelAndView model = new ModelAndView("/managerView/ManagerNewOrder");
 		Item item = new Item();
-		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("item", item);
 		return model;
 	}
@@ -161,7 +158,6 @@ public class ManagerController {
 	public ModelAndView addItem(@PathVariable("orderId") Long orderId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerItemForm");
 		Item item = new Item();
-		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(orderId));
 		model.addObject("item", item);
 		return model;
@@ -171,7 +167,6 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/item/update/{orderId}/{itemId}"}, method = RequestMethod.GET)
 	public ModelAndView updateItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerItemForm");
-		model.addObject("authUser", userService.getCurrentUser());
 		model.addObject("order", orderService.get(orderId));
 		model.addObject("item", itemService.get(itemId));
 		return model;
@@ -317,9 +312,7 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/customers"}, method = RequestMethod.GET)
 	public ModelAndView getCustomerList() {
 		ModelAndView model = new ModelAndView("/managerView/ManagerCustomerDashBoard");
-		User authUser = userService.getCurrentUser();
 		List<Customer> customerList = customerService.getAll();
-		model.addObject("authUser", authUser);
 		model.addObject("customerList", customerList);
 		return model;
 	}

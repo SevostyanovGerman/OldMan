@@ -1,4 +1,5 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <html>
 
 <head>
@@ -41,9 +42,12 @@
         <div class="collapse navbar-collapse" id="navcol-1">
 
             <div class="col-lg-4">
-                <ul class="nav navbar-nav ">
-                    <li class="active" role="presentation"><a href="/designer">Заказы</a></li>
-                </ul>
+                <th:block th:each="element:  ${#authentication.getAuthorities()}">
+                    <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
+                        <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                                                                  th:href="${function.getLink()}"></a></li>
+                    </ul>
+                </th:block>
             </div>
             <div class="col-lg-4">
                 <h4 style="color: white" th:text="'Заказ №' + ${order.getNumber()}+'  Дата заказа: '+${order.getCreated()} "> Заказ №001 Дата заказа: 02.10.2017 </h4>
@@ -56,6 +60,7 @@
         </div>
     </div>
 </nav>
+
 
 <br>
 <div class="container">

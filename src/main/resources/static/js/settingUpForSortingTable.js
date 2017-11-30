@@ -8,8 +8,6 @@ function settingUpTable() {
             {
                 "targets": [ 1,7 ],
                 "searchable": false
-
-
             },
 
             {

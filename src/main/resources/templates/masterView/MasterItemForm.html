@@ -27,15 +27,17 @@
             </button>
         </div>
         <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="nav navbar-nav">
-                <li role="presentation"><a th:href="@{/master}">Заказы</a></li>
-                <li role="presentation"><a th:href="@{'/master/order/' + ${item.getOrder().getId()}}">Форма заказа</a></li>
-            </ul>
+            <th:block th:each="element:  ${#authentication.getAuthorities()}">
+                <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
+                    <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                                                              th:href="${function.getLink()}"></a></li>
+                </ul>
+            </th:block>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Мастер</a></li>
                 <li>
                     <form class="navbar-form navbar-right">
-                        <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
+                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
                     </form>
                 </li>
             </ul>

@@ -352,7 +352,6 @@ public class DirectorController {
 	@RequestMapping(value = {"/director/controlpanel/user"}, method = RequestMethod.GET)
 	public ModelAndView controlPanelUser(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/directorView/ControlPanelUser");
-
 		/*
 		 * Вначале извлекаем информацию о успешности выполнения предыдущих операциях,
 		 * если таковые имели место. Если есть, то передаём их в model чтобы отобразить на странице.
@@ -751,16 +750,19 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/statistic/middle/"}, method = RequestMethod.GET)
 	public ModelAndView statisticAverage() {
-		return new ModelAndView("/directorView/DirectorStatisticAverage");
+		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticAverage");
+		return model;
 	}
 
 	@RequestMapping(value = {"/director/statistic/geo/"}, method = RequestMethod.GET)
 	public ModelAndView statisticGeo() {
-		return new ModelAndView("/directorView/DirectorStatisticGeo");
+		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticGeo");
+		return model;
 	}
 
 	@RequestMapping(value = {"/director/statistic/newCustomers/"}, method = RequestMethod.GET)
 	public ModelAndView statisticNewCustomers() {
-		return new ModelAndView("/directorView/DirectorStatisticNewCustomer");
+		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticNewCustomer");
+		return model;
 	}
 }

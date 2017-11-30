@@ -2,7 +2,6 @@ package main.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -56,8 +55,7 @@ public class User implements UserDetails {
 	public User() {
 	}
 
-	public User(String name, String password, String firstName,
-				String secName, boolean deleted, boolean disable,
+	public User(String name, String password, String firstName, String secName, boolean deleted, boolean disable,
 				Role role, String email, String phone) {
 		this.name = name;
 		this.password = password;
@@ -163,19 +161,19 @@ public class User implements UserDetails {
 		this.secName = secName;
 	}
 
-	public String getPhone(){
+	public String getPhone() {
 		return this.phone;
 	}
 
-	public void setPhone(String phone){
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
-	public String getEmail(){
+	public String getEmail() {
 		return this.email;
 	}
 
-	public void setEmail(String email){
+	public void setEmail(String email) {
 		this.email = email;
 	}
 

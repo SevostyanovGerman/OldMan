@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 
 <head>
     <meta charset="utf-8"/>
@@ -34,24 +35,19 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a href="/director">Заказы</a></li>
-                    <li role="presentation"><a href="/director/customers">Клиенты</a></li>
-                    <li role="presentation"><a href="/director/stuff">Сотрудники</a></li>
-                    <li role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Статистика
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/director/statistic/middle/">Среднии показатели</a></li>
-                            <li><a href="/director/statistic/geo/">Гео анализ</a></li>
-                            <li><a href="/director/statistic/newCustomers/">Новые клиенты</a></li>
+
+                    <th:block th:each="element:  ${#authentication.getAuthorities()}">
+                        <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
+                            <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                                                                      th:href="${function.getLink()}"></a></li>
                         </ul>
-                    </li>
+                    </th:block>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Директор</a></li>
+
+
 					<li>
 						<form class="navbar-form navbar-right">
 							<a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
@@ -95,9 +91,9 @@
 						<td th:text="${element.getPayment()}"></td>
 						<td th:text="${element.getStatus()}"></td>
 						<td align="center">
-							<button class="btn btn-info btn-xs" type="button">
-								Оплата произведена
-							</button>
+							<a th:href="'/manager/order/update/' +${element.id}" class="btn btn-info btn-xs">
+								Открыть
+							</a>
 						</td>
 					</tr>
                 </tbody>

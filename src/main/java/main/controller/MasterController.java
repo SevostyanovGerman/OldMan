@@ -25,14 +25,18 @@ import java.util.List;
 public class MasterController {
 
 	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
+
 	private OrderService orderService;
+
 	private ItemService itemService;
+
 	private UserService userService;
+
 	private CommentService commentService;
 
 	@Autowired
-	public MasterController(OrderService orderService, ItemService itemService,
-							UserService userService, CommentService commentService) {
+	public MasterController(OrderService orderService, ItemService itemService, UserService userService,
+							CommentService commentService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
@@ -43,7 +47,7 @@ public class MasterController {
 	public ModelAndView getMasterDashBoard() {
 		ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
 		try {
-			List <Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
+			List<Order> masterOrders = orderService.getAllAllowed(userService.getCurrentUser());
 			model.addObject("masterOrders", masterOrders);
 		} catch (Exception e) {
 			logger.error("Controller '/master' orderService.masterOrders() error");
@@ -135,5 +139,4 @@ public class MasterController {
 		model.addObject("order", order);
 		return model;
 	}
-
 }

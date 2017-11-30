@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 
 <head>
     <meta charset="utf-8"/>
@@ -34,21 +35,12 @@
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <ul class="nav navbar-nav">
-                    <li role="presentation"><a href="/director">Заказы</a></li>
-                    <li role="presentation"><a href="/director/customers">Клиенты</a></li>
-                    <li role="presentation"><a href="/director/stuff">Сотрудники</a></li>
-                    <li role="presentation"><a href="/director/controlpanel/statuses">Панель управления</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            Статистика
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/director/statistic/middle/">Среднии показатели</a></li>
-                            <li><a href="/director/statistic/geo/">Гео анализ</a></li>
-                            <li><a href="/director/statistic/newCustomers/">Новые клиенты</a></li>
+                    <th:block th:each="element:  ${#authentication.getAuthorities()}">
+                        <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
+                            <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                                                                      th:href="${function.getLink()}"></a></li>
                         </ul>
-                    </li>
+                    </th:block>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#">Директор</a></li>
@@ -63,6 +55,53 @@
     </nav>
 
 	<br>
+    <nav class="navbar navbar-default" role="navigation">
+
+        <div class="container-fluid">
+
+            <!—Название сайта и кнопка раскрытия меню для мобильных-->
+
+            <div class="navbar-header">
+
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+
+                    <span class="sr-only">Toggle navigation</span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                </button>
+
+                <a class="navbar-brand" href="#">Отчеты</a>
+
+            </div>
+
+
+
+            <!—Само меню-->
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav">
+
+                    <li class=" active"><a href="/director/statistic/middle/">Среднии показатели</a></li>
+                    <li ><a href="/director/statistic/geo/">Гео анализ</a></li>
+                    <li ><a href="/director/statistic/newCustomers/">Новые клиенты</a></li>
+
+                </ul>
+
+            </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container-fluid -->
+
+    </nav>
+
+    </div>
+
+
     <div >
     <h2 style="text-align: center">Средняя сумма заказа, по месяцам</h2>
     <!--Календарь-->

@@ -1,4 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <html>
 
 <head>
@@ -38,10 +40,14 @@
                 </button>
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
-            
-                <ul class="nav navbar-nav">
-                    <li class="active" role="presentation"><a href="#">Заказы</a></li>
-                </ul>
+
+                <th:block th:each="element:  ${#authentication.getAuthorities()}">
+                    <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
+                        <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                                                                  th:href="${function.getLink()}"></a></li>
+                    </ul>
+                </th:block>
+                <span sec:authentication="principal"></span>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#" th:text="${authUser}">Менеджер</a></li>
                     <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>

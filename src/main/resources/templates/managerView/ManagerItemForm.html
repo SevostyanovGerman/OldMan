@@ -25,7 +25,12 @@
         </div>
         <div class="collapse navbar-collapse" >
             <ul class="nav navbar-nav">
-                <li class="active" role="presentation"><a th:href="@{/manager}">Заказы</a></li>
+                <th:block th:each="element:  ${#authentication.getAuthorities()}">
+                    <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
+                        <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                                                                  th:href="${function.getLink()}"></a></li>
+                    </ul>
+                </th:block>
                 <li><h4 class="order-title" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4></li>
                 <li><h4 class="order-title" th:text="${'Статус заказа: ' + order?.getStatus().toString()}"></h4></li>
                 <li><h4 class="order-title" th:text="${'Тип оплаты: ' + order?.getPaymentType()}"></h4></li>
