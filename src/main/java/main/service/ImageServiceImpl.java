@@ -50,7 +50,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public void saveBlobImage(List<MultipartFile> files, Long itemId) {
+	public void saveBlobImagesToItem(List<MultipartFile> files, Long itemId) {
 		String name;
 		Item item = itemService.get(itemId);
 		for (MultipartFile file : files) {

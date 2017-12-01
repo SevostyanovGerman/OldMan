@@ -13,7 +13,7 @@ public interface ImageService {
 	void save(Image image);
 	void delete(Image image);
 	Image get(Long id);
-	void saveBlobImage(List<MultipartFile> files, Long itemId);
+	void saveBlobImagesToItem(List<MultipartFile> files, Long itemId);
 	List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles) throws IOException, SQLException;
 	void downloadAllFiles(List<Image> downloadFiles) throws IOException, SQLException;
 	void downloadOneFile(Image downloadFile) throws IOException, SQLException;

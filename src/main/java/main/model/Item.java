@@ -1,7 +1,6 @@
 package main.model;
 
 import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -38,9 +37,8 @@ public class Item {
 	@Column(name = "amount")
 	private Double amount;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Order.class)
-	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "item_id")},
-		inverseJoinColumns = {@JoinColumn(name = "order_id")})
+	@ManyToOne
+	@JoinColumn(name = "order_id")
 	private Order order;
 
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
@@ -181,7 +179,7 @@ public class Item {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Item)) return false;
+		if (o == null || getClass() != o.getClass()) return false;
 		Item item = (Item) o;
 		if (count != item.count) return false;
 		if (Double.compare(item.price, price) != 0) return false;
@@ -193,6 +191,7 @@ public class Item {
 		if (comment != null ? !comment.equals(item.comment) : item.comment != null) return false;
 		if (amount != null ? !amount.equals(item.amount) : item.amount != null) return false;
 		if (order != null ? !order.equals(item.order) : item.order != null) return false;
+		if (files != null ? !files.equals(item.files) : item.files != null) return false;
 		return images != null ? images.equals(item.images) : item.images == null;
 	}
 
@@ -208,6 +207,10 @@ public class Item {
 		result = 31 * result + count;
 		temp = Double.doubleToLongBits(price);
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
+		result = 31 * result + (status ? 1 : 0);
+		result = 31 * result + (amount != null ? amount.hashCode() : 0);
+		result = 31 * result + (order != null ? order.hashCode() : 0);
+		result = 31 * result + (files != null ? files.hashCode() : 0);
 		result = 31 * result + (images != null ? images.hashCode() : 0);
 		return result;
 	}

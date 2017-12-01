@@ -67,7 +67,7 @@ public class AjaxController {
 								  MultipartHttpServletRequest multipartHttpServletRequest) {
 		try {
 			List<MultipartFile> files = multipartHttpServletRequest.getFiles("files");
-			imageService.saveBlobImage(files, itemId);
+			imageService.saveBlobImagesToItem(files, itemId);
 		} catch (Exception e) {
 			logger.error("Не удалось сохранить файл");
 		}

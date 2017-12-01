@@ -23,7 +23,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public void save(Item item) {
-		itemRepository.save(item);
+		itemRepository.saveAndFlush(item);
 	}
 
 	@Override
@@ -39,6 +39,8 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public void delete(Long id) {
+		Item item = itemService.get(id);
+		item.getOrder().deductPrice(item.getAmount());
 		itemRepository.delete(id);
 	}
 }

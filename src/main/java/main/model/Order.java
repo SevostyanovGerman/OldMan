@@ -35,9 +35,8 @@ public class Order {
 	@Column(name = "created")
 	private Date created;
 
-	@OneToOne(fetch = FetchType.EAGER, targetEntity = DeliveryType.class)
-	@JoinTable(name = "keys_order_deliveryType", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "deliveryType_id")})
+	@OneToOne
+	@JoinColumn(name = "deliveryType_id")
 	private DeliveryType deliveryType;
 
 	@Column(name = "date_recieved")
@@ -52,63 +51,52 @@ public class Order {
 	@Column(name = "o_to")
 	private String to;
 
-	@OneToOne(fetch = FetchType.EAGER, targetEntity = Delivery.class)
-	@JoinTable(name = "keys_order_delivery", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
+	@ManyToOne
+	@JoinColumn(name = "delievery_id")
 	@JsonBackReference
 	private Delivery delivery;
 
-	@OneToOne(fetch = FetchType.EAGER, targetEntity = Payment.class)
-	@JoinTable(name = "keys_order_payment", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "payment_id")})
+	@ManyToOne
+	@JoinColumn(name = "paymentType_id")
 	@JsonBackReference
 	private Payment paymentType;
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Status.class)
-	@JoinTable(name = "keys_order_status", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "status_id")})
+	@ManyToOne
+	@JoinColumn(name = "status_id")
 	@JsonBackReference
 	private Status status;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = Comment.class)
-	@JoinTable(name = "keys_order_comment", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "comment_id")})
+	@OneToMany
+	@JoinColumn(name = "order_id")
 	@JsonBackReference
 	private List<Comment> comments;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Item.class)
-	@JoinTable(name = "keys_order_item", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "item_id")})
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
 	@JsonBackReference
 	private List<Item> items;
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Customer.class)
-	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "customer_id")})
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
 	@JsonBackReference
 	private Customer customer;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = History.class)
-	@JoinTable(name = "keys_order_history", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "history_id")})
+	@OneToMany
+	@JoinColumn(name = "history_id")
 	@JsonBackReference
 	private List<History> histories;
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-	@JoinTable(name = "keys_order_manager", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "manager_id")})
+	@ManyToOne
+	@JoinColumn(name = "manager_id")
 	@JsonBackReference
 	private User manager;
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-	@JoinTable(name = "keys_order_master", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "master_id")})
+	@ManyToOne
+	@JoinColumn(name = "master_id")
 	@JsonBackReference
 	private User master;
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = User.class)
-	@JoinTable(name = "keys_order_designer", joinColumns = {@JoinColumn(name = "order_id")},
-		inverseJoinColumns = {@JoinColumn(name = "designer_id")})
+	@ManyToOne
+	@JoinColumn(name = "designer_id")
 	@JsonBackReference
 	private User designer;
 
@@ -141,7 +129,7 @@ public class Order {
 		if (this.items == null) {
 			this.items = new ArrayList<>();
 		}
-		this.items.add(item);
+		addItem(item);
 		this.delivery = customer.getDefaultDelivery();
 		this.price = item.getAmount();
 	}
@@ -163,9 +151,14 @@ public class Order {
 		if (this.items == null) {
 			this.items = new ArrayList<>();
 		}
-		this.items.add(item);
+		addItem(item);
 		this.delivery = delivery;
 		this.price = item.getAmount();
+	}
+
+	public void addItem(Item item) {
+		item.setOrder(this);
+		items.add(item);
 	}
 
 	public Delivery getDelivery() {
@@ -206,10 +199,6 @@ public class Order {
 
 	public void setPrice(double price) {
 		this.price = price;
-	}
-
-	public void addPrice(double price) {
-		this.price += price;
 	}
 
 	public Boolean getPayment() {
@@ -271,6 +260,7 @@ public class Order {
 		return items;
 	}
 
+	@Deprecated
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
@@ -371,6 +361,22 @@ public class Order {
 			return builder.toString();
 		}
 		return "--";
+	}
+
+	public double getAmount() {
+		double amount = 0;
+		for (int i = 0; i < this.items.size(); i++) {
+			amount += this.items.get(i).getAmount();
+		}
+		return amount;
+	}
+
+	public void deductPrice(double price) {
+		this.price -= price;
+	}
+
+	public void addPrice(double price) {
+		this.price += price;
 	}
 
 	@Override

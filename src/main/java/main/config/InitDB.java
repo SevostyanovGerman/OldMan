@@ -163,20 +163,13 @@ public class InitDB {
 
 		//Item//
 		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
-		itemService.save(item1);
 		Item item2 = new Item("Case", "iphone 7", "wood", "my comment...", 2, 200d, false);
-		itemService.save(item2);
 		Item item3 = new Item("Case", "iphone 8", "plastic", "my comment...", 1, 100d, false);
-		itemService.save(item3);
 		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, false);
-		itemService.save(item4);
 		Item item5 = new Item("Case", "Nexus 6P", "wood", "через гравировка", 5, 230d, false);
-		itemService.save(item5);
 		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d,
 			false);
-		itemService.save(item6);
 		Item item7 = new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
-		itemService.save(item7);
 
 		//Order//
 		Date createDate = new Date();

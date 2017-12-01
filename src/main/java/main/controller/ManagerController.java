@@ -187,8 +187,9 @@ public class ManagerController {
 			item.setImages(uploadFiles);
 		}
 		item.setOrder(order);
-		order.addPrice(item.getAmount());
 		itemService.save(item);
+		order.setPrice(order.getAmount());
+		orderService.save(order);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 

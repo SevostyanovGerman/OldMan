@@ -35,14 +35,11 @@ public class Customer {
 
 	@JsonIgnore
 	@OneToMany(cascade = {CascadeType.MERGE})
-	@JoinTable(name = "keys_customer_delivery", joinColumns = {@JoinColumn(name = "customer_id")},
-		inverseJoinColumns = {@JoinColumn(name = "delivery_id")})
+	@JoinColumn(name = "delievery_id")
 	private List<Delivery> deliveries;
 
 	@JsonIgnore
-	@OneToMany
-	@JoinTable(name = "keys_order_customer", joinColumns = {@JoinColumn(name = "customer_id")},
-		inverseJoinColumns = {@JoinColumn(name = "order_id")})
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
 	private List<Order> orders;
 
 	@Column(name = "deleted")
@@ -58,7 +55,7 @@ public class Customer {
 		this.secName = secName;
 		this.email = email;
 		this.phone = phone;
-		this.creationDate =new Date();
+		this.creationDate = new Date();
 		if (this.deliveries == null) {
 			List<Delivery> deliveryList = new ArrayList<>();
 			this.deliveries = deliveryList;
@@ -164,15 +161,15 @@ public class Customer {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Customer customer = (Customer) o;
-		if (!Objects.equals( this.id, customer.id)) return false;
-		if (!Objects.equals( this.firstName,  customer.firstName)) return false;
-		if (!Objects.equals( this.secName, customer.secName)) return false;
-		if (!Objects.equals( this.email, customer.email)) return false;
-		if (!Objects.equals( this.phone, customer.phone)) return false;
-		if (!Objects.equals( this.creationDate, customer.creationDate)) return false;
-		if (!Objects.equals( this.deliveries, customer.deliveries)) return false;
-		if (!Objects.equals( this.deleted, customer.deleted)) return false;
-		return Objects.equals( this.orders, customer.orders);
+		if (!Objects.equals(this.id, customer.id)) return false;
+		if (!Objects.equals(this.firstName, customer.firstName)) return false;
+		if (!Objects.equals(this.secName, customer.secName)) return false;
+		if (!Objects.equals(this.email, customer.email)) return false;
+		if (!Objects.equals(this.phone, customer.phone)) return false;
+		if (!Objects.equals(this.creationDate, customer.creationDate)) return false;
+		if (!Objects.equals(this.deliveries, customer.deliveries)) return false;
+		if (!Objects.equals(this.deleted, customer.deleted)) return false;
+		return Objects.equals(this.orders, customer.orders);
 	}
 
 	@Override
