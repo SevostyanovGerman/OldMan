@@ -44,7 +44,7 @@
                 </th:block>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Директор</a></li>
+                <li><a href="#"><span sec:authentication="principal"></a></li>
                 <li>
                     <form class="navbar-form navbar-right">
                         <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
@@ -107,10 +107,10 @@
                         </div>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-info" th:href="'controlpanel/user/edit/' + ${unit.getId()}">Изменить</a>
+                        <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/user/edit/' + ${unit.getId()}">Изменить</a>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-danger" th:href="'controlpanel/user/delete/' + ${unit.getId()}">Удалить</a>
+                        <a class="btn btn-xs btn-danger" th:href="'/director/controlpanel/user/delete/' + ${unit.getId()}">Удалить</a>
                     </td>
                 </tr>
             </tbody>
