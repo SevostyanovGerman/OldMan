@@ -66,13 +66,15 @@ public class MasterController {
 		return "masterView/MasterOrderForm";
 	}
 
-	@RequestMapping(value = {"/master/order/item/{id}"}, method = RequestMethod.GET)
-	public String getItemForm(@PathVariable("id") Long id, Model model) {
+	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}"}, method = RequestMethod.GET)
+	public String getItemForm(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId, Model
+		model) {
 		try {
-			Item item = itemService.get(id);
+			Item item = itemService.get(itemId);
 			model.addAttribute(item);
+			model.addAttribute(orderId);
 		} catch (Exception e) {
-			logger.error("Controller '/master/order/item/', itemId={}", id);
+			logger.error("Controller '/master/order/item/', itemId={}", itemId);
 		}
 		return "masterView/MasterItemForm";
 	}

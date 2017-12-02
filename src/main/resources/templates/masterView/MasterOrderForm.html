@@ -224,7 +224,7 @@
                     <td th:text="${item.getPrice()}" style="text-align: center;"></td>
                     <td th:text="${item.getStatusString()}" name="status" style="text-align: center;"></td>
                     <td style="text-align:center">
-                        <form th:action="@{'/master/order/item/' + ${item.getId()}}" method="get">
+                        <form th:action="@{'/master/order/'+${order.id}+'/item/' + ${item.getId()}}" method="get">
                             <input class="btn btn-info"  type="submit" value="Открыть" />
                         </form>
                     </td>

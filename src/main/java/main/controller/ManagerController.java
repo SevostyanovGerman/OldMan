@@ -135,12 +135,11 @@ public class ManagerController {
 		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		orderService.save(order);
 		order.setNumber(order.getId().toString());
-		orderService.save(order);
 		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
 		item.setImages(uploadFiles);
-		item.setOrder(order);
+		order.addItem(item);
 		order.addPrice(item.getAmount());
-		itemService.save(item);
+		orderService.save(order);
 		return new ModelAndView("redirect:/manager/order/update/" + order.getId());
 	}
 
@@ -186,8 +185,7 @@ public class ManagerController {
 		} else {
 			item.setImages(uploadFiles);
 		}
-		item.setOrder(order);
-		itemService.save(item);
+		order.addItem(item);
 		order.setPrice(order.getAmount());
 		orderService.save(order);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
@@ -196,6 +194,8 @@ public class ManagerController {
 	//Удаляем позицию из заказа
 	@RequestMapping(value = {"/manager/item/delete/{orderId}/{itemId}"}, method = RequestMethod.GET)
 	public ModelAndView deleteItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
+		Order order = orderService.get(orderId);
+		order.deductPrice(itemService.get(itemId).getAmount());
 		itemService.delete(itemId);
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}

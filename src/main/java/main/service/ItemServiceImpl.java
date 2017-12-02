@@ -39,8 +39,6 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public void delete(Long id) {
-		Item item = itemService.get(id);
-		item.getOrder().deductPrice(item.getAmount());
 		itemRepository.delete(id);
 	}
 }

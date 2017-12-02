@@ -37,10 +37,6 @@ public class Item {
 	@Column(name = "amount")
 	private Double amount;
 
-	@ManyToOne
-	@JoinColumn(name = "order_id")
-	private Order order;
-
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
 		cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
@@ -156,14 +152,6 @@ public class Item {
 		this.status = status;
 	}
 
-	public Order getOrder() {
-		return order;
-	}
-
-	public void setOrder(Order order) {
-		this.order = order;
-	}
-
 	public Double getAmount() {
 		return amount;
 	}
@@ -190,7 +178,6 @@ public class Item {
 		if (type != null ? !type.equals(item.type) : item.type != null) return false;
 		if (comment != null ? !comment.equals(item.comment) : item.comment != null) return false;
 		if (amount != null ? !amount.equals(item.amount) : item.amount != null) return false;
-		if (order != null ? !order.equals(item.order) : item.order != null) return false;
 		if (files != null ? !files.equals(item.files) : item.files != null) return false;
 		return images != null ? images.equals(item.images) : item.images == null;
 	}
@@ -209,7 +196,6 @@ public class Item {
 		result = 31 * result + (int) (temp ^ (temp >>> 32));
 		result = 31 * result + (status ? 1 : 0);
 		result = 31 * result + (amount != null ? amount.hashCode() : 0);
-		result = 31 * result + (order != null ? order.hashCode() : 0);
 		result = 31 * result + (files != null ? files.hashCode() : 0);
 		result = 31 * result + (images != null ? images.hashCode() : 0);
 		return result;
