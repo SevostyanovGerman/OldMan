@@ -71,7 +71,8 @@ public class Order {
 	@JsonBackReference
 	private List<Comment> comments;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "item_id")
 	@JsonBackReference
 	private List<Item> items;
 
@@ -157,7 +158,9 @@ public class Order {
 	}
 
 	public void addItem(Item item) {
-		item.setOrder(this);
+		if (this.items == null) {
+			this.items = new ArrayList<>();
+		}
 		items.add(item);
 	}
 

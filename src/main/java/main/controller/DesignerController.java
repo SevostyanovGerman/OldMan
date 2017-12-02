@@ -64,13 +64,14 @@ public class DesignerController {
 	}
 
 	//Item page
-	@RequestMapping(value = {"/designer/order/item/{id}"}, method = RequestMethod.GET)
-	public ModelAndView item(@PathVariable("id") Long id) {
+	@RequestMapping(value = {"/designer/order/{orderId}/item/{itemId}"}, method = RequestMethod.GET)
+	public ModelAndView item(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
-			model.addObject("item", itemService.get(id));
+			model.addObject("item", itemService.get(itemId));
+			model.addObject("orderId", orderId);
 		} catch (Exception e) {
-			logger.error("Controller '/designer/order/item', itemId={}", id);
+			logger.error("Controller '/designer/order/item', itemId={}", itemId);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
@@ -118,14 +119,15 @@ public class DesignerController {
 	}
 
 	//Удаление картинки дизайнера
-	@RequestMapping(value = {"/designer/order/item/delimage/{id}"}, method = RequestMethod.POST)
-	public ModelAndView delImage(@PathVariable("id") Long id) throws IOException {
+	@RequestMapping(value = {"/designer/order/item/delimage/{itemId}/{imageId}"}, method = RequestMethod.POST)
+	public ModelAndView delImage(@PathVariable("imageId") Long imageId, @PathVariable("itemId") Long itemId)
+		throws IOException {
 		try {
-			Image image = imageService.get(id);
+			Image image = imageService.get(imageId);
 			imageService.delete(image);
-			return new ModelAndView("redirect:/designer/order/item/" + image.getItem().getId());
+			return new ModelAndView("redirect:/designer/order/item/" + itemId);
 		} catch (Exception e) {
-			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", id);
+			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", itemId);
 			return new ModelAndView("/designerView/DesignerDashBoard");
 		}
 	}

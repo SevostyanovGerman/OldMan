@@ -277,7 +277,7 @@
                             <td th:text="${element.getStatusString()}" name="status"
                                 th:value="${element.getStatus()}"></td>
                             <td>
-                               <form  th:action="'/designer/order/item/'+${element.getId() }"
+                               <form  th:action="'/designer/order/'+${order.id}+'/item/'+${element.getId() }"
                                       method="get"  >
                                 <button class="btn btn-success width100" type="submit"  >Открыть</button>
                                 </form>
