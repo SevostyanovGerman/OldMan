@@ -108,7 +108,7 @@
                                      <div class="col-lg-4" sec:authorize="hasAuthority('BOSS')">
                                          <div class="input-group ">
                                               <span class="input-group-addon customerField"
-                                              th:if="${order?.getMaster()?.toString()}"
+                                              th:if="${order?.getManager()?.toString()}"
                                                     th:text="'Менеджер: ' + ${order?.getManager()?.toString()}"
                                               style="width: 100%; text-align: center; font: bold"></span>
 

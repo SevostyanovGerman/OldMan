@@ -265,6 +265,7 @@ public class ManagerController {
 									  @ModelAttribute("newDelivery") Delivery delivery) {
 		Order order = orderService.get(orderId);
 		try {
+			delivery = deliveryService.checkContainsDeliveryInCustomer(order.getCustomer(), delivery);
 			deliveryService.save(delivery);
 			order.getCustomer().getDeliveries().add(delivery);
 			order.setDelivery(delivery);

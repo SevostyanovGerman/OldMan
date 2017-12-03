@@ -27,6 +27,7 @@ public class Delivery {
 	private Boolean pickup;
 
 	public Delivery() {
+		this.pickup = false;
 	}
 
 	public Delivery(String country, String city, String address, String zip) {
@@ -111,7 +112,6 @@ public class Delivery {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		Delivery delivery = (Delivery) o;
-		if (id != null ? !id.equals(delivery.id) : delivery.id != null) return false;
 		if (country != null ? !country.equals(delivery.country) : delivery.country != null) return false;
 		if (city != null ? !city.equals(delivery.city) : delivery.city != null) return false;
 		if (address != null ? !address.equals(delivery.address) : delivery.address != null) return false;
@@ -121,8 +121,7 @@ public class Delivery {
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (country != null ? country.hashCode() : 0);
+		int result = country != null ? country.hashCode() : 0;
 		result = 31 * result + (city != null ? city.hashCode() : 0);
 		result = 31 * result + (address != null ? address.hashCode() : 0);
 		result = 31 * result + (zip != null ? zip.hashCode() : 0);
