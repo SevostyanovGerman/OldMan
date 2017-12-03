@@ -74,6 +74,7 @@ public class ManagerController {
 		model.addObject("pickUpList", deliveryService.pickupDeliveries());
 		model.addObject("designerList", userService.getByRoleName("DESIGNER"));
 		model.addObject("masterList", userService.getByRoleName("MASTER"));
+		model.addObject("managerList", userService.getByRoleName("MANAGER"));
 		model.addObject("newCustomer", new Customer());
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());

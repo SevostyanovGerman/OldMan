@@ -765,4 +765,15 @@ public class DirectorController {
 		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticNewCustomer");
 		return model;
 	}
+
+	//Меняем менеджер заказа
+	@RequestMapping(value = {"/director/order/change/{id}/manager/{managerId}"}, method = RequestMethod.GET)
+	public ModelAndView changeManager(@PathVariable("id") Long id, @PathVariable("managerId") Long managerId) {
+		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
+		Order order = orderService.get(id);
+		User manager = userService.get(managerId);
+		order.setManager(manager);
+		orderService.save(order);
+		return new ModelAndView("redirect:/manager/order/update/" + id);
+	}
 }

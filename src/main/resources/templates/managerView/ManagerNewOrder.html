@@ -19,7 +19,7 @@
                 <a class="navbar-brand navbar-link" th:href="@{/manager}">CaseMobile</a>
             </div>
             <div class="collapse navbar-collapse" >
-                <div class="col-lg-4">
+                <div class="col-lg-8">
                     <ul class="nav navbar-nav">
                         <th:block th:each="element:  ${#authentication.getAuthorities()}">
                             <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
@@ -28,9 +28,6 @@
                             </ul>
                         </th:block>
                     </ul>
-                </div>
-                <div class="col-lg-4">
-                    <h4 class="order-title">Новый заказ</h4>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#"><span sec:authentication="principal"></a></li>
@@ -43,6 +40,10 @@
     <br>
     <div class="container">
         <div class="row">
+            <div style="text-align: center">
+                <h4>Новый заказ</h4>
+            </div>
+            <br>
             <div class="col-lg-12" >
                 <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="@{/manager/item/saveNewOrder}" method="post">
                     <div class="col-lg-6">

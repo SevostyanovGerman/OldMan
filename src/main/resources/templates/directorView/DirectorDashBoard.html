@@ -61,11 +61,19 @@
 	<br>
 
     <div class="container">
+
+            <div style="text-align: right">
+                <a class="btn btn-info btn-new-object" type="button" th:href="@{/manager/order/add}" title="Создать новый заказ">Новый заказ</a>
+            </div>
+
+        <br>
+
         <div class="table-responsive">
             <table id="myTable" class="display table table-bordered data" cellspacing="0">
                 <thead>
                     <tr>
                         <th>№ Заказа</th>
+                        <th>Сумма заказа</th>
                         <th>Дата создания</th>
                         <th>Клиент</th>
                         <th>Менеджер</th>
@@ -82,13 +90,14 @@
 
 					<tr th:each ="element: ${orders}">
 						<td th:text="${element.getNumber()}"></td>
+                        <td th:text="${element.getPrice()} + ' руб.'"></td>
 						<td th:text="${element.getCreated()}"></td>
 						<td th:text="${element.getCustomer()}"></td>
-						<td th:text="${element.getManager().getSecName()}"></td>
-						<td	th:text="${element.getDesigner() == null? 'Не назначен' : element.getDesigner().getSecName()}"></td>
-						<td th:text="${element.getMaster() == null? 'Не назначен' : element.getMaster().getSecName()}"></td>
+						<td th:text="${element.getManager()}"></td>
+						<td	th:text="${element.getDesigner() == null? 'Не назначен' : element.getDesigner()}"></td>
+						<td th:text="${element.getMaster() == null? 'Не назначен' : element.getMaster()}"></td>
 						<td th:text="${element.getPaymentType()}"></td>
-						<td th:text="${element.getPayment()}"></td>
+						<td th:text="${element.getPaymentString()}"></td>
 						<td th:text="${element.getStatus()}"></td>
 						<td align="center">
 							<a th:href="'/manager/order/update/' +${element.id}" class="btn btn-info btn-xs">

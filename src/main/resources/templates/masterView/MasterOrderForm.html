@@ -55,6 +55,11 @@
 
     <br>
     <div class="container">
+        <div style="text-align: center">
+            <h4
+                th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+        </div>
+        <br>
             <ul class="nav nav-tabs" id="myTab" >
                 <li class="active"><a href="#order" data-toggle="tab">Заказ</a></li>
                 <li class=""><a href="#comment" data-toggle="tab">Комментарии</a></li>

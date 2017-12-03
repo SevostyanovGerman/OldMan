@@ -72,7 +72,7 @@ public class MasterController {
 		try {
 			Item item = itemService.get(itemId);
 			model.addAttribute(item);
-			model.addAttribute(orderId);
+			model.addAttribute("order", orderService.get(orderId));
 		} catch (Exception e) {
 			logger.error("Controller '/master/order/item/', itemId={}", itemId);
 		}
@@ -105,20 +105,25 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = {"/master/order/{id}/money"}, method = RequestMethod.GET)
-	public ModelAndView getPayment(@PathVariable Long id) {
-		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
+	public ModelAndView getPayment(@PathVariable Long id, HttpServletRequest request) {
+		String url;
 		try {
-			model.addObject("order", orderService.getPayment(id));
+			String referer = request.getHeader("referer");
+			url = getUrl(referer);
+		} catch (Exception e) {
+			url = "/403";
+			return new ModelAndView("redirect:" + url);
+		}
+		try {
+			orderService.getPayment(id);
 		} catch (Exception e) {
 			logger.warn("You couldn't get the money for order");
-			model = new ModelAndView("masterView/MasterOrderForm");
 		}
-		return model;
+		return new ModelAndView("redirect:" + url);
 	}
 
 	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}/status"}, method = RequestMethod.GET)
 	public ModelAndView changeItemStatus(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId) {
-		//ModelAndView model = new ModelAndView("masterView/MasterItemForm");
 		try {
 			Item newItem = itemService.changeStatus(itemId);
 			itemService.save(newItem);
@@ -140,5 +145,16 @@ public class MasterController {
 		orderService.save(order);
 		model.addObject("order", order);
 		return model;
+	}
+
+	private String getUrl(String referer) {
+		String url;
+		int index = referer.indexOf("?");
+		if (index > 0) {
+			url = referer.substring(0, index);
+		} else {
+			url = referer.toString();
+		}
+		return url;
 	}
 }

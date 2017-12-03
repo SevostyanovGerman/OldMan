@@ -41,16 +41,13 @@
         </div>
         <div class="collapse navbar-collapse" id="navcol-1">
 
-            <div class="col-lg-4">
+            <div class="col-lg-8">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
                         <li class="active" role="presentation"><a th:text="${function?.getName()}"
                                                                   th:href="${function.getLink()}"></a></li>
                     </ul>
                 </th:block>
-            </div>
-            <div class="col-lg-4">
-                <h4 style="color: white" th:text="'Заказ №' + ${order.getNumber()}+'  Дата заказа: '+${order.getCreated()} "> Заказ №001 Дата заказа: 02.10.2017 </h4>
             </div>
 
             <ul class="nav navbar-nav navbar-right">
@@ -64,6 +61,12 @@
 
 <br>
 <div class="container">
+
+    <div style="text-align: center">
+        <h4
+            th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+    </div>
+
     <div class="row">
         <div class="col-lg-9" >
             <div class="form-horizontal borderSimple" >

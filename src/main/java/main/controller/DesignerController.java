@@ -69,7 +69,7 @@ public class DesignerController {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
 			model.addObject("item", itemService.get(itemId));
-			model.addObject("orderId", orderId);
+			model.addObject("order", orderService.get(orderId));
 		} catch (Exception e) {
 			logger.error("Controller '/designer/order/item', itemId={}", itemId);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
@@ -119,10 +119,10 @@ public class DesignerController {
 	}
 
 	//Удаление картинки дизайнера
-	@RequestMapping(value = {"/designer/order/item/delimage/{orderId}/{itemId}/{imageId}"}, method = RequestMethod.POST)
+	@RequestMapping(value = {"/designer/order/item/delimage/{orderId}/{itemId}/{imageId}"}, method = RequestMethod
+		.POST)
 	public ModelAndView delImage(@PathVariable("imageId") Long imageId, @PathVariable("itemId") Long itemId,
-								 @PathVariable("orderId") Long orderId)
-		throws IOException {
+								 @PathVariable("orderId") Long orderId) throws IOException {
 		try {
 			Image image = imageService.get(imageId);
 			imageService.delete(image);

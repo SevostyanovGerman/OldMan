@@ -31,9 +31,6 @@
                                                                   th:href="${function.getLink()}"></a></li>
                     </ul>
                 </th:block>
-                <li><h4 class="order-title" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4></li>
-                <li><h4 class="order-title" th:text="${'Статус заказа: ' + order?.getStatus().toString()}"></h4></li>
-                <li><h4 class="order-title" th:text="${'Тип оплаты: ' + order?.getPaymentType()}"></h4></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><span sec:authentication="principal"></a></li>
@@ -46,6 +43,10 @@
 <br>
 <div class="container">
     <div class="row">
+        <div style="text-align: center">
+            <h4 th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+        </div>
+        <br>
         <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="${'/manager/item/save/'+order.getId()}" method="post">
             <div class="col-lg-6" >
                 <div class="form-group">
