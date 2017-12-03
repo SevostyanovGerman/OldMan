@@ -83,6 +83,8 @@
                         <th>Статус оплаты</th>
                         <th>Статус заказа</th>
                         <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,6 +106,8 @@
 								Открыть
 							</a>
 						</td>
+                        <td th:text="${element.getPayment()}"></td>
+                        <td th:text="${element.getStatus().getNumber()}"></td>
 					</tr>
                 </tbody>
             </table>
@@ -126,6 +130,33 @@
     <script>
         function settingUpTable() {
             $('#myTable').dataTable({
+
+                "columnDefs": [
+                    {
+                        "targets": [ 2,1 ],
+                        "searchable": false
+                    },
+
+                    {
+                        "targets": [ 11, 12 ],
+                        "visible": false,
+                        "searchable": false
+                    }
+                ],
+
+                "createdRow": function( row, data, dataIndex ) {
+                    if ( data["11"] == "true" ) {
+                        $( row ).addClass( "success" );
+                    }
+                    if ( data["12"] == "3" ) {
+                        $( row ).addClass( "warning" );
+                    }
+                    if ( data["12"] == "1" ) {
+                        $( row ).addClass( "info" );
+                    }
+                },
+
+
                 "oLanguage": {
                     "sLengthMenu": "Показать _MENU_ записей на странице",
                     "sZeroRecords": "Извините - ничего не найдено",
