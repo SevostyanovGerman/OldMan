@@ -73,7 +73,6 @@ public class Order {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "item_id")
-	@JsonBackReference
 	private List<Item> items;
 
 	@ManyToOne

@@ -119,13 +119,14 @@ public class DesignerController {
 	}
 
 	//Удаление картинки дизайнера
-	@RequestMapping(value = {"/designer/order/item/delimage/{itemId}/{imageId}"}, method = RequestMethod.POST)
-	public ModelAndView delImage(@PathVariable("imageId") Long imageId, @PathVariable("itemId") Long itemId)
+	@RequestMapping(value = {"/designer/order/item/delimage/{orderId}/{itemId}/{imageId}"}, method = RequestMethod.POST)
+	public ModelAndView delImage(@PathVariable("imageId") Long imageId, @PathVariable("itemId") Long itemId,
+								 @PathVariable("orderId") Long orderId)
 		throws IOException {
 		try {
 			Image image = imageService.get(imageId);
 			imageService.delete(image);
-			return new ModelAndView("redirect:/designer/order/item/" + itemId);
+			return new ModelAndView("redirect:/designer/order/" + orderId + "/item/" + itemId);
 		} catch (Exception e) {
 			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", itemId);
 			return new ModelAndView("/designerView/DesignerDashBoard");

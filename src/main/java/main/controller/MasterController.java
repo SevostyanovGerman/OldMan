@@ -116,18 +116,18 @@ public class MasterController {
 		return model;
 	}
 
-	@RequestMapping(value = {"/master/order/item/{id}/status"}, method = RequestMethod.GET)
-	public ModelAndView changeItemStatus(@PathVariable Long id) {
-		ModelAndView model = new ModelAndView("masterView/MasterItemForm");
+	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}/status"}, method = RequestMethod.GET)
+	public ModelAndView changeItemStatus(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId) {
+		//ModelAndView model = new ModelAndView("masterView/MasterItemForm");
 		try {
-			Item newItem = itemService.changeStatus(id);
+			Item newItem = itemService.changeStatus(itemId);
 			itemService.save(newItem);
-			model.addObject("item", newItem);
+			//model.addObject("item", newItem);
 		} catch (Exception e) {
 			logger.warn("You couldn't change the status of item");
 			new ModelAndView("masterView/MasterItemForm");
 		}
-		return model;
+		return new ModelAndView("redirect:/master/order/" + orderId + "/item/" + itemId);
 	}
 
 	@RequestMapping(value = {"/master/order/comment/{id}"}, method = RequestMethod.POST)
