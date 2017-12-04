@@ -33,7 +33,6 @@
                 </th:block>
                 <li><h4 class="order-title" th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()}"></h4></li>
                 <li><h4 class="order-title" th:text="${'Статус заказа: ' + order?.getStatus().toString()}"></h4></li>
-                <li><h4 class="order-title" th:text="${'Тип оплаты: ' + order?.getPaymentType()}"></h4></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><span sec:authentication="principal"></a></li>

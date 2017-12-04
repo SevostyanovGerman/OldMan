@@ -72,7 +72,7 @@ public class Order {
 	private List<Comment> comments;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "item_id")
+	@JoinColumn(name = "order_id")
 	private List<Item> items;
 
 	@ManyToOne
