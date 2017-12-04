@@ -28,11 +28,6 @@ public class Image {
 	@Column(name = "file_name")
 	private String fileName;
 
-	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Item.class)
-	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "image_id")},
-		inverseJoinColumns = {@JoinColumn(name = "item_id")})
-	private Item item;
-
 	public Image() {
 	}
 
@@ -46,14 +41,6 @@ public class Image {
 
 	public Image(Blob image) {
 		this.image = image;
-	}
-
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
 	}
 
 	public Long getId() {

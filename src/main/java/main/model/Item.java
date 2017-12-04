@@ -37,17 +37,13 @@ public class Item {
 	@Column(name = "amount")
 	private Double amount;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
-		cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
-		inverseJoinColumns = {@JoinColumn(name = "image_id")})
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "item_id")
 	@Where(clause = "type=true")
 	private List<Image> files;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = Image.class,
-		cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-	@JoinTable(name = "keys_item_image", joinColumns = {@JoinColumn(name = "item_id")},
-		inverseJoinColumns = {@JoinColumn(name = "image_id")})
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "item_id")
 	@Where(clause = "type=false")
 	private List<Image> images;
 
