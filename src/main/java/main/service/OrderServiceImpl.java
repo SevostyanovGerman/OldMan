@@ -169,6 +169,23 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	public List<Order> minMaxPrice(Double min, Double max, User user) {
+		Set<Role> roleSet = user.getRoles();
+		Set<Order> statusSet = new HashSet<>();
+		for (Role role : roleSet) {
+			Set<Status> tmpStatusSet = role.getStatuses();
+			if (role.getName().equals("BOSS")) {
+				statusSet.addAll(orderRepository.minMaxPriceForBoss(min, max));
+				return new ArrayList<>(statusSet);
+			}
+			for (Status status : tmpStatusSet) {
+				statusSet.addAll(orderRepository.minMaxPrice(min, max, user, status));
+			}
+		}
+		return new ArrayList<>(statusSet);
+	}
+
+	@Override
 	public void deleteOrder(Order order) {
 		order.setDeleted(true);
 	}

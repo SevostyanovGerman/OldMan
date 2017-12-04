@@ -58,4 +58,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		"STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
 		"date_format(o.creationDate, '%Y-%m') ORDER BY date_format(o.creationDate, '%Y-%m')")
 	List<Object> statisticNewCustomers(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " + "o.master = :user OR " +
+		"o.designer = :user) AND " + "o.status = :status AND " +
+		"o.deleted = false AND o.price >= :min  AND o.price <= " + ":max ")
+	List<Order> minMaxPrice(@Param("min") Double min, @Param("max") Double max, @Param("user") User user,
+							@Param("status") Status status);
+
+	@Query("SELECT o FROM Order o WHERE o.deleted = false AND o.price >= :min  AND o.price <= " + ":max ")
+	List<Order> minMaxPriceForBoss(@Param("min") Double min, @Param("max") Double max);
 }

@@ -46,10 +46,17 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
-	public ModelAndView director() {
+	public ModelAndView director(Double minPrice, Double maxPrice) {
 		ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
 		try {
-			model.addObject("orders", orderService.getAll());
+			User authUser = userService.getCurrentUser();
+			if (minPrice != null && maxPrice != null) {
+				model.addObject("orders", orderService.minMaxPrice(minPrice, maxPrice, authUser));
+				model.addObject("min", minPrice);
+				model.addObject("max", maxPrice);
+			} else {
+				model.addObject("orders", orderService.getAll());
+			}
 		} catch (Exception e) {
 			logger.error("Can\'t getById all orders", e);
 		}
