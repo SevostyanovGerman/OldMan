@@ -28,4 +28,5 @@ public interface OrderService {
 	List<Object> avgPriceByMonth(Date start, Date end);
 	List<Object> statisticGeo();
 	List<Object> statisticNewCustomers(Date start, Date end);
+	List<Order> minMaxPrice(Double min, Double max, User user);
 }

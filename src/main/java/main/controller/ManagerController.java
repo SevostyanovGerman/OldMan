@@ -56,11 +56,17 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
-	public ModelAndView getOrderList() {
+	public ModelAndView getOrderList(Double minPrice, Double maxPrice) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
 		User authUser = userService.getCurrentUser();
-		List<Order> orderList = orderService.getAllAllowed(authUser);
-		model.addObject("orderList", orderList);
+		if (minPrice != null && maxPrice != null) {
+			model.addObject("orderList", orderService.minMaxPrice(minPrice, maxPrice, authUser));
+			model.addObject("min", minPrice);
+			model.addObject("max", maxPrice);
+		} else {
+			List<Order> orderList = orderService.getAllAllowed(authUser);
+			model.addObject("orderList", orderList);
+		}
 		return model;
 	}
 
