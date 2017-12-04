@@ -50,7 +50,13 @@ public class DirectorController {
 		ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
 		try {
 			User authUser = userService.getCurrentUser();
-			if (minPrice != null && maxPrice != null) {
+			if (minPrice != null || maxPrice != null) {
+				if (maxPrice == null) {
+					maxPrice = 1.7E+308;
+				}
+				if (minPrice == null) {
+					minPrice = -1.7E+308;
+				}
 				model.addObject("orders", orderService.minMaxPrice(minPrice, maxPrice, authUser));
 				model.addObject("min", minPrice);
 				model.addObject("max", maxPrice);

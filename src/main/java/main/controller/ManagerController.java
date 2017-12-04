@@ -59,7 +59,13 @@ public class ManagerController {
 	public ModelAndView getOrderList(Double minPrice, Double maxPrice) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
 		User authUser = userService.getCurrentUser();
-		if (minPrice != null && maxPrice != null) {
+		if (minPrice != null || maxPrice != null) {
+			if (maxPrice == null) {
+				maxPrice = 1.7E+308;
+			}
+			if (minPrice == null) {
+				minPrice = -1.7E+308;
+			}
 			model.addObject("orderList", orderService.minMaxPrice(minPrice, maxPrice, authUser));
 			model.addObject("min", minPrice);
 			model.addObject("max", maxPrice);
