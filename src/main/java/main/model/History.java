@@ -32,8 +32,10 @@ public class History {
 	@Column(name = "h_to")
 	private String to;
 
-	public History(){
-	};
+	public History() {
+	}
+
+	;
 
 	public History(Date dateRecieved, Date dateTransferred, String status, String from, String to) {
 		this.dateRecieved = dateRecieved;

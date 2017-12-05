@@ -74,7 +74,8 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles) throws IOException, SQLException {
+	public List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles) throws IOException,
+		SQLException {
 		List<Image> blobFileList = new ArrayList<>();
 		List<MultipartFile> fileList = uploadFiles.getFiles("uploadCustomerFiles");
 		for (MultipartFile file : fileList) {
@@ -95,18 +96,19 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void downloadAllFiles(List<Image> downloadFiles) throws IOException, SQLException {
 		String pathDownloadDirectory;
-		if (downloadFiles.size()!=0){
+		if (downloadFiles.size() != 0) {
 			String typeOperationSystem = System.getProperty("os.name");
-			if(typeOperationSystem.contains("Windows")){
+			if (typeOperationSystem.contains("Windows")) {
 				pathDownloadDirectory = System.getProperty("user.home") + "\\Downloads\\";
-			}else{
+			} else {
 				pathDownloadDirectory = System.getProperty("user.home") + "/Downloads/";
 			}
-			for (Image downloadFile: downloadFiles){
+			for (Image downloadFile : downloadFiles) {
 				InputStream inputStream = downloadFile.getBlobFile().getBinaryStream();
-				FileOutputStream fileOutputStream = new FileOutputStream(pathDownloadDirectory + downloadFile.getFileName());
+				FileOutputStream fileOutputStream =
+					new FileOutputStream(pathDownloadDirectory + downloadFile.getFileName());
 				int readByte;
-				while ((readByte = inputStream.read()) != -1){
+				while ((readByte = inputStream.read()) != -1) {
 					fileOutputStream.write(readByte);
 				}
 			}
@@ -116,7 +118,7 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public void downloadOneFile(Image downloadFile) throws IOException, SQLException {
 		String pathDownloadDirectory;
-		if (downloadFile!=null) {
+		if (downloadFile != null) {
 			String typeOperationSystem = System.getProperty("os.name");
 			if (typeOperationSystem.contains("Windows")) {
 				pathDownloadDirectory = System.getProperty("user.home") + "\\Downloads\\";
@@ -124,9 +126,10 @@ public class ImageServiceImpl implements ImageService {
 				pathDownloadDirectory = System.getProperty("user.home") + "/Downloads/";
 			}
 			InputStream inputStream = downloadFile.getBlobFile().getBinaryStream();
-			FileOutputStream fileOutputStream = new FileOutputStream(pathDownloadDirectory + downloadFile.getFileName());
+			FileOutputStream fileOutputStream =
+				new FileOutputStream(pathDownloadDirectory + downloadFile.getFileName());
 			int readByte;
-			while ((readByte = inputStream.read()) != -1){
+			while ((readByte = inputStream.read()) != -1) {
 				fileOutputStream.write(readByte);
 			}
 		}

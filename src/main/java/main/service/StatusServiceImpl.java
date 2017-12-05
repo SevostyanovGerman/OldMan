@@ -47,7 +47,7 @@ public class StatusServiceImpl implements StatusService {
 	public Status getByNumber(Long statusNumber) {
 		logger.debug("Searching status with number: {}", statusNumber.toString());
 		Status searchingStatus = statusRepository.getByNumberAndDeleted(statusNumber, false);
-		if (searchingStatus==null){
+		if (searchingStatus == null) {
 			logger.debug("Status with number {} not found", statusNumber.toString());
 		}
 		return searchingStatus;

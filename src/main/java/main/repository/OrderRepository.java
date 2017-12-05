@@ -15,19 +15,12 @@ import java.util.Set;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	Order findByIdAndDeleted(Long id, Boolean deleted);
-
 	Set<Order> findAllByStatusAndDeleted(Status status, Boolean deleted);
-
 	List<Order> findAllByDeleted(Boolean deleted);
-
 	List<Order> findAllByCustomerFirstNameContainsAndDeleted(String name, Boolean deleted);
-
 	List<Order> findAllByDeletedAndNumberContains(Boolean deleted, String number);
-
 	List<Order> findAllByDeletedAndManagerFirstNameContains(Boolean deleted, String name);
-
 	List<Order> findAllByDeletedAndStatusId(Boolean deleted, Long id);
-
 	List<Order> findAllByDeletedAndStatusIdAndNumberContains(Boolean deleted, Long statusId, String number);
 
 	@Query("SELECT o FROM Order o WHERE " + "LOWER(o.payment) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +

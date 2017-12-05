@@ -48,13 +48,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getByEmail(String email){
+	public User getByEmail(String email) {
 		logger.debug("Search users by email {}", email);
 		User user = userRepository.findUserByEmailAndDeleted(email, false);
-		if (user == null){
+		if (user == null) {
 			logger.debug("User with email {} was not found", email);
 		}
-		return  user;
+		return user;
 	}
 
 	@Override
@@ -68,14 +68,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
- 	public List <User> getByRoleName(String roleName) {
+	public List<User> getByRoleName(String roleName) {
 		Role role = roleService.getByName(roleName);
 		return userRepository.getAllByRoles(role);
 	}
 
 	public List<User> getAllUsers() {
 		logger.debug("Getting all users");
-		List <User> listUsers = userRepository.getAllByDeleted(false);
+		List<User> listUsers = userRepository.getAllByDeleted(false);
 		if (listUsers.size() > 0) {
 			logger.debug("The resulting list");
 		} else {

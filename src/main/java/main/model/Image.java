@@ -59,7 +59,7 @@ public class Image {
 		this.fileName = fileName;
 	}
 
-	public Blob getBlobFile(){
+	public Blob getBlobFile() {
 		return image;
 	}
 

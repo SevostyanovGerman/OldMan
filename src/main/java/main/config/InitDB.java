@@ -57,7 +57,6 @@ public class InitDB {
 		DeliveryType pickup = new DeliveryType("pickup", true);
 		deliveryTypeService.save(toAddress);
 		deliveryTypeService.save(pickup);
-
 		//Status//
 		Status status1 = new Status("new", 1L);
 		statusService.save(status1);
@@ -71,7 +70,6 @@ public class InitDB {
 		statusService.save(status5);
 		Status status6 = new Status("finish", 6L);
 		statusService.save(status6);
-
 		//Роли//
 		HashSet<Status> allStatus = new HashSet<>();
 		allStatus.add(status1);
@@ -80,13 +78,11 @@ public class InitDB {
 		allStatus.add(status4);
 		allStatus.add(status5);
 		allStatus.add(status6);
-
 		//Функции ролей
 		FuncMenu managerFunc = new FuncMenu("Manager Dashboard", "/manager");
 		functionService.save(managerFunc);
 		FuncMenu managerCustomerFunc = new FuncMenu("Customers", "/manager/customers/");
 		functionService.save(managerCustomerFunc);
-
 		FuncMenu bossFunc = new FuncMenu("Boss Dashboard", "/director");
 		functionService.save(bossFunc);
 		FuncMenu bossCustomerFunc = new FuncMenu("Customers", "/director/customers/");
@@ -97,15 +93,12 @@ public class InitDB {
 		functionService.save(bossPanelFunc);
 		FuncMenu bossStatistic = new FuncMenu("Statistic", "/director/statistic/middle/");
 		functionService.save(bossStatistic);
-
 		FuncMenu designerDashboardFunction = new FuncMenu("Designer Dashboard", "/designer");
 		functionService.save(designerDashboardFunction);
-
 		FuncMenu masterDashboardFunction = new FuncMenu("Master Dashboard", "/master");
 		functionService.save(masterDashboardFunction);
-
 		//Роли
-		Role role1 = new Role( "MANAGER", "/manager/", allStatus);
+		Role role1 = new Role("MANAGER", "/manager/", allStatus);
 		role1.getFunctions().add(managerFunc);
 		role1.getFunctions().add(managerCustomerFunc);
 		roleService.save(role1);
@@ -122,7 +115,6 @@ public class InitDB {
 		boss.getFunctions().add(bossStuffFunc);
 		boss.getFunctions().add(bossStatistic);
 		roleService.save(boss);
-
 		//Пользователи//
 		User user1 = new User("manager", "123", "Donald", "Tramp", false, false, role1, "putin@kremlin.ru", "123");
 		userService.save(user1);
@@ -132,7 +124,6 @@ public class InitDB {
 		userService.save(user3);
 		User user4 = new User("boss", "123", "Hugo", "Boss", false, false, boss, "vasya@kremlin.ru", "654");
 		userService.save(user4);
-
 		//Payment//
 		Payment payment1 = new Payment("Cash");
 		paymentService.save(payment1);
@@ -140,7 +131,6 @@ public class InitDB {
 		paymentService.save(payment2);
 		Payment payment3 = new Payment("Post");
 		paymentService.save(payment3);
-
 		//Delivery//
 		Delivery delivery1 = new Delivery("Russia", "saint-Petersburg", "sizam street", "777");
 		deliveryService.save(delivery1);
@@ -150,7 +140,6 @@ public class InitDB {
 		deliveryService.save(deliveryPickup);
 		Delivery deliveryPickup2 = new Delivery("Canada", "Toronto", "NHL street", "321", true);
 		deliveryService.save(deliveryPickup2);
-
 		//Customer//
 		Customer customer1 =
 			new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1, "Russia", "saint-Petersburg",
@@ -160,7 +149,6 @@ public class InitDB {
 			new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2, "Kazahstan", "Almata", "bumbum street",
 				"999");
 		customerService.save(customer2);
-
 		//Item//
 		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
 		Item item2 = new Item("Case", "iphone 7", "wood", "my comment...", 2, 200d, false);
@@ -170,7 +158,6 @@ public class InitDB {
 		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d,
 			false);
 		Item item7 = new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
-
 		//Order//
 		Date createDate = new Date();
 		String date1 = "03/10/2017";
