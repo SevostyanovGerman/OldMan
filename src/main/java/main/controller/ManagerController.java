@@ -186,21 +186,23 @@ public class ManagerController {
 
 	//Сохраняем позицию заказа (новую или обновлённую) в существующем заказе
 	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.POST)
-	public ModelAndView saveItem(@PathVariable("orderId") String orderId, @ModelAttribute("item") Item item,
+	public ModelAndView saveItem(@PathVariable("orderId") long orderId, @ModelAttribute("item") Item item,
 								 MultipartHttpServletRequest uploadCustomerFiles) throws IOException, SQLException {
-		Order order = orderService.get(Long.parseLong(orderId));
+		Order order = orderService.get(orderId);
 		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
 		if (item.getId() != null) {
 			Item updateItem = itemService.get(item.getId());
 			item.setFiles(updateItem.getFiles());
 			item.setImages(updateItem.getImages());
 			item.getFiles().addAll(uploadFiles);
+			itemService.save(item);
 		} else {
 			item.setImages(uploadFiles);
+			order.addItem(item);
 		}
-		order.addItem(item);
 		order.setPrice(order.getAmount());
 		orderService.save(order);
+
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
