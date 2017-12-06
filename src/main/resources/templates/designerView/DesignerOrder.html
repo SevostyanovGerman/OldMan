@@ -19,10 +19,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
 
+    <!-- Angular JS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script th:src="@{/js/masterOrderModule.js}"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
 
 </head>
 
-<body onload="checkStatus();">
+<body onload="checkStatus();" ng-app="masterOrderForm">
 
 
 
@@ -51,6 +59,11 @@
             </div>
 
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <form ng-controller="NotificationController" class="navbar-form navbar-right">
+                        <a class="btn btn-sm  btn-danger" th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
+                    </form>
+                </li>
                 <li><a href="#"><span sec:authentication="principal"></a></li>
                 <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
             </ul>
@@ -70,23 +83,17 @@
     <div class="row">
         <div class="col-lg-9" >
             <div class="form-horizontal borderSimple" >
-
-
-
                 <ul id="myTab2" class="nav nav-tabs">
                     <li><a href="#tabItem" data-toggle="tab" >Заказ</a></li>
                     <li><a href="#tabComments" data-toggle="tab" onselect="toggleArea1()" >Комментарии</a></li>
                     <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
                 </ul>
-
-
                     <div class="tab-content " >
                         <div class="tab-pane fade "  id="tabItem" role="tabpanel">
-
                             <br>
                             <table>
                                 <tr>
-                                    <td >
+                                    <td>
                                         <ul class="list-group" style="padding-left: 20px">
                                             <li class="list-group-item " >Менеджер</li>
                                            <br> <li class="list-group-item ">Дизайнер</li>
@@ -105,98 +112,85 @@
                         </div>
 
                         <div class="tab-pane fade" id="tabComments" role="tabpanel" >
+                            <!-- comment -->
+                            <div>
+                                <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
+                                    <!-- Комментарии -->
+                                    <div class="comments-container" >
+                                        <ul id="comments-list" class="comments-list"
+                                            th:each="element: ${order.getComments()}">
+                                            <li>
+                                                <div class="comment-main-level">
+                                                    <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
 
-                                <div>
-                                    <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
-                                        <div class="panel-footer">
+                                                    <div class="comment-box">
+                                                        <div class="comment-head">
+                                                            <h6 class="comment-name by-author" th:text="${element.getCreatedBy()}"></h6>
+                                                            <span th:text="${element.getTime()}"></span>
+                                                            <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
+                                                               th:id="${element}+'Btn'">Ответить</i>
+                                                        </div>
+                                                        <div class="comment-content" th:utext="${element.getContent()}">
 
-                                            <form th:action="'/order/comment/add='+${order.getId()}" method="post">
-                                <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
-                                          id="e_content"></textarea>
-                                                <button class="btn btn-warning btn-sm" type="submit" id="btn-chat"
+                                                        </div>
 
-                                                        style="text-align: right">Написать комментарий
-                                                </button>
-                                            </form>
-
-
-
-
-
-
-
-                                        </div>
-                                        <!-- Contenedor Principal -->
-                                        <div class="comments-container" >
-
-                                            <ul id="comments-list" class="comments-list"
-                                                th:each="element: ${order.getComments()}">
-                                                <li>
-                                                    <div class="comment-main-level">
-                                                        <!-- Avatar -->
-                                                        <!--<div class="comment-avatar"> <a href="#" class="btn btn-info btn-lg">-->
-                                                        <!--<span class="glyphicon glyphicon-user"></span> User-->
-                                                        <!--</a> <span th:text="${element.getLogin()}"> </span></div>-->
-                                                        <!-- Contenedor delete Comentario -->
-                                                        <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
-
-                                                        <div class="comment-box">
-                                                            <div class="comment-head">
-                                                                <h6 class="comment-name by-author" th:text="${element.getLogin()}"></h6>
-                                                                <span th:text="${element.getTime()}"></span>
-                                                                <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
-                                                                   th:id="${element}+'Btn'">Ответить</i>
-                                                            </div>
-                                                            <div class="comment-content" th:utext="${element.getContent()}">
-
-                                                            </div>
-
-                                                            <div th:id="${element}" style="display: none; " class="container-fluid">
-                                                                <form th:action="'/order/comment/sub/'+ ${order.getId()}" method="post"
-                                                                      th:id="${element}+'Frm'">
+                                                        <div th:id="${element}" style="display: none; " class="container-fluid">
+                                                            <form th:action="'/order/comment/add='+${order.getId()}" method="post"
+                                                                  th:id="${element}+'Frm'">
 
                                                             <textarea class="form-control " th:id="${element}+'Text'"
-                                                                      name="commentTextSub"></textarea>
+                                                                      name="commentText"></textarea>
+                                                                <input type="hidden" name="sendTo" th:value="${element.getCreatedBy()}"/>
+                                                                <div style="text-align: right">
+                                                                    <button class="btn btn-warning btn-sm" type="submit"
+                                                                            name="commentBtnOrder"
+                                                                            th:value="${element.getId()}">Отправить
+                                                                    </button>
 
-                                                                    <div style="text-align: right">
-                                                                        <button class="btn btn-warning btn-sm" type="submit"
-                                                                                name="commentBtnOrder"
-                                                                                th:value="${element.getId()}">Отправить
-                                                                        </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                                                    </div>
-                                                                </form>
+                                                <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
+                                                    <li>
+                                                        <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                                                        <div class="comment-box">
+                                                            <div class="comment-head">
+                                                                <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
+                                                                <span th:text="${element2.getTime()} ">hace 10 minutos</span>
+                                                            </div>
+                                                            <div class="comment-content" th:utext="${element2.getContent()}">
 
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <!-- Respuestas de los comentarios -->
-                                                    <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
-                                                        <li>
-                                                            <!-- Avatar -->
-                                                            <!--<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>-->
-                                                            <!--&lt;!&ndash; Contenedor delete Comentario &ndash;&gt;-->
-                                                            <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                                                    </li>
 
-                                                            <div class="comment-box">
-                                                                <div class="comment-head">
-                                                                    <h6 class="comment-name" th:text="${element2.getLogin()}"></h6>
-                                                                    <span th:text="${element2.getTime()} ">hace 10 minutos</span>
-                                                                </div>
-                                                                <div class="comment-content" th:utext="${element2.getContent()}">
-
-                                                                </div>
-                                                            </div>
-                                                        </li>
-
-                                                    </ul>
-                                                </li>
-                                            </ul>
-                                        </div>
+                                                </ul>
+                                            </li>
+                                        </ul>
                                     </div>
+
+                                    <!-- write comment -->
+                                    <div class="panel-footer" ng-controller="MasterOrderController">
+                                        <form th:action="'/order/comment/add='+${order.getId()}" method="post">
+                                            <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Start type User Name" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                            <div ng-show="noResults">
+                                                <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                            </div>
+                                            <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
+                                                      id="e_content"></textarea>
+                                            <button class="btn btn-warning btn-sm" type="submit" id="btn-chat"
+                                                    style="text-align: right">Написать комментарий
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <!-- end of windows-->
                                 </div>
-
-
+                            </div>
+                            <!-- end of comment -->
                         </div>
 
                     <div class="tab-pane" id="tabHistory" role="tabpanel">

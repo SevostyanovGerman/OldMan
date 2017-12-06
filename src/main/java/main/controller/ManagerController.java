@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class ManagerController {
 
 	private final DeliveryTypeService deliveryTypeService;
 
+	private NotificationService notificationService;
+
 	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	@Autowired
@@ -44,7 +47,7 @@ public class ManagerController {
 							 CustomerService customerService, ItemService itemService,
 							 UserService userService, StatusService statusService,
 							 PaymentService paymentService, ImageService imageService,
-							 DeliveryTypeService deliveryTypeService) {
+							 DeliveryTypeService deliveryTypeService, NotificationService notificationService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -54,6 +57,7 @@ public class ManagerController {
 		this.paymentService = paymentService;
 		this.imageService = imageService;
 		this.deliveryTypeService = deliveryTypeService;
+		this.notificationService = notificationService;
 	}
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
@@ -92,6 +96,13 @@ public class ManagerController {
 		model.addObject("newDelivery", new Delivery());
 		model.addObject("paymentList", paymentService.getAll());
 		model.addObject("customersList", customerService.getAll());
+
+		String user = userService.getCurrentUser().getName();
+		List<Notification> myNotes = notificationService.findAllByUser(user);
+		for (Notification n : myNotes) {
+			notificationService.delete(n.getId());
+		}
+
 		return model;
 	}
 
@@ -428,5 +439,19 @@ public class ManagerController {
 			logger.info("Ошибка выборки из базы данных: " + sqle);
 		}
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
+	}
+
+	//Выборка тех заказов где есть уведомления для конкретного пользователя
+	@RequestMapping(value = {"/order/manager/notification/get"}, method = RequestMethod.GET)
+	public ModelAndView getOrdersByNotification() {
+		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
+		String user = userService.getCurrentUser().getName();
+		List<Notification> myNotes = notificationService.findAllByUser(user);
+		List<Order> orderList = new ArrayList<>();
+		for (Notification n : myNotes) {
+			orderList.add(orderService.get(n.getOrder()));
+			model.addObject("orderList", orderList);
+		}
+		return model;
 	}
 }

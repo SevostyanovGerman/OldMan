@@ -1,12 +1,9 @@
 package main.controller;
 
-import main.model.Comment;
 import main.model.Item;
+import main.model.Notification;
 import main.model.Order;
-import main.service.CommentService;
-import main.service.ItemService;
-import main.service.OrderService;
-import main.service.UserService;
+import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,13 +32,19 @@ public class MasterController {
 
 	private CommentService commentService;
 
+	private NotificationService notificationService;
+
 	@Autowired
-	public MasterController(OrderService orderService, ItemService itemService,
-							UserService userService, CommentService commentService) {
+	public MasterController(OrderService orderService,
+							ItemService itemService,
+							UserService userService,
+							CommentService commentService,
+							NotificationService notificationService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
 		this.commentService = commentService;
+		this.notificationService = notificationService;
 	}
 
 	@RequestMapping(value = {"/master"}, method = RequestMethod.GET)
@@ -59,7 +63,14 @@ public class MasterController {
 	public String getOrderForm(@PathVariable("id") Long id, Model model) {
 		try {
 			Order order = orderService.get(id);
+
+			String user = userService.getCurrentUser().getName();
+			List<Notification> myNotes = notificationService.findAllByUser(user);
+			for (Notification n : myNotes) {
+				notificationService.delete(n.getId());
+			}
 			model.addAttribute("order", order);
+
 		} catch (Exception e) {
 			logger.error("Controller '/master/order/', orderId={}", id);
 		}
@@ -137,17 +148,19 @@ public class MasterController {
 		return new ModelAndView("redirect:/master/order/" + orderId + "/item/" + itemId);
 	}
 
-	@RequestMapping(value = {"/master/order/comment/{id}"}, method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id,
-								   @RequestParam(value = "comment") String content) {
-		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
-		Comment comment = new Comment(content, userService.getCurrentUser().toString(), new Date());
-		commentService.save(comment);
-		Order order = orderService.get(id);
-		order.getComments().add(comment);
-		orderService.save(order);
-		model.addObject("order", order);
+	//Выборка тех заказов где есть уведомления для конкретного пользователя
+	@RequestMapping(value = {"/order/master/notification/get"}, method = RequestMethod.GET)
+	public ModelAndView getOrdersByNotification() {
+		ModelAndView model = new ModelAndView("/masterView/MasterDashBoard");
+		String user = userService.getCurrentUser().getName();
+		List<Notification> myNotes = notificationService.findAllByUser(user);
+		List<Order> masterOrders = new ArrayList<>();
+		for (Notification n : myNotes) {
+			masterOrders.add(orderService.get(n.getOrder()));
+			model.addObject("masterOrders", masterOrders);
+		}
 		return model;
+
 	}
 
 	private String getUrl(String referer) {

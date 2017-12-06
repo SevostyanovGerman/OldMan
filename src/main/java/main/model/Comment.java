@@ -1,6 +1,7 @@
 package main.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -15,31 +16,41 @@ public class Comment {
 	@JsonBackReference
 	private Long id;
 
-	@Column(name = "login")
-	private String login;
+	@JoinColumn(name = "created_by", referencedColumnName = "id")
+	@ManyToOne
+	private User createdBy;
+
+	@Column(name = "send_to")
+	private String sentTo;
 
 	@Column(name = "content")
 	private String content;
 
 	@Column(name = "deleted")
-	private Boolean deleted;
+	private String deleted;
 
 	@Column(name = "time")
 	private Date time;
 
-	@OneToMany(fetch = FetchType.EAGER, targetEntity = Comment.class)
-	@JoinTable(name = "keys_comment_answer", joinColumns = {@JoinColumn(name = "comment_id")},
-			   inverseJoinColumns = {@JoinColumn(name = "answer_id")})
+	@ManyToOne
+	private Comment parent;
+
+	@OneToMany(mappedBy = "parent")
 	private List<Comment> answers;
 
 	public Comment() {
 	}
 
-	public Comment(String content, String login, Date time) {
+	public Comment(String content, User createdBy, String sentTo, Date time) {
 		this.content = content;
-		this.login = login;
+		this.createdBy = createdBy;
+		this.sentTo = sentTo;
 		this.time = time;
-		this.deleted = false;
+	}
+
+	public Comment(String content, User createdBy, String sentTo, Date time, Comment parent) {
+		this(content, createdBy, sentTo, time);
+		this.parent = parent;
 	}
 
 	public Date getTime() {
@@ -54,16 +65,16 @@ public class Comment {
 		return id;
 	}
 
+	public Comment getParent() {
+		return parent;
+	}
+
+	public void setParent(Comment parent) {
+		this.parent = parent;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
 	}
 
 	public String getContent() {
@@ -74,11 +85,11 @@ public class Comment {
 		this.content = content;
 	}
 
-	public Boolean getDeleted() {
+	public String getDeleted() {
 		return deleted;
 	}
 
-	public void setDeleted(Boolean deleted) {
+	public void setDeleted(String deleted) {
 		this.deleted = deleted;
 	}
 
@@ -90,41 +101,48 @@ public class Comment {
 		this.answers = answers;
 	}
 
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getSentTo() {
+		return sentTo;
+	}
+
+	public void setSentTo(String sentTo) {
+		this.sentTo = sentTo;
+	}
+
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
 		Comment comment = (Comment) o;
-		if (id != null ? !id.equals(comment.id) : comment.id != null) {
-			return false;
-		}
-		if (login != null ? !login.equals(comment.login) : comment.login != null) {
-			return false;
-		}
-		if (content != null ? !content.equals(comment.content) : comment.content != null) {
-			return false;
-		}
-		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null) {
-			return false;
-		}
-		if (time != null ? !time.equals(comment.time) : comment.time != null) {
-			return false;
-		}
+
+		if (!id.equals(comment.id)) return false;
+		if (createdBy != null ? !createdBy.equals(comment.createdBy) : comment.createdBy != null) return false;
+		if (sentTo != null ? !sentTo.equals(comment.sentTo) : comment.sentTo != null) return false;
+		if (content != null ? !content.equals(comment.content) : comment.content != null) return false;
+		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null) return false;
+		if (time != null ? !time.equals(comment.time) : comment.time != null) return false;
 		return answers != null ? answers.equals(comment.answers) : comment.answers == null;
 	}
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (login != null ? login.hashCode() : 0);
+		int result = id.hashCode();
+		result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
+		result = 31 * result + (sentTo != null ? sentTo.hashCode() : 0);
 		result = 31 * result + (content != null ? content.hashCode() : 0);
 		result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
 		result = 31 * result + (time != null ? time.hashCode() : 0);
 		result = 31 * result + (answers != null ? answers.hashCode() : 0);
 		return result;
 	}
+
 }

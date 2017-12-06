@@ -2,6 +2,8 @@ package main.controller;
 
 import main.model.Image;
 import main.model.Item;
+import main.model.Notification;
+import main.model.Order;
 import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class DesignerController {
@@ -28,15 +32,18 @@ public class DesignerController {
 
 	private UserService userService;
 
+	private NotificationService notificationService;
+
 	@Autowired
 	public DesignerController(OrderService orderService, ItemService itemService,
 							  CommentService commentService, ImageService imageService,
-							  UserService userService) {
+							  UserService userService, NotificationService notificationService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.commentService = commentService;
 		this.imageService = imageService;
 		this.userService = userService;
+		this.notificationService = notificationService;
 	}
 
 	//Designer dashboard
@@ -61,6 +68,13 @@ public class DesignerController {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 			logger.error("Controller '/designer/order', orderId={}", id);
 		}
+
+		String user = userService.getCurrentUser().getName();
+		List<Notification> myNotes = notificationService.findAllByUser(user);
+		for (Notification n : myNotes) {
+			notificationService.delete(n.getId());
+		}
+
 		return model;
 	}
 
@@ -134,5 +148,19 @@ public class DesignerController {
 			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", itemId);
 			return new ModelAndView("/designerView/DesignerDashBoard");
 		}
+	}
+
+	//Выборка тех заказов где есть уведомления для конкретного пользователя
+	@RequestMapping(value = {"/order/designer/notification/get"}, method = RequestMethod.GET)
+	public ModelAndView getOrdersByNotification() {
+		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
+		String user = userService.getCurrentUser().getName();
+		List<Notification> myNotes = notificationService.findAllByUser(user);
+		List<Order> orders = new ArrayList<>();
+		for (Notification n : myNotes) {
+			orders.add(orderService.get(n.getOrder()));
+			model.addObject("orders", orders);
+		}
+		return model;
 	}
 }

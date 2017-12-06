@@ -1,10 +1,10 @@
 package main.controller;
 
 import main.model.Customer;
+import main.model.Notification;
 import main.model.Order;
-import main.service.CustomerService;
-import main.service.ImageService;
-import main.service.OrderService;
+import main.model.User;
+import main.service.*;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
@@ -18,15 +18,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AjaxController {
 
 	private CustomerService customerService;
-
 	private OrderService orderService;
-
 	private ImageService imageService;
+	private UserService userService;
+	private NotificationService notificationService;
 
 	private final Logger logger = LoggerFactory.getLogger(AjaxController.class);
 
@@ -34,11 +35,16 @@ public class AjaxController {
 		DateTimeFormat.forPattern("yyyy/mm/dd");
 
 	@Autowired
-	public AjaxController(CustomerService customerService, OrderService orderService,
-						  ImageService imageService) {
+	public AjaxController(CustomerService customerService,
+						  OrderService orderService,
+						  ImageService imageService,
+						  UserService userService,
+						  NotificationService notificationService) {
 		this.customerService = customerService;
 		this.orderService = orderService;
 		this.imageService = imageService;
+		this.userService = userService;
+		this.notificationService = notificationService;
 	}
 
 	//поиск клиентов в форме managerOrder
@@ -108,6 +114,18 @@ public class AjaxController {
 	public List<Object> statisticNewCustomers(Date startDate, Date endDate) {
 		endDate.setHours(23);
 		return orderService.statisticNewCustomers(startDate, endDate);
+	}
+
+	//Контроллер возвращающий пользователей по typehead
+	@RequestMapping(value = "/users/get/{name}", method = RequestMethod.GET)
+	public List<String> getUsersByNameLike(@PathVariable String name) {
+		return userService.getUsersByNameLike(name).stream().map(User::getName).collect(Collectors.toList());
+	}
+
+	//Контроллер возвращающий список уведомлений для конкретного пользователя
+	@RequestMapping(value = "/notifications/get", method = RequestMethod.GET)
+	public List<Notification> getNotifications() {
+		return notificationService.findAllByUser(userService.getCurrentUser().getName());
 	}
 }
 

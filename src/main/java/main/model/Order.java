@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "orders")
@@ -380,6 +381,14 @@ public class Order {
 
 	public void addPrice(double price) {
 		this.price += price;
+	}
+
+	public List<Comment> getAnswers() {
+		return getComments().stream().filter(comment -> comment.getParent() != null).collect(Collectors.toList());
+	}
+
+	public void addComment(Comment comment) {
+		this.comments.add(comment);
 	}
 
 	@Override

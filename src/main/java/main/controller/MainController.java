@@ -1,11 +1,10 @@
 package main.controller;
 
+
 import main.model.Comment;
+import main.model.Notification;
 import main.model.Order;
-import main.service.CommentService;
-import main.service.ImageService;
-import main.service.OrderService;
-import main.service.UserService;
+import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +29,19 @@ public class MainController {
 
 	private ImageService imageService;
 
+	private NotificationService notificationService;
+
 	@Autowired
-	public MainController(CommentService commentService, OrderService orderService,
-						  UserService userService, ImageService imageService) {
+	public MainController(CommentService commentService,
+						  OrderService orderService,
+						  UserService userService,
+						  ImageService imageService,
+						  NotificationService notificationService) {
 		this.commentService = commentService;
 		this.orderService = orderService;
 		this.userService = userService;
 		this.imageService = imageService;
+		this.notificationService = notificationService;
 	}
 
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
@@ -69,48 +74,30 @@ public class MainController {
 	@RequestMapping(value = {"/order/comment/add={id}"}, method = RequestMethod.POST)
 	public ModelAndView addComment(@PathVariable Long id,
 								   @ModelAttribute("commentText") String content,
+								   @ModelAttribute("recipient") String recipient,
+								   @ModelAttribute("commentBtnOrder") String commentId,
 								   HttpServletRequest request) {
 		String referer = request.getHeader("referer");
 		String url = getUrl(referer);
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
-			Comment comment =
-				new Comment(content, userService.getCurrentUser().toString(), new Date());
+			Comment comment;
+			if (!commentId.isEmpty()) {
+				Comment parent = commentService.get(Long.parseLong(commentId));
+				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date(), parent);
+			} else {
+				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date());
+			}
 			commentService.save(comment);
 			Order order = orderService.get(id);
-			order.getComments().add(comment);
+			order.addComment(comment);
 			orderService.save(order);
+			Notification notification = new Notification(recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient, order.getId());
+			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
 		} catch (Exception e) {
-			logger.error("Ошибка при создании комментария, заказ id={}");
-			return model;
-		}
-		return model;
-	}
-
-	//Добавление ответа на комментарий
-	@RequestMapping(value = {"/order/comment/sub/{id}"}, method = RequestMethod.POST)
-	public ModelAndView subComment(@PathVariable Long id,
-								   @ModelAttribute("commentBtnOrder") Long commentId,
-								   @ModelAttribute("commentTextSub") String content,
-								   HttpServletRequest request) {
-		String referer = request.getHeader("referer");
-		String url = getUrl(referer);
-		ModelAndView model = new ModelAndView("redirect:" + url);
-		try {
-			Comment comment = commentService.get(commentId);
-			Comment answer =
-				new Comment(content, userService.getCurrentUser().toString(), new Date());
-			commentService.save(answer);
-			comment.getAnswers().add(answer);
-			commentService.save(comment);
-			Order order = orderService.get(id);
-			model.addObject("order", order);
-			model.addObject("tabIndex", 1);
-		} catch (Exception e) {
-			logger.error("Ошибка создании ответа на комментарий  коментарий id={}", commentId);
-			return model;
+			logger.error("Ошибка при создании комментария, заказ id={}", e);
 		}
 		return model;
 	}

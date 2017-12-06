@@ -14,4 +14,5 @@ public interface UserService {
 	List<User> getByRoleName(String roleName);
 	List<User> getAllUsers();
 	User getCurrentUser();
+	List<User> getUsersByNameLike(String name);
 }

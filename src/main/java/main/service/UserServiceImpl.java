@@ -88,4 +88,9 @@ public class UserServiceImpl implements UserService {
 	public User getCurrentUser() {
 		return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
+
+	@Override
+	public List<User> getUsersByNameLike(String name) {
+		return userRepository.getAllByNameLike(name);
+	}
 }
