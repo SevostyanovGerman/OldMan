@@ -119,8 +119,7 @@ public class DesignerController {
 	}
 
 	//Удаление картинки дизайнера
-	@RequestMapping(value = {"/designer/order/item/delimage/{orderId}/{itemId}/{imageId}"}, method = RequestMethod
-		.POST)
+	@RequestMapping(value = {"/designer/order/item/delimage/{orderId}/{itemId}/{imageId}"}, method = RequestMethod.POST)
 	public ModelAndView delImage(@PathVariable("imageId") Long imageId, @PathVariable("itemId") Long itemId,
 								 @PathVariable("orderId") Long orderId) throws IOException {
 		try {

@@ -7,6 +7,6 @@ public interface PaymentService {
 
 	Payment get(Long id);
 	Payment getByName(String name);
-	public void save(Payment payment);
+	void save(Payment payment);
 	List<Payment> getAll();
 }

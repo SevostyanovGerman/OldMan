@@ -14,7 +14,6 @@ import java.util.List;
 public class StatusServiceImpl implements StatusService {
 
 	private final Logger logger = LoggerFactory.getLogger(StatusServiceImpl.class);
-
 	private StatusRepository statusRepository;
 
 	@Autowired

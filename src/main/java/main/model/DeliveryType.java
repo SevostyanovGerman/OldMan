@@ -51,11 +51,19 @@ public class DeliveryType {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 		DeliveryType that = (DeliveryType) o;
-		if (id != null ? !id.equals(that.id) : that.id != null) return false;
-		if (name != null ? !name.equals(that.name) : that.name != null) return false;
+		if (id != null ? !id.equals(that.id) : that.id != null) {
+			return false;
+		}
+		if (name != null ? !name.equals(that.name) : that.name != null) {
+			return false;
+		}
 		return pickup != null ? pickup.equals(that.pickup) : that.pickup == null;
 	}
 

@@ -105,16 +105,29 @@ public class History {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		History history = (History) o;
-		if (id != null ? !id.equals(history.id) : history.id != null) return false;
-		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) : history.dateRecieved != null)
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
+		}
+		History history = (History) o;
+		if (id != null ? !id.equals(history.id) : history.id != null) {
+			return false;
+		}
+		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) : history.dateRecieved != null) {
+			return false;
+		}
 		if (dateTransferred != null ? !dateTransferred.equals(history.dateTransferred) :
-			history.dateTransferred != null) return false;
-		if (status != null ? !status.equals(history.status) : history.status != null) return false;
-		if (from != null ? !from.equals(history.from) : history.from != null) return false;
+			history.dateTransferred != null) {
+			return false;
+		}
+		if (status != null ? !status.equals(history.status) : history.status != null) {
+			return false;
+		}
+		if (from != null ? !from.equals(history.from) : history.from != null) {
+			return false;
+		}
 		return to != null ? to.equals(history.to) : history.to == null;
 	}
 

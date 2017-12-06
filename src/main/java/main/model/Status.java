@@ -72,12 +72,22 @@ public class Status {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if ((o == null) || (getClass() != o.getClass())) return false;
+		if (this == o) {
+			return true;
+		}
+		if ((o == null) || (getClass() != o.getClass())) {
+			return false;
+		}
 		Status status = (Status) o;
-		if (!Objects.equals(this.id, status.id)) return false;
-		if (!Objects.equals(this.name, status.name)) return false;
-		if (!Objects.equals(this.number, status.number)) return false;
+		if (!Objects.equals(this.id, status.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.name, status.name)) {
+			return false;
+		}
+		if (!Objects.equals(this.number, status.number)) {
+			return false;
+		}
 		return Objects.equals(this.deleted, status.deleted);
 	}
 

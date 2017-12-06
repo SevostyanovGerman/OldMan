@@ -51,11 +51,19 @@ public class FuncMenu {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 		FuncMenu function = (FuncMenu) o;
-		if (id != null ? !id.equals(function.id) : function.id != null) return false;
-		if (name != null ? !name.equals(function.name) : function.name != null) return false;
+		if (id != null ? !id.equals(function.id) : function.id != null) {
+			return false;
+		}
+		if (name != null ? !name.equals(function.name) : function.name != null) {
+			return false;
+		}
 		return link != null ? link.equals(function.link) : function.link == null;
 	}
 

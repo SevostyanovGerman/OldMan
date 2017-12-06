@@ -142,8 +142,7 @@ public class ManagerController {
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.POST)
-	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item, MultipartHttpServletRequest
-		uploadCustomerFiles)
+	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item, MultipartHttpServletRequest uploadCustomerFiles)
 		throws IOException, SQLException {
 		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		orderService.save(order);

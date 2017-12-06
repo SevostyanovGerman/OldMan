@@ -155,8 +155,7 @@ public class InitDB {
 		Item item3 = new Item("Case", "iphone 8", "plastic", "my comment...", 1, 100d, false);
 		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, false);
 		Item item5 = new Item("Case", "Nexus 6P", "wood", "через гравировка", 5, 230d, false);
-		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d,
-			false);
+		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d, false);
 		Item item7 = new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
 		//Order//
 		Date createDate = new Date();

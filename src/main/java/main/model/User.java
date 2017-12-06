@@ -49,7 +49,7 @@ public class User implements UserDetails {
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
-		inverseJoinColumns = {@JoinColumn(name = "role_id")})
+			   inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set<Role> roles;
 
 	public User() {
@@ -209,18 +209,40 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 		User user = (User) o;
-		if (!Objects.equals(this.id, user.id)) return false;
-		if (!Objects.equals(this.deleted, user.deleted)) return false;
-		if (!Objects.equals(this.disable, user.disable)) return false;
-		if (!Objects.equals(this.name, user.name)) return false;
-		if (!Objects.equals(this.password, user.password)) return false;
-		if (!Objects.equals(this.firstName, user.firstName)) return false;
-		if (!Objects.equals(this.secName, user.secName)) return false;
-		if (!Objects.equals(this.position, user.position)) return false;
-		if (!Objects.equals(this.created, user.created)) return false;
+		if (!Objects.equals(this.id, user.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.deleted, user.deleted)) {
+			return false;
+		}
+		if (!Objects.equals(this.disable, user.disable)) {
+			return false;
+		}
+		if (!Objects.equals(this.name, user.name)) {
+			return false;
+		}
+		if (!Objects.equals(this.password, user.password)) {
+			return false;
+		}
+		if (!Objects.equals(this.firstName, user.firstName)) {
+			return false;
+		}
+		if (!Objects.equals(this.secName, user.secName)) {
+			return false;
+		}
+		if (!Objects.equals(this.position, user.position)) {
+			return false;
+		}
+		if (!Objects.equals(this.created, user.created)) {
+			return false;
+		}
 		return Objects.equals(this.roles, user.roles);
 	}
 

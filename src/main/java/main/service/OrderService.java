@@ -8,8 +8,10 @@ import java.util.List;
 public interface OrderService {
 
 	Order get(Long id);
+
 	@Deprecated
 	List<Order> getAll();
+
 	List<Order> getAllAllowed(User user);
 	List<Order> findByCustomer(String name);
 	List<Order> findByNumber(String number);

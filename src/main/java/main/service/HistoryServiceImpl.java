@@ -15,9 +15,7 @@ import java.util.List;
 public class HistoryServiceImpl implements HistoryService {
 
 	private HistoryRepository historyRepository;
-
 	private UserService userService;
-
 	private RoleService roleService;
 
 	@Autowired

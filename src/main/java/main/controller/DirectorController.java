@@ -175,7 +175,7 @@ public class DirectorController {
 			request.getSession().setAttribute("error", error);
 		} else if ((foundStatusByNumber != null) && (number > 0) && (incomingStatus.getId() != foundStatus.getId())) {
 			String error = "Статус с индексом: " + incomingStatus.getName() +
-				" уже существует. Допустимо дублирование только индекс: 0";
+						   " уже существует. Допустимо дублирование только индекс: 0";
 			request.getSession().setAttribute("error", error);
 		} else {
 			try {
@@ -222,8 +222,8 @@ public class DirectorController {
 		}
 		return "redirect:/director/controlpanel/statuses";
 	}
-	//---------------------- Role block ---------------------
 
+	//---------------------- Role block ---------------------
 	@RequestMapping(value = {"/director/controlpanel/roles"}, method = RequestMethod.GET)
 	public ModelAndView controlPanelRole(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/directorView/ControlPanelRole");
@@ -360,8 +360,8 @@ public class DirectorController {
 		}
 		return "redirect:/director/controlpanel/roles";
 	}
-	//---------------------- User block ---------------------
 
+	//---------------------- User block ---------------------
 	@RequestMapping(value = {"/director/controlpanel/user"}, method = RequestMethod.GET)
 	public ModelAndView controlPanelUser(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/directorView/ControlPanelUser");
@@ -403,14 +403,14 @@ public class DirectorController {
 			String error = "Пользователь с логином: " + searchingUser + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingUser.getPassword() == null) ||
-			"".equals(incomingUser.getPassword())) { //проверка что поле пароля не пустое
+				   "".equals(incomingUser.getPassword())) { //проверка что поле пароля не пустое
 			String error = "Пароль не может быть пустым";
 			request.getSession().setAttribute("error", error);
 		} else if (foundUserByEmail != null) { //проверяем есть ли сотрудник с такой почтой
 			String error = "Сотрудник с таким email уже существует";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingUser.getPhone() == null) ||
-			"".equals(incomingUser.getPhone())) { ////проверка что поле телефона не пустое
+				   "".equals(incomingUser.getPhone())) { ////проверка что поле телефона не пустое
 			String error = "Необходимо указать телепхон";
 			request.getSession().setAttribute("error", error);
 		} else {
@@ -514,8 +514,8 @@ public class DirectorController {
 		}
 		return "redirect:/director/stuff";
 	}
-	//---------------------- Customer block ---------------------
 
+	//---------------------- Customer block ---------------------
 	@RequestMapping(value = {"/director/customers"}, method = RequestMethod.GET)
 	public ModelAndView listCustomers(HttpServletRequest request) {
 		ModelAndView model = new ModelAndView("/directorView/DirectorCustomersBoard");
@@ -558,7 +558,7 @@ public class DirectorController {
 			try {
 				customerService.save(deletedCustomer);
 				String success = "Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " +
-					deletedCustomer.getSecName() + " успешно удалён";
+								 deletedCustomer.getSecName() + " успешно удалён";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete customer with id: ", id);
@@ -611,11 +611,11 @@ public class DirectorController {
 			String error = "Покуптаель с таким телефоном" + searchingPhone + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingCustomer.getPhone() == null) ||
-			"".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
+				   "".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
 			String error = "Необходимо указать телепхон";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingCustomer.getEmail() == null) ||
-			"".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
+				   "".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
 			String error = "Необходимо указать Email";
 			request.getSession().setAttribute("error", error);
 		} else {
@@ -733,7 +733,7 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/customer/removedelivery/{customerId}/{deliveryIndex}"},
-		method = RequestMethod.GET)
+					method = RequestMethod.GET)
 	public ModelAndView removeDelivery(@PathVariable("customerId") Long customerId,
 									   @PathVariable("deliveryIndex") int deliveryIndex, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();

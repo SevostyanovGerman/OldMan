@@ -29,7 +29,7 @@ public class Comment {
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = Comment.class)
 	@JoinTable(name = "keys_comment_answer", joinColumns = {@JoinColumn(name = "comment_id")},
-		inverseJoinColumns = {@JoinColumn(name = "answer_id")})
+			   inverseJoinColumns = {@JoinColumn(name = "answer_id")})
 	private List<Comment> answers;
 
 	public Comment() {
@@ -92,14 +92,28 @@ public class Comment {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 		Comment comment = (Comment) o;
-		if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
-		if (login != null ? !login.equals(comment.login) : comment.login != null) return false;
-		if (content != null ? !content.equals(comment.content) : comment.content != null) return false;
-		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null) return false;
-		if (time != null ? !time.equals(comment.time) : comment.time != null) return false;
+		if (id != null ? !id.equals(comment.id) : comment.id != null) {
+			return false;
+		}
+		if (login != null ? !login.equals(comment.login) : comment.login != null) {
+			return false;
+		}
+		if (content != null ? !content.equals(comment.content) : comment.content != null) {
+			return false;
+		}
+		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null) {
+			return false;
+		}
+		if (time != null ? !time.equals(comment.time) : comment.time != null) {
+			return false;
+		}
 		return answers != null ? answers.equals(comment.answers) : comment.answers == null;
 	}
 

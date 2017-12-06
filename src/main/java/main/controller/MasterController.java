@@ -67,8 +67,7 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}"}, method = RequestMethod.GET)
-	public String getItemForm(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId, Model
-		model) {
+	public String getItemForm(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId, Model model) {
 		try {
 			Item item = itemService.get(itemId);
 			model.addAttribute(item);

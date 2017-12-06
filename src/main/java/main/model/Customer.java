@@ -158,17 +158,37 @@ public class Customer {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 		Customer customer = (Customer) o;
-		if (!Objects.equals(this.id, customer.id)) return false;
-		if (!Objects.equals(this.firstName, customer.firstName)) return false;
-		if (!Objects.equals(this.secName, customer.secName)) return false;
-		if (!Objects.equals(this.email, customer.email)) return false;
-		if (!Objects.equals(this.phone, customer.phone)) return false;
-		if (!Objects.equals(this.creationDate, customer.creationDate)) return false;
-		if (!Objects.equals(this.deliveries, customer.deliveries)) return false;
-		if (!Objects.equals(this.deleted, customer.deleted)) return false;
+		if (!Objects.equals(this.id, customer.id)) {
+			return false;
+		}
+		if (!Objects.equals(this.firstName, customer.firstName)) {
+			return false;
+		}
+		if (!Objects.equals(this.secName, customer.secName)) {
+			return false;
+		}
+		if (!Objects.equals(this.email, customer.email)) {
+			return false;
+		}
+		if (!Objects.equals(this.phone, customer.phone)) {
+			return false;
+		}
+		if (!Objects.equals(this.creationDate, customer.creationDate)) {
+			return false;
+		}
+		if (!Objects.equals(this.deliveries, customer.deliveries)) {
+			return false;
+		}
+		if (!Objects.equals(this.deleted, customer.deleted)) {
+			return false;
+		}
 		return Objects.equals(this.orders, customer.orders);
 	}
 

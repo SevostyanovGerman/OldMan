@@ -383,30 +383,73 @@ public class Order {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Order order = (Order) o;
-		if (Double.compare(order.price, price) != 0) return false;
-		if (id != null ? !id.equals(order.id) : order.id != null) return false;
-		if (number != null ? !number.equals(order.number) : order.number != null) return false;
-		if (payment != null ? !payment.equals(order.payment) : order.payment != null) return false;
-		if (deleted != null ? !deleted.equals(order.deleted) : order.deleted != null) return false;
-		if (created != null ? !created.equals(order.created) : order.created != null) return false;
-		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) : order.deliveryType != null) return false;
-		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) : order.dateRecieved != null) return false;
-		if (dateTransferred != null ? !dateTransferred.equals(order.dateTransferred) : order.dateTransferred != null)
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
-		if (from != null ? !from.equals(order.from) : order.from != null) return false;
-		if (to != null ? !to.equals(order.to) : order.to != null) return false;
-		if (delivery != null ? !delivery.equals(order.delivery) : order.delivery != null) return false;
-		if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) return false;
-		if (status != null ? !status.equals(order.status) : order.status != null) return false;
-		if (comments != null ? !comments.equals(order.comments) : order.comments != null) return false;
-		if (items != null ? !items.equals(order.items) : order.items != null) return false;
-		if (customer != null ? !customer.equals(order.customer) : order.customer != null) return false;
-		if (histories != null ? !histories.equals(order.histories) : order.histories != null) return false;
-		if (manager != null ? !manager.equals(order.manager) : order.manager != null) return false;
-		if (master != null ? !master.equals(order.master) : order.master != null) return false;
+		}
+		Order order = (Order) o;
+		if (Double.compare(order.price, price) != 0) {
+			return false;
+		}
+		if (id != null ? !id.equals(order.id) : order.id != null) {
+			return false;
+		}
+		if (number != null ? !number.equals(order.number) : order.number != null) {
+			return false;
+		}
+		if (payment != null ? !payment.equals(order.payment) : order.payment != null) {
+			return false;
+		}
+		if (deleted != null ? !deleted.equals(order.deleted) : order.deleted != null) {
+			return false;
+		}
+		if (created != null ? !created.equals(order.created) : order.created != null) {
+			return false;
+		}
+		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) : order.deliveryType != null) {
+			return false;
+		}
+		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) : order.dateRecieved != null) {
+			return false;
+		}
+		if (dateTransferred != null ? !dateTransferred.equals(order.dateTransferred) : order.dateTransferred != null) {
+			return false;
+		}
+		if (from != null ? !from.equals(order.from) : order.from != null) {
+			return false;
+		}
+		if (to != null ? !to.equals(order.to) : order.to != null) {
+			return false;
+		}
+		if (delivery != null ? !delivery.equals(order.delivery) : order.delivery != null) {
+			return false;
+		}
+		if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) {
+			return false;
+		}
+		if (status != null ? !status.equals(order.status) : order.status != null) {
+			return false;
+		}
+		if (comments != null ? !comments.equals(order.comments) : order.comments != null) {
+			return false;
+		}
+		if (items != null ? !items.equals(order.items) : order.items != null) {
+			return false;
+		}
+		if (customer != null ? !customer.equals(order.customer) : order.customer != null) {
+			return false;
+		}
+		if (histories != null ? !histories.equals(order.histories) : order.histories != null) {
+			return false;
+		}
+		if (manager != null ? !manager.equals(order.manager) : order.manager != null) {
+			return false;
+		}
+		if (master != null ? !master.equals(order.master) : order.master != null) {
+			return false;
+		}
 		return designer != null ? designer.equals(order.designer) : order.designer == null;
 	}
 

@@ -81,11 +81,19 @@ public class Image {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Image)) return false;
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Image)) {
+			return false;
+		}
 		Image image1 = (Image) o;
-		if (id != null ? !id.equals(image1.id) : image1.id != null) return false;
-		if (image != null ? !image.equals(image1.image) : image1.image != null) return false;
+		if (id != null ? !id.equals(image1.id) : image1.id != null) {
+			return false;
+		}
+		if (image != null ? !image.equals(image1.image) : image1.image != null) {
+			return false;
+		}
 		return fileName != null ? fileName.equals(image1.fileName) : image1.fileName == null;
 	}
 
