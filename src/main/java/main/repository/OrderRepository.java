@@ -21,43 +21,53 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Order> findAllByDeletedAndNumberContains(Boolean deleted, String number);
 	List<Order> findAllByDeletedAndManagerFirstNameContains(Boolean deleted, String name);
 	List<Order> findAllByDeletedAndStatusId(Boolean deleted, Long id);
-	List<Order> findAllByDeletedAndStatusIdAndNumberContains(Boolean deleted, Long statusId, String number);
+	List<Order> findAllByDeletedAndStatusIdAndNumberContains(Boolean deleted, Long statusId,
+															 String number);
 
-	@Query("SELECT o FROM Order o WHERE " + "LOWER(o.payment) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+	@Query("SELECT o FROM Order o WHERE " +
+		   "LOWER(o.payment) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		   "LOWER(o.dateRecieved) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		   "LOWER(o.dateTransferred) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 		   "LOWER(o.deliveryType) LIKE LOWER(CONCAT('%',:searchTerm, '%'))")
 	List<Order> findBySearchTerm(@Param("searchTerm") String searchTerm);
 
 	@Query("SELECT o FROM Order o WHERE o.created BETWEEN :startDate AND :endDate")
-	List<Order> findOrdersByRange(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+	List<Order> findOrdersByRange(@Param("startDate") Date startDate,
+								  @Param("endDate") Date endDate);
 
 	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " + "o.master = :user OR " +
 		   "o.designer = :user) AND " + "o.status = :status AND " + "o.deleted = :deleted ")
-	Set<Order> findByUser(@Param("user") User user, @Param("status") Status status, @Param("deleted") boolean deleted);
+	Set<Order> findByUser(@Param("user") User user, @Param("status") Status status,
+						  @Param("deleted") boolean deleted);
 
-	@Query("SELECT  date_format(o.created, '%Y-%m') as created ,  AVG(o.price) as price FROM Order o " +
-		   "WHERE o.deleted=0 AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
-		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
-		   "date_format(o.created, '%Y-%m') ORDER BY date_format(o.created, '%Y-%m')")
-	List<Object> priceAvgByMonth(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+	@Query(
+		"SELECT  date_format(o.created, '%Y-%m') as created ,  AVG(o.price) as price FROM Order o " +
+		"WHERE o.deleted=0 AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
+		"STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
+		"date_format(o.created, '%Y-%m') ORDER BY date_format(o.created, '%Y-%m')")
+	List<Object> priceAvgByMonth(@Param("startDate") Date startDate,
+								 @Param("endDate") Date endDate);
 
 	@Query("select o.delivery.country, count(o.delivery.country) from Order o " +
-		   "  where o.deleted =0 and o.payment=1 group by o.delivery.country order by o" + ".delivery.country")
+		   "  where o.deleted =0 and o.payment=1 group by o.delivery.country order by o" +
+		   ".delivery.country")
 	List<Object> statisticGeo();
 
-	@Query("SELECT  date_format(o.creationDate, '%Y-%m') as created ,  count(o.creationDate) FROM Customer o " +
-		   "WHERE o.deleted=0 AND o.creationDate between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
-		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
-		   "date_format(o.creationDate, '%Y-%m') ORDER BY date_format(o.creationDate, '%Y-%m')")
-	List<Object> statisticNewCustomers(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
+	@Query(
+		"SELECT  date_format(o.creationDate, '%Y-%m') as created ,  count(o.creationDate) FROM Customer o " +
+		"WHERE o.deleted=0 AND o.creationDate between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
+		"STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
+		"date_format(o.creationDate, '%Y-%m') ORDER BY date_format(o.creationDate, '%Y-%m')")
+	List<Object> statisticNewCustomers(@Param("startDate") Date startDate,
+									   @Param("endDate") Date endDate);
 
 	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " + "o.master = :user OR " +
 		   "o.designer = :user) AND " + "o.status = :status AND " +
 		   "o.deleted = false AND o.price >= :min  AND o.price <= " + ":max ")
-	List<Order> minMaxPrice(@Param("min") Double min, @Param("max") Double max, @Param("user") User user,
-							@Param("status") Status status);
+	List<Order> minMaxPrice(@Param("min") Double min, @Param("max") Double max,
+							@Param("user") User user, @Param("status") Status status);
 
-	@Query("SELECT o FROM Order o WHERE o.deleted = false AND o.price >= :min  AND o.price <= " + ":max ")
+	@Query("SELECT o FROM Order o WHERE o.deleted = false AND o.price >= :min  AND o.price <= " +
+		   ":max ")
 	List<Order> minMaxPriceForBoss(@Param("min") Double min, @Param("max") Double max);
 }

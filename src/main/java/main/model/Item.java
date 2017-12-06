@@ -50,7 +50,8 @@ public class Item {
 	public Item() {
 	}
 
-	public Item(String name, String model, String type, String comment, int count, double price, boolean status) {
+	public Item(String name, String model, String type, String comment, int count, double price,
+				boolean status) {
 		this.name = name;
 		this.model = model;
 		this.type = type;

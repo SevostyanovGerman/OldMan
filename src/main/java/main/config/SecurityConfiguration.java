@@ -43,7 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		for (int i = 0; i < roleList.size(); i++) {
 			if (!roleList.get(i).getUrl().equals("/")) {
 				String url = roleList.get(i).getUrl() + "**";
-				http.authorizeRequests().antMatchers(url).hasAnyAuthority(roleList.get(i).getName(), "BOSS");
+				http.authorizeRequests().antMatchers(url)
+					.hasAnyAuthority(roleList.get(i).getName(), "BOSS");
 			}
 		}
 	}

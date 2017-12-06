@@ -10,7 +10,8 @@ import java.util.Date;
 @Table(name = "history")
 public class History {
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("d MMMM, yyyy");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER =
+		DateTimeFormat.forPattern("d MMMM, yyyy");
 
 	@Id
 	@Column(name = "id")
@@ -115,7 +116,8 @@ public class History {
 		if (id != null ? !id.equals(history.id) : history.id != null) {
 			return false;
 		}
-		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) : history.dateRecieved != null) {
+		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) :
+			history.dateRecieved != null) {
 			return false;
 		}
 		if (dateTransferred != null ? !dateTransferred.equals(history.dateTransferred) :

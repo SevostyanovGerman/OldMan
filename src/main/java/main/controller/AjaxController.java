@@ -30,10 +30,12 @@ public class AjaxController {
 
 	private final Logger logger = LoggerFactory.getLogger(AjaxController.class);
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy/mm/dd");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER =
+		DateTimeFormat.forPattern("yyyy/mm/dd");
 
 	@Autowired
-	public AjaxController(CustomerService customerService, OrderService orderService, ImageService imageService) {
+	public AjaxController(CustomerService customerService, OrderService orderService,
+						  ImageService imageService) {
 		this.customerService = customerService;
 		this.orderService = orderService;
 		this.imageService = imageService;
@@ -75,7 +77,8 @@ public class AjaxController {
 
 	//Выбор клиента//
 	@RequestMapping(value = "/selectCustomer/{customerId}/{orderId}", method = RequestMethod.POST)
-	public void selectCustomer(@PathVariable("customerId") Long customerId, @PathVariable("orderId") Long orderId) {
+	public void selectCustomer(@PathVariable("customerId") Long customerId,
+							   @PathVariable("orderId") Long orderId) {
 		Order order = orderService.get(orderId);
 		Customer customer = customerService.get(customerId);
 		order.setCustomer(customer);

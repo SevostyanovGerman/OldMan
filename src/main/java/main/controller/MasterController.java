@@ -35,8 +35,8 @@ public class MasterController {
 	private CommentService commentService;
 
 	@Autowired
-	public MasterController(OrderService orderService, ItemService itemService, UserService userService,
-							CommentService commentService) {
+	public MasterController(OrderService orderService, ItemService itemService,
+							UserService userService, CommentService commentService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
@@ -67,7 +67,8 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}"}, method = RequestMethod.GET)
-	public String getItemForm(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId, Model model) {
+	public String getItemForm(@PathVariable("itemId") Long itemId,
+							  @PathVariable("orderId") Long orderId, Model model) {
 		try {
 			Item item = itemService.get(itemId);
 			model.addAttribute(item);
@@ -121,8 +122,10 @@ public class MasterController {
 		return new ModelAndView("redirect:" + url);
 	}
 
-	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}/status"}, method = RequestMethod.GET)
-	public ModelAndView changeItemStatus(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId) {
+	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}/status"},
+					method = RequestMethod.GET)
+	public ModelAndView changeItemStatus(@PathVariable("itemId") Long itemId,
+										 @PathVariable("orderId") Long orderId) {
 		try {
 			Item newItem = itemService.changeStatus(itemId);
 			itemService.save(newItem);
@@ -135,7 +138,8 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = {"/master/order/comment/{id}"}, method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id, @RequestParam(value = "comment") String content) {
+	public ModelAndView addComment(@PathVariable Long id,
+								   @RequestParam(value = "comment") String content) {
 		ModelAndView model = new ModelAndView("masterView/MasterOrderForm");
 		Comment comment = new Comment(content, userService.getCurrentUser().toString(), new Date());
 		commentService.save(comment);

@@ -19,7 +19,8 @@ public class HistoryServiceImpl implements HistoryService {
 	private RoleService roleService;
 
 	@Autowired
-	public HistoryServiceImpl(HistoryRepository historyRepository, UserService userService, RoleService roleService) {
+	public HistoryServiceImpl(HistoryRepository historyRepository, UserService userService,
+							  RoleService roleService) {
 		this.historyRepository = historyRepository;
 		this.userService = userService;
 		this.roleService = roleService;
@@ -36,8 +37,9 @@ public class HistoryServiceImpl implements HistoryService {
 		} else {
 			to = order.getMaster().toString();
 		}
-		History history = new History(order.getDateRecievedDate(), dateTime, order.getStatus().getName(),
-			userService.getCurrentUser().toString(), to);
+		History history =
+			new History(order.getDateRecievedDate(), dateTime, order.getStatus().getName(),
+				userService.getCurrentUser().toString(), to);
 		historyRepository.saveAndFlush(history);
 		order.getHistories().add(history);
 		return order;
@@ -47,8 +49,9 @@ public class HistoryServiceImpl implements HistoryService {
 	public Order saveHistoryToManager(Order order) {
 		Date dateTime = new Date();
 		String to = order.getManager().toString();
-		History history = new History(order.getDateRecievedDate(), dateTime, order.getStatus().getName(),
-			userService.getCurrentUser().toString(), to);
+		History history =
+			new History(order.getDateRecievedDate(), dateTime, order.getStatus().getName(),
+				userService.getCurrentUser().toString(), to);
 		historyRepository.saveAndFlush(history);
 		order.getHistories().add(history);
 		return order;

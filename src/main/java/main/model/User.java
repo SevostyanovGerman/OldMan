@@ -55,8 +55,8 @@ public class User implements UserDetails {
 	public User() {
 	}
 
-	public User(String name, String password, String firstName, String secName, boolean deleted, boolean disable,
-				Role role, String email, String phone) {
+	public User(String name, String password, String firstName, String secName, boolean deleted,
+				boolean disable, Role role, String email, String phone) {
 		this.name = name;
 		this.password = password;
 		this.firstName = firstName;

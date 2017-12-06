@@ -13,7 +13,8 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER =
+		DateTimeFormat.forPattern("dd MMMM, yyyy");
 
 	@Id
 	@Column(name = "id")
@@ -112,9 +113,9 @@ public class Order {
 		this.manager = manager;
 	}
 
-	public Order(String number, Boolean payment, Boolean deleted, Date created, DeliveryType deliveryType,
-				 Payment paymentType, Status status, Customer customer, Item item, User manager, User designer,
-				 User master) {
+	public Order(String number, Boolean payment, Boolean deleted, Date created,
+				 DeliveryType deliveryType, Payment paymentType, Status status, Customer customer,
+				 Item item, User manager, User designer, User master) {
 		this.number = number;
 		this.payment = payment;
 		this.deleted = deleted;
@@ -134,9 +135,9 @@ public class Order {
 		this.price = item.getAmount();
 	}
 
-	public Order(String number, Boolean payment, Boolean deleted, Date created, DeliveryType deliveryType,
-				 Payment paymentType, Status status, Customer customer, Item item, User manager, User designer,
-				 User master, Delivery delivery) {
+	public Order(String number, Boolean payment, Boolean deleted, Date created,
+				 DeliveryType deliveryType, Payment paymentType, Status status, Customer customer,
+				 Item item, User manager, User designer, User master, Delivery delivery) {
 		this.number = number;
 		this.payment = payment;
 		this.deleted = deleted;
@@ -408,13 +409,16 @@ public class Order {
 		if (created != null ? !created.equals(order.created) : order.created != null) {
 			return false;
 		}
-		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) : order.deliveryType != null) {
+		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) :
+			order.deliveryType != null) {
 			return false;
 		}
-		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) : order.dateRecieved != null) {
+		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) :
+			order.dateRecieved != null) {
 			return false;
 		}
-		if (dateTransferred != null ? !dateTransferred.equals(order.dateTransferred) : order.dateTransferred != null) {
+		if (dateTransferred != null ? !dateTransferred.equals(order.dateTransferred) :
+			order.dateTransferred != null) {
 			return false;
 		}
 		if (from != null ? !from.equals(order.from) : order.from != null) {
@@ -426,7 +430,8 @@ public class Order {
 		if (delivery != null ? !delivery.equals(order.delivery) : order.delivery != null) {
 			return false;
 		}
-		if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) {
+		if (paymentType != null ? !paymentType.equals(order.paymentType) :
+			order.paymentType != null) {
 			return false;
 		}
 		if (status != null ? !status.equals(order.status) : order.status != null) {

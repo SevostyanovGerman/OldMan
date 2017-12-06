@@ -31,8 +31,8 @@ public class MainController {
 	private ImageService imageService;
 
 	@Autowired
-	public MainController(CommentService commentService, OrderService orderService, UserService userService,
-						  ImageService imageService) {
+	public MainController(CommentService commentService, OrderService orderService,
+						  UserService userService, ImageService imageService) {
 		this.commentService = commentService;
 		this.orderService = orderService;
 		this.userService = userService;
@@ -67,13 +67,15 @@ public class MainController {
 
 	//Добавление комментария
 	@RequestMapping(value = {"/order/comment/add={id}"}, method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id, @ModelAttribute("commentText") String content,
+	public ModelAndView addComment(@PathVariable Long id,
+								   @ModelAttribute("commentText") String content,
 								   HttpServletRequest request) {
 		String referer = request.getHeader("referer");
 		String url = getUrl(referer);
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
-			Comment comment = new Comment(content, userService.getCurrentUser().toString(), new Date());
+			Comment comment =
+				new Comment(content, userService.getCurrentUser().toString(), new Date());
 			commentService.save(comment);
 			Order order = orderService.get(id);
 			order.getComments().add(comment);
@@ -89,14 +91,17 @@ public class MainController {
 
 	//Добавление ответа на комментарий
 	@RequestMapping(value = {"/order/comment/sub/{id}"}, method = RequestMethod.POST)
-	public ModelAndView subComment(@PathVariable Long id, @ModelAttribute("commentBtnOrder") Long commentId,
-								   @ModelAttribute("commentTextSub") String content, HttpServletRequest request) {
+	public ModelAndView subComment(@PathVariable Long id,
+								   @ModelAttribute("commentBtnOrder") Long commentId,
+								   @ModelAttribute("commentTextSub") String content,
+								   HttpServletRequest request) {
 		String referer = request.getHeader("referer");
 		String url = getUrl(referer);
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
 			Comment comment = commentService.get(commentId);
-			Comment answer = new Comment(content, userService.getCurrentUser().toString(), new Date());
+			Comment answer =
+				new Comment(content, userService.getCurrentUser().toString(), new Date());
 			commentService.save(answer);
 			comment.getAnswers().add(answer);
 			commentService.save(comment);

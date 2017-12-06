@@ -14,7 +14,6 @@ public class Customer {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@JsonBackReference
 	private Long id;
 
 	@Column(name = "first_name", nullable = false)
@@ -49,8 +48,8 @@ public class Customer {
 		this.deliveries = new ArrayList<>();
 	}
 
-	public Customer(String firstName, String secName, String email, String phone, Delivery deliveries, String country,
-					String city, String address, String zip) {
+	public Customer(String firstName, String secName, String email, String phone,
+					Delivery deliveries, String country, String city, String address, String zip) {
 		this.firstName = firstName;
 		this.secName = secName;
 		this.email = email;

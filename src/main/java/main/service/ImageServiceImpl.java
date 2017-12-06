@@ -74,7 +74,8 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles) throws IOException, SQLException {
+	public List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles)
+		throws IOException, SQLException {
 		List<Image> blobFileList = new ArrayList<>();
 		List<MultipartFile> fileList = uploadFiles.getFiles("uploadCustomerFiles");
 		for (MultipartFile file : fileList) {
