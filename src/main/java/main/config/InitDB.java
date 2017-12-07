@@ -118,18 +118,18 @@ public class InitDB {
 		roleService.save(boss);
 		//Пользователи//
 		User user1 =
-			new User("manager", "123", "Donald", "Tramp", false, false, role1, "putin@kremlin.ru",
+			new User("manager", "123", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru",
 				"123");
 		userService.save(user1);
-		User user2 = new User("designer", "123", "GUCCIO", "GUCCI", false, false, role2,
+		User user2 = new User("designer", "123", "Designer", "Gucci", false, false, role2,
 			"medvedev@kremlin.ru", "321");
 		userService.save(user2);
 		User user3 =
-			new User("master", "123", "Papa", "Carlo", false, false, role3, "pupkin@kremlin.ru",
+			new User("master", "123", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru",
 				"456");
 		userService.save(user3);
 		User user4 =
-			new User("boss", "123", "Hugo", "Boss", false, false, boss, "vasya@kremlin.ru", "654");
+			new User("boss", "123", "Director", "Boss", false, false, boss, "vasya@kremlin.ru", "654");
 		userService.save(user4);
 		//Payment//
 		Payment payment1 = new Payment("Cash");
