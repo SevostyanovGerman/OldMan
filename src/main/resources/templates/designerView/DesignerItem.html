@@ -133,7 +133,9 @@
                 <br>
                 <fieldset>
                     <div th:switch="${item.getStatus()}">
-                        <form th:action="'/designer/order/item/save/' +${item.getId()}" method="post" id="save">
+                        <form th:action="'/designer/order/item/save/order/'+${order.id}+'/item/' +${item.getId()}"
+                              method="post"
+                              id="save">
                             <button th:case="true" class="btn btn-success width100" type="submit" form="save"
                                     name="status"
                             >Вернуть
