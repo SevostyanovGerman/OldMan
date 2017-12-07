@@ -173,7 +173,7 @@ public class DirectorController {
 		if ((foundStatus != null) && (incomingStatus.getId() != foundStatus.getId())) {
 			String error = "Статус с именем: " + incomingStatus.getName() + " уже существует";
 			request.getSession().setAttribute("error", error);
-		} else if ((foundStatusByNumber != null) && (number > 0) && (foundStatus != null) && (incomingStatus.getId() != foundStatus.getId())) {
+		} else if ((foundStatusByNumber != null) && (number > 0) && (incomingStatus.getId() != foundStatusByNumber.getId())) {
 			String error = "Статус с индексом: " + incomingStatus.getName() +
 				" уже существует. Допустимо дублирование только индекс: 0";
 			request.getSession().setAttribute("error", error);
