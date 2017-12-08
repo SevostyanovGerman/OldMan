@@ -94,14 +94,17 @@ public class DesignerController {
 	}
 
 	//Изменение статуса товара
-	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
-	public ModelAndView save(@PathVariable Long id) {
+	@RequestMapping(value = {"/designer/order/item/save/order/{orderId}/item/{itemId}"}, method =
+		RequestMethod.POST)
+	public ModelAndView save(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long
+		orderId) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
-			Item item = itemService.get(id);
+			Item item = itemService.get(itemId);
 			itemService.changeStatus(item.getId());
 			itemService.save(item);
 			model.addObject("item", item);
+			model.addObject("order", orderService.get(orderId));
 		} catch (Exception e) {
 			logger.error("while changing item status id={}", id);
 			return new ModelAndView("redirect:/designer/order/" + id);
@@ -129,7 +132,12 @@ public class DesignerController {
 								 @PathVariable("orderId") Long orderId) throws IOException {
 		try {
 			Image image = imageService.get(imageId);
+			Item item = itemService.get(itemId);
 			imageService.delete(image);
+			if (item.getImages().size() == 0) {
+				item.setStatus(false);
+				itemService.save(item);
+			}
 			return new ModelAndView("redirect:/designer/order/" + orderId + "/item/" + itemId);
 		} catch (Exception e) {
 			logger.error("while deleting image status id={}", imageId);

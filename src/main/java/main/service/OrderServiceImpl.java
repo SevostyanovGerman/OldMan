@@ -124,11 +124,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order getPayment(Long orderId) {
 		Order order = orderService.get(orderId);
-		if (order.getPayment()) {
-			order.setPayment(false);
-		} else {
-			order.setPayment(true);
-		}
+		order.setPayment(!order.getPayment());
 		return order;
 	}
 
