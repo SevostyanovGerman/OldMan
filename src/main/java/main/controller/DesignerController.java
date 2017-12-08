@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class DesignerController {
 
-	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
 	private OrderService orderService;
 
@@ -53,7 +53,7 @@ public class DesignerController {
 		try {
 			model.addObject("orders", orderService.getAllAllowed(userService.getCurrentUser()));
 		} catch (Exception e) {
-			logger.error("Controller '/designer', orderService.designerOrders() error ");
+			logger.error("while retrieving order List");
 		}
 		return model;
 	}
@@ -66,7 +66,7 @@ public class DesignerController {
 			model.addObject("order", orderService.get(id));
 		} catch (Exception e) {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
-			logger.error("Controller '/designer/order', orderId={}", id);
+			logger.error("while retrieving order Id={}", id);
 		}
 
 		String user = userService.getCurrentUser().getName();
@@ -87,20 +87,7 @@ public class DesignerController {
 			model.addObject("item", itemService.get(itemId));
 			model.addObject("order", orderService.get(orderId));
 		} catch (Exception e) {
-			logger.error("Controller '/designer/order/item', itemId={}", itemId);
-			model = new ModelAndView("/designerView/DesignerDashBoard");
-		}
-		return model;
-	}
-
-	//Search page DEPRECATED
-	@RequestMapping(value = {"/designer/{search}"}, method = RequestMethod.POST)
-	public ModelAndView search(@PathVariable("search") String search) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
-		try {
-			model.addObject("orders", orderService.designFindNumber(search));
-		} catch (Exception e) {
-			logger.error("Controller '/designer/search', search={}", search);
+			logger.error("while retrieving item Id={}", itemId);
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 		}
 		return model;
@@ -116,7 +103,7 @@ public class DesignerController {
 			itemService.save(item);
 			model.addObject("item", item);
 		} catch (Exception e) {
-			logger.error("Ошибка при изменении статуса заказ id={}");
+			logger.error("while changing item status id={}", id);
 			return new ModelAndView("redirect:/designer/order/" + id);
 		}
 		return model;
@@ -128,7 +115,7 @@ public class DesignerController {
 		try {
 			orderService.nextStatus(id);
 		} catch (Exception e) {
-			logger.warn("Вам не удалось сменить статус заказа id={}, статус id={}", id);
+			logger.warn("while changing order status id={}", id);
 			return new ModelAndView("redirect:/designer/");
 		}
 		return new ModelAndView("redirect:/designer/");
@@ -145,7 +132,7 @@ public class DesignerController {
 			imageService.delete(image);
 			return new ModelAndView("redirect:/designer/order/" + orderId + "/item/" + itemId);
 		} catch (Exception e) {
-			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", itemId);
+			logger.error("while deleting image status id={}", imageId);
 			return new ModelAndView("/designerView/DesignerDashBoard");
 		}
 	}
