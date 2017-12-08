@@ -2,6 +2,7 @@ package main.controller;
 
 
 import main.model.Comment;
+import main.model.Helper;
 import main.model.Notification;
 import main.model.Order;
 import main.service.*;
@@ -77,8 +78,7 @@ public class MainController {
 								   @ModelAttribute("recipient") String recipient,
 								   @ModelAttribute("commentBtnOrder") String commentId,
 								   HttpServletRequest request) {
-		String referer = request.getHeader("referer");
-		String url = getUrl(referer);
+		String url = Helper.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
 			Comment comment;
@@ -100,16 +100,5 @@ public class MainController {
 			logger.error("Ошибка при создании комментария, заказ id={}", e);
 		}
 		return model;
-	}
-
-	private String getUrl(String referer) {
-		String url;
-		int index = referer.indexOf("?");
-		if (index > 0) {
-			url = referer.substring(0, index);
-		} else {
-			url = referer.toString();
-		}
-		return url;
 	}
 }

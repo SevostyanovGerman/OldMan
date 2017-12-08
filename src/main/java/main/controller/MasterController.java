@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.model.Helper;
 import main.model.Item;
 import main.model.Notification;
 import main.model.Order;
@@ -12,11 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -119,8 +118,7 @@ public class MasterController {
 	public ModelAndView getPayment(@PathVariable Long id, HttpServletRequest request) {
 		String url;
 		try {
-			String referer = request.getHeader("referer");
-			url = getUrl(referer);
+			url = Helper.getUrl(request.getHeader("referer"));
 		} catch (Exception e) {
 			url = "/403";
 			return new ModelAndView("redirect:" + url);
@@ -161,16 +159,5 @@ public class MasterController {
 		}
 		return model;
 
-	}
-
-	private String getUrl(String referer) {
-		String url;
-		int index = referer.indexOf("?");
-		if (index > 0) {
-			url = referer.substring(0, index);
-		} else {
-			url = referer.toString();
-		}
-		return url;
 	}
 }
