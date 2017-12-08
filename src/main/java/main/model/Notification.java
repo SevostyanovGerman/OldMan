@@ -23,8 +23,7 @@ public class Notification {
 	public Notification() {
 	}
 
-	public Notification(String recipient,
-						Long order) {
+	public Notification(String recipient, Long order) {
 		this.recipient = recipient;
 		this.orderId = order;
 	}

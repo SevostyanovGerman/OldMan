@@ -1,6 +1,5 @@
 package main.controller;
 
-
 import main.model.Comment;
 import main.model.Helper;
 import main.model.Notification;
@@ -33,10 +32,8 @@ public class MainController {
 	private NotificationService notificationService;
 
 	@Autowired
-	public MainController(CommentService commentService,
-						  OrderService orderService,
-						  UserService userService,
-						  ImageService imageService,
+	public MainController(CommentService commentService, OrderService orderService,
+						  UserService userService, ImageService imageService,
 						  NotificationService notificationService) {
 		this.commentService = commentService;
 		this.orderService = orderService;
@@ -84,7 +81,8 @@ public class MainController {
 			Comment comment;
 			if (!commentId.isEmpty()) {
 				Comment parent = commentService.get(Long.parseLong(commentId));
-				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date(), parent);
+				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date(),
+					parent);
 			} else {
 				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date());
 			}
@@ -92,7 +90,9 @@ public class MainController {
 			Order order = orderService.get(id);
 			order.addComment(comment);
 			orderService.save(order);
-			Notification notification = new Notification(recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient, order.getId());
+			Notification notification = new Notification(
+				recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient,
+				order.getId());
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);

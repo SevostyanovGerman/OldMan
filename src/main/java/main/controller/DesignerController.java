@@ -94,10 +94,10 @@ public class DesignerController {
 	}
 
 	//Изменение статуса товара
-	@RequestMapping(value = {"/designer/order/item/save/order/{orderId}/item/{itemId}"}, method =
-		RequestMethod.POST)
-	public ModelAndView save(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long
-		orderId) {
+	@RequestMapping(value = {"/designer/order/item/save/order/{orderId}/item/{itemId}"},
+					method = RequestMethod.POST)
+	public ModelAndView save(@PathVariable("itemId") Long itemId,
+							 @PathVariable("orderId") Long orderId) {
 		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
 		try {
 			Item item = itemService.get(itemId);

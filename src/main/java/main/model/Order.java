@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 @Table(name = "orders")
 public class Order {
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER =
+		DateTimeFormat.forPattern("dd MMMM, yyyy");
 
 	@Id
 	@Column(name = "id")
@@ -252,7 +253,8 @@ public class Order {
 	}
 
 	public List<Comment> getComments() {
-		return comments.stream().filter(comment -> comment.getParent() == null).collect(Collectors.toList());
+		return comments.stream().filter(comment -> comment.getParent() == null)
+			.collect(Collectors.toList());
 	}
 
 	public void setComments(List<Comment> comments) {

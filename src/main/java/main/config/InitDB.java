@@ -129,7 +129,8 @@ public class InitDB {
 				"456");
 		userService.save(user3);
 		User user4 =
-			new User("boss", "123", "Director", "Boss", false, false, boss, "vasya@kremlin.ru", "654");
+			new User("boss", "123", "Director", "Boss", false, false, boss, "vasya@kremlin.ru",
+				"654");
 		userService.save(user4);
 		//Payment//
 		Payment payment1 = new Payment("Cash");

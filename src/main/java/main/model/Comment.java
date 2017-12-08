@@ -1,7 +1,6 @@
 package main.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -125,10 +124,13 @@ public class Comment {
 		Comment comment = (Comment) o;
 
 		if (!id.equals(comment.id)) return false;
-		if (createdBy != null ? !createdBy.equals(comment.createdBy) : comment.createdBy != null) return false;
+		if (createdBy != null ? !createdBy.equals(comment.createdBy) : comment.createdBy != null)
+			return false;
 		if (sentTo != null ? !sentTo.equals(comment.sentTo) : comment.sentTo != null) return false;
-		if (content != null ? !content.equals(comment.content) : comment.content != null) return false;
-		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null) return false;
+		if (content != null ? !content.equals(comment.content) : comment.content != null)
+			return false;
+		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null)
+			return false;
 		if (time != null ? !time.equals(comment.time) : comment.time != null) return false;
 		return answers != null ? answers.equals(comment.answers) : comment.answers == null;
 	}

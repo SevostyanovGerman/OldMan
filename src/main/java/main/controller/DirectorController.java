@@ -34,9 +34,9 @@ public class DirectorController {
 	private final Logger logger = LoggerFactory.getLogger(DirectorController.class);
 
 	@Autowired
-	public DirectorController(UserService userService, OrderService orderService, StatusService statusService,
-							  RoleService roleService, CustomerService customerService,
-							  DeliveryService deliveryService) {
+	public DirectorController(UserService userService, OrderService orderService,
+							  StatusService statusService, RoleService roleService,
+							  CustomerService customerService, DeliveryService deliveryService) {
 		this.userService = userService;
 		this.orderService = orderService;
 		this.statusService = statusService;
@@ -62,7 +62,7 @@ public class DirectorController {
 				}
 
 				if (minPrice != null & maxPrice != null) {
-					orderList = orderService.filterByPrice(minPrice ,maxPrice, authUser);
+					orderList = orderService.filterByPrice(minPrice, maxPrice, authUser);
 					model.addObject("max", maxPrice);
 					model.addObject("min", minPrice);
 				}
@@ -133,7 +133,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/create"}, method = RequestMethod.POST)
-	public String createStatus(@ModelAttribute("status") Status status, HttpServletRequest request) {
+	public String createStatus(@ModelAttribute("status") Status status,
+							   HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе статус с таким же именем.
@@ -165,7 +166,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/update"}, method = RequestMethod.POST)
-	public String updateStatus(@ModelAttribute("status") Status incomingStatus, HttpServletRequest request) {
+	public String updateStatus(@ModelAttribute("status") Status incomingStatus,
+							   HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе статус с таким же именем.
@@ -180,7 +182,8 @@ public class DirectorController {
 		if ((foundStatus != null) && (incomingStatus.getId() != foundStatus.getId())) {
 			String error = "Статус с именем: " + incomingStatus.getName() + " уже существует";
 			request.getSession().setAttribute("error", error);
-		} else if ((foundStatusByNumber != null) && (number > 0) && (incomingStatus.getId() != foundStatusByNumber.getId())) {
+		} else if ((foundStatusByNumber != null) && (number > 0) &&
+				   (incomingStatus.getId() != foundStatusByNumber.getId())) {
 			String error = "Статус с индексом: " + incomingStatus.getName() +
 						   " уже существует. Допустимо дублирование только индекс: 0";
 			request.getSession().setAttribute("error", error);
@@ -198,7 +201,8 @@ public class DirectorController {
 		return "redirect:/director/controlpanel/statuses";
 	}
 
-	@RequestMapping(value = {"/director/controlpanel/status/delete/{id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/director/controlpanel/status/delete/{id}"},
+					method = RequestMethod.GET)
 	public String deleteStatus(@PathVariable("id") Long id, HttpServletRequest request) {
 		logger.info("Deleting status with id: ", id);
 
@@ -224,7 +228,8 @@ public class DirectorController {
 				String error = "Ошибка при удалении статуса c id: " + id + " из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
-			String success = "Статус с id:" + id + " и именем: " + deletedStatus.getName() + " успешно удалён";
+			String success =
+				"Статус с id:" + id + " и именем: " + deletedStatus.getName() + " успешно удалён";
 			request.getSession().setAttribute("success", success);
 		}
 		return "redirect:/director/controlpanel/statuses";
@@ -259,7 +264,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/roles/create"}, method = RequestMethod.POST)
-	public String createRole(@ModelAttribute("role") Role incomingRole, HttpServletRequest request) {
+	public String createRole(@ModelAttribute("role") Role incomingRole,
+							 HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе должность с таким же именем.
@@ -286,7 +292,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/roles/update"}, method = RequestMethod.POST)
-	public String updateRole(@ModelAttribute("role") Role incomingRole, HttpServletRequest request) {
+	public String updateRole(@ModelAttribute("role") Role incomingRole,
+							 HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе должность с таким же именем.
@@ -362,7 +369,8 @@ public class DirectorController {
 				String error = "Ошибка при удалении должности c id: " + id + " из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
-			String success = "Должность с id:" + id + " и именем: " + deletedRole.getName() + " успешно удалёна";
+			String success =
+				"Должность с id:" + id + " и именем: " + deletedRole.getName() + " успешно удалёна";
 			request.getSession().setAttribute("success", success);
 		}
 		return "redirect:/director/controlpanel/roles";
@@ -395,7 +403,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/user/create"}, method = RequestMethod.POST)
-	public String createUser(@ModelAttribute("user") User incomingUser, HttpServletRequest request) {
+	public String createUser(@ModelAttribute("user") User incomingUser,
+							 HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе роль с таким же именем.
@@ -436,7 +445,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/user/update"}, method = RequestMethod.POST)
-	public String updateUser(@ModelAttribute("user") User incomingUser, HttpServletRequest request) {
+	public String updateUser(@ModelAttribute("user") User incomingUser,
+							 HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе пользователя с таким же логином.
@@ -565,7 +575,8 @@ public class DirectorController {
 			deletedCustomer.setDeleted(true);
 			try {
 				customerService.save(deletedCustomer);
-				String success = "Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " +
+				String success =
+					"Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " +
 					deletedCustomer.getSecName() + " успешно удалён";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
@@ -713,7 +724,8 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customer/update"}, method = RequestMethod.POST)
 	public String updateCustomer(@ModelAttribute("customer") Customer incomingCustomer,
-								 @ModelAttribute("includeDeliveries") ArrayList<Delivery> incomingDeliveries,
+								 @ModelAttribute("includeDeliveries")
+									 ArrayList<Delivery> incomingDeliveries,
 								 HttpServletRequest request) {
 
 		/*
@@ -724,8 +736,10 @@ public class DirectorController {
 		 * сообщение о усрехе.
 		 */
 		Customer foundCustommer = customerService.getByEmail(incomingCustomer.getEmail());
-		if ((foundCustommer != null) && !(foundCustommer.getId().equals(incomingCustomer.getId()))) {
-			String error = "Покупатель с такой почтой: " + incomingCustomer.getEmail() + " уже существует";
+		if ((foundCustommer != null) &&
+			!(foundCustommer.getId().equals(incomingCustomer.getId()))) {
+			String error =
+				"Покупатель с такой почтой: " + incomingCustomer.getEmail() + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else {
 			try {
