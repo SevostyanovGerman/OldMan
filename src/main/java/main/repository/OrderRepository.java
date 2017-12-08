@@ -48,9 +48,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	List<Object> priceAvgByMonth(@Param("startDate") Date startDate,
 								 @Param("endDate") Date endDate);
 
-	@Query("select o.delivery.country, count(o.delivery.country) from Order o " +
-		   "  where o.deleted =0 and o.payment=1 group by o.delivery.country order by o" +
-		   ".delivery.country")
+	@Query("select o.delivery.city, count(o.delivery.city) from Order o " +
+		   "  where o.deleted =0 and o.payment=1 group by o.delivery.city order by o" +
+		   ".delivery.city")
 	List<Object> statisticGeo();
 
 	@Query(

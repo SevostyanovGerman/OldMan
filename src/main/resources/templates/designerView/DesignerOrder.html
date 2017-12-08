@@ -25,14 +25,11 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
-
+    <link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
 </head>
 
 <body onload="checkStatus();" ng-app="masterOrderForm">
-
-
 
 
 <nav class="navbar navbar-inverse">
@@ -73,21 +70,24 @@
 
 
 <br>
-<div class="container">
+
+<div class="container" >
 
     <div style="text-align: center">
         <h4
             th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
     </div>
 
-    <div class="row">
+    <div class="row borderSimple" >
+
         <div class="col-lg-9" >
-            <div class="form-horizontal borderSimple" >
-                <ul id="myTab2" class="nav nav-tabs">
-                    <li><a href="#tabItem" data-toggle="tab" >Заказ</a></li>
-                    <li><a href="#tabComments" data-toggle="tab" onselect="toggleArea1()" >Комментарии</a></li>
-                    <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
-                </ul>
+            <ul id="myTab2" class="nav nav-tabs" >
+                <li><a href="#tabItem" data-toggle="tab" >Заказ</a></li>
+                <li><a href="#tabComments" data-toggle="tab" onselect="toggleArea1()" >Комментарии</a></li>
+                <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
+            </ul>
+            <div class="form-horizontal borderSimple" style="border-top: none;"  >
+
                     <div class="tab-content " >
                         <div class="tab-pane fade "  id="tabItem" role="tabpanel">
                             <br>
@@ -286,9 +286,11 @@
         </div>
 
     </div>
+
+
 </div>
 
-
+</div>
 
 
 
