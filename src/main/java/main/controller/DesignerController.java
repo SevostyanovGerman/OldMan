@@ -106,8 +106,8 @@ public class DesignerController {
 			model.addObject("item", item);
 			model.addObject("order", orderService.get(orderId));
 		} catch (Exception e) {
-			logger.error("while changing item status id={}", id);
-			return new ModelAndView("redirect:/designer/order/" + id);
+			logger.error("while changing item status id={}", itemId);
+			return new ModelAndView("redirect:/designer/order/" + itemId);
 		}
 		return model;
 	}
