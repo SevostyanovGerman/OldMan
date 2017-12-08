@@ -801,11 +801,14 @@ public class DirectorController {
 					method = RequestMethod.GET)
 	public ModelAndView changeManager(@PathVariable("id") Long id,
 									  @PathVariable("managerId") Long managerId) {
-		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
-		Order order = orderService.get(id);
-		User manager = userService.get(managerId);
-		order.setManager(manager);
-		orderService.save(order);
+		try {
+			Order order = orderService.get(id);
+			User manager = userService.get(managerId);
+			order.setManager(manager);
+			orderService.save(order);
+		} catch (Exception e) {
+			logger.error("while changing manager in order, order's id={}", id);
+		}
 		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 }

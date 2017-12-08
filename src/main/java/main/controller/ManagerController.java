@@ -290,7 +290,7 @@ public class ManagerController {
 			order.setCustomer(customer);
 			orderService.save(order);
 		} catch (Exception e) {
-			logger.error("Ошибка изменения покупателя");
+			logger.error("while saving customer to order, order's id={}", orderId);
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
@@ -308,7 +308,7 @@ public class ManagerController {
 			order.setDelivery(delivery);
 			orderService.save(order);
 		} catch (Exception e) {
-			logger.warn("Не удалось изменить адрес доставки");
+			logger.error("while saving delivery for order, order's id={}", orderId);
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
@@ -324,7 +324,7 @@ public class ManagerController {
 			order.setDelivery(delivery);
 			orderService.save(order);
 		} catch (Exception e) {
-			logger.warn("Не удалось изменить адрес доставки");
+			logger.error("while changing delivery for order, order's id={}", orderId);
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
@@ -366,11 +366,15 @@ public class ManagerController {
 					method = RequestMethod.GET)
 	public ModelAndView setDeliveryType(@PathVariable("orderId") Long orderId,
 										@PathVariable("paymentId") Long deliveryTypeId) {
-		Order order = orderService.get(orderId);
-		DeliveryType deliveryType = deliveryTypeService.get(deliveryTypeId);
-		order.setDelivery(null);
-		order.setDeliveryType(deliveryType);
-		orderService.save(order);
+		try {
+			Order order = orderService.get(orderId);
+			DeliveryType deliveryType = deliveryTypeService.get(deliveryTypeId);
+			order.setDelivery(null);
+			order.setDeliveryType(deliveryType);
+			orderService.save(order);
+		} catch (Exception e) {
+			logger.error("while changing delivery type for order, order's id={}", orderId);
+		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
 
@@ -388,7 +392,7 @@ public class ManagerController {
 			order.setCustomer(customer);
 			orderService.save(order);
 		} catch (Exception e) {
-			logger.error("Ошибка выбора покупателя из списка");
+			logger.error("while changing customer in order, order's id={}", orderId);
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + orderId);
 	}
