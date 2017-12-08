@@ -169,17 +169,51 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> minMaxPrice(Double min, Double max, User user) {
+	public List<Order> filterByPrice(Double min, Double max, User user) {
 		Set<Role> roleSet = user.getRoles();
 		Set<Order> statusSet = new HashSet<>();
 		for (Role role : roleSet) {
 			Set<Status> tmpStatusSet = role.getStatuses();
 			if (role.getName().equals("BOSS")) {
-				statusSet.addAll(orderRepository.minMaxPriceForBoss(min, max));
+				statusSet.addAll(orderRepository.filterByPriceForBoss(min, max));
 				return new ArrayList<>(statusSet);
 			}
 			for (Status status : tmpStatusSet) {
-				statusSet.addAll(orderRepository.minMaxPrice(min, max, user, status));
+				statusSet.addAll(orderRepository.filterByPrice(min, max, user, status));
+			}
+		}
+		return new ArrayList<>(statusSet);
+	}
+
+	@Override
+	public List<Order> filterByPriceMin(Double min, User user) {
+		Set<Role> roleSet = user.getRoles();
+		Set<Order> statusSet = new HashSet<>();
+		for (Role role : roleSet) {
+			Set<Status> tmpStatusSet = role.getStatuses();
+			if (role.getName().equals("BOSS")) {
+				statusSet.addAll(orderRepository.filterByPriceMinBoss(min));
+				return new ArrayList<>(statusSet);
+			}
+			for (Status status : tmpStatusSet) {
+				statusSet.addAll(orderRepository.filterByPriceMin(min, user, status));
+			}
+		}
+		return new ArrayList<>(statusSet);
+	}
+
+	@Override
+	public List<Order> filterByPriceMax(Double max, User user) {
+		Set<Role> roleSet = user.getRoles();
+		Set<Order> statusSet = new HashSet<>();
+		for (Role role : roleSet) {
+			Set<Status> tmpStatusSet = role.getStatuses();
+			if (role.getName().equals("BOSS")) {
+				statusSet.addAll(orderRepository.filterByPriceMaxBoss(max));
+				return new ArrayList<>(statusSet);
+			}
+			for (Status status : tmpStatusSet) {
+				statusSet.addAll(orderRepository.filterByPriceMax(max, user, status));
 			}
 		}
 		return new ArrayList<>(statusSet);

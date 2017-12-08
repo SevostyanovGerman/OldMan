@@ -64,10 +64,29 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " + "o.master = :user OR " +
 		   "o.designer = :user) AND " + "o.status = :status AND " +
 		   "o.deleted = false AND o.price >= :min  AND o.price <= " + ":max ")
-	List<Order> minMaxPrice(@Param("min") Double min, @Param("max") Double max,
-							@Param("user") User user, @Param("status") Status status);
+	List<Order> filterByPrice(@Param("min") Double min, @Param("max") Double max, @Param("user") User user, @Param("status") Status status);
+
+	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " + "o.master = :user OR " +
+		   "o.designer = :user) AND " + "o.status = :status AND " +
+		   "o.deleted = false AND o.price >= :min")
+	List<Order> filterByPriceMin(@Param("min") Double min, @Param("user")
+		User user, @Param("status") Status status);
+
+	@Query("SELECT o FROM Order o WHERE " + "( o.manager = :user OR " + "o.master = :user OR " +
+		   "o.designer = :user) AND " + "o.status = :status AND " +
+		   "o.deleted = false AND o.price <= " + ":max ")
+	List<Order> filterByPriceMax(@Param("max") Double max, @Param("user")
+		User user, @Param("status") Status status);
+
+
 
 	@Query("SELECT o FROM Order o WHERE o.deleted = false AND o.price >= :min  AND o.price <= " +
 		   ":max ")
-	List<Order> minMaxPriceForBoss(@Param("min") Double min, @Param("max") Double max);
+	List<Order> filterByPriceForBoss(@Param("min") Double min, @Param("max") Double max);
+
+	@Query("SELECT o FROM Order o WHERE o.deleted = false AND o.price >= :min ")
+	List<Order> filterByPriceMinBoss(@Param("min") Double min);
+
+	@Query("SELECT o FROM Order o WHERE o.deleted = false AND o.price <= " + ":max ")
+	List<Order> filterByPriceMaxBoss(@Param("max") Double max);
 }

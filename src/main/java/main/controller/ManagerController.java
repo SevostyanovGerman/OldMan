@@ -47,7 +47,8 @@ public class ManagerController {
 							 CustomerService customerService, ItemService itemService,
 							 UserService userService, StatusService statusService,
 							 PaymentService paymentService, ImageService imageService,
-							 DeliveryTypeService deliveryTypeService, NotificationService notificationService) {
+							 DeliveryTypeService deliveryTypeService,
+							 NotificationService notificationService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -64,18 +65,25 @@ public class ManagerController {
 	public ModelAndView getOrderList(Double minPrice, Double maxPrice) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
 		User authUser = userService.getCurrentUser();
+		List<Order> orderList = new ArrayList<>();
 		if (minPrice != null || maxPrice != null) {
 			if (maxPrice == null) {
-				maxPrice = 1.7E+308;
+				orderList = orderService.filterByPriceMin(minPrice, authUser);
+				model.addObject("min", minPrice);
 			}
 			if (minPrice == null) {
-				minPrice = -1.7E+308;
+				orderList = orderService.filterByPriceMax(maxPrice, authUser);
+				model.addObject("max", maxPrice);
 			}
-			model.addObject("orderList", orderService.minMaxPrice(minPrice, maxPrice, authUser));
-			model.addObject("min", minPrice);
-			model.addObject("max", maxPrice);
+
+			if (minPrice != null & maxPrice != null) {
+				orderList = orderService.filterByPrice(minPrice ,maxPrice, authUser);
+				model.addObject("max", maxPrice);
+				model.addObject("min", minPrice);
+			}
+			model.addObject("orderList", orderList);
 		} else {
-			List<Order> orderList = orderService.getAllAllowed(authUser);
+			orderList = orderService.getAllAllowed(authUser);
 			model.addObject("orderList", orderList);
 		}
 		return model;
