@@ -1,6 +1,7 @@
 package main.model;
 
 import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 
