@@ -2,6 +2,7 @@ package main.model;
 
 import javax.imageio.ImageIO;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.DatatypeConverter;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -18,6 +19,9 @@ public class Image {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(name = "small_image")
+	private Blob smallImage;
 
 	@Column(name = "image")
 	private Blob image;
@@ -59,24 +63,35 @@ public class Image {
 		this.fileName = fileName;
 	}
 
+	public Blob getSmallBlobFile() {
+		return smallImage;
+	}
+
+	public void setSmallImage(Blob smallImage) {
+		this.smallImage = smallImage;
+	}
+
 	public Blob getBlobFile() {
 		return image;
 	}
 
-	public String getImage() throws IOException, SQLException {
-		if (this.image != null) {
-			InputStream in = this.image.getBinaryStream();
-			BufferedImage image = ImageIO.read(in);
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(image, "png", baos);
-			String data = DatatypeConverter.printBase64Binary(baos.toByteArray());
-			return "data:image/png;base64," + data;
-		}
-		return null;
-	}
-
 	public void setImage(Blob image) {
 		this.image = image;
+	}
+
+	public String getImage() throws IOException, SQLException {
+		return "data:image/jpg;base64," + convertToBase64(this.image.getBinaryStream());
+	}
+
+	public String getSmallImage() throws IOException, SQLException {
+		return "data:image/jpg;base64," + convertToBase64(this.smallImage.getBinaryStream());
+	}
+
+	private String convertToBase64(InputStream inputStream) throws IOException {
+		BufferedImage image = ImageIO.read(inputStream);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(image, "jpg", baos);
+		return DatatypeConverter.printBase64Binary(baos.toByteArray());
 	}
 
 	@Override

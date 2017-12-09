@@ -21,7 +21,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
 
 </head>
 
@@ -114,8 +114,8 @@
                     <div>
                         <h4>Изображения от дизайнера:</h4>
                         <ul class="show-image" th:each="image: ${item?.getImages()}">
-                            <a th:href="${image.getImage()}" data-toggle="lightbox" data-gallery="mygallery">
-                                <img th:src="${image?.getImage()}" height="75">
+                            <a th:href="${image.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                <img th:src="${image?.getSmallImage()}" height="75">
                             </a>
                             <a class="btn btn-primary btn-xs btn-download" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
                                title="Загрузить один файл">
@@ -132,8 +132,8 @@
                         <h4>Изображения от пользователя:</h4>
                         <ul class="show-image" th:each="file: ${item?.getFiles()}">
                             <br>
-                            <a th:href="${file?.getImage()}" data-toggle="lightbox" data-gallery="mygallery">
-                                <img th:src="${file?.getImage()}" height="75">
+                            <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                <img th:src="${file?.getSmallImage()}" height="75">
                             </a>
                             <a class="btn btn-danger btn-xs btn-delete" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
                                title="Удалить изображение">

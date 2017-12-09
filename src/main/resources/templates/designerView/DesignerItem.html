@@ -105,7 +105,6 @@
                                     <li class="list-group-item" th:text="${item.getType()}">Деревянный</li>
                                 </td>
                             </tr>
-
                         </table>
                         <ul style="padding-left: 20px; ">
                             Комментарий:
@@ -114,8 +113,8 @@
                         </ul>
                         <h5>Изображения от клиента:</h5>
                         <ul th:each="file: ${item.getFiles()}" style="padding-left: 20px; display: inline-block">
-                            <a th:href="${file.getImage()}" class="js-smartPhoto" >
-                                <img th:src="${file.getImage()}" height="75">
+                            <a th:href="${file.getSmallImage()}" class="js-smartPhoto" >
+                                <img th:src="${file.getSmallImage()}" height="75">
                             </a>
                         </ul>
                    </div>
