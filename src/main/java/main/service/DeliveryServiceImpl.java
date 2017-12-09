@@ -36,7 +36,7 @@ public class DeliveryServiceImpl implements DeliveryService {
 		Delivery customerDelivery;
 		for (int i = 0; i < deliveryList.size(); i++) {
 			customerDelivery = deliveryList.get(i);
-			if (customerDelivery.equals(delivery)) {
+			if (customerDelivery.equalsWhithoutId(delivery)) {
 				return customerDelivery;
 			}
 		}
