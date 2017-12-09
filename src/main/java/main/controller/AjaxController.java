@@ -109,13 +109,26 @@ public class AjaxController {
 	//Данные для статистики средней цены заказа
 	//Средняя сумма заказа//
 	@RequestMapping(value = "/statistic/middle/averageOrderPrice", method = RequestMethod.GET)
-	public List<Object> statisticAverageOrderPrice(Date startDate, Date endDate) {
+	public List<Object> statisticAverageOrderPrice(Date startDate, Date endDate, String dwm) {
 		try {
 			DateTime start = new DateTime(startDate);
 			DateTime end = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
-			return orderService.avgPriceByMonth(start.toDate(), end.toDate());
+			return orderService.avgPriceByMonth(start.toDate(), end.toDate(), dwm);
 		} catch (Exception e) {
 			logger.error("while retrieving list of orders for 'average orders statistic");
+			return null;
+		}
+	}
+
+	// сумма заказа статистика//
+	@RequestMapping(value = "/statistic/sumOrderPrice", method = RequestMethod.GET)
+	public List<Object> statisticSumOrderPrice(Date startDate, Date endDate, String dwm) {
+		try {
+			DateTime start = new DateTime(startDate);
+			DateTime end = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+			return orderService.amoutPriceOrders(start.toDate(), end.toDate(), dwm);
+		} catch (Exception e) {
+			logger.error("while retrieving list of orders for 'sum orders statistic");
 			return null;
 		}
 	}

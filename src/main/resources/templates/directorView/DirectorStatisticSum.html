@@ -41,7 +41,6 @@
                                                                       th:href="${function.getLink()}"></a></li>
                         </ul>
                     </th:block>
-                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
 					<li><a href="#"><span sec:authentication="principal"></a></li>
@@ -90,8 +89,8 @@
 
                     <li ><a href="/director/statistic/middle/">Среднии показатели</a></li>
                     <li ><a href="/director/statistic/geo/">Гео анализ</a></li>
-                    <li class="active"><a href="/director/statistic/newCustomers/">Новые клиенты</a></li>
-                    <li ><a href="/director/statistic/sum/">Сумма заказов</a></li>
+                    <li ><a href="/director/statistic/newCustomers/">Новые клиенты</a></li>
+                    <li class=" active" ><a href="/director/statistic/sum/">Сумма заказов</a></li>
 
                 </ul>
 
@@ -101,9 +100,11 @@
 
     </nav>
 
+    </div>
+
+
     <div >
-    <h2 style="text-align: center">Кол-во новых клиентов по месяцам</h2>
-        <br>
+    <h2 style="text-align: center">Сумма заказов</h2>
     <!--Календарь-->
     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
@@ -111,7 +112,9 @@
     </div>
 
     <div class="container">
-
+        <button type="button" class="btn" onclick="test('%m-%d')">По дням</button>
+        <button type="button" class="btn" onclick="test('%Y-%u')">По неделям</button>
+        <button type="button" class="btn" onclick="test('%Y-%m')">По месяцам</button>
 
         <!--График-->
         <div id="chart_div"></div>
@@ -155,7 +158,7 @@
 
 
 
-    <script src="/js/statisticNewCustomers.js"></script>
+    <script src="/js/statisticSumMx.js"></script>
 
 </body>
 </html>

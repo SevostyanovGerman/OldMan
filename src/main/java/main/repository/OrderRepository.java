@@ -41,12 +41,22 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 						  @Param("deleted") boolean deleted);
 
 	@Query(
-		"SELECT  date_format(o.created, '%Y-%m') as created ,  AVG(o.price) as price FROM Order o " +
+		"SELECT  date_format(o.created, :dwm) as created ,  AVG(o.price) as price FROM Order o " +
 		"WHERE o.deleted=0 AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
 		"STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
-		"date_format(o.created, '%Y-%m') ORDER BY date_format(o.created, '%Y-%m')")
-	List<Object> priceAvgByMonth(@Param("startDate") Date startDate,
-								 @Param("endDate") Date endDate);
+		"date_format(o.created, :dwm) ORDER BY date_format(o.created, :dwm)")
+	List<Object> priceAvgByMonth(@Param("startDate") Date startDate, @Param("endDate") Date endDate,
+								 @Param("dwm") String dwm);
+
+	@Query(
+		"SELECT  date_format(o.created, :dwm) as created ,  SUM(o.price) as price FROM Order o " +
+		"WHERE o.deleted=0 AND o.payment=1 and o.created between STR_TO_DATE(:startDate, " +
+		"'%Y-%m-%d " +
+		"%H:%i:%s')  and  " +
+		"STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
+		"date_format(o.created, :dwm) ORDER BY date_format(o.created, :dwm)")
+	List<Object> amountPriceOrders(@Param("startDate") Date startDate,
+								 @Param("endDate") Date endDate, @Param("dwm") String dwm);
 
 	@Query("select o.delivery.city, count(o.delivery.city) from Order o " +
 		   "  where o.deleted =0 and o.payment=1 group by o.delivery.city order by o" +

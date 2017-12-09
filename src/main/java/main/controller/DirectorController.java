@@ -791,6 +791,12 @@ public class DirectorController {
 		return model;
 	}
 
+	@RequestMapping(value = {"/director/statistic/sum/"}, method = RequestMethod.GET)
+	public ModelAndView statisticSum() {
+		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticSum");
+		return model;
+	}
+
 	@RequestMapping(value = {"/director/statistic/geo/"}, method = RequestMethod.GET)
 	public ModelAndView statisticGeo() {
 		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticGeo");

@@ -14,7 +14,7 @@ var dwm = '%Y-%m';
 
         // посылаем ajax запрос, получаем массив обьектов для графика
         $.ajax({
-            url: "/statistic/middle/averageOrderPrice",
+            url: "/statistic/sumOrderPrice",
             data: data,
             dataType: 'json',
             success: function (averagePriceElement) {
@@ -34,12 +34,12 @@ var dwm = '%Y-%m';
 
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Месяц');  //названия колонок
-                    data.addColumn('number', 'средняя сумма заказа');
+                    data.addColumn('number', 'сумма заказа');
                     data.addRows(averagePriceElement); // полученный массив данных
 
                     // Set chart options
                     var options = {
-                        'title': 'Средняя сумма заказа',
+                        'title': 'Сумма заказа',
                         'width': '100%',
                         'height': 500
                     };

@@ -150,8 +150,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Object> avgPriceByMonth(Date start, Date end) {
-		return orderRepository.priceAvgByMonth(start, end);
+	public List<Object> avgPriceByMonth(Date start, Date end, String dwm) {
+		return orderRepository.priceAvgByMonth(start, end, dwm);
+	}
+
+	@Override
+	public List<Object> amoutPriceOrders(Date start, Date end, String dwm) {
+		return orderRepository.amountPriceOrders(start, end, dwm);
 	}
 
 	@Override
