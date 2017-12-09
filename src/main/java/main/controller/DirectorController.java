@@ -31,7 +31,7 @@ public class DirectorController {
 
 	private DeliveryService deliveryService;
 
-	private final Logger logger = LoggerFactory.getLogger(DirectorController.class);
+	private final static Logger logger = LoggerFactory.getLogger(DirectorController.class);
 
 	@Autowired
 	public DirectorController(UserService userService, OrderService orderService,

@@ -15,7 +15,7 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private UserRepository userRepository;

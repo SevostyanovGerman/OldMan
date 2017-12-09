@@ -19,7 +19,7 @@ import java.util.Date;
 @Controller
 public class MainController {
 
-	private final Logger logger = LoggerFactory.getLogger(MainController.class);
+	private final static Logger logger = LoggerFactory.getLogger(MainController.class);
 
 	private CommentService commentService;
 
