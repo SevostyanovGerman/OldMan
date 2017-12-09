@@ -28,7 +28,7 @@ public interface OrderService {
 	List<Order> findOrdersByRange(Date startDate, Date endDate);
 	Order setAllStatusItemFalse(Order order);
 	List<Object> avgPriceByMonth(Date start, Date end, String dwm);
-	List<Object> amoutPriceOrders(Date start, Date end, String dwm);
+	List<Object> sumPriceOrders(Date start, Date end, String dwm);
 	List<Object> statisticGeo();
 	List<Object> statisticNewCustomers(Date start, Date end);
 	List<Order> filterByPrice(Double min, Double max, User user);

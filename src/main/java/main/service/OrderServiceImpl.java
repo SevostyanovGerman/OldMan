@@ -155,8 +155,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Object> amoutPriceOrders(Date start, Date end, String dwm) {
-		return orderRepository.amountPriceOrders(start, end, dwm);
+	public List<Object> sumPriceOrders(Date start, Date end, String dwm) {
+		return orderRepository.sumPriceOrders(start, end, dwm);
 	}
 
 	@Override

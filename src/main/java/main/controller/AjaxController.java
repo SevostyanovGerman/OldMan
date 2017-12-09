@@ -126,7 +126,7 @@ public class AjaxController {
 		try {
 			DateTime start = new DateTime(startDate);
 			DateTime end = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
-			return orderService.amoutPriceOrders(start.toDate(), end.toDate(), dwm);
+			return orderService.sumPriceOrders(start.toDate(), end.toDate(), dwm);
 		} catch (Exception e) {
 			logger.error("while retrieving list of orders for 'sum orders statistic");
 			return null;

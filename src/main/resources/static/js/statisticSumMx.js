@@ -34,7 +34,8 @@ var dwm = '%Y-%m';
 
                     var data = new google.visualization.DataTable();
                     data.addColumn('string', 'Месяц');  //названия колонок
-                    data.addColumn('number', 'сумма заказа');
+                    data.addColumn('number', 'сумма оплаченных заказов');
+                    data.addColumn('number', 'сумма не оплаченных заказов');
                     data.addRows(averagePriceElement); // полученный массив данных
 
                     // Set chart options
