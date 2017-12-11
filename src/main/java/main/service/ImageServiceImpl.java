@@ -1,6 +1,7 @@
 package main.service;
 
 import main.model.Image;
+import main.model.ImageType;
 import main.model.Item;
 import main.repository.ImageRepository;
 import org.slf4j.Logger;
@@ -55,21 +56,27 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public void saveBlobImagesToItem(List<MultipartFile> files, Long itemId) {
-		String name;
 		Item item = itemService.get(itemId);
 		for (MultipartFile file : files) {
 			if (!file.isEmpty()) {
 				try {
-					name = file.getOriginalFilename();
-					byte[] bytes = file.getBytes();
-					Blob blob = new SerialBlob(bytes);
+					BufferedImage resizedImage;
+					BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
+					if (originalImage.getWidth()>IMG_WIDTH){
+						resizedImage = resizePicture(originalImage, originalImage.getType());
+					}else {
+						resizedImage = originalImage;
+					}
+					Blob resizedFile = new SerialBlob(convertToByteArray(resizedImage));
+					Blob blob = new SerialBlob(file.getBytes());
 					Image image = new Image(blob);
-					image.setFileName(name);
-					image.setType(false);
+					image.setSmallImage(resizedFile);
+					image.setFileName(file.getOriginalFilename());
+					image.setImageType(ImageType.DESIGNER.toString());
 					imageService.save(image);
 					item.getImages().add(image);
 					itemService.save(item);
-					logger.info("Вы удачно загрузили файл {}", name);
+					logger.info("Вы удачно загрузили файл {}", file.getOriginalFilename());
 				} catch (Exception e) {
 					logger.info("Ошибка при загрузке файла");
 				}
@@ -84,24 +91,22 @@ public class ImageServiceImpl implements ImageService {
 		List<MultipartFile> fileList = uploadFiles.getFiles("uploadCustomerFiles");
 		for (MultipartFile file : fileList) {
 			if (!file.isEmpty()) {
-
-
-				BufferedImage originalImage = ImageIO.read(convertToFile(file));
-				BufferedImage resizedImage = resizePicture(originalImage, originalImage.getType());
+				BufferedImage resizedImage;
+				BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
+				if (originalImage.getWidth()>IMG_WIDTH){
+					resizedImage = resizePicture(originalImage, originalImage.getType());
+				}else {
+					resizedImage = originalImage;
+				}
 				Blob resizedFile = new SerialBlob(convertToByteArray(resizedImage));
-
-				//byte[] bytes = file.getBytes();
-				//Blob blobFile = new SerialBlob(bytes);
 				Blob originalFile = new SerialBlob(file.getBytes());
-
-				Image newFile = new Image();
-				newFile.setType(true);
-				newFile.setFileName(file.getOriginalFilename());
-				newFile.setSmallImage(resizedFile);
-				//newFile.setImage(blobFile);
-				newFile.setImage(originalFile);
-				imageService.save(newFile);
-				blobFileList.add(newFile);
+				Image newImage = new Image();
+				newImage.setImageType(ImageType.CUSTOMER.toString());
+				newImage.setFileName(file.getOriginalFilename());
+				newImage.setSmallImage(resizedFile);
+				newImage.setImage(originalFile);
+				imageService.save(newImage);
+				blobFileList.add(newImage);
 			}
 		}
 		return blobFileList;
@@ -147,14 +152,6 @@ public class ImageServiceImpl implements ImageService {
 				fileOutputStream.write(readByte);
 			}
 		}
-	}
-
-	private File convertToFile(MultipartFile file) throws IOException {
-		File convertedFile = new File(file.getOriginalFilename());
-		FileOutputStream fos = new FileOutputStream(convertedFile);
-		fos.write(file.getBytes());
-		fos.close();
-		return convertedFile;
 	}
 
 	private byte[] convertToByteArray(BufferedImage bufferedImage) throws IOException {

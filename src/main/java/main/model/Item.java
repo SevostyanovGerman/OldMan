@@ -40,12 +40,12 @@ public class Item {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "item_id")
-	@Where(clause = "type=true")
+	@Where(clause = "image_type='CUSTOMER'")
 	private List<Image> files;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "item_id")
-	@Where(clause = "type=false")
+	@Where(clause = "image_type='DESIGNER'")
 	private List<Image> images;
 
 	public Item() {

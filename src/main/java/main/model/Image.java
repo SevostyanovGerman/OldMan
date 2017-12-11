@@ -26,8 +26,8 @@ public class Image {
 	@Column(name = "image")
 	private Blob image;
 
-	@Column(name = "type")
-	private boolean type;
+	@Column(name = "image_type")
+	private String imageType;
 
 	@Column(name = "file_name")
 	private String fileName;
@@ -35,12 +35,12 @@ public class Image {
 	public Image() {
 	}
 
-	public boolean isType() {
-		return type;
+	public String getImageType() {
+		return imageType;
 	}
 
-	public void setType(boolean type) {
-		this.type = type;
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}
 
 	public Image(Blob image) {
