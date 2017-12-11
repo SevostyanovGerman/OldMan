@@ -51,25 +51,25 @@ public class DirectorController {
 		try {
 			User authUser = userService.getCurrentUser();
 			List<Order> orderList = new ArrayList<>();
-			if (minPrice != null || maxPrice != null) {
-				if (maxPrice == null) {
-					orderList = orderService.filterByPriceMin(minPrice, authUser);
-					model.addObject("min", minPrice);
-				}
-				if (minPrice == null) {
-					orderList = orderService.filterByPriceMax(maxPrice, authUser);
-					model.addObject("max", maxPrice);
-				}
-
-				if (minPrice != null & maxPrice != null) {
-					orderList = orderService.filterByPrice(minPrice, maxPrice, authUser);
-					model.addObject("max", maxPrice);
-					model.addObject("min", minPrice);
-				}
-				model.addObject("orders", orderList);
-			} else {
-				model.addObject("orders", orderService.getAll());
-			}
+//			if (minPrice != null || maxPrice != null) {
+//				if (maxPrice == null) {
+//					orderList = orderService.filterByPriceMin(minPrice, authUser);
+//					model.addObject("min", minPrice);
+//				}
+//				if (minPrice == null) {
+//					orderList = orderService.filterByPriceMax(maxPrice, authUser);
+//					model.addObject("max", maxPrice);
+//				}
+//
+//				if (minPrice != null & maxPrice != null) {
+//					orderList = orderService.filterByPrice(minPrice, maxPrice, authUser);
+//					model.addObject("max", maxPrice);
+//					model.addObject("min", minPrice);
+//				}
+//				model.addObject("orders", orderList);
+//			} else {
+			model.addObject("orders", orderService.getAll());
+			//}
 		} catch (Exception e) {
 			logger.error("Can\'t getById all orders", e);
 		}

@@ -72,6 +72,7 @@ public class User implements UserDetails {
 		} else {
 			this.roles.add(role);
 		}
+		this.created = new Date();
 	}
 
 	@Override

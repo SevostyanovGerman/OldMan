@@ -2,18 +2,23 @@ package main.controller;
 
 import main.model.*;
 import main.service.*;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -66,26 +71,17 @@ public class ManagerController {
 		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
 		User authUser = userService.getCurrentUser();
 		List<Order> orderList = new ArrayList<>();
-		if (minPrice != null || maxPrice != null) {
-			if (maxPrice == null) {
-				orderList = orderService.filterByPriceMin(minPrice, authUser);
-				model.addObject("min", minPrice);
-			}
-			if (minPrice == null) {
-				orderList = orderService.filterByPriceMax(maxPrice, authUser);
-				model.addObject("max", maxPrice);
-			}
 
-			if (minPrice != null & maxPrice != null) {
-				orderList = orderService.filterByPrice(minPrice, maxPrice, authUser);
-				model.addObject("max", maxPrice);
-				model.addObject("min", minPrice);
-			}
-			model.addObject("orderList", orderList);
-		} else {
-			orderList = orderService.getAllAllowed(authUser);
-			model.addObject("orderList", orderList);
-		}
+		Date today = new Date();
+		DateTime end = new DateTime(today).withHourOfDay(23).withMinuteOfHour(59);
+
+		DateTime start = new DateTime().dayOfMonth().withMinimumValue();
+
+		//orderList = orderService.getAllAllowedByDate(authUser, start.toDate(), end.toDate(),
+		// null);
+		Collections.sort(orderList);
+		model.addObject("orderList", orderList);
+
 		return model;
 	}
 
@@ -467,5 +463,24 @@ public class ManagerController {
 			model.addObject("orderList", orderList);
 		}
 		return model;
+	}
+
+	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
+	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
+							  Double minPrice, Double maxPrice) {
+
+		DateTime end = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+		List<Order> orderList = orderService
+			.getOrdersForDashboard(userService.getCurrentUser(), startDate, end.toDate(), search,
+				minPrice, maxPrice);
+
+		orderService.sorting(orderList, sort);
+		//Page<Order> page = orderService.getDeploymentLog(1,orderList);
+		Page<Order> page = new PageImpl<>(orderList);
+
+		model.addAttribute("orderList", orderList);
+
+		return "managerView/ManagerDashBoard :: tableOrders";
+
 	}
 }
