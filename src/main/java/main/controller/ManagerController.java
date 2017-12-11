@@ -40,7 +40,7 @@ public class ManagerController {
 
 	private NotificationService notificationService;
 
-	private final Logger logger = LoggerFactory.getLogger(ManagerController.class);
+	private final static Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	@Autowired
 	public ManagerController(OrderService orderService, DeliveryService deliveryService,

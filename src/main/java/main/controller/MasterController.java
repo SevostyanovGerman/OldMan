@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 public class MasterController {
 
-	private final Logger logger = LoggerFactory.getLogger(DesignerController.class);
+	private final static Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
 	private OrderService orderService;
 

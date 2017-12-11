@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private HistoryService historyService;
 
-	private final Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+	private final static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
 	@Override
 	public Order get(Long id) {

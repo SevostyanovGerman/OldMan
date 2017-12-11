@@ -32,7 +32,7 @@ public class ImageServiceImpl implements ImageService {
 	@Autowired
 	ItemService itemService;
 
-	private final Logger logger = LoggerFactory.getLogger(ImageServiceImpl.class);
+	private final static Logger logger = LoggerFactory.getLogger(ImageServiceImpl.class);
 
 	@Override
 	public void save(Image image) {

@@ -13,7 +13,7 @@ import java.util.List;
 @Transactional
 public class StatusServiceImpl implements StatusService {
 
-	private final Logger logger = LoggerFactory.getLogger(StatusServiceImpl.class);
+	private final static Logger logger = LoggerFactory.getLogger(StatusServiceImpl.class);
 	private StatusRepository statusRepository;
 
 	@Autowired

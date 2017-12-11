@@ -14,7 +14,7 @@ import java.util.List;
 @Transactional
 public class RoleServiceImpl implements RoleService {
 
-	private final Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+	private final static Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
 	private RoleRepository roleRepository;
 
 	@Autowired
