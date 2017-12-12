@@ -3,6 +3,7 @@ package main.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -53,8 +54,10 @@ public class Comment {
 		this.parent = parent;
 	}
 
-	public Date getTime() {
-		return time;
+	public String getTime() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yy H:mm");
+		String result = formatter.format(time);
+		return result;
 	}
 
 	public void setTime(Date time) {

@@ -47,13 +47,11 @@
                 <li><a href="#"><span sec:authentication="principal"></span></a></li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 22px"></span></a>
+                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
                     </form>
                 </li>
                 <li>
-                    <form class="navbar-form navbar-right">
-                        <a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a>
-                    </form>
+                    <a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
                 </li>
             </ul>
         </div>

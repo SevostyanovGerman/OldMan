@@ -43,8 +43,7 @@
 		<div class="collapse navbar-collapse" id="navcol-1">
             <th:block th:each="element:  ${#authentication.getAuthorities()}">
                 <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                    <li class="active" role="presentation"><a th:text="${function?.getName()}"
-                                                              th:href="${function.getLink()}"></a></li>
+                    <li class="active" role="presentation"><a th:text="${function?.getName()}" th:href="${function.getLink()}"></a></li>
                 </ul>
             </th:block>
 			<ul class="nav navbar-nav navbar-right">
@@ -53,14 +52,12 @@
                 </li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 22px"></span></a>
+                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
                     </form>
                 </li>
                 <li>
-                    <form class="navbar-form navbar-right">
-                        <a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a>
-                    </form>
-				</li>
+                    <a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
+                </li>
 			</ul>
 		</div>
 	</div>
