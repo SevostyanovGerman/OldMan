@@ -9,8 +9,9 @@
     <title>Заказы</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-	<link rel="stylesheet" href="/css/managerDashBoard.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">-->
+	<!---->
+    <link rel="stylesheet" href="/css/managerDashBoard.css"/>
 
     <!-- Angular JS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
@@ -18,7 +19,8 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 
 </head>
 
@@ -66,17 +68,71 @@
             <a class="btn btn-primary btn-new-object" type="button" th:href="@{/manager/order/add}" title="Создать новый заказ">Новый заказ</a>
         </div>
         <br>
-        <div style="text-align: right;" >
-            <form method="get" action="/manager/">
-            <input  id="minPrice" name="minPrice" type="number" placeholder="Сумма заказа от" th:value="${min}">
-            <input  id="maxPrice" name="maxPrice" type="number" placeholder="до" th:value="${max}">
-            <button type="submit">Показать</button>
-            </form>
-        </div>
-        <br>
 
-        <div class="table-responsive">
-            <table class="display table table-bordered data" id="sortingTable" cellspacing="0" width="100%">
+
+
+
+
+
+            <div class="row">
+
+                <div class="col-lg-4 ">
+                    <div class="col-lg-6 " style="padding-left: 0px; margin-left: 0px">
+                        <input class="form-control" id="minPrice" name="minPrice" type="number" placeholder="Сумма заказа от" onkeyup="filterSearch()">
+                    </div>
+                    <div class="col-lg-6 " style="margin-right: 0px; padding-right: 0px">
+                        <input class="form-control" id="maxPrice" name="maxPrice" type="number" placeholder="до" onkeyup="filterSearch()">
+                    </div>
+
+                </div>
+                <div class="col-lg-4 ">
+                </div>
+                <div class="col-lg-4" style="text-align: right">
+                    <input  id="search" name="search"
+                            placeholder="Найти по номеру, клиенты, оплате, менеджеру" class="form-control"
+                            onkeyup="filterSearch()" >
+                </div>
+
+            </div>
+
+        <div class="row" style="margin-top: 10px">
+                <div class="col-lg-4">
+                    <div class="col-lg-8" style="padding-left: 0px; margin-left: 0px">
+                    <select id="sortingBy" class="form-control" onchange="filterSearch()">
+                        <option value="number">Сортирова по номеру</option>
+                        <option value="name">Сортирова по клиенту</option>
+                        <option value="price">Сортирова по цене</option>
+                        <option value="status">Сортирова по статусу</option>
+                    </select>
+                    </div>
+
+                    <div class="col-lg-4" style="margin-right: 0px; padding-right: 0px">
+                    <select id="pageSize" class="form-control" onchange="filterSearch()">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-8">
+                    <!--Календарь-->
+                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                        <span></span> <b class="caret"></b>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+        <div class="table-responsive" th:fragment="tableOrders" style="margin-top: 10px">
+
+            <table class="display table table-bordered data" id="sortingTable" cellspacing="0"
+                   width="100%"  style="text-align: center;" >
                 <thead>
                     <tr>
                         <th class="table-head">№ Заказа</th>
@@ -90,13 +146,18 @@
                         <th class="table-head">Статус заказа</th>
                         <th class="table-head"></th>
                         <th class="table-head"></th>
-                        <th class="table-head"></th>
-
                     </tr>
                 </thead>
+
+
+
                 <tbody>
-                    <tr th:each ="order : ${orderList}">
-                        <td class="table-body" th:text="${order.getNumber()}"></td>
+
+
+                <tr th:each ="order : ${orderList}"
+                    th:styleappend="'background-color:' + ${order.getStatus().getColor()} +';'">
+
+                <td class="table-body" th:text="${order.getNumber()}"></td>
                         <td class="table-body" th:text="${order.getCreated()}"></td>
                         <td class="table-body" th:text="${order.getCustomer()}"></td>
                         <td class="table-body" th:text="${order.getManager()}"></td>
@@ -105,7 +166,7 @@
                         <td class="table-body" th:text="${order.getPaymentString()}"></td>
                         <td class="table-body" th:text="${order.getPrice()}"></td>
                         <td class="table-body" th:text="${order.getStatus()}"></td>
-                        <td class="table-body" th:text="${order.getStatus().getNumber()}" ></td>
+                        <!--<td class="table-body" th:text="${order.getStatus().getNumber()}" hidden></td>-->
                         <td align="center">
                             <a class="btn btn-info btn-xs" th:href="${'/manager/order/update/' + order.getId()}" title="Редактировать заказ">
                                 <span class="glyphicon glyphicon-pencil"></span>
@@ -117,15 +178,89 @@
                             </a>
                         </td>
                     </tr>
+
+
+                    <tr>
+                        <td colspan="11" align="centre">
+                            <th:block th:if="${page != null}" >
+                                <div class="row" >
+                                    <div class="text-center">
+                                        <div class='pagination pagination-centered'>
+                                            <ul class="pagination">
+                                                <li th:class="${currentIndex == 1}? 'disabled' : ''">
+                                                    <span th:if='${currentIndex == 1}'>First</span>
+                                                    <a th:if='${currentIndex != 1}'
+
+                                                       th:onclick="'filterSearch('+${1}+')' "
+                                                    >First</a>
+                                                </li>
+                                                <li th:class="${currentIndex != 1}? '' : 'disabled'">
+                                                    <span th:if='${currentIndex == 1}'>«</span>
+                                                    <a th:if='${currentIndex != 1}'  th:onclick="'filterSearch('+${currentIndex - 1}+')' "
+                                                       title='Go to previous page'>«</a>
+                                                </li>
+
+                                                <li th:if="${beginIndex != null}" th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
+                                                    th:class="${item == currentIndex ? 'active' : '' }">
+                                                    <span th:if='${item == currentIndex}' th:text='${item}'>1</span>
+                                                    <a th:if='${item != currentIndex}'
+                                                       th:onclick="'filterSearch('+${item}+')' ">
+                                                        <span th:text='${item}'>1</span>
+                                                    </a>
+                                                </li>
+
+                                                <li th:class="${currentIndex != totalPageCount}? '' : 'disabled'">
+                                                    <span th:if='${currentIndex == totalPageCount}'>»</span>
+                                                    <a th:if='${currentIndex != totalPageCount}'
+                                                       th:onclick="'filterSearch('+${currentIndex+1}+')' "
+                                                       title='Go to next page'>»</a>
+                                                </li>
+                                                <li th:class="${currentIndex == totalPageCount}? 'disabled' : ''">
+                                                    <span th:if='${currentIndex == totalPageCount}'>Last</span>
+                                                    <a th:if='${currentIndex != totalPageCount}'
+
+                                                       th:onclick="'filterSearch('+${totalPageCount}+')' "
+                                                    >Last</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </td>
+                    </tr>
+
+
                 </tbody>
+
             </table>
-        </div>
+
+
+
     </div>
 
+
+
+
+
+    </div>
+
+
+
+
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
-    <script src="/js/settingUpForSortingTable.js"></script>
+   <!--<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>-->
+    <!--<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>-->
+    <!--&lt;!&ndash;<script src="/js/settingUpForSortingTable.js"></script>&ndash;&gt;-->
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+
+    <script src="/js/searchFilter.js"></script>
+
 
 </body>
 </html>

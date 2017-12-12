@@ -17,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -168,6 +170,21 @@ public class AjaxController {
 	@RequestMapping(value = "/notifications/get", method = RequestMethod.GET)
 	public List<Notification> getNotifications() {
 		return notificationService.findAllByUser(userService.getCurrentUser().getName());
+	}
+
+	//Контроллер возвращающий список уведомлений для конкретного пользователя
+	@RequestMapping(value = "/orders/calendar", method = RequestMethod.GET)
+	public HashMap<String, List<Order>> orderByCalendar(Date startDate, Date endDate, String dwm,
+														Model model) {
+		List<Order> list = new ArrayList<>();
+		list.add(orderService.get(1l));
+		model.addAttribute("orderList", list);
+		model.addAttribute("content", "hello");
+
+		HashMap<String, List<Order>> map = new HashMap<>();
+		map.put("data", list);
+		return map;
+
 	}
 }
 

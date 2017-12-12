@@ -5,16 +5,20 @@ import main.model.Helper;
 import main.model.Notification;
 import main.model.Order;
 import main.service.*;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -100,5 +104,52 @@ public class MainController {
 			logger.error("Ошибка при создании комментария, заказ id={}", e);
 		}
 		return model;
+	}
+
+	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
+	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
+							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
+							  HttpServletRequest request) {
+		String url = Helper.getUrl(request.getHeader("referer"));
+
+		try {
+
+			if (url.contains("manager")) {
+				url = "managerView/ManagerDashBoard :: tableOrders";
+			} else {
+				url = "directorView/DirectorDashBoard :: tableOrders";
+			}
+
+			DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+			List<Order> orderList = orderService
+				.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(),
+					search, minPrice, maxPrice);
+
+			if (pageNumber < 0) {
+				pageNumber = 1;
+			}
+			PagedListHolder page = new PagedListHolder(orderList);
+			page.setPageSize(pageSize); // number of items per page
+			orderService.sorting(page.getSource(), sort);
+			page.setPage(pageNumber - 1); // set to first page
+
+			model.addAttribute("page", page);
+			model.addAttribute("orderList", page.getPageList());
+
+			//Pagination variables
+			int current = page.getPage() + 1;
+			int begin = Math.max(1, current - 5);
+			int end = Math.min(begin + 5, page.getPageCount());
+			int totalPageCount = page.getPageCount();
+
+			model.addAttribute("beginIndex", begin);
+			model.addAttribute("endIndex", end);
+			model.addAttribute("currentIndex", current);
+			model.addAttribute("totalPageCount", totalPageCount);
+		} catch (Exception e) {
+			logger.error("while getting list of orders");
+		}
+
+		return url;
 	}
 }

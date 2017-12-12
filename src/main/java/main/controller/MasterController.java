@@ -94,7 +94,7 @@ public class MasterController {
 		ModelAndView model = new ModelAndView("masterView/MasterDashBoard");
 		try {
 			String searchItem = request.getParameter("searchItem");
-			model.addObject("masterOrders", orderService.searchByAllFields(searchItem));
+			//model.addObject("masterOrders", orderService.searchByAllFields(searchItem));
 		} catch (Exception e) {
 			logger.error("Controller '/master/search' doesn't work ");
 			model = new ModelAndView("masterView/MasterDashBoard");

@@ -59,17 +59,17 @@ public class InitDB {
 		deliveryTypeService.save(toAddress);
 		deliveryTypeService.save(pickup);
 		//Status//
-		Status status1 = new Status("new", 1L);
+		Status status1 = new Status("new", 1L, "#C5D0E6");
 		statusService.save(status1);
-		Status status2 = new Status("design", 2L);
+		Status status2 = new Status("design", 2L, "#F3FCF8");
 		statusService.save(status2);
-		Status status3 = new Status("design done", 3L);
+		Status status3 = new Status("design done", 3L, "#FADFAD");
 		statusService.save(status3);
-		Status status4 = new Status("production", 4L);
+		Status status4 = new Status("production", 4L, "#EBC7DF");
 		statusService.save(status4);
-		Status status5 = new Status("delivery", 5L);
+		Status status5 = new Status("delivery", 5L, "#D0F0C0");
 		statusService.save(status5);
-		Status status6 = new Status("finish", 6L);
+		Status status6 = new Status("finish", 6L, "dfe3");
 		statusService.save(status6);
 		//Роли//
 		HashSet<Status> allStatus = new HashSet<>();
