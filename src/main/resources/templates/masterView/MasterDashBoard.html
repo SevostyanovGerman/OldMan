@@ -49,14 +49,16 @@
             </th:block>
 			<ul class="nav navbar-nav navbar-right">
                 <li>
+                    <a href="#"><span sec:authentication="principal"></span></a>
+                </li>
+                <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
                         <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 22px"></span></a>
                     </form>
                 </li>
-				<li><a href="#"><span sec:authentication="principal"></a></li>
-				<li>
+                <li>
                     <form class="navbar-form navbar-right">
-                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
+                        <a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a>
                     </form>
 				</li>
 			</ul>
@@ -68,25 +70,7 @@
     <input type="text" name="datefilter"  value="" />
 
 </div>
-
-<!--<br>-->
-<!--<div class="container">-->
-	<!--<div class="row">-->
-		<!--<form action="/master/search" th:action="@{/master/search}" method="POST" id="searchItem">-->
-			<!--<div class="col-lg-3">-->
-				<!--<div class="input-group">-->
-					<!--<input type="text" class="form-control" placeholder="Заказ" name="searchItem">-->
-					<!--<span class="input-group-btn">-->
-							<!--<button class="btn btn-default" type="button">Найти</button>-->
-						<!--</span>-->
-				<!--</div>-->
-			<!--</div>-->
-		<!--</form>-->
-	<!--</div>-->
-<!--</div>-->
-
 <br>
-
 <div class="container">
 	<div class="table-responsive">
 		<table class="table table-bordered data" text-align="center" id="example">

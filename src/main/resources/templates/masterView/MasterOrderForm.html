@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
     <title>Master Dash Board</title>
+
     <!--для комментов-->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/mxComment.css"/>
@@ -57,7 +57,9 @@
                     </ul>
                 </th:block>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span sec:authentication="principal"></span></a></li>
+                    <li>
+                        <a href="#"><span sec:authentication="principal"></span></a>
+                    </li>
                     <li>
                         <form ng-controller="NotificationController" class="navbar-form navbar-right">
                             <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 22px"></span></a>
@@ -65,7 +67,7 @@
                     </li>
                     <li>
                         <form class="navbar-form navbar-right">
-                    <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
+                            <a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a>
                         </form>
                     </li>
                 </ul>
@@ -76,8 +78,7 @@
     <br>
     <div class="container">
         <div style="text-align: center">
-            <h4
-                th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+            <h4 th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
         </div>
         <br>
             <ul class="nav nav-tabs" id="myTab" >
@@ -136,9 +137,8 @@
                         </div>
                     </form>
                 </div>
+                <!-- comment -->
                 <div class="tab-pane fade col-lg-9" id="comment">
-                    <!-- comment -->
-                    <div>
                         <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
                             <!-- Комментарии -->
                             <div class="comments-container" >
@@ -195,7 +195,6 @@
                                     </li>
                                 </ul>
                             </div>
-
                             <!-- write comment -->
                             <div class="panel-footer" ng-controller="MasterOrderController">
                                 <form th:action="'/order/comment/add='+${order.getId()}" method="post">
@@ -213,9 +212,8 @@
                             </div>
                             <!-- end of windows-->
                         </div>
-                    </div>
-                    <!-- end of comment -->
                 </div>
+                <!-- end of comment -->
                 <div class="tab-pane fade col-lg-9" id="history">
                     <table class="table table-bordered data">
                         <thead>
