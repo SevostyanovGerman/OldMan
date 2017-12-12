@@ -106,20 +106,20 @@ public class MainController {
 		return model;
 	}
 
-
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
 							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
 							  HttpServletRequest request) {
 		String url = Helper.getUrl(request.getHeader("referer"));
 
-		if (url.contains("manager")) {
-			url = "managerView/ManagerDashBoard :: tableOrders";
-		} else {
-			url = "directorView/DirectorDashBoard :: tableOrders";
-		}
-
 		try {
+
+			if (url.contains("manager")) {
+				url = "managerView/ManagerDashBoard :: tableOrders";
+			} else {
+				url = "directorView/DirectorDashBoard :: tableOrders";
+			}
+
 			DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 			List<Order> orderList = orderService
 				.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(),
