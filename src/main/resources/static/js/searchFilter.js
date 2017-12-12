@@ -43,19 +43,29 @@ $(function() {
 
 });
 
-function filterSearch() {
+function filterSearch(pageNumber) {
     var url ="/orders/search";
     var searchWord = document.getElementById("search");
     var sortBy = document.getElementById("sortingBy");
+    var pageSize = document.getElementById("pageSize");
     var minPrice = document.getElementById("minPrice");
     var maxPrice = document.getElementById("maxPrice");
+    if (pageNumber == null) {
+        pageNumber = 1;
+    }
+    if (pageSize == null) {
+        pageSize = 10;
+    }
+    var page = pageNumber;
     var data = {
         search: searchWord.value,
         startDate: startMx.format('MM/DD/YYYY'),
         endDate: endMx.format('MM/DD/YYYY'),
         sort: sortBy.value,
         minPrice: minPrice.value,
-        maxPrice: maxPrice.value
+        maxPrice: maxPrice.value,
+        pageNumber: page,
+        pageSize: pageSize.value
     };
     $("#sortingTable").load(url, data);
 }

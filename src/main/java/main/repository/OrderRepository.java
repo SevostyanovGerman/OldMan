@@ -3,8 +3,6 @@ package main.repository;
 import main.model.Order;
 import main.model.Status;
 import main.model.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,11 +29,19 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //		   "LOWER(o.dateTransferred) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
 //		   "LOWER(o.deliveryType) LIKE LOWER(CONCAT('%',:searchTerm, '%'))")
 //
-	@Query("SELECT o FROM Order o WHERE " +
+	@Query("SELECT o FROM Order o WHERE ( " +
 		   "LOWER(o.number) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
-		   "LOWER(o.paymentType.name) LIKE LOWER(CONCAT('%',:searchTerm, '%'))")
-	List<Order> findBySearchTerm(@Param("searchTerm") String searchTerm);
-	//, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+		   "LOWER(o.customer.firstName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.customer.secName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.manager.firstName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.manager.secName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.status.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.paymentType.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) " +
+		   ") AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and STR_TO_DATE" +
+		   "(:endDate, '%Y-%m-%d %H:%i:%s') ")
+	List<Order> findBySearchTerm(@Param("searchTerm") String searchTerm,
+								 @Param("startDate") Date startDate,
+								 @Param("endDate") Date endDate);
 
 	@Query("SELECT o FROM Order o WHERE o.created BETWEEN :startDate AND :endDate")
 	List<Order> findOrdersByRange(@Param("startDate") Date startDate,
@@ -54,7 +60,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 								 @Param("deleted") boolean deleted,
 								 @Param("startDate") Date startDate,
 								 @Param("endDate") Date endDate);
-
 
 	@Query(
 		"SELECT  date_format(o.created, :dwm) as created ,  AVG(o.price) as price FROM Order o " +

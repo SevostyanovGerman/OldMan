@@ -88,24 +88,34 @@
                 <div class="col-lg-4 ">
                 </div>
                 <div class="col-lg-4" style="text-align: right">
-                    <input  id="search" name="search" type="number"
+                    <input  id="search" name="search"
                             placeholder="Найти по номеру, клиенты, оплате, менеджеру" class="form-control"
                             onkeyup="filterSearch()" >
                 </div>
 
             </div>
-        <br>
-        <div class="row">
-                <div class="col-lg-3">
+
+        <div class="row" style="margin-top: 10px">
+                <div class="col-lg-4">
+                    <div class="col-lg-8" style="padding-left: 0px; margin-left: 0px">
                     <select id="sortingBy" class="form-control" onchange="filterSearch()">
                         <option value="number">Сортирова по номеру</option>
                         <option value="name">Сортирова по клиенту</option>
                         <option value="price">Сортирова по цене</option>
                     </select>
+                    </div>
+
+                    <div class="col-lg-4" style="margin-right: 0px; padding-right: 0px">
+                    <select id="pageSize" class="form-control" onchange="filterSearch()">
+                        <option value="2">2</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    </div>
                 </div>
 
 
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <!--Календарь-->
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
@@ -118,13 +128,10 @@
 
 
 
-
-
-
-        <div class="table-responsive" th:fragment="tableOrders">
+        <div class="table-responsive" th:fragment="tableOrders" style="margin-top: 10px">
 
             <table class="display table table-bordered data" id="sortingTable" cellspacing="0"
-                   width="100%"  style="text-align: center" >
+                   width="100%"  style="text-align: center;" >
                 <thead>
                     <tr>
                         <th class="table-head">№ Заказа</th>
@@ -138,10 +145,11 @@
                         <th class="table-head">Статус заказа</th>
                         <th class="table-head"></th>
                         <th class="table-head"></th>
-                        <th class="table-head"></th>
-
                     </tr>
                 </thead>
+
+
+
                 <tbody>
                     <tr th:each ="order : ${orderList}" >
                         <td class="table-body" th:text="${order.getNumber()}"></td>
@@ -153,7 +161,7 @@
                         <td class="table-body" th:text="${order.getPaymentString()}"></td>
                         <td class="table-body" th:text="${order.getPrice()}"></td>
                         <td class="table-body" th:text="${order.getStatus()}"></td>
-                        <td class="table-body" th:text="${order.getStatus().getNumber()}" hidden></td>
+                        <!--<td class="table-body" th:text="${order.getStatus().getNumber()}" hidden></td>-->
                         <td align="center">
                             <a class="btn btn-info btn-xs" th:href="${'/manager/order/update/' + order.getId()}" title="Редактировать заказ">
                                 <span class="glyphicon glyphicon-pencil"></span>
@@ -165,12 +173,74 @@
                             </a>
                         </td>
                     </tr>
+
+
+                    <tr>
+                        <td colspan="11" align="centre">
+                            <th:block th:if="${page != null}" >
+                                <div class="row" >
+                                    <div class="text-center">
+                                        <div class='pagination pagination-centered'>
+                                            <ul class="pagination">
+                                                <li th:class="${currentIndex == 1}? 'disabled' : ''">
+                                                    <span th:if='${currentIndex == 1}'>First</span>
+                                                    <a th:if='${currentIndex != 1}'
+
+                                                       th:onclick="'filterSearch('+${1}+')' "
+                                                    >First</a>
+                                                </li>
+                                                <li th:class="${currentIndex != 1}? '' : 'disabled'">
+                                                    <span th:if='${currentIndex == 1}'>«</span>
+                                                    <a th:if='${currentIndex != 1}'  th:onclick="'filterSearch('+${currentIndex - 1}+')' "
+                                                       title='Go to previous page'>«</a>
+                                                </li>
+
+                                                <li th:if="${beginIndex != null}" th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
+                                                    th:class="${item == currentIndex ? 'active' : '' }">
+                                                    <span th:if='${item == currentIndex}' th:text='${item}'>1</span>
+                                                    <a th:if='${item != currentIndex}'
+                                                       th:onclick="'filterSearch('+${item}+')' ">
+                                                        <span th:text='${item}'>1</span>
+                                                    </a>
+                                                </li>
+
+                                                <li th:class="${currentIndex != totalPageCount}? '' : 'disabled'">
+                                                    <span th:if='${currentIndex == totalPageCount}'>»</span>
+                                                    <a th:if='${currentIndex != totalPageCount}'
+                                                       th:onclick="'filterSearch('+${currentIndex+1}+')' "
+                                                       title='Go to next page'>»</a>
+                                                </li>
+                                                <li th:class="${currentIndex == totalPageCount}? 'disabled' : ''">
+                                                    <span th:if='${currentIndex == totalPageCount}'>Last</span>
+                                                    <a th:if='${currentIndex != totalPageCount}'
+
+                                                       th:onclick="'filterSearch('+${totalPageCount}+')' "
+                                                    >Last</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+                        </td>
+                    </tr>
+
+
                 </tbody>
+
             </table>
-            </th:block>
-        </th>
+
+
+
     </div>
+
+
+
+
+
     </div>
+
+
 
 
 
@@ -184,9 +254,7 @@
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 
-    <script src="/js/orderCalendar.js"></script>
-
-
+    <script src="/js/searchFilter.js"></script>
 
 
 </body>

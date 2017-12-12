@@ -141,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> searchByAllFields(String searchTerm, Date start, Date end) {
-		return orderRepository.findBySearchTerm(searchTerm);
+		return orderRepository.findBySearchTerm(searchTerm, start, end);
 	}
 
 	@Override

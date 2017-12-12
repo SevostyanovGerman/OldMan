@@ -6,9 +6,8 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -67,22 +65,8 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
-	public ModelAndView getOrderList(Double minPrice, Double maxPrice) {
-		ModelAndView model = new ModelAndView("/managerView/ManagerDashBoard");
-		User authUser = userService.getCurrentUser();
-		List<Order> orderList = new ArrayList<>();
-
-		Date today = new Date();
-		DateTime end = new DateTime(today).withHourOfDay(23).withMinuteOfHour(59);
-
-		DateTime start = new DateTime().dayOfMonth().withMinimumValue();
-
-		//orderList = orderService.getAllAllowedByDate(authUser, start.toDate(), end.toDate(),
-		// null);
-		Collections.sort(orderList);
-		model.addObject("orderList", orderList);
-
-		return model;
+	public ModelAndView getOrderList() {
+		return new ModelAndView("/managerView/ManagerDashBoard");
 	}
 
 	//Просмотр и редактирование существующего заказа
@@ -467,18 +451,38 @@ public class ManagerController {
 
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
-							  Double minPrice, Double maxPrice) {
+							  Double minPrice, Double maxPrice, int pageNumber, int pageSize) {
 
-		DateTime end = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+		DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 		List<Order> orderList = orderService
-			.getOrdersForDashboard(userService.getCurrentUser(), startDate, end.toDate(), search,
+			.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(), search,
 				minPrice, maxPrice);
 
-		orderService.sorting(orderList, sort);
-		//Page<Order> page = orderService.getDeploymentLog(1,orderList);
-		Page<Order> page = new PageImpl<>(orderList);
+		if (pageNumber < 0) {
+			pageNumber = 1;
+		}
+		PagedListHolder page = new PagedListHolder(orderList);
+		page.setPageSize(pageSize); // number of items per page
+		orderService.sorting(page.getSource(), sort);
+		page.setPage(pageNumber - 1); // set to first page
 
-		model.addAttribute("orderList", orderList);
+		model.addAttribute("page", page);
+
+		model.addAttribute("orderList", page.getPageList());
+
+		//Pagination variables
+		int current = page.getPage() + 1;
+		int begin = Math.max(1, current - 5);
+		int end = Math.min(begin + 5, page.getPageCount());
+		int totalPageCount = page.getPageCount();
+		String baseUrl = "csdcd";
+
+		model.addAttribute("beginIndex", begin);
+		model.addAttribute("endIndex", end);
+		model.addAttribute("currentIndex", current);
+		model.addAttribute("totalPageCount", totalPageCount);
+		model.addAttribute("baseUrl", baseUrl);
+		model.addAttribute("MODEL_ATTRIBUTE_PRODUCTS", page);
 
 		return "managerView/ManagerDashBoard :: tableOrders";
 
