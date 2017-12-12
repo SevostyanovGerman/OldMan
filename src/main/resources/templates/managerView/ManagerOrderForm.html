@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -20,10 +19,6 @@
           integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
 
     <!-- Setup local bootstrap3 -->
-    <!--<link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>-->
-
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
     <link rel="stylesheet" href="/css/managerOrderForm.css"/>
     <link rel="stylesheet" href="/css/manager.css"/>
@@ -54,13 +49,15 @@
                 </th:block>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span sec:authentication="principal"></span></a></li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a class="btn btn-sm  btn-danger" th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
+                        <a th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
                     </form>
                 </li>
-                <li><a href="#"><span sec:authentication="principal"></a></li>
-                <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
+                <li>
+                    <a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
+                </li>
             </ul>
         </div>
     </div>
@@ -72,7 +69,6 @@
         <h4
             th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
     </div>
-
     <div class="row">
         <div class="col-lg-9">
             <div class="form-horizontal">
@@ -82,7 +78,6 @@
                         <li class=""><a href="#tabComments" data-toggle="tab" aria-expanded="false">Комментарии</a></li>
                         <li class=""><a href="#tabHistory" data-toggle="tab" aria-expanded="false">История</a></li>
                     </ul>
-
                     <!-- ЗАКАЗ -->
                     <div class="tab-content">
 
@@ -116,27 +111,21 @@
 
                                               <a href="#managerModal" class="form-control btn-info"
                                                  data-toggle="modal">...</a>
-
                                     </div>
                                 </div>
-
                                     <div class="col-lg-4">
                                     <div class="input-group ">
                                               <span class="input-group-addon customerField"
                                                     th:if="${order?.getMaster()?.toString()}"  th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
                                                     style="width: 100%; text-align: center; font: bold"></span>
-
                                         <span class="input-group-addon customerField"
                                               th:if="${order?.getMaster()?.toString() == null}"
                                               style="width: 100%; text-align: center">Мастер: --</span>
 
                                         <a href="#masterModal" class="form-control btn-info" data-toggle="modal">...</a>
-
                                     </div>
                                 </div>
-
                             </div>
-
                             <br>
                             <div  id="formItemTable"  >
                             <table class="table table-bordered data" text-align="center" >
@@ -198,8 +187,7 @@
                                 <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
                                     <!-- Комментарии -->
                                     <div class="comments-container" >
-                                        <ul id="comments-list" class="comments-list"
-                                            th:each="element: ${order.getComments()}">
+                                        <ul id="comments-list" class="comments-list" th:each="element: ${order.getComments()}">
                                             <li>
                                                 <div class="comment-main-level">
                                                     <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
@@ -208,24 +196,20 @@
                                                         <div class="comment-head">
                                                             <h6 class="comment-name by-author" th:text="${element.getCreatedBy()}"></h6>
                                                             <span th:text="${element.getTime()}"></span>
-                                                            <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
-                                                               th:id="${element}+'Btn'">Ответить</i>
+                                                            <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'" th:id="${element}+'Btn'">Ответить</i>
                                                         </div>
                                                         <div class="comment-content" th:utext="${element.getContent()}">
 
                                                         </div>
 
                                                         <div th:id="${element}" style="display: none; " class="container-fluid">
-                                                            <form th:action="'/order/comment/add='+${order.getId()}" method="post"
-                                                                  th:id="${element}+'Frm'">
+                                                            <form th:action="'/order/comment/add='+${order.getId()}" method="post" th:id="${element}+'Frm'">
 
                                                             <textarea class="form-control " th:id="${element}+'Text'"
                                                                       name="commentText"></textarea>
                                                                 <input type="hidden" name="sendTo" th:value="${element.getCreatedBy()}"/>
                                                                 <div style="text-align: right">
-                                                                    <button class="btn btn-warning btn-sm" type="submit"
-                                                                            name="commentBtnOrder"
-                                                                            th:value="${element.getId()}">Отправить
+                                                                    <button class="btn btn-warning btn-sm" type="submit" name="commentBtnOrder" th:value="${element.getId()}">Отправить
                                                                     </button>
 
                                                                 </div>
@@ -273,7 +257,6 @@
                             </div>
                             <!-- end of comment -->
                         </div>
-
                         <!-- ИСТОРИЯ ЗАКАЗА -->
                         <div class="tab-pane" id="tabHistory" role="tabpanel">
                             <br>
@@ -311,38 +294,28 @@
         <div class="col-lg-3">
             <div class="form-horizontal customerForm">
                 <fieldset th:object="${order.getCustomer()}">
-
                     <h4 align="center">Информация о клиенте</h4>
                     <div class="form-group">
-
                         <input type="text" class="form-control" id="liveText"
                                th:onkeyup="'showResult(this.value,'+ ${order.getId()} +')'"
                                placeholder="Клиент">
                         <div id="livesearch"></div>
-
                     </div>
-
                     <form th:action="${'/manager/order/changeCustomer/'+order.getId()}"
                           method="post"
                           id="addCustomer" th:object="${newCustomer}">
                         <div style="text-align: right">
                             <a th:if="${order.getCustomer()}" href="#" onclick="editCustomer()" id="editBtn" style="text-align: right">
                                 Изменить</a>
-
                         </div>
-
                         <div class="form-group">
-
                             <div class="input-group">
-
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
                                        name="firstName" id="firstNameField" readonly="readonly" required="required"
                                        pattern="[A-Za-z]{3,}"/>
-
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Фамилия:</span>
@@ -351,7 +324,6 @@
                                        pattern="[A-Za-z]{3,}"/>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Email:</span>
@@ -359,7 +331,6 @@
                                        name="email" id="emailField" readonly="readonly" required="required"/>
                             </div>
                         </div>
-
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon customerField">Телефон:</span>
@@ -368,18 +339,14 @@
                                        readonly="readonly" required="required" pattern="[0-9]{3,}"/>
                             </div>
                         </div>
-
                         <button type="submit" class="btn btn-info form-control" data-toggle="tooltip"
                                 title="Выбрать клиента"
                                 style="text-align: center;" form="addCustomer" id="editBtnSub"
                                 disabled>Сохранить
                         </button>
-
                         <b>
-
                             <div class="form-inline" style="margin-top: 15px"> Способ оплаты: <a
                                 href="#modalSetPaymentType" data-toggle="modal"> Изменить</a> </div>  </b>
-
                         <div style="text-align: center;color:#1abb57">
                             <h5>
                             <span  th:if="${order?.getPaymentType()} != null"
@@ -387,7 +354,6 @@
                                 <span  th:if="${order?.getPaymentType()} == null"> -- </span>
                             </h5>
                         </div>
-
                         <th:block sec:authorize="hasAuthority('BOSS')">
                         <a th:if="${order?.getPayment()} == false" th:href="'/master/order/'+${order.id} +'/money'"
                            class="btn btn-info form-control"
@@ -395,18 +361,15 @@
                             <a th:if="${order?.getPayment()} == true" th:href="'/master/order/'+${order.id} +'/money'"
                                class="btn btn-info form-control"
                                style=" text-align: center; ">Отменить оплату</a>
-
                             <div style="text-align: center;color:#1abb57">
                                 <h5>
                             <span th:text=" ${order?.getPaymentString()}"></span>
                                 </h5>
                             </div>
-
                         </th:block>
                         <b>
                             <div>Тип доставки:   <a href="#modalSetDeliveryType" data-toggle="modal"> Изменить</a></div>
                         </b>
-
                         <div style="text-align: center;color:#1abb57">
                             <h5>
                             <span  th:if="${order?.getDeliveryType()} != null"
@@ -414,25 +377,19 @@
                             <span  th:if="${order?.getDeliveryType()} == null"> -- </span>
                             </h5>
                         </div>
-
                         <th:block th:if="${order?.getDeliveryType()?.getPickup()} == false">
                         <b>
                             <div>Адрес доставки:   <a href="#addressModal"  data-toggle="modal"> Изменить</a></div>
                         </b>
-
                         <span th:text="${order?.getDefaultDelivery()}" id="deliveryField">
                         </span>
-
                         </th:block>
-
                         <th:block th:if="${order?.getDeliveryType()?.getPickup()} == true">
-
                             <div class="dropdown" style="text-align: center">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     Адреса самовывоза:
                                     <span class="caret"></span>
                                 </button>
-
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                     <th:block th:each="element, stat: ${pickUpList}">
                                         <li >
@@ -441,51 +398,34 @@
                                     </th:block>
                                 </ul>
                             </div>
-
                             <span th:if="${order?.getDelivery()?.getPickup()} == true"
                                   th:text="${order?.getDelivery()}"> </span>
-
                         </th:block>
                     </form>
-
-
                     <br>
                             <a href="#newCustomerModal" class="btn btn-info form-control" data-toggle="modal"
                                style=" text-align: center; ">Создать Клиента</a>
-
-
                 </fieldset>
             </div>
             <br>
-
-
-
         </div> <!-- col-lg-3 -->
     </div>
-
     <div class="container-fluid" style="background-color: lightgrey;padding: 0px;margin: 0px">
         <div class="row col-sm-12" style="padding: 0px;margin: 0px"  >
-            <div class="col-sm-9" >
-
-            </div>
+            <div class="col-sm-9" ></div>
             <div class="col-sm-3" style="text-align: center; "  >
                 <a
                     th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null AND ${order.getDelivery()} != null" href="#myModal"
                     class="btn btn-warning  " data-toggle="modal">Отправить заказ</a>
-
                 <a
                     th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0 OR ${order.getCustomer()} == null OR ${order.getPaymentType()} == null OR ${order.getDelivery()} == null"
                    href="#erroFieldModal"  class="btn btn-warning " data-toggle="modal">Отправить
                     заказ</a>
             </div>
-
         </div>
-
     </div>
-
 </div>
 <br/>
-
 
 <!-- Отправка заказа -->
 <div id="myModal" class="modal fade ">
@@ -499,13 +439,11 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-
                 <div th:each="element : ${statuses}" class="form-group">
                     <form th:action="'/manager/order/send/' + ${order.getId()} +'/to/' + ${element.getId()}">
                         <button class="form-control btn btn-warning" th:text="${element.getName()}"></button>
                     </form>
                 </div>
-
             </div>
             <!-- Футер модального окна -->
             <div class="modal-footer">
@@ -514,22 +452,17 @@
         </div>
     </div>
 </div>
-
 <!--- end modal -->
-
 <!-- Выбор дизайнера модального окна -->
 <div id="designerModal" class="modal fade ">
     <div class="modal-dialog modal-sm">
         <div class="modal-content modal-sm">
-
             <!-- Заголовок модального окна -->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 <h4 class="modal-title" th:text="'Текущий дизайнер: ' + ${order.getDesigner()}">Заголовок модального окна</h4>
             </div>
-
             <!-- Основное содержимое модального окна -->
-
             <div class="modal-body" style="text-align: center">
 
                 <table class="form-group" id="designerTableMD" style="text-align: center">
@@ -547,9 +480,7 @@
                         </tr>
                     </tbody>
                 </table>
-
             </div>
-
             <!-- Футер модального окна -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -559,7 +490,6 @@
 </div>
 
 <!--- end modal -->
-
 <!-- Выбор мастера модального окна -->
 <div id="masterModal" class="modal  ">
     <div class="modal-dialog modal-sm">
@@ -572,27 +502,22 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-
                 <!--//Заменить на таблицу с js DataTable-->
-
                 <table class="form-group" id="masterTableMD" style="text-align: center">
                     <thead style="text-align: center">
                     <th></th>
                     </thead>
                     <tbody>
-                    <tr th:each="element : ${masterList}" style="text-align: center">
-                        <td  style="text-align: center; width: 300px">
-                            <h4>
-                            <a th:href="'/manager/order/change/' + ${order.getId()} +'/master/' + ${element.getId()}"
-                               th:text="${element.toString()}"></a>
-                            </h4>
-                        </td>
-                    </tr>
+                        <tr th:each="element : ${masterList}" style="text-align: center">
+                            <td  style="text-align: center; width: 300px">
+                                <h4>
+                                    <a th:href="'/manager/order/change/' + ${order.getId()} +'/master/' + ${element.getId()}" th:text="${element.toString()}"></a>
+                                </h4>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 </div>
-
-
             <!-- Футер модального окна -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -601,7 +526,6 @@
     </div>
 </div>
 <!--- end modal -->
-
 <!-- Выбор менеджер модального окна -->
 <div id="managerModal" class="modal  ">
     <div class="modal-dialog modal-sm">
@@ -614,28 +538,23 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-
                 <!--//Заменить на таблицу с js DataTable-->
-
                 <table class="form-group" id="managerTableMD" style="text-align: center">
                     <thead style="text-align: center">
-                    <th></th>
+                        <th></th>
                     </thead>
                     <tbody>
-                    <tr th:each="element : ${managerList}" style="text-align: center">
-                        <td  style="text-align: center; width: 300px">
-                            <h4>
-                                <a
-                                    th:href="'/director/order/change/' + ${order.getId()} +'/manager/' + ${element.getId()}"
-                                   th:text="${element.toString()}"></a>
-                            </h4>
-                        </td>
-                    </tr>
+                        <tr th:each="element : ${managerList}" style="text-align: center">
+                            <td  style="text-align: center; width: 300px">
+                                <h4>
+                                    <a
+                                        th:href="'/director/order/change/' + ${order.getId()} +'/manager/' + ${element.getId()}" th:text="${element.toString()}"></a>
+                                </h4>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-
-
             <!-- Футер модального окна -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -644,7 +563,6 @@
     </div>
 </div>
 <!--- end modal -->
-
 <!-- Создание клиента модальное окно -->
 <div id="newCustomerModal" class="modal  ">
     <div class="modal-dialog ">
@@ -669,8 +587,7 @@
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"></i></span>
-                                <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
-                                       th:field="*{firstName}">
+                                <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}" th:field="*{firstName}">
                             </div>
                             <span class="glyphicon form-control-feedback"></span>
                         </div>
@@ -680,8 +597,7 @@
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"></span>
-                                <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
-                                       th:field="*{secName}">
+                                <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}" th:field="*{secName}">
                             </div>
                             <span class="glyphicon form-control-feedback"></span>
                         </div>
@@ -700,19 +616,16 @@
                         <span id="erroremail" style="color: red"> </span>
                     </div>
                     <!-- Конец блока для ввода email-->
-
                     <div class="form-group has-feedback">
                         <label class="control-label col-xs-3">Телефон:</label>
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"></span>
-                                <input type="text" class="form-control" required="required" pattern="[0-9]{3,12}"
-                                       th:field="*{phone}">
+                                <input type="text" class="form-control" required="required" pattern="[0-9]{3,12}" th:field="*{phone}">
                             </div>
                             <span class="glyphicon form-control-feedback"></span>
                         </div>
                     </div>
-
                     <b>
                         <div style="color: #22a9ff;">Адрес доставки:</div>
                     </b>
@@ -723,25 +636,21 @@
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
-                                           th:field="*{country}">
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}" th:field="*{country}">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                         <div class="form-group has-feedback">
                             <label class="control-label col-xs-3">Город:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}"
-                                           th:field="*{city}">
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z\s]+{3,}" th:field="*{city}">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                         <div class="form-group has-feedback">
                             <label class="control-label col-xs-3">Адрес:</label>
                             <div class="col-xs-6">
@@ -754,7 +663,6 @@
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                         <div class="form-group has-feedback">
                             <label class="control-label col-xs-3">Индекс:</label>
                             <div class="col-xs-6">
@@ -766,9 +674,7 @@
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                     </div>
-
                     <!-- Футер модального окна -->
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-default" id="newCustomerBtn" disabled>Создать</button>
@@ -779,11 +685,7 @@
         </div>
     </div>
 </div>
-
-
 <!--- end modal -->
-
-
 <!--Адрес доставки модального окна -->
 <div id="addressModal" class="modal  ">
     <div class="modal-dialog modal-lg">
@@ -795,27 +697,20 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-
-
                 <!-- Форма для изменения адреса -->
-                <form th:action="${'/manager/order/editDelivery/'+ order.getId()}"
-                      method="post"  class="form-horizontal"  th:object="${newDelivery}">
-
+                <form th:action="${'/manager/order/editDelivery/'+ order.getId()}" method="post"  class="form-horizontal"  th:object="${newDelivery}">
                         <div class="dropdown">
                             <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Адреса клиента:
                                 <span class="caret"></span>
                             </button>
-
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" >
                                 <th:block th:each="element, stat: ${order?.customer?.getDeliveries()}">
                                     <li >
-                                        <a href="#" href="#" th:text="${element}"
-                                           th:onclick="'selectCustomerAddress(' +${stat.index}+')'"> </a> </li>
+                                        <a href="#" href="#" th:text="${element}" th:onclick="'selectCustomerAddress(' +${stat.index}+')'"> </a> </li>
                                 </th:block>
                             </ul>
                         </div>
-
                     <br>
                     <div>
                         <div class="form-group has-feedback">
@@ -830,61 +725,49 @@
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                         <div class="form-group has-feedback">
                             <label class="control-label col-xs-3">Город:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}"
-                                           name="city"  th:value="${order?.getDelivery()?.getCity()}"
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}" name="city"  th:value="${order?.getDelivery()?.getCity()}"
                                            id="editAddressCity">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                         <div class="form-group has-feedback">
                             <label class="control-label col-xs-3">Адрес:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" class="form-control" required="required"
-                                           pattern="[a-zA-Z0-9\s]+{3,}"
-                                            name="address" id="editAddressAddress"
-                                           th:value="${order?.getDelivery()?.getAddress()}" />
+                                    <input type="text" class="form-control" required="required" pattern="[a-zA-Z0-9\s]+{3,}" name="address" id="editAddressAddress" th:value="${order?.getDelivery()?.getAddress()}" />
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                         <div class="form-group has-feedback">
                             <label class="control-label col-xs-3">Индекс:</label>
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" class="form-control" required="required" pattern="[0-9]{3,}"
-                                        name="zip" th:value="${order?.getDelivery()?.getZip()}" id="editAddressZip">
+                                    <input type="text" class="form-control" required="required" pattern="[0-9]{3,}" name="zip" th:value="${order?.getDelivery()?.getZip()}" id="editAddressZip">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>
                             </div>
                         </div>
-
                     </div>
-            <!-- Футер модального окна -->
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-default" id="editAdressBtn" >Сохранить</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-
-            </div>
+                    <!-- Футер модального окна -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default" id="editAdressBtn" >Сохранить</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                    </div>
                 </form>
         </div>
     </div>
 </div>
 
-
 </div>
-
     <!-- Ошибка отправки заказа модального окна -->
     <div id="erroFieldModal" class="modal  ">
         <div class="modal-dialog modal-sm">
@@ -896,7 +779,6 @@
                 </div>
                 <!-- Основное содержимое модального окна -->
                 <div class="modal-body">
-
                     <b> <div style="color: red">
                     <div th:if="${order.getMaster()} == null"> Выберете 'Мастера'</div>
                     <div th:if="${order.getDesigner()} == null"> Выберете 'Дизайнера'</div>
@@ -914,12 +796,7 @@
             </div>
         </div>
     </div>
-
-
-    <!--- end modal -->
 <!--- end modal -->
-
-
 <!-- Установка типа оплаты -->
 <div id="modalSetPaymentType" class="modal fade">
     <div class="modal-dialog modal-sm">
@@ -933,8 +810,7 @@
                     <tr th:each="payment : ${paymentList}">
                         <td align="left" th:text="${payment.name}">Наличный</td>
                         <td align="right">
-                            <a class="btn btn-info btn-xs"
-                               th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"
+                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"
                                title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
                         </td>
                     </tr>
@@ -946,10 +822,9 @@
                     Закрыть
                 </button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+        </div>
+    </div>
+</div>
 
 <!-- Установка типа доставки -->
 <div id="modalSetDeliveryType" class="modal fade">
@@ -964,9 +839,7 @@
                     <tr th:each="delivery : ${deliveryTypeList}">
                         <td align="left" th:text="${delivery.name}"></td>
                         <td align="right">
-                            <a class="btn btn-info btn-xs"
-                               th:href="${'/manager/order/setDeliveryType/'+ order.id+'/'+ delivery.id}"
-                               title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/setDeliveryType/'+ order.id+'/'+ delivery.id}" title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
                         </td>
                     </tr>
                     </tbody>
@@ -977,12 +850,9 @@
                     Закрыть
                 </button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
-
-
+        </div>
+    </div>
+</div>
 
 <!-- Список клиентов модального окна -->
 <div id="customerList" class="modal  ">
@@ -995,9 +865,7 @@
             </div>
             <!-- Основное содержимое модального окна -->
             <div class="modal-body">
-
                 <!--//Заменить на таблицу с js DataTable-->
-
                 <table class="form-group" id="customerTableMD" style="text-align: center">
                     <thead style="text-align: center">
                     <th></th>
@@ -1006,16 +874,13 @@
                     <tr th:each="element : ${customersList}" style="text-align: center">
                         <td  style="text-align: center; width: 300px">
                             <h4>
-                                <a th:href="'/manager/order/changeCustomer/' + ${order.getId()} +'/' + ${element.getId()}"
-                                   th:text="${element.toString()}"></a>
+                                <a th:href="'/manager/order/changeCustomer/' + ${order.getId()} +'/' + ${element.getId()}" th:text="${element.toString()}"></a>
                             </h4>
                         </td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-
-
             <!-- Футер модального окна -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
@@ -1024,29 +889,15 @@
     </div>
 </div>
 <!--- end modal -->
-
-
-
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
 <script src="/js/ajaxCustomer.js"></script>
 <script src="/js/ajaxCheckUser.js"></script>
-
 <!--Sorting table-->
-<script type="text/javascript"
-        src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
-
-
-
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
 <script src="/js/mxManagerOrder.js"></script>
-
-
-
  <!--Выбор адреса из списка адресов клиента-->
 <script th:inline="javascript">
     function selectCustomerAddress(i) {
@@ -1055,25 +906,17 @@
         var tCity = deliveries[i].city;
         var tAddress = deliveries[i].address;
         var tZip = deliveries[i].zip;
-
-
         var country = document.getElementById("editAddressCountry");
         var city = document.getElementById("editAddressCity");
         var address = document.getElementById("editAddressAddress");
         var zip = document.getElementById("editAddressZip");
-
         country.value = tCountry;
         city.value = tCity;
         address.value = tAddress;
         zip.value = tZip;
     }
-
 </script>
-
 <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
-
-
 <script src="/js/tabs.js"></script>
-
 </body>
 </html>

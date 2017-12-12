@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Master Item Form</title>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+
     <!-- Optional theme -->
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+
     <!-- SmartPhoto -->
     <link rel="stylesheet" href="https://unpkg.com/smartphoto@0.7.6/css/smartphoto.min.css">
 
@@ -42,16 +44,14 @@
                 </ul>
             </th:block>
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span sec:authentication="principal"></span></a></li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a class="btn btn-sm  btn-danger" th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
+                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
                     </form>
                 </li>
-                <li><a href="#"><span sec:authentication="principal"></a></li>
                 <li>
-                    <form class="navbar-form navbar-right">
-                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
-                    </form>
+                    <a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
                 </li>
             </ul>
         </div>

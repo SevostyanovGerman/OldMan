@@ -1,19 +1,11 @@
 
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-
 <html>
-
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Manager Dash Board</title>
-
-
-
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
-
-
-
     <link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
 
     <!-- Latest compiled and minified CSS -->
@@ -30,6 +22,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body ng-app="masterOrderForm">
@@ -56,31 +49,26 @@
                 <span sec:authentication="principal"></span>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
+                        <a href="#"><span sec:authentication="principal"></span></a>
+                    </li>
+                    <li>
                         <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                            <a class="btn btn-sm  btn-danger" th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
+                            <a th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
                         </form>
                     </li>
-                    <li><a href="#"><span sec:authentication="principal"></a></li>
-                    <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li>
+                        <a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a>
+                    </li>
 				</ul>
-                
             </div>
         </div>
     </nav>
-
 	<br>
-
 	<br>
-
     <div class="container ">
-
         <div class="col-xs-12">
             <table class="table table-bordered data" text-align="center"  id="example" >
-
-
                 <thead >
-                    
-                
                     <tr class="tableHead">
                         <th name="name" >№ Заказа</th>
                         <th>Дизайнер</th>
@@ -99,7 +87,6 @@
 					<td th:text="${element.getStatus()}" ></td>
 					<td th:text="${element.getDateRecieved()}"></td>
 					<td th:text="${element.getDateTransferred()}"></td>
-
 					<td>
 						<form action="/designer/order/" th:action="'/designer/order/'+${element.getId()}" method="get" >
 						<button class="btn btn-info btn-xs"  type="submit"  >
@@ -108,14 +95,10 @@
 						</form>
 					</td>
 				</tr>
-
                 </tbody>
             </table>
         </div>
     </div>
-
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -125,19 +108,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.js"></script>
-
     <script src="/js/mxDateTable.js"></script>
     <script>
-
         $(document).ready(function() {
             $('#example').DataTable( {
-
                 "columnDefs": [
                     {
                         "targets": [ 4,5 ],
                         "searchable": false
                     }],
-
                 language: {
                     "processing": "Подождите...",
                     "search": "Поиск:",
@@ -161,9 +140,7 @@
                     }
                 }
             });
-
         } );
-
 
 </script>
 </body>

@@ -43,22 +43,21 @@
 		<div class="collapse navbar-collapse" id="navcol-1">
             <th:block th:each="element:  ${#authentication.getAuthorities()}">
                 <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                    <li class="active" role="presentation"><a th:text="${function?.getName()}"
-                                                              th:href="${function.getLink()}"></a></li>
+                    <li class="active" role="presentation"><a th:text="${function?.getName()}" th:href="${function.getLink()}"></a></li>
                 </ul>
             </th:block>
 			<ul class="nav navbar-nav navbar-right">
                 <li>
+                    <a href="#"><span sec:authentication="principal"></span></a>
+                </li>
+                <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a class="btn btn-sm  btn-danger" th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
+                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
                     </form>
                 </li>
-				<li><a href="#"><span sec:authentication="principal"></a></li>
-				<li>
-                    <form class="navbar-form navbar-right">
-                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
-                    </form>
-				</li>
+                <li>
+                    <a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
+                </li>
 			</ul>
 		</div>
 	</div>
@@ -68,25 +67,7 @@
     <input type="text" name="datefilter"  value="" />
 
 </div>
-
-<!--<br>-->
-<!--<div class="container">-->
-	<!--<div class="row">-->
-		<!--<form action="/master/search" th:action="@{/master/search}" method="POST" id="searchItem">-->
-			<!--<div class="col-lg-3">-->
-				<!--<div class="input-group">-->
-					<!--<input type="text" class="form-control" placeholder="Заказ" name="searchItem">-->
-					<!--<span class="input-group-btn">-->
-							<!--<button class="btn btn-default" type="button">Найти</button>-->
-						<!--</span>-->
-				<!--</div>-->
-			<!--</div>-->
-		<!--</form>-->
-	<!--</div>-->
-<!--</div>-->
-
 <br>
-
 <div class="container">
 	<div class="table-responsive">
 		<table class="table table-bordered data" text-align="center" id="example">
