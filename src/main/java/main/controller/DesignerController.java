@@ -72,7 +72,9 @@ public class DesignerController {
 		String user = userService.getCurrentUser().getName();
 		List<Notification> myNotes = notificationService.findAllByUser(user);
 		for (Notification n : myNotes) {
-			notificationService.delete(n.getId());
+			if (n.getOrder() == orderService.get(id).getId()) {
+				notificationService.delete(n.getId());
+			}
 		}
 
 		return model;

@@ -67,7 +67,9 @@ public class MasterController {
 			String user = userService.getCurrentUser().getName();
 			List<Notification> myNotes = notificationService.findAllByUser(user);
 			for (Notification n : myNotes) {
-				notificationService.delete(n.getId());
+				if (n.getOrder() == order.getId()) {
+					notificationService.delete(n.getId());
+				}
 			}
 			model.addAttribute("order", order);
 
