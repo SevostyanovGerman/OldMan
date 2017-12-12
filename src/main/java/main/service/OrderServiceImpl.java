@@ -68,6 +68,9 @@ public class OrderServiceImpl implements OrderService {
 			end = new DateTime(today).withHourOfDay(23).withMinuteOfHour(59).toDate();
 		}
 		for (Role role : roleSet) {
+			if (role.getName().equals("BOSS")) {
+				return orderRepository.findByUserAndDateBoss(false, start, end);
+			}
 			Set<Status> tmpStatusSet = role.getStatuses();
 			for (Status status : tmpStatusSet) {
 				statusSet
@@ -256,6 +259,9 @@ public class OrderServiceImpl implements OrderService {
 			case "number":
 				Collections.sort(list, Order.numberComparator);
 				return list;
+			case "status":
+				Collections.sort(list, Order.statusComparator);
+				return list;
 		}
 		return null;
 	}
@@ -297,26 +303,12 @@ public class OrderServiceImpl implements OrderService {
 		}
 
 		if (max == null) {
-			List<Order> list = searchByAllFields(search, start, end);
-			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).getPrice() < min) {
-					list.remove(i);
-				}
-			}
-			return list;
+			return orderRepository.findBySearchTermAndMin(search, start, end, min);
 		}
 		if (min == null) {
-			List<Order> list = searchByAllFields(search, start, end);
-			for (int i = 0; i < list.size(); i++) {
-				if (list.get(i).getPrice() > max) {
-					list.remove(i);
-				}
-			}
-			return list;
+			return orderRepository.findBySearchTermAndMax(search, start, end, max);
 		}
-
-		return null;
-
+		return orderRepository.findBySearchTermAndMinMax(search, start, end, min, max);
 	}
 }
 

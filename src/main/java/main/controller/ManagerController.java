@@ -2,15 +2,12 @@ package main.controller;
 
 import main.model.*;
 import main.service.*;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -448,48 +445,51 @@ public class ManagerController {
 		}
 		return model;
 	}
-
-	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
-	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
-							  Double minPrice, Double maxPrice, int pageNumber, int pageSize) {
-
-		try {
-			DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
-			List<Order> orderList = orderService
-				.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(), search,
-					minPrice, maxPrice);
-
-			if (pageNumber < 0) {
-				pageNumber = 1;
-			}
-			PagedListHolder page = new PagedListHolder(orderList);
-			page.setPageSize(pageSize); // number of items per page
-			orderService.sorting(page.getSource(), sort);
-			page.setPage(pageNumber - 1); // set to first page
-
-			model.addAttribute("page", page);
-
-			model.addAttribute("orderList", page.getPageList());
-
-			//Pagination variables
-			int current = page.getPage() + 1;
-			int begin = Math.max(1, current - 5);
-			int end = Math.min(begin + 5, page.getPageCount());
-			int totalPageCount = page.getPageCount();
-			String baseUrl = "csdcd";
-
-			model.addAttribute("beginIndex", begin);
-			model.addAttribute("endIndex", end);
-			model.addAttribute("currentIndex", current);
-			model.addAttribute("totalPageCount", totalPageCount);
-			model.addAttribute("baseUrl", baseUrl);
-			model.addAttribute("MODEL_ATTRIBUTE_PRODUCTS", page);
-
-		} catch (Exception e) {
-			logger.error("while getting list of orders");
-		}
-
-		return "managerView/ManagerDashBoard :: tableOrders";
-
-	}
+//
+//	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
+//	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
+//							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
+//							  HttpServletRequest request) {
+//		String url = Helper.getUrl(request.getHeader("referer"));
+//
+//		if (url.contains("manager")) {
+//			url = "managerView/ManagerDashBoard :: tableOrders";
+//		} else {
+//			url = "directorView/DirectorDashBoard :: tableOrders";
+//		}
+//
+//		try {
+//			DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+//			List<Order> orderList = orderService
+//				.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(),
+//					search, minPrice, maxPrice);
+//
+//			if (pageNumber < 0) {
+//				pageNumber = 1;
+//			}
+//			PagedListHolder page = new PagedListHolder(orderList);
+//			page.setPageSize(pageSize); // number of items per page
+//			orderService.sorting(page.getSource(), sort);
+//			page.setPage(pageNumber - 1); // set to first page
+//
+//			model.addAttribute("page", page);
+//			model.addAttribute("orderList", page.getPageList());
+//
+//			//Pagination variables
+//			int current = page.getPage() + 1;
+//			int begin = Math.max(1, current - 5);
+//			int end = Math.min(begin + 5, page.getPageCount());
+//			int totalPageCount = page.getPageCount();
+//
+//			model.addAttribute("beginIndex", begin);
+//			model.addAttribute("endIndex", end);
+//			model.addAttribute("currentIndex", current);
+//			model.addAttribute("totalPageCount", totalPageCount);
+//		} catch (Exception e) {
+//			logger.error("while getting list of orders");
+//		}
+//
+//		return url;
+//		//return "managerView/ManagerDashBoard :: tableOrders";
+//	}
 }

@@ -38,4 +38,5 @@ public interface OrderService {
 	List<Order> sorting(List<Order> list, String sortBy);
 	List<Order> getOrdersForDashboard(User user, Date start, Date end, String search, Double min,
 									  Double max);
+
 }

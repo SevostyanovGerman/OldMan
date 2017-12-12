@@ -21,6 +21,9 @@ public class Status {
 	@Column(name = "deleted")
 	private boolean deleted;
 
+	@Column(name = "color")
+	private String color;
+
 	public void setNumber(Long number) {
 		this.number = number;
 	}
@@ -28,9 +31,10 @@ public class Status {
 	public Status() {
 	}
 
-	public Status(String name, Long number) {
+	public Status(String name, Long number, String color) {
 		this.name = name;
 		this.number = number;
+		this.color = color;
 	}
 
 	public long getId() {
@@ -89,6 +93,18 @@ public class Status {
 			return false;
 		}
 		return Objects.equals(this.deleted, status.deleted);
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
 	}
 
 	@Override

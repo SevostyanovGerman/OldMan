@@ -530,4 +530,12 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 			return Integer.parseInt(a.getNumber()) - Integer.parseInt(b.getNumber());
 		}
 	};
+
+	public static Comparator<Order> statusComparator = new Comparator<Order>() {
+
+		@Override
+		public int compare(Order a, Order b) {
+			return (int) a.getStatus().getNumber() - (int) b.getStatus().getNumber();
+		}
+	};
 }

@@ -54,7 +54,7 @@ function filterSearch(pageNumber) {
         pageNumber = 1;
     }
     if (pageSize == null) {
-        pageSize = 10;
+        pageSize = 25;
     }
     var page = pageNumber;
     var data = {
