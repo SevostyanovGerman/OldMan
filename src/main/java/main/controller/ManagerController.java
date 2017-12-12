@@ -453,36 +453,41 @@ public class ManagerController {
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
 							  Double minPrice, Double maxPrice, int pageNumber, int pageSize) {
 
-		DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
-		List<Order> orderList = orderService
-			.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(), search,
-				minPrice, maxPrice);
+		try {
+			DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+			List<Order> orderList = orderService
+				.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(), search,
+					minPrice, maxPrice);
 
-		if (pageNumber < 0) {
-			pageNumber = 1;
+			if (pageNumber < 0) {
+				pageNumber = 1;
+			}
+			PagedListHolder page = new PagedListHolder(orderList);
+			page.setPageSize(pageSize); // number of items per page
+			orderService.sorting(page.getSource(), sort);
+			page.setPage(pageNumber - 1); // set to first page
+
+			model.addAttribute("page", page);
+
+			model.addAttribute("orderList", page.getPageList());
+
+			//Pagination variables
+			int current = page.getPage() + 1;
+			int begin = Math.max(1, current - 5);
+			int end = Math.min(begin + 5, page.getPageCount());
+			int totalPageCount = page.getPageCount();
+			String baseUrl = "csdcd";
+
+			model.addAttribute("beginIndex", begin);
+			model.addAttribute("endIndex", end);
+			model.addAttribute("currentIndex", current);
+			model.addAttribute("totalPageCount", totalPageCount);
+			model.addAttribute("baseUrl", baseUrl);
+			model.addAttribute("MODEL_ATTRIBUTE_PRODUCTS", page);
+
+		} catch (Exception e) {
+			logger.error("while getting list of orders");
 		}
-		PagedListHolder page = new PagedListHolder(orderList);
-		page.setPageSize(pageSize); // number of items per page
-		orderService.sorting(page.getSource(), sort);
-		page.setPage(pageNumber - 1); // set to first page
-
-		model.addAttribute("page", page);
-
-		model.addAttribute("orderList", page.getPageList());
-
-		//Pagination variables
-		int current = page.getPage() + 1;
-		int begin = Math.max(1, current - 5);
-		int end = Math.min(begin + 5, page.getPageCount());
-		int totalPageCount = page.getPageCount();
-		String baseUrl = "csdcd";
-
-		model.addAttribute("beginIndex", begin);
-		model.addAttribute("endIndex", end);
-		model.addAttribute("currentIndex", current);
-		model.addAttribute("totalPageCount", totalPageCount);
-		model.addAttribute("baseUrl", baseUrl);
-		model.addAttribute("MODEL_ATTRIBUTE_PRODUCTS", page);
 
 		return "managerView/ManagerDashBoard :: tableOrders";
 
