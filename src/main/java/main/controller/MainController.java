@@ -1,9 +1,6 @@
 package main.controller;
 
-import main.model.Comment;
-import main.model.Helper;
-import main.model.Notification;
-import main.model.Order;
+import main.model.*;
 import main.service.*;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -19,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class MainController {
@@ -108,30 +106,42 @@ public class MainController {
 
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
-							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
-							  HttpServletRequest request) {
-		String url = Helper.getUrl(request.getHeader("referer"));
+							  Double minPrice, Double maxPrice, int pageNumber, int pageSize) {
 
+		DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+		User user = userService.getCurrentUser();
+		StringBuilder url = new StringBuilder();
 		try {
 
-			if (url.contains("manager")) {
-				url = "managerView/ManagerDashBoard :: tableOrders";
-			} else {
-				url = "directorView/DirectorDashBoard :: tableOrders";
+			Set<Role> roleSet = user.getRoles();
+			boolean boss = false;
+			for (Role role : roleSet) {
+				if (role.getName().equals("BOSS")) {
+					boss = true;
+				}
 			}
 
-			DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
-			List<Order> orderList = orderService
-				.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(),
-					search, minPrice, maxPrice);
+			List<Order> orderList;
+			if (boss) {
+				orderList = orderService
+					.getOrdersForDashboardBoss(startDate, end2.toDate(), search, minPrice,
+						maxPrice);
+				url.append("directorView/DirectorDashBoard :: tableOrders");
+			} else {
+				orderList = orderService
+					.getOrdersForDashboard(user, startDate, end2.toDate(), search, minPrice,
+						maxPrice);
+				url.append("managerView/ManagerDashBoard :: tableOrders");
+			}
 
 			if (pageNumber < 0) {
 				pageNumber = 1;
 			}
-			PagedListHolder page = new PagedListHolder(orderList);
-			page.setPageSize(pageSize); // number of items per page
-			orderService.sorting(page.getSource(), sort);
-			page.setPage(pageNumber - 1); // set to first page
+
+			PagedListHolder page = new PagedListHolder(orderList); //разбиваем orderList на страницы
+			page.setPageSize(pageSize); // Задаем размер страницы
+			orderService.sorting(page.getSource(), sort); // Сортируем
+			page.setPage(pageNumber - 1); //берем нужную страницу
 
 			model.addAttribute("page", page);
 			model.addAttribute("orderList", page.getPageList());
@@ -147,10 +157,10 @@ public class MainController {
 			model.addAttribute("currentIndex", current);
 			model.addAttribute("totalPageCount", totalPageCount);
 		} catch (Exception e) {
-			logger.error("while getting list of orders");
+			logger.error("while getting list of orders for Dashboard");
 		}
 
-		return url;
+		return url.toString();
 	}
 
 }

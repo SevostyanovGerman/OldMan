@@ -5,7 +5,6 @@ import main.model.Role;
 import main.model.Status;
 import main.model.User;
 import main.repository.OrderRepository;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,31 +52,6 @@ public class OrderServiceImpl implements OrderService {
 			Set<Status> tmpStatusSet = role.getStatuses();
 			for (Status status : tmpStatusSet) {
 				statusSet.addAll(orderRepository.findByUser(user, status, false));
-			}
-		}
-		return new ArrayList<>(statusSet);
-	}
-
-	@Override
-	public List<Order> getAllAllowedByDate(User user, Date start, Date end) {
-
-		Set<Role> roleSet = user.getRoles();
-		Set<Order> statusSet = new HashSet<>();
-		if (start == null) {
-			start = new DateTime().dayOfMonth().withMinimumValue().toDate();
-		}
-		if (end == null) {
-			Date today = new Date();
-			end = new DateTime(today).withHourOfDay(23).withMinuteOfHour(59).toDate();
-		}
-		for (Role role : roleSet) {
-			if (role.getName().equals("BOSS")) {
-				return orderRepository.findByUserAndDateBoss(false, start, end);
-			}
-			Set<Status> tmpStatusSet = role.getStatuses();
-			for (Status status : tmpStatusSet) {
-				statusSet
-					.addAll(orderRepository.findByUserAndDate(user, status, false, start, end));
 			}
 		}
 		return new ArrayList<>(statusSet);
@@ -199,57 +173,6 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> filterByPrice(Double min, Double max, User user, Date start, Date end) {
-		Set<Role> roleSet = user.getRoles();
-		Set<Order> statusSet = new HashSet<>();
-		for (Role role : roleSet) {
-			Set<Status> tmpStatusSet = role.getStatuses();
-			if (role.getName().equals("BOSS")) {
-				statusSet.addAll(orderRepository.filterByPriceForBoss(min, max, start, end));
-				return new ArrayList<>(statusSet);
-			}
-			for (Status status : tmpStatusSet) {
-				statusSet.addAll(orderRepository.filterByPrice(min, max, user, status, start, end));
-			}
-		}
-		return new ArrayList<>(statusSet);
-	}
-
-	@Override
-	public List<Order> filterByPriceMin(Double min, User user, Date start, Date end) {
-		Set<Role> roleSet = user.getRoles();
-		Set<Order> statusSet = new HashSet<>();
-		for (Role role : roleSet) {
-			Set<Status> tmpStatusSet = role.getStatuses();
-			if (role.getName().equals("BOSS")) {
-				statusSet.addAll(orderRepository.filterByPriceMinBoss(min, start, end));
-				return new ArrayList<>(statusSet);
-			}
-			for (Status status : tmpStatusSet) {
-				statusSet.addAll(orderRepository.filterByPriceMin(min, user, status, start, end));
-			}
-		}
-		return new ArrayList<>(statusSet);
-	}
-
-	@Override
-	public List<Order> filterByPriceMax(Double max, User user, Date start, Date end) {
-		Set<Role> roleSet = user.getRoles();
-		Set<Order> statusSet = new HashSet<>();
-		for (Role role : roleSet) {
-			Set<Status> tmpStatusSet = role.getStatuses();
-			if (role.getName().equals("BOSS")) {
-				statusSet.addAll(orderRepository.filterByPriceMaxBoss(max, start, end));
-				return new ArrayList<>(statusSet);
-			}
-			for (Status status : tmpStatusSet) {
-				statusSet.addAll(orderRepository.filterByPriceMax(max, user, status, start, end));
-			}
-		}
-		return new ArrayList<>(statusSet);
-	}
-
-	@Override
 	public List<Order> sorting(List<Order> list, String sortBy) {
 
 		switch (sortBy) {
@@ -288,38 +211,16 @@ public class OrderServiceImpl implements OrderService {
 			if (role.getName().equals("BOSS")) {
 				return orderRepository.filterForDashboardBoss(search, min, max, start, end);
 			}
-
 		}
 		return orderRepository.filterForDashboard(user, search, min, max, start, end);
-//
-//
-//		if (search.equals("") && max == null && min == null) {
-//			return getAllAllowedByDate(user, start, end);
-//		}
-//
-//		if (search.equals("")) {
-//
-//			if (max == null) {
-//				return filterByPriceMin(min, user, start, end);
-//			}
-//			if (min == null) {
-//				return filterByPriceMax(max, user, start, end);
-//			}
-//
-//			return filterByPrice(min, max, user, start, end);
-//		}
-//
-//		if (min == null && max == null) {
-//			return searchByAllFields(search, start, end);
-//		}
-//
-//		if (max == null) {
-//			return orderRepository.findBySearchTermAndMin(search, start, end, min);
-//		}
-//		if (min == null) {
-//			return orderRepository.findBySearchTermAndMax(search, start, end, max);
-//		}
-//		return orderRepository.findBySearchTermAndMinMax(search, start, end, min, max);
+	}
+
+	@Override
+	public List<Order> getOrdersForDashboardBoss( Date start, Date end, String search,
+											 Double min, Double max) {
+
+				return orderRepository.filterForDashboardBoss(search, min, max, start, end);
+
 	}
 }
 

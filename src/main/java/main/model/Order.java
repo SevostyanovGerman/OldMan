@@ -210,7 +210,6 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		return payment;
 	}
 
-
 	public String getPaymentString() {
 		if (payment == null) {
 			return "не оплачен";
@@ -232,15 +231,15 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public String getPaymentTypeString() {
-	if (paymentType == null){
-		return "не выбран";
-	}
+		if (paymentType == null) {
+			return "не выбран";
+		}
 		return paymentType.getName();
 	}
 
 	@Access(AccessType.PROPERTY)
 	public String getCustomerFirstNameString() {
-		if (customer == null){
+		if (customer == null) {
 			return "";
 		}
 		return customer.getFirstName();
@@ -248,14 +247,14 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setCustomerFirstNameString(String firstName) {
-		if (customer != null){
+		if (customer != null) {
 			customer.setFirstName(firstName);
 		}
 	}
 
 	@Access(AccessType.PROPERTY)
 	public String getCustomerSecNameString() {
-		if (customer == null){
+		if (customer == null) {
 			return "";
 		}
 		return customer.getSecName();
@@ -263,15 +262,75 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setCustomerSecNameString(String secName) {
-		if (customer != null){
+		if (customer != null) {
 			customer.setSecName(secName);
 		}
 	}
 
+	@Access(AccessType.PROPERTY)
+	public String getMasterFirstNameString() {
+		if (master == null) {
+			return "";
+		}
+		return master.getFirstName();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public void setMasterFirstNameString(String name) {
+		if (master != null) {
+			master.setFirstName( name);
+		}
+	}
+
+	@Access(AccessType.PROPERTY)
+	public String getMasterSecNameString() {
+		if (master == null) {
+			return "";
+		}
+		return master.getSecName();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public void setMasterSecNameString(String name) {
+		if (master != null) {
+			master.setSecName( name);
+		}
+	}
+
+
+	@Access(AccessType.PROPERTY)
+	public String getDesignerFirstNameString() {
+		if (designer == null) {
+			return "";
+		}
+		return designer.getFirstName();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public void setDesignerFirstNameString(String name) {
+		if (designer != null) {
+			designer.setFirstName( name);
+		}
+	}
+
+	@Access(AccessType.PROPERTY)
+	public String getDesignerSecNameString() {
+		if (designer == null) {
+			return "";
+		}
+		return designer.getSecName();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public void setDesignerSecNameString(String name) {
+		if (designer != null) {
+			designer.setSecName( name);
+		}
+	}
 
 	public void setPaymentTypeString(String paymentTypeString) {
 
-		if (paymentType != null){
+		if (paymentType != null) {
 			paymentType.setName(paymentTypeString);
 		}
 

@@ -13,7 +13,6 @@ public interface OrderService {
 	List<Order> getAll();
 
 	List<Order> getAllAllowed(User user);
-	List<Order> getAllAllowedByDate(User user, Date start, Date end);
 	List<Order> findByCustomer(String name);
 	List<Order> findByNumber(String number);
 	List<Order> findByManager(String name);
@@ -32,11 +31,10 @@ public interface OrderService {
 	List<Object> sumPriceOrders(Date start, Date end, String dwm);
 	List<Object> statisticGeo();
 	List<Object> statisticNewCustomers(Date start, Date end);
-	List<Order> filterByPrice(Double min, Double max, User user, Date start, Date end);
-	List<Order> filterByPriceMin(Double min, User user, Date start, Date end);
-	List<Order> filterByPriceMax(Double max, User user, Date start, Date end);
 	List<Order> sorting(List<Order> list, String sortBy);
 	List<Order> getOrdersForDashboard(User user, Date start, Date end, String search, Double min,
 									  Double max);
+	List<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min,
+										  Double max);
 
 }
