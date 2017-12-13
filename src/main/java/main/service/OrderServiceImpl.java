@@ -205,21 +205,14 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<Order> getOrdersForDashboard(User user, Date start, Date end, String search,
 											 Double min, Double max) {
-
-		Set<Role> roleSet = user.getRoles();
-		for (Role role : roleSet) {
-			if (role.getName().equals("BOSS")) {
-				return orderRepository.filterForDashboardBoss(search, min, max, start, end);
-			}
-		}
 		return orderRepository.filterForDashboard(user, search, min, max, start, end);
 	}
 
 	@Override
-	public List<Order> getOrdersForDashboardBoss( Date start, Date end, String search,
-											 Double min, Double max) {
+	public List<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min,
+												 Double max) {
 
-				return orderRepository.filterForDashboardBoss(search, min, max, start, end);
+		return orderRepository.filterForDashboardBoss(search, min, max, start, end);
 
 	}
 }
