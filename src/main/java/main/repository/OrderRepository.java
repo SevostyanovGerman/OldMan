@@ -54,8 +54,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		   ") AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and STR_TO_DATE" +
 		   "(:endDate, '%Y-%m-%d %H:%i:%s') AND o.price >= :min")
 	List<Order> findBySearchTermAndMin(@Param("searchTerm") String searchTerm,
-								 @Param("startDate") Date startDate,
-								 @Param("endDate") Date endDate, @Param("min") Double min);
+									   @Param("startDate") Date startDate,
+									   @Param("endDate") Date endDate, @Param("min") Double min);
 
 	@Query("SELECT o FROM Order o WHERE ( " +
 		   "LOWER(o.number) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
@@ -82,9 +82,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		   ") AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and STR_TO_DATE" +
 		   "(:endDate, '%Y-%m-%d %H:%i:%s') AND o.price >= :min AND o.price <= :max")
 	List<Order> findBySearchTermAndMinMax(@Param("searchTerm") String searchTerm,
-									   @Param("startDate") Date startDate,
-									   @Param("endDate") Date endDate, @Param("min") Double min,
-									   @Param("max") Double max);
+										  @Param("startDate") Date startDate,
+										  @Param("endDate") Date endDate, @Param("min") Double min,
+										  @Param("max") Double max);
 
 	@Query("SELECT o FROM Order o WHERE o.created BETWEEN :startDate AND :endDate")
 	List<Order> findOrdersByRange(@Param("startDate") Date startDate,
@@ -108,8 +108,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		   ".created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  STR_TO_DATE" +
 		   "(:endDate, '%Y-%m-%d %H:%i:%s')  ")
 	List<Order> findByUserAndDateBoss(@Param("deleted") boolean deleted,
-								 @Param("startDate") Date startDate,
-								 @Param("endDate") Date endDate);
+									  @Param("startDate") Date startDate,
+									  @Param("endDate") Date endDate);
 
 	@Query(
 		"SELECT  date_format(o.created, :dwm) as created ,  AVG(o.price) as price FROM Order o " +
@@ -164,8 +164,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 								 @Param("status") Status status, @Param("startDate") Date startDate,
 								 @Param("endDate") Date endDate);
 
-	@Query("SELECT o FROM Order o WHERE o.deleted = false AND o.price >= :min  AND o.price <= " +
-		   ":max  AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s') ")
+	@Query("SELECT o FROM Order o WHERE o.deleted = false AND" +
+		   "( :min is  null or  o.price >= :min)  AND ( :max is  null or  o.price <= :max) " +
+		   " AND o.created between " + "STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  " + "and " +
+		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s') ")
 	List<Order> filterByPriceForBoss(@Param("min") Double min, @Param("max") Double max,
 									 @Param("startDate") Date startDate,
 									 @Param("endDate") Date endDate);
@@ -179,4 +181,40 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		   ":max  AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s') ")
 	List<Order> filterByPriceMaxBoss(@Param("max") Double max, @Param("startDate") Date startDate,
 									 @Param("endDate") Date endDate);
+
+	@Query("SELECT o FROM Order o WHERE " +
+		   "( :searchTerm is null or  (LOWER(o.number) LIKE LOWER(CONCAT('%',:searchTerm, '%')) " +
+		   "OR " +
+		   "LOWER(o.customerFirstNameString) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.customerSecNameString) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.manager.firstName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.manager.secName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.status.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.paymentTypeString) LIKE LOWER(CONCAT('%',:searchTerm, '%')) ))" +
+		   "AND o.deleted = false AND" +
+		   "( :min is  null or  o.price >= :min)  AND ( :max is  null or  o.price <= :max) " +
+		   " AND o.created between " + "STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  " + "and " +
+		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s') ")
+	List<Order> filterForDashboardBoss(@Param("searchTerm") String searchTerm,
+									   @Param("min") Double min, @Param("max") Double max,
+									   @Param("startDate") Date startDate,
+									   @Param("endDate") Date endDate);
+
+	@Query("SELECT o FROM Order o WHERE " +
+		   "( :searchTerm is null or  (LOWER(o.number) LIKE LOWER(CONCAT('%',:searchTerm, " +
+		   "'%')) OR " +
+		   "LOWER(o.customerFirstNameString) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.customerSecNameString) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.manager.firstName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.manager.secName) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.status.name) LIKE LOWER(CONCAT('%',:searchTerm, '%')) OR " +
+		   "LOWER(o.paymentTypeString) LIKE LOWER(CONCAT('%',:searchTerm, '%')) ))" +
+		   "AND o.deleted = false AND o.manager = :user AND" +
+		   "( :min is  null or  o.price >= :min)  AND ( :max is  null or  o.price <= :max) " +
+		   " AND o.created between " + "STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  " + "and " +
+		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s') ")
+	List<Order> filterForDashboard(@Param("user") User user, @Param("searchTerm") String searchTerm,
+								   @Param("min") Double min, @Param("max") Double max,
+								   @Param("startDate") Date startDate,
+								   @Param("endDate") Date endDate);
 }

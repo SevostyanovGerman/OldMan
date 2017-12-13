@@ -210,7 +210,11 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		return payment;
 	}
 
+
 	public String getPaymentString() {
+		if (payment == null) {
+			return "не оплачен";
+		}
 		if (payment) {
 			return "оплачен";
 		}
@@ -222,7 +226,55 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 	}
 
 	public Payment getPaymentType() {
+
 		return paymentType;
+	}
+
+	@Access(AccessType.PROPERTY)
+	public String getPaymentTypeString() {
+	if (paymentType == null){
+		return "не выбран";
+	}
+		return paymentType.getName();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public String getCustomerFirstNameString() {
+		if (customer == null){
+			return "";
+		}
+		return customer.getFirstName();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public void setCustomerFirstNameString(String firstName) {
+		if (customer != null){
+			customer.setFirstName(firstName);
+		}
+	}
+
+	@Access(AccessType.PROPERTY)
+	public String getCustomerSecNameString() {
+		if (customer == null){
+			return "";
+		}
+		return customer.getSecName();
+	}
+
+	@Access(AccessType.PROPERTY)
+	public void setCustomerSecNameString(String secName) {
+		if (customer != null){
+			customer.setSecName(secName);
+		}
+	}
+
+
+	public void setPaymentTypeString(String paymentTypeString) {
+
+		if (paymentType != null){
+			paymentType.setName(paymentTypeString);
+		}
+
 	}
 
 	public void setPaymentType(Payment paymentType) {

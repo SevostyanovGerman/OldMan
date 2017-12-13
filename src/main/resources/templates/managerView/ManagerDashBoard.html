@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-lg-4" style="text-align: right">
                     <input  id="search" name="search"
-                            placeholder="Найти по номеру, клиенты, оплате, менеджеру" class="form-control"
+                            placeholder="Найти по номеру, клиенту, оплате, менеджеру" class="form-control"
                             onkeyup="filterSearch()" >
                 </div>
 
@@ -188,16 +188,16 @@
                                         <div class='pagination pagination-centered'>
                                             <ul class="pagination">
                                                 <li th:class="${currentIndex == 1}? 'disabled' : ''">
-                                                    <span th:if='${currentIndex == 1}'>First</span>
+                                                    <span th:if='${currentIndex == 1}'>Начало</span>
                                                     <a th:if='${currentIndex != 1}'
 
                                                        th:onclick="'filterSearch('+${1}+')' "
-                                                    >First</a>
+                                                    >Начало</a>
                                                 </li>
                                                 <li th:class="${currentIndex != 1}? '' : 'disabled'">
                                                     <span th:if='${currentIndex == 1}'>«</span>
                                                     <a th:if='${currentIndex != 1}'  th:onclick="'filterSearch('+${currentIndex - 1}+')' "
-                                                       title='Go to previous page'>«</a>
+                                                       title='Назад'>«</a>
                                                 </li>
 
                                                 <li th:if="${beginIndex != null}" th:each="item : ${#numbers.sequence(beginIndex,endIndex)}"
@@ -213,14 +213,14 @@
                                                     <span th:if='${currentIndex == totalPageCount}'>»</span>
                                                     <a th:if='${currentIndex != totalPageCount}'
                                                        th:onclick="'filterSearch('+${currentIndex+1}+')' "
-                                                       title='Go to next page'>»</a>
+                                                       title='Вперед'>»</a>
                                                 </li>
                                                 <li th:class="${currentIndex == totalPageCount}? 'disabled' : ''">
-                                                    <span th:if='${currentIndex == totalPageCount}'>Last</span>
+                                                    <span th:if='${currentIndex == totalPageCount}'>Конец</span>
                                                     <a th:if='${currentIndex != totalPageCount}'
 
                                                        th:onclick="'filterSearch('+${totalPageCount}+')' "
-                                                    >Last</a>
+                                                    >Конец</a>
                                                 </li>
                                             </ul>
                                         </div>

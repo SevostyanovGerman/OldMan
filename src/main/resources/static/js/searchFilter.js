@@ -69,3 +69,7 @@ function filterSearch(pageNumber) {
     };
     $("#sortingTable").load(url, data);
 }
+
+function test(list) {
+    var  x = list
+}

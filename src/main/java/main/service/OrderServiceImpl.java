@@ -29,6 +29,9 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private HistoryService historyService;
 
+	@Autowired
+	private RoleService roleService;
+
 	private final static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
 
 	@Override
@@ -276,39 +279,47 @@ public class OrderServiceImpl implements OrderService {
 		return orderRepository.findOrdersByRange(startDate, endDate);
 	}
 
-	private static final int PAGE_SIZE = 2;
-
 	@Override
 	public List<Order> getOrdersForDashboard(User user, Date start, Date end, String search,
 											 Double min, Double max) {
 
-		if (search.equals("") && max == null && min == null) {
-			return getAllAllowedByDate(user, start, end);
-		}
-
-		if (search.equals("")) {
-
-			if (max == null) {
-				return filterByPriceMin(min, user, start, end);
-			}
-			if (min == null) {
-				return filterByPriceMax(max, user, start, end);
+		Set<Role> roleSet = user.getRoles();
+		for (Role role : roleSet) {
+			if (role.getName().equals("BOSS")) {
+				return orderRepository.filterForDashboardBoss(search, min, max, start, end);
 			}
 
-			return filterByPrice(min, max, user, start, end);
 		}
-
-		if (min == null && max == null) {
-			return searchByAllFields(search, start, end);
-		}
-
-		if (max == null) {
-			return orderRepository.findBySearchTermAndMin(search, start, end, min);
-		}
-		if (min == null) {
-			return orderRepository.findBySearchTermAndMax(search, start, end, max);
-		}
-		return orderRepository.findBySearchTermAndMinMax(search, start, end, min, max);
+		return orderRepository.filterForDashboard(user, search, min, max, start, end);
+//
+//
+//		if (search.equals("") && max == null && min == null) {
+//			return getAllAllowedByDate(user, start, end);
+//		}
+//
+//		if (search.equals("")) {
+//
+//			if (max == null) {
+//				return filterByPriceMin(min, user, start, end);
+//			}
+//			if (min == null) {
+//				return filterByPriceMax(max, user, start, end);
+//			}
+//
+//			return filterByPrice(min, max, user, start, end);
+//		}
+//
+//		if (min == null && max == null) {
+//			return searchByAllFields(search, start, end);
+//		}
+//
+//		if (max == null) {
+//			return orderRepository.findBySearchTermAndMin(search, start, end, min);
+//		}
+//		if (min == null) {
+//			return orderRepository.findBySearchTermAndMax(search, start, end, max);
+//		}
+//		return orderRepository.findBySearchTermAndMinMax(search, start, end, min, max);
 	}
 }
 
