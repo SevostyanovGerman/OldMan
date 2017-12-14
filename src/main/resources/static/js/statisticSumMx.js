@@ -38,6 +38,8 @@ var dwm = '%Y-%m';
                     data.addColumn('number', 'сумма не оплаченных заказов');
                     data.addRows(averagePriceElement); // полученный массив данных
 
+                    drawTable(averagePriceElement); //рисуем таблицу
+
                     // Set chart options
                     var options = {
                         'title': 'Сумма заказа',
@@ -104,4 +106,51 @@ function test(step) {
     dwm = step;
     avgPrice(startMx,endMx, dwm);
 
+}
+
+function drawTable(data) {
+    data.sort();
+    var destroyTable =document.getElementById("tableSum");
+    if (destroyTable != null) {
+        destroyTable.remove();
+    }
+    var table = document.createElement("table");
+    table.setAttribute("class", "table table-bordered data ");
+    table.setAttribute("id", "tableSum");
+    table.setAttribute("style", "text-align: center;");
+    var tbody = document.createElement("tbody");
+    tbody.setAttribute("class", "table-body");
+    table.appendChild(tbody);
+
+    var thead = document.createElement("thead");
+    table.appendChild(thead);
+    var th1 = document.createElement('th');
+    th1.setAttribute("class", "table-head");
+    th1.setAttribute("style", "text-align: center;");
+    th1.innerHTML = 'Период';
+    thead.appendChild(th1);
+    var th2 = document.createElement('th');
+    th2.setAttribute("class", "table-head");
+    th2.setAttribute("style", "text-align: center;");
+    th2.innerHTML = 'Оплаченно';
+    thead.appendChild(th2);
+    var th3 = document.createElement('th');
+    th3.setAttribute("class", "table-head");
+    th3.setAttribute("style", "text-align: center;");
+    th3.innerHTML = 'Не оплаченно';
+    thead.appendChild(th3);
+
+
+    for(var i = 0; i < data.length; i++) {
+        var tr = document.createElement('tr');
+        var mass = data[i]
+        for (var j = 0; j < mass.length; j++){
+            var td = document.createElement('td');
+            td.setAttribute("class", "table-body");
+            td.innerHTML = mass[j];
+            tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+    }
+    document.getElementById("myTable").appendChild(table);
 }
