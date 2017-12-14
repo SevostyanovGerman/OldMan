@@ -2,10 +2,14 @@ package main.controller;
 
 import main.model.*;
 import main.service.*;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +67,32 @@ public class ManagerController {
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
 	public ModelAndView getOrderList() {
-		return new ModelAndView("/managerView/ManagerDashBoard");
+		ModelAndView modelAndView = new ModelAndView("/managerView/ManagerDashBoard");
+		DateTime startDate = new DateTime().withDayOfMonth(1);
+		DateTime endDate = new DateTime().withHourOfDay(23).withMinuteOfHour(59);
+		Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
+		Sort sorting = new Sort(orderByDirection, "number");
+
+		Page page = orderService
+			.getOrdersForDashboard(userService.getCurrentUser(), startDate.toDate(),
+				endDate.toDate(), null, null, null, new PageRequest(0, 25, sorting));
+		modelAndView.addObject("orderList", page);
+
+		//Pagination variables
+		int current = page.getNumber() + 1;
+		int begin = 1;
+		int end = 1;
+		if (current > 5) {
+			begin = Math.max(1, current - 5);
+			end = Math.min(begin + 5, page.getTotalPages());
+		}
+		int totalPageCount = page.getTotalPages();
+		modelAndView.addObject("page", page);
+		modelAndView.addObject("beginIndex", begin);
+		modelAndView.addObject("endIndex", end);
+		modelAndView.addObject("currentIndex", current);
+		modelAndView.addObject("totalPageCount", totalPageCount);
+		return modelAndView;
 	}
 
 	//Просмотр и редактирование существующего заказа
@@ -87,6 +116,7 @@ public class ManagerController {
 		for (Notification n : myNotes) {
 			if (n.getOrder() == orderService.get(id).getId()) {
 				notificationService.delete(n.getId());
+				model.addObject("tabIndex", 1);
 			}
 		}
 
@@ -443,55 +473,8 @@ public class ManagerController {
 		List<Order> orderList = new ArrayList<>();
 		for (Notification n : myNotes) {
 			orderList.add(orderService.get(n.getOrder()));
-			model.addObject("orderList", orderList);
 		}
+		model.addObject("orderList", orderList);
 		return model;
 	}
-//
-//	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
-//	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
-//							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
-//							  HttpServletRequest request) {
-//		String url = Helper.getUrl(request.getHeader("referer"));
-//
-//		if (url.contains("manager")) {
-//			url = "managerView/ManagerDashBoard :: tableOrders";
-//		} else {
-//			url = "directorView/DirectorDashBoard :: tableOrders";
-//		}
-//
-//		try {
-//			DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
-//			List<Order> orderList = orderService
-//				.getOrdersForDashboard(userService.getCurrentUser(), startDate, end2.toDate(),
-//					search, minPrice, maxPrice);
-//
-//			if (pageNumber < 0) {
-//				pageNumber = 1;
-//			}
-//			PagedListHolder page = new PagedListHolder(orderList);
-//			page.setPageSize(pageSize); // number of items per page
-//			orderService.sorting(page.getSource(), sort);
-//			page.setPage(pageNumber - 1); // set to first page
-//
-//			model.addAttribute("page", page);
-//			model.addAttribute("orderList", page.getPageList());
-//
-//			//Pagination variables
-//			int current = page.getPage() + 1;
-//			int begin = Math.max(1, current - 5);
-//			int end = Math.min(begin + 5, page.getPageCount());
-//			int totalPageCount = page.getPageCount();
-//
-//			model.addAttribute("beginIndex", begin);
-//			model.addAttribute("endIndex", end);
-//			model.addAttribute("currentIndex", current);
-//			model.addAttribute("totalPageCount", totalPageCount);
-//		} catch (Exception e) {
-//			logger.error("while getting list of orders");
-//		}
-//
-//		return url;
-//		//return "managerView/ManagerDashBoard :: tableOrders";
-//	}
 }

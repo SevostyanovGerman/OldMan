@@ -66,6 +66,7 @@ public class MasterController {
 			for (Notification n : myNotes) {
 				if (n.getOrder() == order.getId()) {
 					notificationService.delete(n.getId());
+					model.addAttribute("tabIndex", "1");
 				}
 			}
 			model.addAttribute("order", order);
@@ -155,8 +156,8 @@ public class MasterController {
 		List<Order> masterOrders = new ArrayList<>();
 		for (Notification n : myNotes) {
 			masterOrders.add(orderService.get(n.getOrder()));
-			model.addObject("masterOrders", masterOrders);
 		}
+		model.addObject("masterOrders", masterOrders);
 		return model;
 
 	}

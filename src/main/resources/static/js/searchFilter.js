@@ -9,17 +9,14 @@ $(function() {
 
 
 $(function() {
-
     // var start = moment().subtract(29, 'days');
     var start = moment().startOf('month');
     var end = moment();
-
 
     function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         startMx =start;
         endMx = end;
-        filterSearch();
     }
 
     $('#reportrange').daterangepicker({
@@ -39,8 +36,11 @@ $(function() {
     }, cb);
 
     cb(start, end);
+});
 
 
+$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
+    filterSearch();
 });
 
 function filterSearch(pageNumber) {
@@ -76,6 +76,9 @@ function filterSearch(pageNumber) {
     $("#sortingTable").load(url, data);
 }
 
-function test(list) {
-    var  x = list
+function notification(){
+    $("#sortingTable").load('/order/notification/get');
 }
+
+
+

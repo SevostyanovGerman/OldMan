@@ -180,10 +180,11 @@
                             </div>
                        </div>
                         <!-- Комментарии -->
-                        <div class="tab-pane" id="tabComments" role="tabpanel">
+                        <div class="tab-pane" id="tabComments" role="tabpanel"  >
                                 <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
                                     <div class="comments-container" >
-                                        <ul id="comments-list" class="comments-list" th:each="element: ${order.getComments()}">
+                                        <ul id="comments-list" class="comments-list"
+                                            th:each="element: ${order?.getComments()}" th:fragment="commentsFragment" >
                                             <li>
                                                 <div class="comment-main-level">
                                                     <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
@@ -231,7 +232,7 @@
                                     </div>
                                     <!-- write comment -->
                                     <div class="panel-footer" ng-controller="MasterOrderController">
-                                        <form th:action="'/order/comment/add='+${order.getId()}" method="post">
+                                        <form th:action="'/order/comment/add='+${order?.getId()}" method="post">
                                             <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
                                             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                                             <div ng-show="noResults">
@@ -907,5 +908,30 @@
 </script>
 <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 <script src="/js/tabs.js"></script>
+
+
+<!--переключение вкладок при создании комментария и открытии заказа с комментарием-->
+<script th:inline="javascript">
+    var tab = [[${tabIndex}]];
+    var x = getQueryParam('tabIndex');
+
+    if (x < 0) {
+        $("#myTab2 li:eq(0) a").tab('show');
+    }
+
+    if (tab != null ) {
+        $('#myTab2 li:eq('+tab +') a').tab('show');
+
+    } else {
+
+        if (x > 0) {
+            $('#myTab2 li:eq('+x +') a').tab('show');
+        } else {
+            $("#myTab2 li:eq(0) a").tab('show');
+        }
+    }
+</script>
+
+
 </body>
 </html>

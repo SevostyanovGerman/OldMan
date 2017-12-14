@@ -303,5 +303,27 @@
 -->
 
 <script src="/js/tabs.js"></script>
+
+<!--переключение вкладок при создании комментария и открытии заказа с комментарием-->
+<script th:inline="javascript">
+    var tab = [[${tabIndex}]];
+    var x = getQueryParam('tabIndex');
+
+    if (x < 0) {
+        $("#myTab2 li:eq(0) a").tab('show');
+    }
+
+    if (tab != null ) {
+        $('#myTab2 li:eq('+tab +') a').tab('show');
+
+    } else {
+
+        if (x > 0) {
+            $('#myTab2 li:eq('+x +') a').tab('show');
+        } else {
+            $("#myTab2 li:eq(0) a").tab('show');
+        }
+    }
+</script>
 </body>
 </html>

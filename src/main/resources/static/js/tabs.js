@@ -1,17 +1,4 @@
 
-//переключение вкладок на странице
-$(document).ready(function(){
-
-    var x = getQueryParam('tabIndex');
-if (x == null) {
-    $("#myTab2 li:eq(0) a").tab('show');
-}
-else {
-    $('#myTab2 li:eq('+x +') a').tab('show');
-
-}
-
-});
 
 var getQueryParam = function getQueryParam (param) {
     var queries = window.location.search, regex, resRegex, results, response;

@@ -74,6 +74,7 @@ public class DesignerController {
 		for (Notification n : myNotes) {
 			if (n.getOrder() == orderService.get(id).getId()) {
 				notificationService.delete(n.getId());
+				model.addObject("tabIndex", "1");
 			}
 		}
 
@@ -156,8 +157,8 @@ public class DesignerController {
 		List<Order> orders = new ArrayList<>();
 		for (Notification n : myNotes) {
 			orders.add(orderService.get(n.getOrder()));
-			model.addObject("orders", orders);
 		}
+		model.addObject("orders", orders);
 		return model;
 	}
 }

@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -109,7 +111,7 @@ public class MainController {
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
 							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
 							  String orderBy) {
-		DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+		DateTime endTime = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 		User user = userService.getCurrentUser();
 		StringBuilder url = new StringBuilder();
 		Sort.Direction orderByDirection = Sort.Direction.fromString(orderBy);
@@ -128,12 +130,12 @@ public class MainController {
 			Page<Order> page;
 			if (boss) {
 				page = orderService
-					.getOrdersForDashboardBoss(startDate, end2.toDate(), search, minPrice, maxPrice,
-						new PageRequest(pageNumber - 1, pageSize, sorting));
+					.getOrdersForDashboardBoss(startDate, endTime.toDate(), search, minPrice,
+						maxPrice, new PageRequest(pageNumber - 1, pageSize, sorting));
 				url.append("directorView/DirectorDashBoard :: tableOrders");
 			} else {
 				page = orderService
-					.getOrdersForDashboard(user, startDate, end2.toDate(), search, minPrice,
+					.getOrdersForDashboard(user, startDate, endTime.toDate(), search, minPrice,
 						maxPrice, new PageRequest(pageNumber - 1, pageSize, sorting));
 				url.append("managerView/ManagerDashBoard :: tableOrders");
 			}
@@ -171,5 +173,17 @@ public class MainController {
 		}
 
 		return model;
+	}
+
+	@RequestMapping(value = {"/order/notification/get"}, method = RequestMethod.GET)
+	public String getOrdersByNotificationForDashboard(Model model) {
+		String user = userService.getCurrentUser().getName();
+		List<Notification> myNotes = notificationService.findAllByUser(user);
+		List<Order> orderList = new ArrayList<>();
+		for (Notification n : myNotes) {
+			orderList.add(orderService.get(n.getOrder()));
+		}
+		model.addAttribute("orderList", orderList);
+		return "managerView/ManagerDashBoard :: tableOrders";
 	}
 }
