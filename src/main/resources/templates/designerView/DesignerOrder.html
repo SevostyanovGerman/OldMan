@@ -8,6 +8,7 @@
 
     <title>Manager Dash Board</title>
     <!--для комментов-->
+    <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/mxComment.css"/>
 
@@ -61,7 +62,7 @@
                 </li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
+                        <a th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                     </form>
                 </li>
                 <li>

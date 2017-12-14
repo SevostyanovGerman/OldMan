@@ -109,15 +109,12 @@ public class MainController {
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
 							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
 							  String orderBy) {
-
 		DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 		User user = userService.getCurrentUser();
 		StringBuilder url = new StringBuilder();
 		Sort.Direction orderByDirection = Sort.Direction.fromString(orderBy);
 		Sort sorting = new Sort(orderByDirection, sort);
-
 		try {
-
 			Set<Role> roleSet = user.getRoles();
 			boolean boss = false;
 			for (Role role : roleSet) {
@@ -125,11 +122,9 @@ public class MainController {
 					boss = true;
 				}
 			}
-
 			if (pageNumber < 0) {
 				pageNumber = 1;
 			}
-
 			Page<Order> page;
 			if (boss) {
 				page = orderService
@@ -142,7 +137,6 @@ public class MainController {
 						maxPrice, new PageRequest(pageNumber - 1, pageSize, sorting));
 				url.append("managerView/ManagerDashBoard :: tableOrders");
 			}
-
 			model.addAttribute("page", page);
 			model.addAttribute("orderList", page.getContent());
 
@@ -155,7 +149,6 @@ public class MainController {
 				end = Math.min(begin + 5, page.getTotalPages());
 			}
 			int totalPageCount = page.getTotalPages();
-
 			model.addAttribute("beginIndex", begin);
 			model.addAttribute("endIndex", end);
 			model.addAttribute("currentIndex", current);
@@ -163,8 +156,20 @@ public class MainController {
 		} catch (Exception e) {
 			logger.error("while getting list of orders for Dashboard");
 		}
-
 		return url.toString();
 	}
 
+	@RequestMapping(value = {"/order/comment/delete={id}"}, method = RequestMethod.GET)
+	public ModelAndView deleteComment(@PathVariable Long id, HttpServletRequest request) {
+		String url = Helper.getUrl(request.getHeader("referer"));
+		ModelAndView model = new ModelAndView("redirect:" + url);
+		Comment comment = commentService.get(id);
+		if (!comment.getSentTo().equals(userService.getCurrentUser().getName())) {
+			commentService.delete(comment);
+		} else {
+			System.out.println("You have no permission to delete this comment");
+		}
+
+		return model;
+	}
 }

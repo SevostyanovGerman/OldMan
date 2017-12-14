@@ -1,7 +1,6 @@
 package main.model;
 
 public class Helper {
-
 	static public String getUrl(String referer) {
 		String url;
 		int index = referer.indexOf("?");
@@ -12,5 +11,4 @@ public class Helper {
 		}
 		return url;
 	}
-
 }

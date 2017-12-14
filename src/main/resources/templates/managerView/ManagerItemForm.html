@@ -14,6 +14,7 @@
 
     <link href="/css/ekko-lightbox.css" rel="stylesheet">
     <link href="/css/managerItemForm.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/commentMaster.css}" href="/css/commentMaster">
 
     <!-- Angular JS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
@@ -46,7 +47,7 @@
                 <li><a href="#"><span sec:authentication="principal"></span></a></li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
+                        <a th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                     </form>
                 </li>
                 <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
