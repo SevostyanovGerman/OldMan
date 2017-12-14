@@ -50,11 +50,16 @@ function filterSearch(pageNumber) {
     var pageSize = document.getElementById("pageSize");
     var minPrice = document.getElementById("minPrice");
     var maxPrice = document.getElementById("maxPrice");
+    var orderBy = document.getElementById("orderBy");
+
     if (pageNumber == null) {
         pageNumber = 1;
     }
     if (pageSize == null) {
         pageSize = 25;
+    }
+    if (orderBy == null) {
+        orderBy = "DESC";
     }
     var page = pageNumber;
     var data = {
@@ -65,7 +70,8 @@ function filterSearch(pageNumber) {
         minPrice: minPrice.value,
         maxPrice: maxPrice.value,
         pageNumber: page,
-        pageSize: pageSize.value
+        pageSize: pageSize.value,
+        orderBy: orderBy.value
     };
     $("#sortingTable").load(url, data);
 }

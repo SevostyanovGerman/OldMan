@@ -6,7 +6,9 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -106,11 +107,15 @@ public class MainController {
 
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
-							  Double minPrice, Double maxPrice, int pageNumber, int pageSize) {
+							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
+							  String orderBy) {
 
 		DateTime end2 = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 		User user = userService.getCurrentUser();
 		StringBuilder url = new StringBuilder();
+		Sort.Direction orderByDirection = Sort.Direction.fromString(orderBy);
+		Sort sorting = new Sort(orderByDirection, sort);
+
 		try {
 
 			Set<Role> roleSet = user.getRoles();
@@ -121,36 +126,35 @@ public class MainController {
 				}
 			}
 
-			List<Order> orderList;
-			if (boss) {
-				orderList = orderService
-					.getOrdersForDashboardBoss(startDate, end2.toDate(), search, minPrice,
-						maxPrice);
-				url.append("directorView/DirectorDashBoard :: tableOrders");
-			} else {
-				orderList = orderService
-					.getOrdersForDashboard(user, startDate, end2.toDate(), search, minPrice,
-						maxPrice);
-				url.append("managerView/ManagerDashBoard :: tableOrders");
-			}
-
 			if (pageNumber < 0) {
 				pageNumber = 1;
 			}
 
-			PagedListHolder page = new PagedListHolder(orderList); //разбиваем orderList на страницы
-			page.setPageSize(pageSize); // Задаем размер страницы
-			orderService.sorting(page.getSource(), sort); // Сортируем
-			page.setPage(pageNumber - 1); //берем нужную страницу
+			Page<Order> page;
+			if (boss) {
+				page = orderService
+					.getOrdersForDashboardBoss(startDate, end2.toDate(), search, minPrice, maxPrice,
+						new PageRequest(pageNumber - 1, pageSize, sorting));
+				url.append("directorView/DirectorDashBoard :: tableOrders");
+			} else {
+				page = orderService
+					.getOrdersForDashboard(user, startDate, end2.toDate(), search, minPrice,
+						maxPrice, new PageRequest(pageNumber - 1, pageSize, sorting));
+				url.append("managerView/ManagerDashBoard :: tableOrders");
+			}
 
 			model.addAttribute("page", page);
-			model.addAttribute("orderList", page.getPageList());
+			model.addAttribute("orderList", page.getContent());
 
 			//Pagination variables
-			int current = page.getPage() + 1;
-			int begin = Math.max(1, current - 5);
-			int end = Math.min(begin + 5, page.getPageCount());
-			int totalPageCount = page.getPageCount();
+			int current = page.getNumber() + 1;
+			int begin = 1;
+			int end = 1;
+			if (current > 5) {
+				begin = Math.max(1, current - 5);
+				end = Math.min(begin + 5, page.getTotalPages());
+			}
+			int totalPageCount = page.getTotalPages();
 
 			model.addAttribute("beginIndex", begin);
 			model.addAttribute("endIndex", end);

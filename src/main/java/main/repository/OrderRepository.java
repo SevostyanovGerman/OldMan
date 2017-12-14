@@ -3,6 +3,7 @@ package main.repository;
 import main.model.Order;
 import main.model.Status;
 import main.model.User;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -94,10 +95,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		   "( :min is  null or  o.price >= :min)  AND ( :max is  null or  o.price <= :max) " +
 		   " AND o.created between " + "STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  " + "and " +
 		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s') ")
-	List<Order> filterForDashboardBoss(@Param("searchTerm") String searchTerm,
+	Page<Order> filterForDashboardBoss(@Param("searchTerm") String searchTerm,
 									   @Param("min") Double min, @Param("max") Double max,
 									   @Param("startDate") Date startDate,
-									   @Param("endDate") Date endDate);
+									   @Param("endDate") Date endDate,
+									   org.springframework.data.domain.Pageable pageable);
 
 	//// Поисковый запрос для Dashboard manager
 	@Query("SELECT o FROM Order o WHERE " +
@@ -113,8 +115,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 		   "( :min is  null or  o.price >= :min)  AND ( :max is  null or  o.price <= :max) " +
 		   " AND o.created between " + "STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  " + "and " +
 		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s') ")
-	List<Order> filterForDashboard(@Param("user") User user, @Param("searchTerm") String searchTerm,
+	Page<Order> filterForDashboard(@Param("user") User user, @Param("searchTerm") String searchTerm,
 								   @Param("min") Double min, @Param("max") Double max,
 								   @Param("startDate") Date startDate,
-								   @Param("endDate") Date endDate);
+								   @Param("endDate") Date endDate,
+								   org.springframework.data.domain.Pageable pageable);
 }

@@ -8,6 +8,8 @@ import main.repository.OrderRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
@@ -203,16 +205,17 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getOrdersForDashboard(User user, Date start, Date end, String search,
-											 Double min, Double max) {
-		return orderRepository.filterForDashboard(user, search, min, max, start, end);
+	public Page<Order> getOrdersForDashboard(User user, Date start, Date end, String search,
+											 Double min, Double max, Pageable pageable) {
+
+		return orderRepository.filterForDashboard(user, search, min, max, start, end, pageable);
 	}
 
 	@Override
-	public List<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min,
-												 Double max) {
+	public Page<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min,
+												 Double max, Pageable pageable) {
 
-		return orderRepository.filterForDashboardBoss(search, min, max, start, end);
+		return orderRepository.filterForDashboardBoss(search, min, max, start, end, pageable);
 
 	}
 }

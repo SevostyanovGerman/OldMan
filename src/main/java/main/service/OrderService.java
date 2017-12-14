@@ -2,6 +2,8 @@ package main.service;
 
 import main.model.Order;
 import main.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.Date;
 import java.util.List;
 
@@ -32,9 +34,9 @@ public interface OrderService {
 	List<Object> statisticGeo();
 	List<Object> statisticNewCustomers(Date start, Date end);
 	List<Order> sorting(List<Order> list, String sortBy);
-	List<Order> getOrdersForDashboard(User user, Date start, Date end, String search, Double min,
-									  Double max);
-	List<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min,
-										  Double max);
+	Page<Order> getOrdersForDashboard(User user, Date start, Date end, String search, Double min,
+									  Double max, Pageable pageable);
+	Page<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min,
+										  Double max, Pageable pageable);
 
 }

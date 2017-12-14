@@ -96,17 +96,24 @@
             </div>
 
         <div class="row" style="margin-top: 10px">
-                <div class="col-lg-4">
-                    <div class="col-lg-8" style="padding-left: 0px; margin-left: 0px">
+                <div class="col-lg-5">
+                    <div class="col-lg-6" style="padding-left: 0px; margin-left: 0px">
                     <select id="sortingBy" class="form-control" onchange="filterSearch()">
                         <option value="number">Сортирова по номеру</option>
-                        <option value="name">Сортирова по клиенту</option>
+                        <option value="customerSecNameString">Сортирова по клиенту</option>
                         <option value="price">Сортирова по цене</option>
                         <option value="status">Сортирова по статусу</option>
                     </select>
                     </div>
 
-                    <div class="col-lg-4" style="margin-right: 0px; padding-right: 0px">
+                    <div class="col-lg-4" style="padding-left: 0px; margin-left: 0px">
+                    <select id="orderBy" class="form-control" onchange="filterSearch()" style="padding-left: 0px; margin-left: 0px">
+                        <option value="DESC">по убыванию</option>
+                        <option value="ASC">по возрастанию</option>
+                    </select>
+                    </div>
+
+                    <div class="col-lg-2" style=" padding-left: 0px; margin-left: 0px">
                     <select id="pageSize" class="form-control" onchange="filterSearch()">
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -116,7 +123,7 @@
                 </div>
 
 
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                     <!--Календарь-->
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
