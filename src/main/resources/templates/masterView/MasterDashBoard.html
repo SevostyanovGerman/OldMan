@@ -5,6 +5,9 @@
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<title>Master Dash Board</title>
+    <!--для комментов-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/mxComment.css"/>
 
     <!-- DataTables settings -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
@@ -12,8 +15,11 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" href="/css/bootstrap.min.css"/>
 
+
     <!-- Optional theme -->
     <link rel="stylesheet" th:href="@{/css/bootstrap-theme.min.css}" href="/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/commentMaster.css}" href="/css/commentMaster">
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
     <script type="text/javascript" th:src="@{/js/masterScript.js}"></script>
@@ -25,6 +31,7 @@
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body ng-app="masterOrderForm">
@@ -52,7 +59,7 @@
                 </li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-bell" style="color:white; font-size: 20px"></span></a>
+                        <a th:href="@{/order/master/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                     </form>
                 </li>
                 <li>
@@ -103,7 +110,6 @@
 	</div>
 </div>
 
-
     <!-- Optional JavaScript -->
     <!-- Include Required Prerequisites -->
     <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
@@ -135,6 +141,5 @@
         });
             });
     </script>
-
 </body>
 </html>

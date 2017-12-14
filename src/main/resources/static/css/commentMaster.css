@@ -218,4 +218,11 @@ html{
     }
 }
 
+/* Badge style*/
+.badge-notify{
+    background: red;
+    position: relative;
+    top: -15px;
+    left: -10px;
+}
 

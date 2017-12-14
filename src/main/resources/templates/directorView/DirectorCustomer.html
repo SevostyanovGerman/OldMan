@@ -8,6 +8,7 @@
     <title>Должности</title>
 
     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
 
@@ -20,9 +21,16 @@
     <link rel="stylesheet" href="https://getbootstrap.com/docs/3.3/examples/dashboard/dashboard.css">
     <link rel="stylesheet" href="/css/dashboard.css">
 
+    <!-- Angular JS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+    <script th:src="@{/js/masterOrderModule.js}"></script>
+
 </head>
 
-<body>
+<body ng-app="masterOrderForm">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -45,7 +53,12 @@
                 </th:block>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span sec:authentication="principal"></a></li>
+                <li><a href="#"><span sec:authentication="principal"></span></a></li>
+                <li>
+                    <form ng-controller="NotificationController" class="navbar-form navbar-right">
+                        <a th:href="@{/order/director/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
+                    </form>
+                </li>
                 <li>
                     <form class="navbar-form navbar-right">
                         <a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>

@@ -31,18 +31,25 @@ public class DirectorController {
 
 	private DeliveryService deliveryService;
 
+	private NotificationService notificationService;
+
 	private final static Logger logger = LoggerFactory.getLogger(DirectorController.class);
 
 	@Autowired
-	public DirectorController(UserService userService, OrderService orderService,
-							  StatusService statusService, RoleService roleService,
-							  CustomerService customerService, DeliveryService deliveryService) {
+	public DirectorController(UserService userService,
+							  OrderService orderService,
+							  StatusService statusService,
+							  RoleService roleService,
+							  CustomerService customerService,
+							  DeliveryService deliveryService,
+							  NotificationService notificationService) {
 		this.userService = userService;
 		this.orderService = orderService;
 		this.statusService = statusService;
 		this.roleService = roleService;
 		this.customerService = customerService;
 		this.deliveryService = deliveryService;
+		this.notificationService = notificationService;
 	}
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
@@ -764,5 +771,19 @@ public class DirectorController {
 			model.addObject("error", error);
 			request.getSession().removeAttribute("error");
 		}
+	}
+
+	//Выборка тех заказов где есть уведомления для конкретного пользователя
+	@RequestMapping(value = {"/order/director/notification/get"}, method = RequestMethod.GET)
+	public ModelAndView getOrdersByNotification() {
+		ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
+		String user = userService.getCurrentUser().getName();
+		List<Notification> myNotes = notificationService.findAllByUser(user);
+		List<Order> masterOrders = new ArrayList<>();
+		for (Notification n : myNotes) {
+			masterOrders.add(orderService.get(n.getOrder()));
+			model.addObject("orders", masterOrders);
+		}
+		return model;
 	}
 }

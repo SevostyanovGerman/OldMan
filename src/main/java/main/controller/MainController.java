@@ -101,4 +101,18 @@ public class MainController {
 		}
 		return model;
 	}
+
+	@RequestMapping(value = {"/order/comment/delete={id}"}, method = RequestMethod.GET)
+	public ModelAndView deleteComment(@PathVariable Long id, HttpServletRequest request) {
+		String url = Helper.getUrl(request.getHeader("referer"));
+		ModelAndView model = new ModelAndView("redirect:" + url);
+		Comment comment = commentService.get(id);
+		if (!comment.getSentTo().equals(userService.getCurrentUser().getName())) {
+			commentService.delete(comment);
+		} else {
+			System.out.println("You have no permission to delete this comment");
+		}
+
+		return model;
+	}
 }
