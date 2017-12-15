@@ -129,8 +129,8 @@
                                                             <h6 class="comment-name by-author" th:text="${element.getCreatedBy()}"></h6>
                                                             <a class="receiver" th:text="${element.getSentTo()}" style="background: steelblue"></a>
                                                             <span th:text="${element.getTime()}"></span>
-                                                            <span style="display: inline-block; margin-left: 5px"><a href="#" class="glyphicon glyphicon-trash"></a></span>
-                                                            <span style="display: inline-block; margin-left: 5px"><a href="#" class="glyphicon glyphicon-edit"></a></span>
+                                                            <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a href="#" class="glyphicon glyphicon-trash"></a></span>
+                                                            <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a href="#" class="glyphicon glyphicon-edit"></a></span>
                                                             <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
                                                                th:id="${element}+'Btn'">Ответить</i>
                                                         </div>
@@ -155,8 +155,8 @@
                                                             <div class="comment-head">
                                                                 <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
                                                                 <span th:text="${element2.getTime()} "></span>
-                                                                <span style="display: inline-block; margin-left: 5px"><a href="#" class="glyphicon glyphicon-trash"></a></span>
-                                                                <span style="display: inline-block; margin-left: 5px"><a href="#" class="glyphicon glyphicon-edit"></a></span>
+                                                                <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a href="#" class="glyphicon glyphicon-trash"></a></span>
+                                                                <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a href="#" class="glyphicon glyphicon-edit"></a></span>
                                                             </div>
                                                             <div class="comment-content" th:utext="${element2.getContent()}">
                                                             </div>
