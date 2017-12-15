@@ -1,6 +1,6 @@
 package main.controller;
 
-import main.model.Helper;
+import main.Helpers;
 import main.model.Item;
 import main.model.Notification;
 import main.model.Order;
@@ -118,7 +118,7 @@ public class MasterController {
 	public ModelAndView getPayment(@PathVariable Long id, HttpServletRequest request) {
 		String url;
 		try {
-			url = Helper.getUrl(request.getHeader("referer"));
+			url = Helpers.getUrl(request.getHeader("referer"));
 		} catch (Exception e) {
 			url = "/403";
 			return new ModelAndView("redirect:" + url);

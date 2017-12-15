@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.Helpers;
 import main.model.*;
 import main.service.CommentService;
 import main.service.NotificationService;
@@ -79,7 +80,7 @@ public class MainController {
 								   @ModelAttribute("recipient") String recipient,
 								   @ModelAttribute("commentBtnOrder") String commentId,
 								   HttpServletRequest request) {
-		String url = Helper.getUrl(request.getHeader("referer"));
+		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
 			Comment comment;
@@ -162,7 +163,7 @@ public class MainController {
 
 	@RequestMapping(value = {"/order/comment/delete={id}"}, method = RequestMethod.GET)
 	public ModelAndView deleteComment(@PathVariable Long id, HttpServletRequest request) {
-		String url = Helper.getUrl(request.getHeader("referer"));
+		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		Comment comment = commentService.get(id);
 		if (!comment.getSentTo().equals(userService.getCurrentUser().getName())) {
