@@ -306,7 +306,11 @@ public class ManagerController {
 			if (order.getDeliveryType() == null || !order.getDeliveryType().getPickup()) {
 				order.setDelivery(customer.getDefaultDelivery());
 			}
+
+			customerService.save(customer);
 			order.setCustomer(customer);
+//			order.setCustomerSecNameString(customer.getSecName());
+//			order.setCustomerFirstNameString(customer.getFirstName());
 			orderService.save(order);
 		} catch (Exception e) {
 			logger.error("while saving customer to order, order's id={}", orderId);

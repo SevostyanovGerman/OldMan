@@ -247,9 +247,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setCustomerFirstNameString(String firstName) {
-		if (customer != null) {
-			customer.setFirstName(firstName);
-		}
+
 	}
 
 	@Access(AccessType.PROPERTY)
@@ -262,9 +260,6 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setCustomerSecNameString(String secName) {
-		if (customer != null) {
-			customer.setSecName(secName);
-		}
 	}
 
 	@Access(AccessType.PROPERTY)
@@ -277,9 +272,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setMasterFirstNameString(String name) {
-		if (master != null) {
-			master.setFirstName( name);
-		}
+
 	}
 
 	@Access(AccessType.PROPERTY)
@@ -292,11 +285,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setMasterSecNameString(String name) {
-		if (master != null) {
-			master.setSecName( name);
-		}
 	}
-
 
 	@Access(AccessType.PROPERTY)
 	public String getDesignerFirstNameString() {
@@ -308,9 +297,6 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setDesignerFirstNameString(String name) {
-		if (designer != null) {
-			designer.setFirstName( name);
-		}
 	}
 
 	@Access(AccessType.PROPERTY)
@@ -323,16 +309,9 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Access(AccessType.PROPERTY)
 	public void setDesignerSecNameString(String name) {
-		if (designer != null) {
-			designer.setSecName( name);
-		}
 	}
 
 	public void setPaymentTypeString(String paymentTypeString) {
-
-		if (paymentType != null) {
-			paymentType.setName(paymentTypeString);
-		}
 
 	}
 
@@ -454,6 +433,8 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 	}
 
 	public void setCustomer(Customer customer) {
+		setCustomerFirstNameString(customer.getFirstName());
+		setCustomerSecNameString(customer.getSecName());
 		this.customer = customer;
 	}
 

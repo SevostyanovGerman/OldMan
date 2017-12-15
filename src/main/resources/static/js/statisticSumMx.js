@@ -69,7 +69,7 @@ var dwm = '%Y-%m';
 
         $(function() {
 
-            var start = moment().subtract(29, 'days');
+            var start = moment().subtract(6, 'month');
             var end = moment();
 
 
