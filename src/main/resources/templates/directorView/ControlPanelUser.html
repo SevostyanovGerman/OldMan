@@ -105,40 +105,64 @@
                             </div>
                             <form class="form-horizontal" th:object="${user}" th:action="@{/director/controlpanel/user/create}" action="create" method="post">
 
-                                <div class="form-group row">
+                                <div class="form-group row row-height">
                                     <label for="name" class="control-label col-sm-2">Логин</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="name" th:value="${user.getName()}" placeholder="Логин" required />
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="name" th:value="${user.getName()}" pattern="^[A-Za-z]{1,16}$" placeholder="Логин" required />
+                                        <div class="notes">В логине сотрудника допускается использовать только латинские буквы. Длина от 1 до 16 символов.</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="wrong-field" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row row-height">
                                     <label for="firstName" class="control-label col-sm-2">Имя</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="firstName" th:value="${user.getFirstName()}" placeholder="Имя" />
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="firstName" th:value="${user.getFirstName()}" pattern="^[A-Za-zА-ЯЁа-яё]{2,16}$" placeholder="Имя сотрудника" required />
+                                        <div class="notes">Имя сотрудника может состоять только из английских и русских букв. Длина имени должна быть не менее 2 символов и не более 16.</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="wrong-field" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row row-height">
                                     <label for="secName" class="control-label col-sm-2">Фамилия</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="secName" th:value="${user.getSecName()}" placeholder="Фамилия" />
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="secName" th:value="${user.getSecName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 -]+" maxlength="50" placeholder="Фамилия" />
+                                        <div class="notes">Фамилия сотрудника может состоять из английских и русских букв, цифр, пробелов и тире. Максимальная длина 50. Заполнять не обязательно</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="wrong-field" th:if="${#fields.hasErrors('secName')}" th:errors="*{secName}"></span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row row-height">
                                     <label for="password" class="control-label col-sm-2">Пароль</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="password" th:value="${user.getPassword()}" placeholder="Пароль" required>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="password" th:value="${user.getPassword()}" minlength="3" maxlength="20" placeholder="Пароль" required />
+                                        <div class="notes">Минимальная длина пароля должна быть не меньше 3 и не больше 20</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="wrong-field" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row row-height">
                                     <label for="email" class="control-label col-sm-2">Email</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="email" th:value="${user.getEmail()}" placeholder="Электронная почта" required>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="email" th:value="${user.getEmail()}" placeholder="Электронная почта пример заполнения: example@example.com" required>
+                                        <div class="notes">Электронная почта сотрудника. Обязательно к заполнению.</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="wrong-field" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row row-height">
                                     <label for="phone" class="control-label col-sm-2">Телефон</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="phone" th:value="${user.getPhone()}" placeholder="Телефон" required>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="phone" th:value="${user.getPhone()}" pattern="^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$" placeholder="+7(123)4567890" required>
+                                        <div class="notes">Телефон сотрудника. Обязательно к заполнению. Пример +7(123)4567890</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="wrong-field" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -152,6 +176,7 @@
                                                         <label th:for="${#ids.prev('roles')}" th:text="${role.name}"></label>
                                                     </div>
                                                 </div>
+                                                <div class="wrong-field" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
                                             </div>
                                         </div>
                                     </fieldset>
