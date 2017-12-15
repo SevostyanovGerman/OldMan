@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" href="/images/OldManFavicon.png">
 
-    <title>Order</title>
+    <title th:text="'Заказ № ' + ${order.number}"> Заказ №</title>
 
     <!--Стили для комментариев-->
     <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
@@ -68,7 +68,7 @@
 <div class="container">
     <div style="text-align: center">
         <h4
-            th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+            th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
     </div>
     <div class="row">
         <div class="col-lg-9">

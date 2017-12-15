@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Master Dash Board</title>
+    <title th:text="'Заказ № ' + ${order.number}"> Заказ №</title>
 
     <!--для комментов-->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
@@ -76,7 +76,7 @@
     <br>
     <div class="container">
         <div style="text-align: center">
-            <h4 th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+            <h4 th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
         </div>
         <br>
             <ul class="nav nav-tabs" id="myTab" >

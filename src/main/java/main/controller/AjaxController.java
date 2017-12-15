@@ -169,7 +169,12 @@ public class AjaxController {
 	//Контроллер возвращающий список уведомлений для конкретного пользователя
 	@RequestMapping(value = "/notifications/get", method = RequestMethod.GET)
 	public List<Notification> getNotifications() {
-		return notificationService.findAllByUser(userService.getCurrentUser().getName());
+		try {
+			return notificationService.findAllByUser(userService.getCurrentUser().getName());
+		} catch (Exception e) {
+			logger.error("while getting notification for current user");
+			return null;
+		}
 	}
 
 	//Контроллер возвращающий список уведомлений для конкретного пользователя
