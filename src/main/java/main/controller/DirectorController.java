@@ -6,12 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -364,49 +366,54 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/user/create"}, method = RequestMethod.POST)
-	public String createUser(@ModelAttribute("user") User incomingUser, HttpServletRequest request) {
+	public ModelAndView createUser(@ModelAttribute("user") @Valid User incomingUser, BindingResult bindingResult,
+							 HttpServletRequest request) {
+		ModelAndView model = new ModelAndView();
 
 		/*
 		 * Ищем в базе роль с таким же именем.
 		 * В случае нахождения роли с таким именем генерим сообщение error.
 		 * Если же ничего не находим то записываем роль в базу данных и создаём сообщение о усрехе.
 		 */
-		String searchingUser = incomingUser.getName();
-		String searchingEmail = incomingUser.getEmail();
-		User foundUser = userService.getByName(searchingUser);
-		User foundUserByEmail = userService.getByEmail(searchingEmail);
-		if (foundUser != null) { //проверяем есть ли сотрудник с таким логином
-			String error = "Пользователь с логином: " + searchingUser + " уже существует";
-			request.getSession().setAttribute("error", error);
-		} else if ((incomingUser.getPassword() == null) ||
-				   "".equals(incomingUser.getPassword())) { //проверка что поле пароля не пустое
-			String error = "Пароль не может быть пустым";
-			request.getSession().setAttribute("error", error);
-		} else if (foundUserByEmail != null) { //проверяем есть ли сотрудник с такой почтой
-			String error = "Сотрудник с таким email уже существует";
-			request.getSession().setAttribute("error", error);
-		} else if ((incomingUser.getPhone() == null) ||
-				   "".equals(incomingUser.getPhone())) { ////проверка что поле телефона не пустое
-			String error = "Необходимо указать телепхон";
-			request.getSession().setAttribute("error", error);
+
+		if(bindingResult.hasErrors()){
+			model.setViewName("/directorView/ControlPanelUser");
+			model.addObject("allRoles", roleService.getAll());
+			return model;
 		} else {
-			try {
-				incomingUser.setCreated(new Date());
-				userService.save(incomingUser);
-			} catch (Exception e) {
-				logger.error("Can\'t save user", e);
-				String error = "Ошибка при записи в базу данных";
+			String searchingUser = incomingUser.getName();
+			String searchingEmail = incomingUser.getEmail();
+			User foundUser = userService.getByName(searchingUser);
+			User foundUserByEmail = userService.getByEmail(searchingEmail);
+			if (foundUser != null) { //проверяем есть ли сотрудник с таким логином
+				String error = "Пользователь с логином: " + searchingUser + " уже существует";
 				request.getSession().setAttribute("error", error);
+			} else if (foundUserByEmail != null) { //проверяем есть ли сотрудник с такой почтой
+				String error = "Сотрудник с таким email уже существует";
+				request.getSession().setAttribute("error", error);
+			} else {
+				try {
+					incomingUser.setCreated(new Date());
+					userService.save(incomingUser);
+					String success = "Пользователь с логином: " + searchingUser + " успешно создан";
+					request.getSession().setAttribute("success", success);
+				} catch (Exception e) {
+					logger.error("Can\'t save user", e);
+					String error = "Ошибка при записи в базу данных";
+					request.getSession().setAttribute("error", error);
+				}
 			}
-			String success = "Пользователь с логином: " + searchingUser + " успешно создан";
-			request.getSession().setAttribute("success", success);
 		}
-		return "redirect:/director/controlpanel/user";
+		model.setViewName("redirect:/director/controlpanel/user");
+		return model;
+
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/user/update"}, method = RequestMethod.POST)
-	public String updateUser(@ModelAttribute("user") User incomingUser, HttpServletRequest request) {
+	public ModelAndView updateUser(@ModelAttribute("user") @Valid User incomingUser, BindingResult bindingResult,
+							 HttpServletRequest request) {
 
+		ModelAndView model = new ModelAndView();
 		/*
 		 * Ищем в базе пользователя с таким же логином.
 		 * В случае нахождения пользователя с таким логином, проверяем id и в случае если они разные генерим сообщение
@@ -414,22 +421,34 @@ public class DirectorController {
 		 * Если же ничего не находим или если id совпадают, то обновляем пользователя в базе данных и создаём
 		 * сообщение о усрехе.
 		 */
-		User foundUser = userService.getByName(incomingUser.getName());
-		if ((foundUser != null) && (incomingUser.getId() != foundUser.getId())) {
-			String error = "Пользователь с логином: " + incomingUser.getName() + " уже существует";
-			request.getSession().setAttribute("error", error);
+		if(bindingResult.hasErrors()){
+			model.setViewName("/directorView/ControlPanelUserEdit");
+			model.addObject("allRoles", roleService.getAll());
+			model.addObject("allStatuses", statusService.getAll());
+			return model;
 		} else {
-			try {
-				userService.save(incomingUser);
-			} catch (Exception e) {
-				logger.error("Can\'t update user", e);
-				String error = "Ошибка при записи в базу данных";
+			User foundUserByName = userService.getByName(incomingUser.getName());
+			User foundUserByEmail = userService.getByName(incomingUser.getEmail());
+			if ((foundUserByName != null) && (incomingUser.getId() != foundUserByName.getId())) {
+				String error = "Пользователь с логином: " + incomingUser.getName() + " уже существует";
 				request.getSession().setAttribute("error", error);
+			} else if((foundUserByEmail != null) && (incomingUser.getId() != foundUserByEmail.getId())){
+				String error = "Пользователь с почтой: " + incomingUser.getEmail() + " уже существует";
+				request.getSession().setAttribute("error", error);
+			} else {
+				try {
+					userService.save(incomingUser);
+					String success = "Информация о пользователе успешно записана в базе данных.";
+					request.getSession().setAttribute("success", success);
+				} catch (Exception e) {
+					logger.error("Can\'t update user", e);
+					String error = "Ошибка при записи в базу данных";
+					request.getSession().setAttribute("error", error);
+				}
 			}
-			String success = "Информация о пользователе успешно записана в базе данных.";
-			request.getSession().setAttribute("success", success);
 		}
-		return "redirect:/director/controlpanel/user";
+		model.setViewName("redirect:/director/stuff");
+		return model;
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/user/edit/{id}"}, method = RequestMethod.GET)

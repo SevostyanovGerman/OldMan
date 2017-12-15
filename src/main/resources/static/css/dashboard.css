@@ -19,6 +19,10 @@ tr th, tr td {
     display: inline-block;
 }
 
+.wrong-field {
+    color: red;
+}
+
 .logout {
     background: #777777;
     border: #777777;
@@ -31,4 +35,13 @@ tr th, tr td {
 
 #noneVisible {
     display: none;
+}
+
+.notes {
+    font-size: 1.2rem;
+    color: rgba(0,0,0,.5);
+}
+
+.row-height{
+    height: 1%;
 }

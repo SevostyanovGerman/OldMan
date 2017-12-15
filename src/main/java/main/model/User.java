@@ -1,8 +1,12 @@
 package main.model;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -16,10 +20,14 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "name", nullable = false)
+	@NotNull
+	@Pattern(regexp = "^[A-Za-z]{1,16}$", message = "{user.login.wrong}")
+	@Column(name = "name", nullable = false, length = 16)
 	private String name;
 
-	@Column(name = "password", nullable = false)
+	@NotNull
+	@Size(min = 3, max = 20, message = "{user.password.wrong}")
+	@Column(name = "password", nullable = false, length = 20)
 	private String password;
 
 	@Column(name = "deleted")
@@ -28,10 +36,13 @@ public class User implements UserDetails {
 	@Column(name = "disable")
 	private boolean disable;
 
-	@Column(name = "first_name")
+	@Pattern(regexp = "^[A-Za-zА-ЯЁа-яё]{2,16}$", message = "{user.firstname.wrong}")
+	@Column(name = "first_name", length = 16, nullable = false)
 	private String firstName;
 
-	@Column(name = "sec_name")
+	@Size(max = 50, message = "{user.secname.wrong.size}")
+	@Pattern(regexp = "^[а-яёА-ЯЁa-zA-Z0-9 -]+", message = "{user.secname.wrong.pattern}")
+	@Column(name = "sec_name", length = 50)
 	private String secName;
 
 	@Column(name = "position")
@@ -41,12 +52,17 @@ public class User implements UserDetails {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date created;
 
+	@NotNull
+	@Email(message = "{user.email.wrong}")
 	@Column(name = "email", nullable = false)
 	private String email;
 
-	@Column(name = "phone", nullable = false)
+
+	@Pattern(regexp = "^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,20}(\\s*)?$", message = "{user.phone.wrong}")
+	@Column(name = "phone", nullable = false, length = 20)
 	private String phone;
 
+	@Size(min = 1, message = "{user.roles.wrong}")
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
 			   inverseJoinColumns = {@JoinColumn(name = "role_id")})

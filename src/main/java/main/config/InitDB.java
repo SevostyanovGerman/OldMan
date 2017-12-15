@@ -119,18 +119,18 @@ public class InitDB {
 		//Пользователи//
 		User user1 =
 			new User("manager", "123", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru",
-				"123");
+				"+7(123)456-78-91");
 		userService.save(user1);
 		User user2 = new User("designer", "123", "Designer", "Gucci", false, false, role2,
-			"medvedev@kremlin.ru", "321");
+			"medvedev@kremlin.ru", "+7(123)456-78-92");
 		userService.save(user2);
 		User user3 =
 			new User("master", "123", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru",
-				"456");
+				"+7(123)456-78-93");
 		userService.save(user3);
 		User user4 =
 			new User("boss", "123", "Director", "Boss", false, false, boss, "vasya@kremlin.ru",
-				"654");
+				"+7(123)456-78-94");
 		userService.save(user4);
 		//Payment//
 		Payment payment1 = new Payment("Cash");
