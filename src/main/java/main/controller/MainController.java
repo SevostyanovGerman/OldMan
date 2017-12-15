@@ -1,7 +1,10 @@
 package main.controller;
 
 import main.model.*;
-import main.service.*;
+import main.service.CommentService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +39,7 @@ public class MainController {
 
 	@Autowired
 	public MainController(CommentService commentService, OrderService orderService,
-						  UserService userService, ImageService imageService,
-						  NotificationService notificationService) {
+						  UserService userService, NotificationService notificationService) {
 		this.commentService = commentService;
 		this.orderService = orderService;
 		this.userService = userService;

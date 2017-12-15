@@ -34,8 +34,8 @@ public class DesignerController {
 
 	@Autowired
 	public DesignerController(OrderService orderService, ItemService itemService,
-							  CommentService commentService, ImageService imageService,
-							  UserService userService, NotificationService notificationService) {
+							  ImageService imageService, UserService userService,
+							  NotificationService notificationService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.imageService = imageService;

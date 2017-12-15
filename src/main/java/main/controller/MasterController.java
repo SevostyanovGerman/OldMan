@@ -4,7 +4,10 @@ import main.model.Helper;
 import main.model.Item;
 import main.model.Notification;
 import main.model.Order;
-import main.service.*;
+import main.service.ItemService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +36,7 @@ public class MasterController {
 
 	@Autowired
 	public MasterController(OrderService orderService, ItemService itemService,
-							UserService userService, CommentService commentService,
-							NotificationService notificationService) {
+							UserService userService, NotificationService notificationService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
