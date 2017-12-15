@@ -82,6 +82,13 @@ var dwm = '%Y-%m';
             }
 
             $('#reportrange').daterangepicker({
+
+                "locale": {
+                    "applyLabel": "Применить",
+                    "cancelLabel": "Отмена",
+                    "customRangeLabel": "Выбрать период"
+                },
+                language: 'ru',
                 startDate: start,
                 endDate: end,
                 ranges: {
