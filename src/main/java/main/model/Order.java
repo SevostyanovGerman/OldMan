@@ -104,6 +104,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 	private User designer;
 
 	public Order() {
+		this.created = new Date();
 	}
 
 	//Constructor for new Order

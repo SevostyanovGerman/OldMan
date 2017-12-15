@@ -53,6 +53,7 @@ public class User implements UserDetails {
 	private Set<Role> roles;
 
 	public User() {
+		this.created = new Date();
 	}
 
 	public User(String name, String password, String firstName, String secName, boolean deleted,

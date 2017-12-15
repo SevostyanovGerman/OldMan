@@ -46,10 +46,11 @@ public class Customer {
 
 	public Customer() {
 		this.deliveries = new ArrayList<>();
+		this.creationDate = new Date();
 	}
 
 	public Customer(String firstName, String secName, String email, String phone,
-					Delivery deliveries, String country, String city, String address, String zip) {
+					Delivery deliveries) {
 		this.firstName = firstName;
 		this.secName = secName;
 		this.email = email;

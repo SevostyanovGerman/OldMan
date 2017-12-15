@@ -150,12 +150,10 @@ public class InitDB {
 		deliveryService.save(deliveryPickup2);
 		//Customer//
 		Customer customer1 =
-			new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1, "Russia",
-				"saint-Petersburg", "sizam street", "777");
+			new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1);
 		customerService.save(customer1);
 		Customer customer2 =
-			new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2, "Kazahstan",
-				"Almata", "bumbum street", "999");
+			new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
 		customerService.save(customer2);
 		//Item//
 		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
