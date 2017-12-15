@@ -12,8 +12,12 @@ import java.util.List;
 @Transactional
 public class DeliveryServiceImpl implements DeliveryService {
 
-	@Autowired
 	private DeliveryRepository deliveryRepository;
+
+	@Autowired
+	public DeliveryServiceImpl(DeliveryRepository deliveryRepository) {
+		this.deliveryRepository = deliveryRepository;
+	}
 
 	@Override
 	public void save(Delivery delivery) {

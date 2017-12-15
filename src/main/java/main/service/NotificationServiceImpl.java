@@ -9,14 +9,12 @@ import java.util.List;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
-	NotificationRepository notificationRepository;
-	UserService userService;
+	private NotificationRepository notificationRepository;
 
 	@Autowired
 	public NotificationServiceImpl(NotificationRepository notificationRepository,
 								   UserService userService) {
 		this.notificationRepository = notificationRepository;
-		this.userService = userService;
 	}
 
 	@Override

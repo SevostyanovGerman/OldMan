@@ -23,14 +23,16 @@ import java.util.List;
 @Transactional
 public class ImageServiceImpl implements ImageService {
 
-	@Autowired
 	private ImageRepository imageRepository;
 
-	@Autowired
-	ImageService imageService;
+	private ItemService itemService;
 
 	@Autowired
-	ItemService itemService;
+	public ImageServiceImpl(ImageRepository imageRepository,
+							ItemService itemService) {
+		this.imageRepository = imageRepository;
+		this.itemService = itemService;
+	}
 
 	private final static Logger logger = LoggerFactory.getLogger(ImageServiceImpl.class);
 
@@ -62,7 +64,7 @@ public class ImageServiceImpl implements ImageService {
 					Image image = new Image(blob);
 					image.setFileName(file.getOriginalFilename());
 					image.setType(false);
-					imageService.save(image);
+					save(image);
 					item.getImages().add(image);
 					itemService.save(item);
 					logger.info("Вы удачно загрузили файл {}", name);
@@ -86,7 +88,7 @@ public class ImageServiceImpl implements ImageService {
 				newFile.setFileName(file.getOriginalFilename());
 				Blob blobFile = new SerialBlob(bytes);
 				newFile.setImage(blobFile);
-				imageService.save(newFile);
+				save(newFile);
 				blobFileList.add(newFile);
 			}
 		}

@@ -18,22 +18,21 @@ import java.util.*;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
-	@Autowired
 	private OrderRepository orderRepository;
 
-	@Autowired
 	private StatusService statusService;
 
-	@Autowired
-	private OrderService orderService;
-
-	@Autowired
 	private HistoryService historyService;
 
-	@Autowired
-	private RoleService roleService;
-
 	private final static Logger logger = LoggerFactory.getLogger(OrderServiceImpl.class);
+
+	@Autowired
+	public OrderServiceImpl(OrderRepository orderRepository, StatusService statusService,
+							HistoryService historyService) {
+		this.orderRepository = orderRepository;
+		this.statusService = statusService;
+		this.historyService = historyService;
+	}
 
 	@Override
 	public Order get(Long id) {
@@ -77,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order nextStatus(Long orderId) {
 		Date date = new Date();
-		Order order = orderService.get(orderId);
+		Order order = get(orderId);
 		Long currentStatus = order.getStatus().getNumber();
 		Status nextStatus = statusService.get(currentStatus + 1L);
 		order.setStatus(nextStatus);
@@ -85,14 +84,14 @@ public class OrderServiceImpl implements OrderService {
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
 		order = setAllStatusItemFalse(order);
-		orderService.save(order);
+		save(order);
 		return order;
 	}
 
 	@Override
 	public Order previousStatus(Long orderId) {
 		Date date = new Date();
-		Order order = orderService.get(orderId);
+		Order order = get(orderId);
 		Long currentStatus = order.getStatus().getNumber();
 		if (currentStatus > 1) {
 			Status nextStatus = statusService.get(currentStatus - 1l);
@@ -102,7 +101,7 @@ public class OrderServiceImpl implements OrderService {
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
 		order = setAllStatusItemFalse(order);
-		orderService.save(order);
+		save(order);
 		return order;
 	}
 
@@ -128,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Order getPayment(Long orderId) {
-		Order order = orderService.get(orderId);
+		Order order = get(orderId);
 		order.setPayment(!order.getPayment());
 		return order;
 	}
@@ -136,14 +135,14 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Order changeStatusTo(Long orderId, Long statusId) {
 		Date date = new Date();
-		Order order = orderService.get(orderId);
+		Order order = get(orderId);
 		Status newStatus = statusService.get(statusId);
 		order.setStatus(newStatus);
 		order = historyService.saveHistoryFromManager(order);
 		order.setDateRecieved(order.getDateTransferredDate());
 		order.setDateTransferred(date);
 		order = setAllStatusItemFalse(order);
-		orderService.save(order);
+		save(order);
 		return order;
 	}
 

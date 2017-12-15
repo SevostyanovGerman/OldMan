@@ -10,11 +10,12 @@ import javax.transaction.Transactional;
 @Transactional
 public class ItemServiceImpl implements ItemService {
 
-	@Autowired
 	private ItemRepository itemRepository;
 
 	@Autowired
-	private ItemService itemService;
+	public ItemServiceImpl(ItemRepository itemRepository) {
+		this.itemRepository = itemRepository;
+	}
 
 	@Override
 	public Item get(Long id) {
@@ -28,7 +29,7 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Item changeStatus(Long itemId) {
-		Item item = itemService.get(itemId);
+		Item item = get(itemId);
 		item.setStatus(!item.getStatus());
 		return item;
 	}

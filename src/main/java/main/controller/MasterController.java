@@ -29,8 +29,6 @@ public class MasterController {
 
 	private UserService userService;
 
-	private CommentService commentService;
-
 	private NotificationService notificationService;
 
 	@Autowired
@@ -40,7 +38,6 @@ public class MasterController {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
-		this.commentService = commentService;
 		this.notificationService = notificationService;
 	}
 

@@ -32,8 +32,6 @@ public class MainController {
 
 	private UserService userService;
 
-	private ImageService imageService;
-
 	private NotificationService notificationService;
 
 	@Autowired
@@ -43,7 +41,6 @@ public class MainController {
 		this.commentService = commentService;
 		this.orderService = orderService;
 		this.userService = userService;
-		this.imageService = imageService;
 		this.notificationService = notificationService;
 	}
 

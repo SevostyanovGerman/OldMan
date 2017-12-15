@@ -13,8 +13,12 @@ public class CustomerServiceImpl implements CustomerService {
 
 	private final static Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
-	@Autowired
 	private CustomerRepository customerRepository;
+
+	@Autowired
+	public CustomerServiceImpl(CustomerRepository customerRepository) {
+		this.customerRepository = customerRepository;
+	}
 
 	@Override
 	public Customer get(Long id) {

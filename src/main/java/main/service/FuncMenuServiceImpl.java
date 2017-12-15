@@ -10,8 +10,12 @@ import javax.transaction.Transactional;
 @Transactional
 public class FuncMenuServiceImpl implements FuncMenuService {
 
+	private FuncMenuRepository functionRepository;
+
 	@Autowired
-	FuncMenuRepository functionRepository;
+	public FuncMenuServiceImpl(FuncMenuRepository functionRepository) {
+		this.functionRepository = functionRepository;
+	}
 
 	@Override
 	public void save(FuncMenu function) {

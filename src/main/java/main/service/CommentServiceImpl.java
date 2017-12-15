@@ -10,8 +10,12 @@ import javax.transaction.Transactional;
 @Transactional
 public class CommentServiceImpl implements CommentService {
 
-	@Autowired
 	private CommentRepository commentRepository;
+
+	@Autowired
+	public CommentServiceImpl(CommentRepository commentRepository) {
+		this.commentRepository = commentRepository;
+	}
 
 	@Override
 	public void save(Comment comment) {

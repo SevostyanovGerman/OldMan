@@ -26,8 +26,6 @@ public class DesignerController {
 
 	private ItemService itemService;
 
-	private CommentService commentService;
-
 	private ImageService imageService;
 
 	private UserService userService;
@@ -40,7 +38,6 @@ public class DesignerController {
 							  UserService userService, NotificationService notificationService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
-		this.commentService = commentService;
 		this.imageService = imageService;
 		this.userService = userService;
 		this.notificationService = notificationService;

@@ -17,11 +17,15 @@ public class UserServiceImpl implements UserService {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
-	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
 	private RoleService roleService;
+
+	@Autowired
+	public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
+		this.userRepository = userRepository;
+		this.roleService = roleService;
+	}
 
 	@Override
 	public User get(Long id) {
