@@ -6,6 +6,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({DesignerControllerTest.class //test case 1
 
 					})
-public class AppTest {
+public class ControllersTest {
 
 }
