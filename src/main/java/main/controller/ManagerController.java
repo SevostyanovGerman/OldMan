@@ -213,14 +213,18 @@ public class ManagerController {
 			item.setImages(updateItem.getImages());
 			item.getFiles().addAll(uploadFiles);
 			itemService.save(item);
+			order.setPrice(order.getAmount());
+			orderService.save(order);
+			return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + updateItem.getId());
 		} else {
 			item.setImages(uploadFiles);
 			order.addItem(item);
+			order.setPrice(order.getAmount());
+			orderService.save(order);
+			return new ModelAndView("redirect:/manager/order/update/" + orderId);
 		}
-		order.setPrice(order.getAmount());
-		orderService.save(order);
-
-		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+/*		order.setPrice(order.getAmount());
+		orderService.save(order);*/
 	}
 
 	//Удаляем позицию из заказа
@@ -340,7 +344,7 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
 	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
 								   @PathVariable("itemId") Long itemId,
-								   @PathVariable("fileId") Long fileId) throws IOException {
+								   @PathVariable("fileId") Long fileId){
 		Image file = imageService.get(fileId);
 		imageService.delete(file);
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);

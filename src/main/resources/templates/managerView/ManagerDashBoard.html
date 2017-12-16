@@ -18,7 +18,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
@@ -39,8 +38,9 @@
             <div class="collapse navbar-collapse">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                        <li class="active" role="presentation"><a th:text="${function?.getName()}"
-                                                                  th:href="${function.getLink()}"></a></li>
+                        <li role="presentation">
+                            <a th:text="${function?.getName()}" th:href="${function.getLink()}"></a>
+                        </li>
                     </ul>
                 </th:block>
                 <ul class="nav navbar-nav navbar-right">
@@ -55,12 +55,7 @@
             </div>
         </div>
     </nav>
-
     <br><br><br><br>
-    <div class="container">
-
-    </div>
-    <br/>
     <div class="container">
         <div class="row">
             <a class="btn btn-primary btn-new-object" type="button" th:href="@{/manager/order/add}" title="Создать новый заказ">Новый заказ</a>
@@ -79,33 +74,32 @@
             <table class="display table table-bordered data" id="sortingTable" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th class="table-head">№ Заказа</th>
-                        <th class="table-head">Дата создания</th>
-                        <th class="table-head">Клиент</th>
-                        <th class="table-head">Менеджер</th>
-                        <th class="table-head">Способ доставки</th>
-                        <th class="table-head">Способ оплаты</th>
-                        <th class="table-head">Статус оплаты</th>
-                        <th class="table-head">Стоимость (руб.)</th>
-                        <th class="table-head">Статус заказа</th>
-                        <th class="table-head"></th>
-                        <th class="table-head"></th>
-                        <th class="table-head"></th>
-
+                        <th>№ Заказа</th>
+                        <th>Дата создания</th>
+                        <th>Клиент</th>
+                        <th>Менеджер</th>
+                        <th>Способ доставки</th>
+                        <th>Способ оплаты</th>
+                        <th>Статус оплаты</th>
+                        <th>Стоимость (руб.)</th>
+                        <th>Статус заказа</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each ="order : ${orderList}">
-                        <td class="table-body" th:text="${order.getNumber()}"></td>
-                        <td class="table-body" th:text="${order.getCreated()}"></td>
-                        <td class="table-body" th:text="${order.getCustomer()}"></td>
-                        <td class="table-body" th:text="${order.getManager()}"></td>
-                        <td class="table-body" th:text="${order.getDeliveryType()}"></td>
-                        <td class="table-body" th:text="${order.paymentType?.getName()}"></td>
-                        <td class="table-body" th:text="${order.getPaymentString()}"></td>
-                        <td class="table-body" th:text="${order.getPrice()}"></td>
-                        <td class="table-body" th:text="${order.getStatus()}"></td>
-                        <td class="table-body" th:text="${order.getStatus().getNumber()}" ></td>
+                        <td th:text="${order.getNumber()}"></td>
+                        <td th:text="${order.getCreated()}"></td>
+                        <td th:text="${order.getCustomer()}"></td>
+                        <td th:text="${order.getManager()}"></td>
+                        <td th:text="${order.getDeliveryType()}"></td>
+                        <td th:text="${order.paymentType?.getName()}"></td>
+                        <td th:text="${order.getPaymentString()}"></td>
+                        <td th:text="${order.getPrice()}"></td>
+                        <td th:text="${order.getStatus()}"></td>
+                        <td th:text="${order.getStatus().getNumber()}" ></td>
                         <td align="center">
                             <a class="btn btn-info btn-xs" th:href="${'/manager/order/update/' + order.getId()}" title="Редактировать заказ">
                                 <span class="glyphicon glyphicon-pencil"></span>

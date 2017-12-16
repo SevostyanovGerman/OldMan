@@ -4,17 +4,15 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title> New Item</title>
+    <title>Новый заказ</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet" crossorigin="anonymous"/>
-
     <link href="/css/managerItemForm.css" rel="stylesheet" />
 
 </head>
-
 <body th:object="${order}">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand navbar-link" th:href="@{/manager}">CaseMobile</a>
@@ -24,8 +22,9 @@
                     <ul class="nav navbar-nav">
                         <th:block th:each="element:  ${#authentication.getAuthorities()}">
                             <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                                <li class="active" role="presentation"><a th:text="${function?.getName()}"
-                                                                          th:href="${function.getLink()}"></a></li>
+                                <li role="presentation">
+                                    <a th:text="${function?.getName()}" th:href="${function.getLink()}"></a>
+                                </li>
                             </ul>
                         </th:block>
                     </ul>
@@ -37,82 +36,78 @@
             </div>
         </div>
     </nav>
-
-    <br>
+    <br><br><br>
     <div class="container">
         <div class="row">
-            <div style="text-align: center">
-                <h4>Новый заказ</h4>
-            </div>
-            <br>
-            <div class="col-lg-12" >
-                <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="@{/manager/item/saveNewOrder}" method="post">
-                    <div class="col-lg-6">
-                        <input type="hidden" th:field="*{id}"/>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">Тип продукта:</span>
-                                <input type="text" class="form-control" th:field="*{name}" required="required">
-                            </div>
+            <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="@{/manager/item/saveNewOrder}" method="post">
+                <div class="col-lg-6 col-lg-offset-3">
+                    <div class="form-group" align="center">
+                        <h4>Новый заказ</h4>
+                        <hr/>
+                    </div>
+                    <input type="hidden" th:field="*{id}"/>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Тип продукта:</span>
+                            <input type="text" class="form-control" th:field="*{name}" required="required">
                         </div>
-                        <div class="form-group" >
-                            <div class="input-group">
-                                <span class="input-group-addon">Материал:</span>
-                                <input type="text" class="form-control" th:field="*{type}"
-                                       required="required">
-                            </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="input-group">
+                            <span class="input-group-addon">Материал:</span>
+                            <input type="text" class="form-control" th:field="*{type}"
+                                   required="required">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">Модель телефона:</span>
-                                <input type="text" class="form-control" th:field="*{model}"
-                                       required="required">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Модель телефона:</span>
+                            <input type="text" class="form-control" th:field="*{model}"
+                                   required="required">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">Количество:</span>
-                                <input class="form-control" type="number" th:field="*{count}"
-                                       id="numberItemField" onchange="amountItem()" required="required" value="1" min="1" step="1">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Количество:</span>
+                            <input class="form-control" type="number" th:field="*{count}"
+                                   id="numberItemField" onchange="amountItem()" required="required" value="1" min="1" step="1">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">Цена за ед. (руб.):</span>
-                                <input class="form-control" th:field="*{price}" type="number"  id="priceItemField" onchange="amountItem()"
-                                       required="required" value="0" min="0" step="0.01">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Цена за ед. (руб.):</span>
+                            <input class="form-control" th:field="*{price}" type="number"  id="priceItemField" onchange="amountItem()"
+                                   required="required" value="0" min="0" step="0.01">
                         </div>
-                        <div class="form-group">
-                            <div class="input-group">
-                                <span class="input-group-addon">Сумма (руб.):</span>
-                                <input class="form-control" th:field="*{amount}" type="number" id="amountItemField"  readonly>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Сумма (руб.):</span>
+                            <input class="form-control" th:field="*{amount}" type="number" id="amountItemField"  readonly>
                         </div>
-                        <div class="form-group">
-                            <h4 align="left">Комментарий к позиции заказа</h4>
-                            <textarea class="form-control" rows="3" th:field="*{comment}"></textarea>
-                        </div>
-                    </div> <!-- end col-lg-6 -->
-                    <div class="col-lg-6">
+                    </div>
+                    <div class="form-group">
+                        <h4 align="left">Комментарий к позиции заказа</h4>
+                        <textarea class="form-control" rows="3" th:field="*{comment}"></textarea>
+                    </div>
+                    <div class="form-group">
                         <h4>Добавить файлы</h4>
                         <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
                         <label for="fileMulti" class="btn btn-default btn-xs">
                             <span>Обзор...</span>
                         </label>
-                        <br/>
-                        <span id="outputMulti"></span>
-                    </div> <!-- end col-lg-6 -->
-
-                    <div class="col-lg-12" align="right">
+                    </div>
+                    <span id="outputMulti"></span>
+                    <div class="form-group" align="center">
                         <hr/>
                         <button type="reset" class="btn btn-success" id="resetItemBtn">Сбросить</button>
                         <a class="btn btn-default" th:href="@{/manager}">Отмена</a>
                         <button type="submit" class="btn btn-primary" disabled id="saveItemBtn">Сохранить</button>
                     </div>
-                </form> <!-- end form -->
-            </div> <!-- end col-lg-12 -->
-        </div>
+                    <br/><br/>
+                </div> <!-- end col-lg-6 -->
+            </form> <!-- end form -->
+        </div><!--end row-->
     </div> <!-- end container -->
 
     <!-- Optional JavaScript -->

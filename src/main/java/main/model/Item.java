@@ -33,7 +33,7 @@ public class Item {
 	private double price;
 
 	@Column(name = "status")
-	private boolean status;
+	private boolean status; //Статус готовности позиции заказа
 
 	@Column(name = "amount")
 	private Double amount;

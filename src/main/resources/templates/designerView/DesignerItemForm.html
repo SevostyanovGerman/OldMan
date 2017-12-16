@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
+<html>
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -14,7 +15,7 @@
     <!--A lightbox gallery plugin for Bootstrap-->
     <link href="/css/ekko-lightbox.css" rel="stylesheet">
     <!--Собственный стиль-->
-    <link href="/css/managerItemForm.css" rel="stylesheet"/>
+    <link href="/css/designerItemForm.css" rel="stylesheet"/>
 
     <!-- Angular JS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
@@ -22,6 +23,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
+
 </head>
 
 <body ng-app="masterOrderForm">
@@ -30,7 +32,7 @@
         <div class="navbar-header">
             <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
         </div>
-        <div class="collapse navbar-collapse" >
+        <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
@@ -43,11 +45,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a class="btn btn-sm  btn-danger" th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
+                        <a class="btn btn-sm  btn-danger" th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
                     </form>
                 </li>
-                <li><a href="#"><span sec:authentication="principal"></a></li>
-                <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
+                <li><a href="#"><span sec:authentication="principal"/></a></li>
+                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
             </ul>
         </div>
     </div>
@@ -55,74 +57,44 @@
 <br>
 <div class="container">
     <div class="row">
-        <div align="center">
-            <h4 th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
-        </div>
-        <br>
-        <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="${'/manager/item/save/'+order.getId()}" method="post">
-            <div class="col-lg-6" >
+        <form class="form-horizontal" enctype="multipart/form-data" th:action="${'/designer/item/save/'+order.getId() + '/' + item.getId()}" method="post">
+            <div align="center">
+                <h4 th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+            </div>
+            <hr>
+            <div class="col-lg-6">
                 <div class="form-group">
-                    <input type="hidden" th:field="*{id}"/>
                     <div class="input-group">
                         <span class="input-group-addon">Тип продукта:</span>
-                        <input type="text" class="form-control" th:field="*{name}" required>
+                        <input type="text" class="form-control" th:value="${item.name}" readonly style="background: white">
                     </div>
                 </div>
-                <div class="form-group" >
+
+                <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Материал:</span>
-                        <input type="text" class="form-control" th:field="*{type}" required>
+                        <input type="text" class="form-control" th:value="${item.type}" readonly style="background: white">
                     </div>
                 </div>
+
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Модель телефона:</span>
-                        <input type="text" class="form-control" th:field="*{model}" required>
+                        <input type="text" class="form-control" th:value="${item.model}" readonly style="background: white">
                     </div>
                 </div>
+
                 <div class="form-group">
                     <div class="input-group" >
                         <span class="input-group-addon" >Количество:</span>
-                        <input class="form-control" th:field="*{count}" required
-                               id="numberItemField" onchange="amountItem()" type="number" value="1" min="1" step="1">
+                        <input type="text" class="form-control" th:value="${item.count}" readonly style="background: white">
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Цена за ед. (руб.):</span>
-                        <input class="form-control" th:field="*{price}" id="priceItemField" onchange="amountItem()" type="number"
-                               required value="0" min="0" step="0.01">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Сумма (руб.):</span>
-                        <input class="form-control" th:field="*{amount}" required id="amountItemField" readonly>
-                    </div>
-                </div>
+
                 <div class="form-group">
                     <h4 align="left">Комментарий к позиции заказа</h4>
-                    <textarea class="form-control" rows="3" th:field="*{comment}"></textarea>
+                    <textarea class="form-control" rows="3" th:text="${item.comment}" readonly style="background: white"></textarea>
                 </div>
-            </div> <!-- end col-lg-6 -->
-
-            <div class="col-lg-6">
-                <th:block th:if="${item?.getImages()}">
-                    <div>
-                        <h4>Изображения от дизайнера:</h4>
-                        <ul class="show-image" th:each="image: ${item?.getImages()}">
-                            <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
-                                <img th:src="${image?.getSmallImage()}" height="75">
-                            </a>
-                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
-                               title="Загрузить один файл">
-                                <span class="glyphicon glyphicon-download"></span>
-                            </a>
-                        </ul>
-                    </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
-                    <hr>
-                </th:block>
 
                 <th:block th:if="${item?.getFiles()}">
                     <div>
@@ -132,49 +104,64 @@
                             <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${file?.getSmallImage()}" height="75">
                             </a>
-                            <a class="btn btn-danger btn-xs btn-delete" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
-                               title="Удалить изображение">
-                                <span class="glyphicon glyphicon-remove"></span>
-                            </a>
-                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
+                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/designer/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
                                title="Загрузить один файл">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
+                </th:block>
+            </div> <!--end col-lg-6-->
+
+            <div class="col-lg-6">
+                <th:block th:if="${item?.getImages()}">
+                    <div>
+                        <h4>Изображения от дизайнера:</h4>
+                        <ul class="show-image" th:each="image: ${item?.getImages()}">
+                            <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                <img th:src="${image?.getSmallImage()}" height="75">
+                            </a>
+                            <a class="btn btn-danger btn-xs btn-delete" th:href="${'/designer/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
+                               title="Удалить изображение">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/designer/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
+                               title="Загрузить один файл">
+                                <span class="glyphicon glyphicon-download"></span>
+                            </a>
+                        </ul>
+                    </div>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
                     <hr>
                 </th:block>
                 <h4>Добавить файлы</h4>
-                <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
+                <input type="file" id='fileMulti' name="uploadDesignerFiles" multiple="multiple" style="display: none"/>
                 <label for="fileMulti" class="btn btn-default btn-xs">
                     <span>Обзор...</span>
                 </label>
                 <br/>
                 <span id="outputMulti"></span>
-            </div>  <!--end col-lg-6-->
+            </div> <!--end col-lg-6-->
             <div class="col-lg-12">
                 <hr>
                 <div class="form-group" align="center">
-                    <a class="btn btn-default" th:href="${'/manager/order/update/' + order.getId()}" title="Назад">Отмена / Назад</a>
-                    <button type="submit" class="btn btn-primary" id="saveItemBtn">Сохранить</button>
+                    <a class="btn btn-default" th:href="${'/designer/order/' + order.getId()}" title="Назад">Отмена / Назад</a>
+                    <button type="submit" class="btn btn-primary" id="saveItemBtn" title="Сохранить">Сохранить</button>
                 </div>
-            </div>
-        </form> <!-- end form -->
-   </div> <!--end row-->
-</div> <!-- end container -->
+            </div> <!--end col-lg-12-->
+        </form> <!--end form-->
+    </div> <!--end row-->
+</div> <!--end container-->
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 <!--Предпросмотр файлов загрузки-->
 <script src="/js/previewUploadCustomerFile.js"></script>
-
-<!--Рассчёт суммы позиции-->
-<script src="/js/mxItemManager.js"></script>
 
 <!--Просмотр загруженных изображений-->
 <script src="/js/ekko-lightbox.js"></script>

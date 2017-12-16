@@ -29,7 +29,8 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Item changeStatus(Long itemId) {
-		Item item = itemService.get(itemId);
+		Item item = itemService.get(itemId)
+			;
 		if (item.getStatus()) {
 			item.setStatus(false);
 		} else {

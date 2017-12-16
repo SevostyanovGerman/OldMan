@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,10 +82,10 @@ public class DesignerController {
 	}
 
 	//Item page
-	@RequestMapping(value = {"/designer/order/{orderId}/item/{itemId}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/designer/order/item/{orderId}/{itemId}"}, method = RequestMethod.GET)
 	public ModelAndView item(@PathVariable("itemId") Long itemId,
 							 @PathVariable("orderId") Long orderId) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
+		ModelAndView model = new ModelAndView("/designerView/DesignerItemForm");
 		try {
 			model.addObject("item", itemService.get(itemId));
 			model.addObject("order", orderService.get(orderId));
@@ -107,20 +109,18 @@ public class DesignerController {
 		return model;
 	}
 
-	//Изменение статуса товара
-	@RequestMapping(value = {"/designer/order/item/save/{id}"}, method = RequestMethod.POST)
-	public ModelAndView save(@PathVariable Long id) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerItem");
-		try {
-			Item item = itemService.get(id);
-			itemService.changeStatus(item.getId());
+	@RequestMapping(value = {"/designer/item/save/{orderId}/{itemId}"}, method = RequestMethod.POST)
+	public ModelAndView save(@PathVariable("orderId") long orderId,
+							 @PathVariable("itemId") long itemId,
+							 MultipartHttpServletRequest uploadDesignerFiles) throws IOException, SQLException {
+		List<Image> uploadImages = imageService.uploadAndSaveBlobFile(uploadDesignerFiles);
+		Item item = itemService.get(itemId);
+		if (uploadImages.size() > 0){
+			item.setStatus(true);
+			item.getImages().addAll(uploadImages);
 			itemService.save(item);
-			model.addObject("item", item);
-		} catch (Exception e) {
-			logger.error("Ошибка при изменении статуса заказ id={}");
-			return new ModelAndView("redirect:/designer/order/" + id);
 		}
-		return model;
+		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
 	}
 
 	//Смена статуса заказа
@@ -135,20 +135,59 @@ public class DesignerController {
 		return new ModelAndView("redirect:/designer/");
 	}
 
-	//Удаление картинки дизайнера
-	@RequestMapping(value = {"/designer/order/item/delimage/{orderId}/{itemId}/{imageId}"},
-					method = RequestMethod.POST)
-	public ModelAndView delImage(@PathVariable("imageId") Long imageId,
-								 @PathVariable("itemId") Long itemId,
-								 @PathVariable("orderId") Long orderId) throws IOException {
+	//Удаление загруженного файла
+	@RequestMapping(value = {"/designer/order/item/deleteFile/{orderId}/{itemId}/{imageId}"}, method = RequestMethod.GET)
+	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
+								   @PathVariable("itemId") Long itemId,
+								   @PathVariable("imageId") Long imageId){
+		Image file = imageService.get(imageId);
+		imageService.delete(file);
+		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
+	}
+
+	//Загрузка на компьютер всех файлов заказчика
+	@RequestMapping(value = "/designer/downloadAllFiles/{orderId}/{itemId}", method = RequestMethod.GET)
+	public ModelAndView downloadAllFiles(@PathVariable("orderId") Long orderId,
+										 @PathVariable("itemId") Long itemId) {
+		List<Image> customerFileList = itemService.get(itemId).getFiles();
 		try {
-			Image image = imageService.get(imageId);
-			imageService.delete(image);
-			return new ModelAndView("redirect:/designer/order/" + orderId + "/item/" + itemId);
-		} catch (Exception e) {
-			logger.error("Ошибка удаления картинки '/designer/order/item', imageId={}", itemId);
-			return new ModelAndView("/designerView/DesignerDashBoard");
+			imageService.downloadAllFiles(customerFileList);
+		} catch (IOException ioe) {
+			logger.error("Ошибка в чтении файла: " + ioe);
+		} catch (SQLException sqle) {
+			logger.error("Ошибка выборки из базы данных: " + sqle);
 		}
+		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
+	}
+
+	//Загрузка на компьютер всех файлов дизайнера
+	@RequestMapping(value = "/designer/downloadAllImages/{orderId}/{itemId}", method = RequestMethod.GET)
+	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId,
+										  @PathVariable("itemId") Long itemId) {
+		List<Image> designerFileList = itemService.get(itemId).getImages();
+		try {
+			imageService.downloadAllFiles(designerFileList);
+		} catch (IOException ioe) {
+			logger.error("Ошибка в чтении файла: " + ioe);
+		} catch (SQLException sqle) {
+			logger.error("Ошибка выборки из базы данных: " + sqle);
+		}
+		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
+	}
+
+	//Загрузка на компьютер одного файла заказчика
+	@RequestMapping(value = "/designer/downloadOneFile/{orderId}/{itemId}/{fileId}", method = RequestMethod.GET)
+	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId,
+										@PathVariable("itemId") Long itemId,
+										@PathVariable("fileId") Long fileId) {
+		try {
+			imageService.downloadOneFile(imageService.get(fileId));
+		} catch (IOException ioe) {
+			logger.error("Ошибка в чтении файла: " + ioe);
+		} catch (SQLException sqle) {
+			logger.error("Ошибка выборки из базы данных: " + sqle);
+		}
+		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
 	}
 
 	//Выборка тех заказов где есть уведомления для конкретного пользователя
