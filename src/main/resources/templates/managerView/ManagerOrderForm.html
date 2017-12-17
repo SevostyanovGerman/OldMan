@@ -359,11 +359,11 @@
                                 <span  th:if="${order?.getPaymentType()} == null"> -- </span>
                             </h5>
                         </div>
-                        <th:block sec:authorize="hasAuthority('BOSS')">
-                        <a th:if="${order?.getPayment()} == false" th:href="'/master/order/'+${order.id} +'/money'"
+
+                        <a th:if="${order?.getPayment()} == false" th:href="'/manager/order/'+${order.id} +'/money'"
                            class="btn btn-info form-control"
                            style=" text-align: center; ">Подтвердить оплату</a>
-                            <a th:if="${order?.getPayment()} == true" th:href="'/master/order/'+${order.id} +'/money'"
+                            <a th:if="${order?.getPayment()} == true" th:href="'/manager/order/'+${order.id} +'/money'"
                                class="btn btn-info form-control"
                                style=" text-align: center; ">Отменить оплату</a>
                             <div style="text-align: center;color:#1abb57">
@@ -371,7 +371,7 @@
                             <span th:text=" ${order?.getPaymentString()}"></span>
                                 </h5>
                             </div>
-                        </th:block>
+
                         <b>
                             <div>Тип доставки:   <a href="#modalSetDeliveryType" data-toggle="modal"> Изменить</a></div>
                         </b>
