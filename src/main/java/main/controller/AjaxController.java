@@ -79,18 +79,6 @@ public class AjaxController {
 		}
 	}
 
-	//Загрузка файлов//
-	@RequestMapping(value = "/uploadImage/{id}", method = RequestMethod.POST)
-	public void uploadSampleFiles(@PathVariable("id") Long itemId,
-								  MultipartHttpServletRequest multipartHttpServletRequest) {
-		try {
-			List<MultipartFile> files = multipartHttpServletRequest.getFiles("files");
-			imageService.saveBlobImagesToItem(files, itemId);
-		} catch (Exception e) {
-			logger.error("while saving file to item, id={}", itemId);
-		}
-	}
-
 	//Выбор клиента//
 	@RequestMapping(value = "/selectCustomer/{customerId}/{orderId}", method = RequestMethod.POST)
 	public void selectCustomer(@PathVariable("customerId") Long customerId,

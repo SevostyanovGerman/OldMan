@@ -1,28 +1,41 @@
 package main.service;
 
 import main.model.Image;
+import main.model.ImageType;
 import main.model.Item;
 import main.repository.ImageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.transaction.Transactional;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional
 public class ImageServiceImpl implements ImageService {
 
+	private static final int IMG_WIDTH = 640;
+
+	/*Важно! Значения CUSTOMER_FILES и DESIGNER_FILES должны совподать с атрибутом name
+	тега input для загрузки файлов на страницах ManagerItemForm.html & DesignerItemForm.html
+	*/
+	private static final String CUSTOMER_FILES = "uploadCustomerFiles";
+	private static final String DESIGNER_FILES = "uploadDesignerFiles";
+
+	@Autowired
 	private ImageRepository imageRepository;
 
 	private ItemService itemService;
@@ -52,44 +65,36 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public void saveBlobImagesToItem(List<MultipartFile> files, Long itemId) {
-		String name;
-		Item item = itemService.get(itemId);
-		for (MultipartFile file : files) {
-			if (!file.isEmpty()) {
-				try {
-					name = file.getOriginalFilename();
-					byte[] bytes = file.getBytes();
-					Blob blob = new SerialBlob(bytes);
-					Image image = new Image(blob);
-					image.setFileName(file.getOriginalFilename());
-					image.setType(false);
-					save(image);
-					item.getImages().add(image);
-					itemService.save(item);
-					logger.info("Вы удачно загрузили файл {}", name);
-				} catch (Exception e) {
-					logger.info("Ошибка при загрузке файла");
-				}
-			}
-		}
-	}
-
-	@Override
 	public List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles)
 		throws IOException, SQLException {
 		List<Image> blobFileList = new ArrayList<>();
-		List<MultipartFile> fileList = uploadFiles.getFiles("uploadCustomerFiles");
+		String imageType;
+		List<MultipartFile> fileList;
+		if(uploadFiles.getMultiFileMap().containsKey(CUSTOMER_FILES)){
+			imageType = ImageType.CUSTOMER.toString();
+			fileList = uploadFiles.getFiles(CUSTOMER_FILES);
+		}else {
+			imageType = ImageType.DESIGNER.toString();
+			fileList = uploadFiles.getFiles(DESIGNER_FILES);
+		}
 		for (MultipartFile file : fileList) {
 			if (!file.isEmpty()) {
-				byte[] bytes = file.getBytes();
-				Image newFile = new Image();
-				newFile.setType(true);
-				newFile.setFileName(file.getOriginalFilename());
-				Blob blobFile = new SerialBlob(bytes);
-				newFile.setImage(blobFile);
-				save(newFile);
-				blobFileList.add(newFile);
+				BufferedImage resizedImage;
+				BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
+				if (originalImage.getWidth()>IMG_WIDTH){
+					resizedImage = resizePicture(originalImage, originalImage.getType());
+				}else {
+					resizedImage = originalImage;
+				}
+				Blob resizedFile = new SerialBlob(convertToByteArray(resizedImage));
+				Blob originalFile = new SerialBlob(file.getBytes());
+				Image newImage = new Image();
+				newImage.setImageType(imageType);
+				newImage.setFileName(file.getOriginalFilename());
+				newImage.setSmallImage(resizedFile);
+				newImage.setImage(originalFile);
+				imageService.save(newImage);
+				blobFileList.add(newImage);
 			}
 		}
 		return blobFileList;
@@ -113,6 +118,8 @@ public class ImageServiceImpl implements ImageService {
 				while ((readByte = inputStream.read()) != -1) {
 					fileOutputStream.write(readByte);
 				}
+				fileOutputStream.flush();
+				fileOutputStream.close();
 			}
 		}
 	}
@@ -134,6 +141,28 @@ public class ImageServiceImpl implements ImageService {
 			while ((readByte = inputStream.read()) != -1) {
 				fileOutputStream.write(readByte);
 			}
+			fileOutputStream.flush();
+			fileOutputStream.close();
 		}
+	}
+
+	private byte[] convertToByteArray(BufferedImage bufferedImage) throws IOException {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ImageIO.write(bufferedImage, "jpg", outputStream);
+		outputStream.flush();
+		byte[] bytes = outputStream.toByteArray();
+		outputStream.close();
+		return bytes;
+	}
+
+	private BufferedImage resizePicture(BufferedImage originalImage, int type){
+		int widthImage = originalImage.getWidth();
+		int highImage = originalImage.getHeight();
+		int resizedHigh = (highImage*IMG_WIDTH)/widthImage;
+		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, resizedHigh, type);
+		Graphics2D graphics = resizedImage.createGraphics();
+		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		graphics.drawImage(originalImage, 0, 0, IMG_WIDTH, resizedHigh, null);
+		return resizedImage;
 	}
 }

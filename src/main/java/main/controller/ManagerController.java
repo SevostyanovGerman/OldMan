@@ -234,14 +234,18 @@ public class ManagerController {
 			item.setImages(updateItem.getImages());
 			item.getFiles().addAll(uploadFiles);
 			itemService.save(item);
+			order.setPrice(order.getAmount());
+			orderService.save(order);
+			return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + updateItem.getId());
 		} else {
 			item.setImages(uploadFiles);
 			order.addItem(item);
+			order.setPrice(order.getAmount());
+			orderService.save(order);
+			return new ModelAndView("redirect:/manager/order/update/" + orderId);
 		}
-		order.setPrice(order.getAmount());
-		orderService.save(order);
-
-		return new ModelAndView("redirect:/manager/order/update/" + orderId);
+/*		order.setPrice(order.getAmount());
+		orderService.save(order);*/
 	}
 
 	//Удаляем позицию из заказа
@@ -366,7 +370,7 @@ public class ManagerController {
 					method = RequestMethod.GET)
 	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
 								   @PathVariable("itemId") Long itemId,
-								   @PathVariable("fileId") Long fileId) throws IOException {
+								   @PathVariable("fileId") Long fileId){
 		Image file = imageService.get(fileId);
 		imageService.delete(file);
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
@@ -425,9 +429,9 @@ public class ManagerController {
 		try {
 			imageService.downloadAllFiles(customerFileList);
 		} catch (IOException ioe) {
-			logger.info("Ошибка в чтении файла: " + ioe);
+			logger.error("Ошибка в чтении файла: " + ioe);
 		} catch (SQLException sqle) {
-			logger.info("Ошибка выборки из базы данных: " + sqle);
+			logger.error("Ошибка выборки из базы данных: " + sqle);
 		}
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
@@ -441,9 +445,9 @@ public class ManagerController {
 		try {
 			imageService.downloadAllFiles(designerFileList);
 		} catch (IOException ioe) {
-			logger.info("Ошибка в чтении файла: " + ioe);
+			logger.error("Ошибка в чтении файла: " + ioe);
 		} catch (SQLException sqle) {
-			logger.info("Ошибка выборки из базы данных: " + sqle);
+			logger.error("Ошибка выборки из базы данных: " + sqle);
 		}
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
@@ -457,9 +461,9 @@ public class ManagerController {
 		try {
 			imageService.downloadOneFile(imageService.get(fileId));
 		} catch (IOException ioe) {
-			logger.info("Ошибка в чтении файла: " + ioe);
+			logger.error("Ошибка в чтении файла: " + ioe);
 		} catch (SQLException sqle) {
-			logger.info("Ошибка выборки из базы данных: " + sqle);
+			logger.error("Ошибка выборки из базы данных: " + sqle);
 		}
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}

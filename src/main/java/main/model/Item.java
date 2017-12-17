@@ -1,6 +1,7 @@
 package main.model;
 
 import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -32,19 +33,19 @@ public class Item {
 	private double price;
 
 	@Column(name = "status")
-	private boolean status;
+	private boolean status; //Статус готовности позиции заказа
 
 	@Column(name = "amount")
 	private Double amount;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "item_id")
-	@Where(clause = "type=true")
+	@Where(clause = "image_type='CUSTOMER'")
 	private List<Image> files;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "item_id")
-	@Where(clause = "type=false")
+	@Where(clause = "image_type='DESIGNER'")
 	private List<Image> images;
 
 	public Item() {

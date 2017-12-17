@@ -209,7 +209,6 @@
                         </table>
                     </div>
                 </div>
-
                 </fieldset>
             </div>
         </div>
@@ -236,13 +235,8 @@
                     <button class="btn btn-success width100 form-control " type="submit" form="back" >Назад</button>
                 </fieldset>
             </div>
-
-
-            <br>
-            <br>
-
+            <br><br>
         </div>
-
 
         <div class="col-lg-12 pagging20" >
             <div class="form-horizontal " >
@@ -267,17 +261,16 @@
                             <td th:text="${element.getStatusString()}" name="status"
                                 th:value="${element.getStatus()}"></td>
                             <td>
-                               <form  th:action="'/designer/order/'+${order.id}+'/item/'+${element.getId() }"
+                               <form  th:action="'/designer/order/item/'+${order.id}+'/'+${element.getId() }"
                                       method="get"  >
                                 <button class="btn btn-success width100" type="submit"  >Открыть</button>
                                 </form>
                           </td>
                         </tr>
-
                     </table>
                 </fieldset>
+            </div>
         </div>
-
     </div>
 
 

@@ -19,7 +19,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
@@ -39,8 +38,9 @@
             <ul class="nav navbar-nav">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                        <li class="active" role="presentation"><a th:text="${function?.getName()}"
-                                                                  th:href="${function.getLink()}"></a></li>
+                        <li role="presentation">
+                            <a th:text="${function?.getName()}" th:href="${function.getLink()}"></a>
+                        </li>
                     </ul>
                 </th:block>
             </ul>
