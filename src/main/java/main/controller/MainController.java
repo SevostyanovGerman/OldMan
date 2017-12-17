@@ -112,12 +112,8 @@ public class MainController {
 		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		Comment comment = commentService.get(id);
-		if (!comment.getSentTo().equals(userService.getCurrentUser().getName())) {
 			commentService.delete(comment);
 			notificationService.delete(comment.getId());
-		} else {
-			return page403();
-		}
 		return model;
 	}
 
