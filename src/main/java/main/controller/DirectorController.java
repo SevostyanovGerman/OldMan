@@ -83,6 +83,7 @@ public class DirectorController {
 		modelAndView.addObject("endIndex", end);
 		modelAndView.addObject("currentIndex", current);
 		modelAndView.addObject("totalPageCount", totalPageCount);
+		modelAndView.addObject("allStatus", statusService.getAll());
 		return modelAndView;
 	}
 

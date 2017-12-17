@@ -71,12 +71,31 @@
 
     <div class="container">
 
-            <div style="text-align: right">
-                <a class="btn btn-info btn-new-object" type="button" th:href="@{/manager/order/add}" title="Создать новый заказ">Новый заказ</a>
-            </div>
-        <br>
-
         <div class="row">
+
+            <div class="col-lg-9">
+
+                <th:block th:each ="status : ${allStatus}">
+
+               <span class="label" th:text="${status?.name}"
+                     th:styleappend="'background-color:' + ${status?.color} +';color: black'" ></span>
+
+                </th:block>
+            </div>
+
+            <div class="col-lg-3">
+
+                <div style="text-align: right">
+                    <a class="btn btn-info btn-new-object" type="button" th:href="@{/manager/order/add}" title="Создать новый заказ">Новый заказ</a>
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="row" style="margin-top: 10px">
 
             <div class="col-lg-4 ">
                 <div class="col-lg-6 " style="padding-left: 0px; margin-left: 0px">
