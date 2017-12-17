@@ -10,7 +10,7 @@ angular.module('masterOrderForm', ['ngAnimate', 'ngSanitize','ui.bootstrap'])
     }])
     .controller("NotificationController", ['$http', '$scope', function ($http, $scope) {
         $scope.notifications = [];
-        setTimeout(function () {
+        setInterval(function () {
             $http.get("/notifications/get").then(function (response) {
                 var array = response.data;
                 if (array.length !== 0) {
@@ -19,5 +19,5 @@ angular.module('masterOrderForm', ['ngAnimate', 'ngSanitize','ui.bootstrap'])
             }, function (exception) {
                 console.log(exception);
             })
-        }, 0)
+        }, 1000)
     }]);
