@@ -420,10 +420,10 @@
             <div class="col-sm-9" ></div>
             <div class="col-sm-3" style="text-align: center; "  >
                 <a
-                    th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null AND ${order.getDelivery()} != null" href="#myModal"
+                    th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null AND ${order.getDelivery()} != null AND ${order.getDeliveryType()} != null" href="#myModal"
                     class="btn btn-warning  " data-toggle="modal">Отправить заказ</a>
                 <a
-                    th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0 OR ${order.getCustomer()} == null OR ${order.getPaymentType()} == null OR ${order.getDelivery()} == null"
+                    th:if="${order.getDesigner()} == null OR ${order.getMaster()} == null OR ${order.getItems().size()} == 0 OR ${order.getCustomer()} == null OR ${order.getPaymentType()} == null OR ${order.getDelivery()} == null OR ${order.getDeliveryType()} == null"
                    href="#erroFieldModal"  class="btn btn-warning " data-toggle="modal">Отправить
                     заказ</a>
             </div>
@@ -780,7 +780,7 @@
                 <!-- Заголовок модального окна -->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title"> Заполните обязательные поля, бля</h4>
+                    <h4 class="modal-title"> Заполните обязательные поля</h4>
                 </div>
                 <!-- Основное содержимое модального окна -->
                 <div class="modal-body">
@@ -790,6 +790,7 @@
                         <div th:if="${order.getCustomer()} == null"> Выберете 'Клиента'</div>
                         <div th:if="${order.getPaymentType()} == null"> Выберете 'Способ оплаты'</div>
                     <div th:if="${order.getItems().size()} == 0"> Добавте товар в заказ</div>
+                        <div th:if="${order.getDeliveryType()} == null"> Выберете 'Тип доставки'</div>
                         <div th:if="${order.getDelivery()} == null"> Выберете 'Адрес доставки'</div>
                 </div>
                 </b>
