@@ -2,13 +2,11 @@ package main.service;
 
 import main.model.Image;
 import main.model.ImageType;
-import main.model.Item;
 import main.repository.ImageRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.imageio.ImageIO;
@@ -21,7 +19,6 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Transactional
@@ -35,16 +32,11 @@ public class ImageServiceImpl implements ImageService {
 	private static final String CUSTOMER_FILES = "uploadCustomerFiles";
 	private static final String DESIGNER_FILES = "uploadDesignerFiles";
 
-	@Autowired
 	private ImageRepository imageRepository;
 
-	private ItemService itemService;
-
 	@Autowired
-	public ImageServiceImpl(ImageRepository imageRepository,
-							ItemService itemService) {
+	public ImageServiceImpl(ImageRepository imageRepository) {
 		this.imageRepository = imageRepository;
-		this.itemService = itemService;
 	}
 
 	private final static Logger logger = LoggerFactory.getLogger(ImageServiceImpl.class);
@@ -93,7 +85,7 @@ public class ImageServiceImpl implements ImageService {
 				newImage.setFileName(file.getOriginalFilename());
 				newImage.setSmallImage(resizedFile);
 				newImage.setImage(originalFile);
-				imageService.save(newImage);
+				save(newImage);
 				blobFileList.add(newImage);
 			}
 		}

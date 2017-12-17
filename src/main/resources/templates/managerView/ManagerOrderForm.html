@@ -302,7 +302,7 @@
                                 <span class="input-group-addon customerField">Имя:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.firstName}"
                                        name="firstName" id="firstNameField" readonly="readonly" required="required"
-                                       pattern="[A-Za-z]{3,}"/>
+                                       pattern="^[а-яёА-ЯЁa-zA-Z0-9 -]+"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -310,7 +310,7 @@
                                 <span class="input-group-addon customerField">Фамилия:</span>
                                 <input type="text" class="form-control" th:value="${order.customer?.secName}"
                                        name="secName" id="secNameField" readonly="readonly" required="required"
-                                       pattern="[A-Za-z]{3,}"/>
+                                       pattern="^[а-яёА-ЯЁa-zA-Z0-9 -]+"/>
                             </div>
                         </div>
                         <div class="form-group">

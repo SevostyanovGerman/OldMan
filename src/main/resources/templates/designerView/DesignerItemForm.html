@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="icon" href="/images/OldManFavicon.png">
-    <title>Item</title>
+    <title>Форма товара</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -17,6 +17,7 @@
     <!--Собственный стиль-->
     <link href="/css/designerItemForm.css" rel="stylesheet"/>
 
+    <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
     <!-- Angular JS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
@@ -44,12 +45,16 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
+                    <a href="#"><span sec:authentication="principal"></span></a>
+                </li>
+                <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a class="btn btn-sm  btn-danger" th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak>Новое сообщение</a>
+                        <a th:href="@{/order/designer/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                     </form>
                 </li>
-                <li><a href="#"><span sec:authentication="principal"/></a></li>
-                <li><a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a></li>
+                <li>
+                    <a th:href="@{/logout}">Выход <span class="glyphicon glyphicon-log-out"></span></a>
+                </li>
             </ul>
         </div>
     </div>

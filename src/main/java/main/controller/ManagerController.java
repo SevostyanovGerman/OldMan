@@ -297,15 +297,15 @@ public class ManagerController {
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"},
 					method = RequestMethod.POST)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
-									   @ModelAttribute("newCustomer") Customer newCustomer) {
+									   @ModelAttribute("newCustomer") Customer editCustomer) {
 		Order order = orderService.get(orderId);
 		try {
-			Customer customer = customerService.getByEmail(newCustomer.getEmail());
+			Customer customer = customerService.getByEmail(editCustomer.getEmail());
 			if (customer == null) {
 				customer = order.getCustomer();
 			}
-			customer.updateCustomerFields(newCustomer.getFirstName(), newCustomer.getSecName(),
-				newCustomer.getEmail(), newCustomer.getPhone());
+			customer.updateCustomerFields(editCustomer.getFirstName(), editCustomer.getSecName(),
+				editCustomer.getEmail(), editCustomer.getPhone());
 			customerService.save(customer);
 			if (order.getDeliveryType() == null || !order.getDeliveryType().getPickup()) {
 				order.setDelivery(customer.getDefaultDelivery());
