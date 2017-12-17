@@ -234,6 +234,10 @@ body {
     border-radius: 0 0 4px 4px;
 }
 
+.comment-edition {
+    display: none;
+}
+
 .comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {color: #03658c;}
 .comment-box .receiver {
     color: #FFF;

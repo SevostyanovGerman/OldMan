@@ -151,16 +151,24 @@
                                                     <a class="receiver" th:text="${element.getSentTo()}" style="background: steelblue"></a>
                                                     <span th:text="${element.getTime()}"></span>
                                                     <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element.getId()}}" class="glyphicon glyphicon-trash"></a></span>
-                                                    <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a href="#" class="glyphicon glyphicon-edit"></a></span>
+                                                    <span onclick="toggleComment(event)"  style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
                                                     <i class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
                                                        th:id="${element}+'Btn'">Ответить</i>
                                                 </div>
-                                                <div class="comment-content" th:utext="${element.getContent()}">
-                                                </div>
+                                                    <!-- main comment -->
+                                                    <div class="comment-content" th:utext="${element.getContent()}"></div>
+
+                                                    <div class="comment-content comment-edition">
+                                                        <form th:action="'/order/comment/edit=' + ${element.getId()}" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}" method="post">
+                                                            <textarea class="form-control" name="editText" th:utext="${element.getContent()}"></textarea>
+                                                            <button class="btn btn-info btn-sm" type="submit" th:value="${element.getId()}" style="margin-top: 5px">Сохранить</button>
+                                                        </form>
+                                                    </div>
+                                                    <!-- end of main comment-->
 
                                                 <div th:id="${element}" style="display: none; " class="container-fluid">
                                                     <form th:action="'/order/comment/add='+${order.getId()}" method="post" th:id="${element}+'Frm'">
-                                                            <textarea class="form-control " th:id="${element}+'Text'" name="commentText"></textarea>
+                                                            <textarea class="form-control" th:id="${element}+'Text'" name="commentText"></textarea>
                                                         <input type="hidden" name="sendTo" th:value="${element.getCreatedBy()}"/>
                                                         <div style="text-align: right; margin-top: 5px">
                                                             <button class="btn btn-info btn-sm" type="submit" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
@@ -178,9 +186,18 @@
                                                         <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
                                                         <span th:text="${element2.getTime()} "></span>
                                                         <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element2.getId()}}" class="glyphicon glyphicon-trash"></a></span>
-                                                        <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a href="#" class="glyphicon glyphicon-edit"></a></span>
+                                                        <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
                                                     </div>
+                                                    <!-- answer comment -->
                                                     <div class="comment-content" th:utext="${element2.getContent()}"></div>
+
+                                                    <div class="comment-content comment-edition">
+                                                        <form th:action="'/order/comment/edit=' + ${element2.getId()}" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}" method="post">
+                                                            <textarea class="form-control" name="editText" th:utext="${element2.getContent()}"></textarea>
+                                                            <button class="btn btn-info btn-sm" type="submit" th:value="${element2.getId()}" style="margin-top: 5px">Сохранить</button>
+                                                        </form>
+                                                    </div>
+                                                    <!--  end-->
                                                 </div>
                                             </li>
                                         </ul>

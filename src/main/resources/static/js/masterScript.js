@@ -96,3 +96,13 @@ if (activeTab) {
 window.addEventListener('DOMContentLoaded',function(){
     new smartPhoto(".js-smartPhoto");
 });
+
+/* Comment toggle */
+function toggleComment(event) {
+    var element =  event.currentTarget;
+    var edition = $(element).parent().next(".comment-content");
+    $(edition).toggle();
+    $(edition).next(".comment-edition").toggle();
+
+}
+

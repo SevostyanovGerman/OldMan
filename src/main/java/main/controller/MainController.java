@@ -107,6 +107,35 @@ public class MainController {
 		return model;
 	}
 
+	@RequestMapping(value = {"/order/comment/delete={id}"}, method = RequestMethod.GET)
+	public ModelAndView deleteComment(@PathVariable Long id, HttpServletRequest request) {
+		String url = Helpers.getUrl(request.getHeader("referer"));
+		ModelAndView model = new ModelAndView("redirect:" + url);
+		Comment comment = commentService.get(id);
+		if (!comment.getSentTo().equals(userService.getCurrentUser().getName())) {
+			commentService.delete(comment);
+			notificationService.delete(comment.getId());
+		} else {
+			return page403();
+		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/order/comment/edit={id}"}, method = RequestMethod.POST)
+	public ModelAndView editComment(HttpServletRequest request,
+									@PathVariable Long id, @RequestParam("editText") String content) {
+		String url = Helpers.getUrl(request.getHeader("referer"));
+		ModelAndView model = new ModelAndView("redirect:" + url);
+		Comment comment = commentService.get(id);
+		if (!comment.getSentTo().equals(userService.getCurrentUser().getName())) {
+			comment.setContent(content);
+			commentService.edit(comment);
+		} else {
+			return page403();
+		}
+		return model;
+	}
+
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
 							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
@@ -159,20 +188,6 @@ public class MainController {
 			logger.error("while getting list of orders for Dashboard");
 		}
 		return url.toString();
-	}
-
-	@RequestMapping(value = {"/order/comment/delete={id}"}, method = RequestMethod.GET)
-	public ModelAndView deleteComment(@PathVariable Long id, HttpServletRequest request) {
-		String url = Helpers.getUrl(request.getHeader("referer"));
-		ModelAndView model = new ModelAndView("redirect:" + url);
-		Comment comment = commentService.get(id);
-		if (!comment.getSentTo().equals(userService.getCurrentUser().getName())) {
-			commentService.delete(comment);
-		} else {
-			System.out.println("You have no permission to delete this comment");
-		}
-
-		return model;
 	}
 
 	@RequestMapping(value = {"/order/notification/get"}, method = RequestMethod.GET)
