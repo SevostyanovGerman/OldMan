@@ -29,7 +29,7 @@ public class User implements UserDetails {
 
 	@NotNull
 	@Size(min = 3, max = 20, message = "{user.password.wrong}")
-	@Column(name = "password", nullable = false, length = 20)
+	@Column(name = "password", nullable = false, length = 50)
 	private String password;
 
 	@Column(name = "deleted")
@@ -39,7 +39,7 @@ public class User implements UserDetails {
 	private boolean disable;
 
 	@Pattern(regexp = RegexpConstans.REG_EXP_OF_FIRST_NAME, message = "{user.firstname.wrong}")
-	@Column(name = "first_name", length = 16, nullable = false)
+	@Column(name = "first_name", length = 50, nullable = false)
 	private String firstName;
 
 	@Size(max = 50, message = "{user.secname.wrong.size}")

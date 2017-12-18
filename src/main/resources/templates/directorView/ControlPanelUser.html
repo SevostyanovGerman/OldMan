@@ -118,8 +118,8 @@
                                 <div class="form-group row row-height">
                                     <label for="firstName" class="control-label col-sm-2">Имя</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="firstName" th:value="${user.getFirstName()}" pattern="^[A-Za-zА-ЯЁа-яё]{2,16}$" placeholder="Имя сотрудника" required />
-                                        <div class="notes">Имя сотрудника может состоять только из английских и русских букв. Длина имени должна быть не менее 2 символов и не более 16.</div>
+                                        <input class="form-control" type="text" name="firstName" th:value="${user.getFirstName()}" pattern="^[а-яёА-ЯЁa-zA-Z -]{2,50}$" placeholder="Имя сотрудника" required />
+                                        <div class="notes">Имя сотрудника может состоять только из английских и русских букв. Длина имени должна быть не менее 2 символов и не более 50.</div>
                                     </div>
                                     <div class="col-sm-4">
                                         <span class="wrong-field" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
@@ -128,7 +128,7 @@
                                 <div class="form-group row row-height">
                                     <label for="secName" class="control-label col-sm-2">Фамилия</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="secName" th:value="${user.getSecName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 -]+" maxlength="50" placeholder="Фамилия" />
+                                        <input class="form-control" type="text" name="secName" th:value="${user.getSecName()}" pattern="^[а-яёА-ЯЁa-zA-Z -]{1,50}$" maxlength="50" placeholder="Фамилия" />
                                         <div class="notes">Фамилия сотрудника может состоять из английских и русских букв, цифр, пробелов и тире. Максимальная длина 50. Заполнять не обязательно</div>
                                     </div>
                                     <div class="col-sm-4">
