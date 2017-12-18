@@ -117,15 +117,16 @@
     <div >
     <h2 style="text-align: center">Сумма заказов</h2>
     <!--Календарь-->
-    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px
+     solid #ccc; margin-right: 15px">
         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
         <span></span> <b class="caret"></b>
     </div>
 
     <div class="container">
-        <button type="button" class="btn" onclick="test('%m-%d')">По дням</button>
-        <button type="button" class="btn" onclick="test('%Y-%u')">По неделям</button>
-        <button type="button" class="btn" onclick="test('%Y-%m')">По месяцам</button>
+        <button type="button" class="btn" onclick="period('%m-%d')">По дням</button>
+        <button type="button" class="btn" onclick="period('%Y-%u')">По неделям</button>
+        <button type="button" class="btn" onclick="period('%Y-%m')">По месяцам</button>
 
         <!--График-->
         <div id="chart_div"></div>

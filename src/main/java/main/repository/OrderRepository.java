@@ -50,7 +50,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 						  @Param("deleted") boolean deleted);
 
 	@Query(
-		"SELECT  date_format(o.created, :dwm) as created ,  AVG(o.price) as price FROM Order o " +
+		"SELECT  date_format(o.created, :dwm) as created ,  AVG(o.price) as price  FROM " +
+		"Order o " +
 		"WHERE o.deleted=0 AND o.payment=1 AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
 		"STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " +
 		"GROUP BY date_format(o.created, :dwm) ORDER BY date_format(o.created, :dwm)")
@@ -58,7 +59,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 								 @Param("dwm") String dwm);
 
 	@Query(value =
-			   "SELECT  date_format(o.created, :dwm) as created , sum(o.price * o.payment) as price,  sum(o.price) FROM orders o " +
+			   "SELECT  date_format(o.created, :dwm) as created , sum(o.price * o.payment) as price ,  sum(o.price), " +
+			   "date_format(o.created, :dwm)  FROM orders o " +
 			   "WHERE o.deleted=0 and o.created between STR_TO_DATE(:startDate, " + "'%Y-%m-%d " +
 			   "%H:%i:%s')  and  " + "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
 			   "date_format(o.created, :dwm) ORDER BY date_format(o.created, :dwm)",
@@ -67,9 +69,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 								@Param("dwm") String dwm);
 
 	@Query("select o.delivery.city, count(o.delivery.city) from Order o " +
-		   "  where o.deleted =0 and o.payment=1 group by o.delivery.city order by o" +
+		   "  where o.deleted =0 and o.payment=1 AND o.created between STR_TO_DATE(:startDate, '%Y-%m-%d %H:%i:%s')  and  " +
+		   "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')"+
+		   " group by o.delivery.city"  +
+		   " order by o" +
 		   ".delivery.city")
-	List<Object> statisticGeo();
+	List<Object> statisticGeo(@Param("startDate") Date startDate,
+							  @Param("endDate") Date endDate);
 
 	@Query(
 		"SELECT  date_format(o.creationDate, '%Y-%m') as created ,  count(o.creationDate) FROM Customer o " +
