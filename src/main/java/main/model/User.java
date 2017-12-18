@@ -66,7 +66,7 @@ public class User implements UserDetails {
 	@Size(min = 1, message = "{user.roles.wrong}")
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
-			   inverseJoinColumns = {@JoinColumn(name = "role_id")})
+		inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set<Role> roles;
 
 	public User() {

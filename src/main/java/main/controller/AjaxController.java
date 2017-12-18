@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +29,6 @@ public class AjaxController {
 
 	private CustomerService customerService;
 	private OrderService orderService;
-	private ImageService imageService;
 	private UserService userService;
 	private NotificationService notificationService;
 
@@ -39,11 +39,9 @@ public class AjaxController {
 
 	@Autowired
 	public AjaxController(CustomerService customerService, OrderService orderService,
-						  ImageService imageService, UserService userService,
-						  NotificationService notificationService) {
+						  UserService userService, NotificationService notificationService) {
 		this.customerService = customerService;
 		this.orderService = orderService;
-		this.imageService = imageService;
 		this.userService = userService;
 		this.notificationService = notificationService;
 	}
@@ -170,10 +168,9 @@ public class AjaxController {
 	public HashMap<String, List<Order>> orderByCalendar(Date startDate, Date endDate, String dwm,
 														Model model) {
 		List<Order> list = new ArrayList<>();
-		list.add(orderService.get(1l));
+		list.add(orderService.get(1L));
 		model.addAttribute("orderList", list);
 		model.addAttribute("content", "hello");
-
 		HashMap<String, List<Order>> map = new HashMap<>();
 		map.put("data", list);
 		return map;

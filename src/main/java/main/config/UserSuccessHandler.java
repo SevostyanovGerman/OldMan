@@ -23,7 +23,7 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 										Authentication authentication)
-		throws IOException, ServletException {
+		throws IOException{
 		response.setStatus(HttpServletResponse.SC_OK);
 		boolean check = false;
 		List<Role> roleList = roleService.getAll();

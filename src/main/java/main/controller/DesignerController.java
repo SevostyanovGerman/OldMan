@@ -26,13 +26,9 @@ public class DesignerController {
 	private static final Logger logger = LoggerFactory.getLogger(DesignerController.class);
 
 	private OrderService orderService;
-
 	private ItemService itemService;
-
 	private ImageService imageService;
-
 	private UserService userService;
-
 	private NotificationService notificationService;
 
 	@Autowired
@@ -102,7 +98,7 @@ public class DesignerController {
 							 MultipartHttpServletRequest uploadDesignerFiles) throws IOException, SQLException {
 		List<Image> uploadImages = imageService.uploadAndSaveBlobFile(uploadDesignerFiles);
 		Item item = itemService.get(itemId);
-		if (uploadImages.size() > 0){
+		if (uploadImages.size() > 0) {
 			item.setStatus(true);
 			item.getImages().addAll(uploadImages);
 			itemService.save(item);
@@ -126,7 +122,7 @@ public class DesignerController {
 	@RequestMapping(value = {"/designer/order/item/deleteFile/{orderId}/{itemId}/{imageId}"}, method = RequestMethod.GET)
 	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
 								   @PathVariable("itemId") Long itemId,
-								   @PathVariable("imageId") Long imageId){
+								   @PathVariable("imageId") Long imageId) {
 		Image file = imageService.get(imageId);
 		imageService.delete(file);
 		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);

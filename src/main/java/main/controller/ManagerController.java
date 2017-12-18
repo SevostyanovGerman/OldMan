@@ -247,8 +247,6 @@ public class ManagerController {
 			orderService.save(order);
 			return new ModelAndView("redirect:/manager/order/update/" + orderId);
 		}
-/*		order.setPrice(order.getAmount());
-		orderService.save(order);*/
 	}
 
 	//Удаляем позицию из заказа
