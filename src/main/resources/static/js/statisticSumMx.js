@@ -20,7 +20,7 @@ var dwm = '%Y-%m';
             success: function (averagePriceElement) {
 
                 // Load the Visualization API and the corechart package.
-                google.charts.load('current', {'packages': ['corechart']});
+                google.charts.load('current', {'packages': ['corechart', 'line']});
 
                 // Set a callback to run when the Google Visualization API is loaded.
                 google.charts.setOnLoadCallback(drawChart);
@@ -33,9 +33,11 @@ var dwm = '%Y-%m';
                     // Create the data table.
 
                     var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Месяц');  //названия колонок
+                    data.addColumn('string', 'Дата');  //названия колонок
                     data.addColumn('number', 'сумма оплаченных заказов');
                     data.addColumn('number', 'сумма не оплаченных заказов');
+                    data.addColumn({type: 'string', role: 'annotation'});
+
                     data.addRows(averagePriceElement); // полученный массив данных
 
                     drawTable(averagePriceElement); //рисуем таблицу
@@ -44,11 +46,15 @@ var dwm = '%Y-%m';
                     var options = {
                         'title': 'Сумма заказа',
                         'width': '100%',
-                        'height': 500
+                        'height': 500,
+                        hAxis: { minValue: 0, maxValue: 100 },
+                        curveType: 'function',
+                        pointSize: 10
+
                     };
 
                     // Instantiate and draw our chart, passing in some options.
-                    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+                    var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
                     chart.draw(data, options);
                 }
 
@@ -109,7 +115,7 @@ var dwm = '%Y-%m';
 
         });
 
-function test(step) {
+function period(step) {
     dwm = step;
     avgPrice(startMx,endMx, dwm);
 

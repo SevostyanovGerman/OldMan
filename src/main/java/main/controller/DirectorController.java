@@ -747,26 +747,22 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/statistic/middle/"}, method = RequestMethod.GET)
 	public ModelAndView statisticAverage() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticAverage");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticAverage");
 	}
 
 	@RequestMapping(value = {"/director/statistic/sum/"}, method = RequestMethod.GET)
 	public ModelAndView statisticSum() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticSum");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticSum");
 	}
 
 	@RequestMapping(value = {"/director/statistic/geo/"}, method = RequestMethod.GET)
 	public ModelAndView statisticGeo() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticGeo");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticGeo");
 	}
 
 	@RequestMapping(value = {"/director/statistic/newCustomers/"}, method = RequestMethod.GET)
 	public ModelAndView statisticNewCustomers() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticNewCustomer");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticNewCustomer");
 	}
 
 	//Меняем менеджер заказа

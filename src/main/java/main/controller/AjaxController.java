@@ -15,9 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -123,9 +120,11 @@ public class AjaxController {
 
 	//Статистика гео//
 	@RequestMapping(value = "/statistic/geo/getGeoObjects", method = RequestMethod.GET)
-	public List<Object> statisticGeoOrder() {
+	public List<Object> statisticGeoOrder(Date startDate, Date endDate) {
 		try {
-			return orderService.statisticGeo();
+			DateTime start = new DateTime(startDate);
+			DateTime end = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+			return orderService.statisticGeo(start.toDate(), end.toDate());
 		} catch (Exception e) {
 			logger.error("while retrieving list of orders for 'geo statistic");
 			return null;
