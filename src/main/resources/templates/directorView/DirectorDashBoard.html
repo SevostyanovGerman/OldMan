@@ -270,7 +270,7 @@
                                     <div class="col-sm-6 col-md-4" style="text-align: center">
                                            <img id="avatarImg" alt=""
                                               class="img-rounded img-responsive centre" style="width:200px; height:
-                                              200px"
+                                              210px"
                                              th:src="${#authentication.getPrincipal()?.avatar}"  />
                                            <input type="file" id='avatar' name="avatar" enctype="multipart/form-data"
                                                   style="display: none"/>
@@ -307,14 +307,53 @@
                                             </th:block>
                                         </p>
                                         <!-- Split button -->
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
-                                                Изменить пароль
+
+                                        <div class="row col-sm-12">
+                                            <div class="col-sm-6 left" >
+                                                <a  href="#" id ="changePassword">Изменить пароль</a>
+                                            </div>
+
+                                            <div class="btn-group" class="col-sm-6" style="text-align: right">
+                                                <button type="button" class="btn btn-primary btn-sm right"
+                                                        data-dismiss="modal" onclick="hideChangeBtn()">
+                                                    Закрыть
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class = "row col-lg-12">
+                                            <span id="errorCurrentPass" style="color: limegreen"></span>
+
+                                            <div class="input-group">
+                                                <input type="text" id="currentPass" class="form-control"
+                                                       placeholder="Текущий пароль" style="display: none;margin-top:
+                                                       5px"  type="password" required>
+                                            </div>
+
+                                            <div class="input-group">
+                                                <input type="text" id="newPass" class="form-control"
+                                                       placeholder="Новый пароль" style="display: none;margin-top:
+                                                       5px" type="password" required >
+                                            </div>
+
+                                            <div class="input-group">
+                                                <input type="text" id="replyPass" class="form-control"
+                                                       placeholder="Повторите пароль" style="display: none;margin-top:
+                                                       5px" type="password" required >
+                                            </div>
+
+                                            <div>
+                                                <a id="faggotPass" style="display: none;" > Забыли пароль?</a>
+                                            </div>
+                                            <button id="changePassBtn" class="btn btn-sm  btn-success" style="display: none;margin-top:
+                                                       5px" > Применить
                                             </button>
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                    data-dismiss="modal">
-                                                Закрыть
-                                            </button>
+                                            <button type="submit" id="cancelPassBtn" class="btn btn-sm  btn-warning"
+                                                     style="display: none;margin-top:
+                                                       5px" > Отмена</button>
+
                                         </div>
 
                                     </div>

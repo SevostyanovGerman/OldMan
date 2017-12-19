@@ -35,7 +35,7 @@ public class User implements UserDetails {
 	private String name;
 
 	@NotNull
-	//@Size(min = 3, max = 20, message = "{user.password.wrong}")
+	@Size(min = 3, message = "{user.password.wrong}")
 	@Column(name = "password", nullable = false)
 	private String password;
 
@@ -108,8 +108,10 @@ public class User implements UserDetails {
 		return this.roles;
 	}
 
+
 	@Override
 	public String getPassword() {
+
 		return password;
 	}
 

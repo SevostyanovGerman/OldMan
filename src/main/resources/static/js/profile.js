@@ -70,3 +70,65 @@ function readURL(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+
+$('#changePassword').on( 'click', function( event ){
+
+    $('#currentPass').css('display', 'inline');
+    $('#newPass').css('display', 'inline');
+    $('#replyPass').css('display', 'inline');
+    $('#faggotPass').css('display', 'inline');
+    $('#changePassBtn').css('display', 'inline');
+    $('#cancelPassBtn').css('display', 'inline');
+
+});
+
+
+$('#cancelPassBtn').on( 'click', function( event ){
+
+    $('#currentPass').css('display', 'none');
+    $('#newPass').css('display', 'none');
+    $('#replyPass').css('display', 'none');
+    $('#faggotPass').css('display', 'none');
+    $('#changePassBtn').css('display', 'none');
+    $('#cancelPassBtn').css('display', 'none');
+
+});
+
+$('#changePassBtn').on( 'click', function( event ) {
+
+    var current = document.getElementById("currentPass");
+    var newPass = document.getElementById("newPass");
+    var reply = document.getElementById("replyPass");
+    var error = document.getElementById("errorCurrentPass");
+
+
+    if ( reply.value == newPass.value ) {
+
+        var data = {
+            currentPassword: current.value,
+            newPassword: newPass.value
+        };
+
+        $("#errorCurrentPass").load("/profile/password", data, function() {
+           hideChangeBtn();
+        });
+
+    } else {
+        error.innerHTML = "Поля пароля не совпадают"
+    }
+
+
+});
+
+function hideChangeBtn() {
+
+    $('#currentPass').css('display', 'none');
+    $('#newPass').css('display', 'none');
+    $('#replyPass').css('display', 'none');
+    $('#faggotPass').css('display', 'none');
+    $('#changePassBtn').css('display', 'none');
+    $('#cancelPassBtn').css('display', 'none');
+
+}
+
