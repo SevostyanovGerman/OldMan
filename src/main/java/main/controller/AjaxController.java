@@ -14,7 +14,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +30,10 @@ public class AjaxController {
 	private NotificationService notificationService;
 
 	private static final Logger logger = LoggerFactory.getLogger(AjaxController.class);
+
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public AjaxController(CustomerService customerService, OrderService orderService, UserService userService,
@@ -152,6 +158,40 @@ public class AjaxController {
 		} catch (Exception e) {
 			logger.error("while getting notification for current user");
 			return null;
+		}
+	}
+
+	//Добавить аватар на профиль
+	@RequestMapping(value = {"/profile/avatar"}, method = RequestMethod.POST)
+	public void addAvatar(@RequestParam("0") MultipartFile file) {
+		User user = userService.getCurrentUser();
+		try {
+			userService.addAvatar(file, user);
+		} catch (Exception e) {
+			logger.error("while saving avatar image for profile");
+		}
+	}
+
+	//Изменение пароля
+	@RequestMapping(value = {"/profile/password"}, method = RequestMethod.POST)
+	public String changePassword(String currentPassword, String newPassword ) {
+		User user = userService.getCurrentUser();
+
+		if (newPassword.length()<3) {
+			return "Слишком короткий пароль, минимум 3 символа";
+		}
+		try {
+			if ( passwordEncoder.matches(currentPassword,user.getPassword())) {
+				user.setPassword(newPassword);
+				userService.save(user);
+				return "Пароль изменен";
+			} else {
+				return "Не верный текущий пароль";
+			}
+
+		} catch (Exception e) {
+			logger.error("while changing password");
+			return "ошибка при смене пароля";
 		}
 	}
 }

@@ -17,10 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,8 +37,8 @@ public class MainController {
 	private NotificationService notificationService;
 
 	@Autowired
-	public MainController(CommentService commentService, OrderService orderService,
-						  UserService userService, NotificationService notificationService) {
+	public MainController(CommentService commentService, OrderService orderService, UserService userService,
+						  NotificationService notificationService) {
 		this.commentService = commentService;
 		this.orderService = orderService;
 		this.userService = userService;
@@ -50,7 +47,7 @@ public class MainController {
 
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-							  @RequestParam(value = "logout", required = false) String logout){
+							  @RequestParam(value = "logout", required = false) String logout) {
 		try {
 			ModelAndView model = new ModelAndView();
 			if (error != null) {
@@ -75,11 +72,9 @@ public class MainController {
 
 	//Добавление комментария
 	@RequestMapping(value = {"/order/comment/add={id}"}, method = RequestMethod.POST)
-	public ModelAndView addComment(@PathVariable Long id,
-								   @ModelAttribute("commentText") String content,
+	public ModelAndView addComment(@PathVariable Long id, @ModelAttribute("commentText") String content,
 								   @ModelAttribute("recipient") String recipient,
-								   @ModelAttribute("commentBtnOrder") String commentId,
-								   HttpServletRequest request) {
+								   @ModelAttribute("commentBtnOrder") String commentId, HttpServletRequest request) {
 		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
@@ -94,7 +89,9 @@ public class MainController {
 			Order order = orderService.get(id);
 			order.addComment(comment);
 			orderService.save(order);
-			Notification notification = new Notification(recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient, order.getId());
+			Notification notification =
+				new Notification(recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient,
+					order.getId());
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
@@ -115,8 +112,8 @@ public class MainController {
 	}
 
 	@RequestMapping(value = {"/order/comment/edit={id}"}, method = RequestMethod.POST)
-	public ModelAndView editComment(HttpServletRequest request,
-									@PathVariable Long id, @RequestParam("editText") String content) {
+	public ModelAndView editComment(HttpServletRequest request, @PathVariable Long id,
+									@RequestParam("editText") String content) {
 		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		Comment comment = commentService.get(id);
@@ -130,9 +127,8 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
-	public String orderSearch(String search, Date  startDate, Date endDate, Model model, String sort,
-							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
-							  String orderBy) {
+	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort, Double minPrice,
+							  Double maxPrice, int pageNumber, int pageSize, String orderBy) {
 		DateTime endTime = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 		User user = userService.getCurrentUser();
 		StringBuilder url = new StringBuilder();
@@ -151,14 +147,12 @@ public class MainController {
 			}
 			Page<Order> page;
 			if (boss) {
-				page = orderService
-					.getOrdersForDashboardBoss(startDate, endTime.toDate(), search, minPrice,
-						maxPrice, new PageRequest(pageNumber - 1, pageSize, sorting));
+				page = orderService.getOrdersForDashboardBoss(startDate, endTime.toDate(), search, minPrice, maxPrice,
+					new PageRequest(pageNumber - 1, pageSize, sorting));
 				url.append("directorView/DirectorDashBoard :: tableOrders");
 			} else {
-				page = orderService
-					.getOrdersForDashboard(user, startDate, endTime.toDate(), search, minPrice,
-						maxPrice, new PageRequest(pageNumber - 1, pageSize, sorting));
+				page = orderService.getOrdersForDashboard(user, startDate, endTime.toDate(), search, minPrice, maxPrice,
+					new PageRequest(pageNumber - 1, pageSize, sorting));
 				url.append("managerView/ManagerDashBoard :: tableOrders");
 			}
 			model.addAttribute("page", page);
