@@ -37,7 +37,10 @@
                     var options = {
                         'title': 'Средняя сумма заказа',
                         'width': '100%',
-                        'height': 500
+                        'height': 500,
+                        hAxis: { minValue: 0, maxValue: 100 },
+                        curveType: 'function',
+                        pointSize: 10
                     };
 
                     // Instantiate and draw our chart, passing in some options.

@@ -4,22 +4,18 @@ import main.model.Customer;
 import main.model.Notification;
 import main.model.Order;
 import main.model.User;
-import main.service.*;
+import main.service.CustomerService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,29 +24,23 @@ public class AjaxController {
 
 	private CustomerService customerService;
 	private OrderService orderService;
-	private ImageService imageService;
 	private UserService userService;
 	private NotificationService notificationService;
 
 	private static final Logger logger = LoggerFactory.getLogger(AjaxController.class);
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER =
-		DateTimeFormat.forPattern("yyyy/mm/dd");
-
 	@Autowired
-	public AjaxController(CustomerService customerService, OrderService orderService,
-						  ImageService imageService, UserService userService,
+	public AjaxController(CustomerService customerService, OrderService orderService, UserService userService,
 						  NotificationService notificationService) {
 		this.customerService = customerService;
 		this.orderService = orderService;
-		this.imageService = imageService;
 		this.userService = userService;
 		this.notificationService = notificationService;
 	}
 
 	//поиск клиентов в форме managerOrder
 	@RequestMapping(value = {"/customersearch"}, method = RequestMethod.GET)
-	public List<Customer> realCustomer(@RequestParam(value = "q") String name, Model model) {
+	public List<Customer> realCustomer(@RequestParam(value = "q") String name) {
 		try {
 			return customerService.searchCustomer(name);
 		} catch (Exception e) {
@@ -81,8 +71,7 @@ public class AjaxController {
 
 	//Выбор клиента//
 	@RequestMapping(value = "/selectCustomer/{customerId}/{orderId}", method = RequestMethod.POST)
-	public void selectCustomer(@PathVariable("customerId") Long customerId,
-							   @PathVariable("orderId") Long orderId) {
+	public void selectCustomer(@PathVariable("customerId") Long customerId, @PathVariable("orderId") Long orderId) {
 		try {
 			Order order = orderService.get(orderId);
 			Customer customer = customerService.get(customerId);
@@ -125,9 +114,11 @@ public class AjaxController {
 
 	//Статистика гео//
 	@RequestMapping(value = "/statistic/geo/getGeoObjects", method = RequestMethod.GET)
-	public List<Object> statisticGeoOrder() {
+	public List<Object> statisticGeoOrder(Date startDate, Date endDate) {
 		try {
-			return orderService.statisticGeo();
+			DateTime start = new DateTime(startDate);
+			DateTime end = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
+			return orderService.statisticGeo(start.toDate(), end.toDate());
 		} catch (Exception e) {
 			logger.error("while retrieving list of orders for 'geo statistic");
 			return null;
@@ -150,8 +141,7 @@ public class AjaxController {
 	//Контроллер возвращающий пользователей по typehead
 	@RequestMapping(value = "/users/get/{name}", method = RequestMethod.GET)
 	public List<String> getUsersByNameLike(@PathVariable String name) {
-		return userService.getUsersByNameLike(name).stream().map(User::getName)
-			.collect(Collectors.toList());
+		return userService.getUsersByNameLike(name).stream().map(User::getName).collect(Collectors.toList());
 	}
 
 	//Контроллер возвращающий список уведомлений для конкретного пользователя
@@ -163,21 +153,6 @@ public class AjaxController {
 			logger.error("while getting notification for current user");
 			return null;
 		}
-	}
-
-	//Контроллер возвращающий список уведомлений для конкретного пользователя
-	@RequestMapping(value = "/orders/calendar", method = RequestMethod.GET)
-	public HashMap<String, List<Order>> orderByCalendar(Date startDate, Date endDate, String dwm,
-														Model model) {
-		List<Order> list = new ArrayList<>();
-		list.add(orderService.get(1l));
-		model.addAttribute("orderList", list);
-		model.addAttribute("content", "hello");
-
-		HashMap<String, List<Order>> map = new HashMap<>();
-		map.put("data", list);
-		return map;
-
 	}
 }
 

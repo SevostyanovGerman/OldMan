@@ -61,17 +61,36 @@
     </nav>
     <br><br><br><br>
     <div class="container">
-        <div class="row">
-            <a class="btn btn-primary btn-new-object" type="button" th:href="@{/manager/order/add}" title="Создать новый заказ">Новый заказ</a>
-        </div>
         <br>
+        <div class="row">
+
+            <div class="col-lg-9">
+
+                <th:block th:each ="status : ${allStatus}">
+
+               <span class="label" th:text="${status?.name}"
+                     th:styleappend="'background-color:' + ${status?.color} +';color: black'" ></span>
+
+                </th:block>
+            </div>
+
+            <div class="col-lg-3" style="text-align: right" >
+
+                <a style="margin-bottom: 10px" class="btn btn-primary btn-new-object" type="button"
+                   th:href="@{/manager/order/add}"
+                   title="Создать новый заказ">Новый заказ</a>
+
+            </div>
+
+        </div>
             <div class="row">
 
+
                 <div class="col-lg-4">
-                    <div class="col-lg-6" style="padding-left: 0px; margin-left: 0px">
+                    <div class="col-lg-6" >
                         <input class="form-control" id="minPrice" name="minPrice" type="number" placeholder="Сумма заказа от" onkeyup="filterSearch()">
                     </div>
-                    <div class="col-lg-6" style="margin-right: 0px; padding-right: 0px">
+                    <div class="col-lg-6" >
                         <input class="form-control" id="maxPrice" name="maxPrice" type="number" placeholder="до" onkeyup="filterSearch()">
                     </div>
                 </div>

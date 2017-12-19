@@ -165,8 +165,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Object> statisticGeo() {
-		return orderRepository.statisticGeo();
+	public List<Object> statisticGeo(Date start, Date end) {
+		return orderRepository.statisticGeo(start, end);
 	}
 
 	@Override

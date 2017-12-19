@@ -133,7 +133,7 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}/status"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView changeItemStatus(@PathVariable("itemId") Long itemId,
 										 @PathVariable("orderId") Long orderId) {
 		try {

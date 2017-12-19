@@ -26,7 +26,7 @@
 
 </head>
 
-<body onload="geoStat()" ng-app="masterOrderForm">
+<body  ng-app="masterOrderForm">
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
@@ -112,10 +112,15 @@
 
     <div >
     <h2 style="text-align: center">Оплаченные заказы по городам</h2>
-
+        <!--Календарь-->
+        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px
+     solid #ccc; margin-right: 15px">
+            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
+        </div>
+<br>
+        <br>
     <div class="container">
-
-
         <!--График-->
         <div id="chart_div"></div>
         <br> <b>

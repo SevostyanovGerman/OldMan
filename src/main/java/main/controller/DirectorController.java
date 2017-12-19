@@ -83,6 +83,7 @@ public class DirectorController {
 		modelAndView.addObject("endIndex", end);
 		modelAndView.addObject("currentIndex", current);
 		modelAndView.addObject("totalPageCount", totalPageCount);
+		modelAndView.addObject("allStatus", statusService.getAll());
 		return modelAndView;
 	}
 
@@ -176,9 +177,9 @@ public class DirectorController {
 			String error = "Статус с именем: " + incomingStatus.getName() + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else if ((foundStatusByNumber != null) && (number > 0) &&
-				   (incomingStatus.getId() != foundStatusByNumber.getId())) {
+			(incomingStatus.getId() != foundStatusByNumber.getId())) {
 			String error = "Статус с индексом: " + number +
-						   " уже существует. Допустимо дублирование только с индексом: 0";
+				" уже существует. Допустимо дублирование только с индексом: 0";
 			request.getSession().setAttribute("error", error);
 		} else {
 			try {
@@ -376,7 +377,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/controlpanel/user/create"}, method = RequestMethod.POST)
 	public ModelAndView createUser(@ModelAttribute("user") @Valid User incomingUser, BindingResult bindingResult,
-							 HttpServletRequest request) {
+								   HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 
 		/*
@@ -385,7 +386,7 @@ public class DirectorController {
 		 * Если же ничего не находим то записываем роль в базу данных и создаём сообщение о усрехе.
 		 */
 
-		if(bindingResult.hasErrors()){
+		if (bindingResult.hasErrors()) {
 			model.setViewName("/directorView/ControlPanelUser");
 			model.addObject("allRoles", roleService.getAll());
 			return model;
@@ -420,17 +421,17 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/controlpanel/user/update"}, method = RequestMethod.POST)
 	public ModelAndView updateUser(@ModelAttribute("user") @Valid User incomingUser, BindingResult bindingResult,
-							 HttpServletRequest request) {
+								   HttpServletRequest request) {
 
 		ModelAndView model = new ModelAndView();
 		/*
 		 * Ищем в базе пользователя с таким же логином.
 		 * В случае нахождения пользователя с таким логином, проверяем id и в случае если они разные генерим сообщение
-		  * error.
+		 * error.
 		 * Если же ничего не находим или если id совпадают, то обновляем пользователя в базе данных и создаём
 		 * сообщение о усрехе.
 		 */
-		if(bindingResult.hasErrors()){
+		if (bindingResult.hasErrors()) {
 			model.setViewName("/directorView/ControlPanelUserEdit");
 			model.addObject("allRoles", roleService.getAll());
 			model.addObject("allStatuses", statusService.getAll());
@@ -441,7 +442,7 @@ public class DirectorController {
 			if ((foundUserByName != null) && (incomingUser.getId() != foundUserByName.getId())) {
 				String error = "Пользователь с логином: " + incomingUser.getName() + " уже существует";
 				request.getSession().setAttribute("error", error);
-			} else if((foundUserByEmail != null) && (incomingUser.getId() != foundUserByEmail.getId())){
+			} else if ((foundUserByEmail != null) && (incomingUser.getId() != foundUserByEmail.getId())) {
 				String error = "Пользователь с почтой: " + incomingUser.getEmail() + " уже существует";
 				request.getSession().setAttribute("error", error);
 			} else {
@@ -514,7 +515,7 @@ public class DirectorController {
 				request.getSession().setAttribute("error", error);
 			}
 			String success = "Пользователь с id:" + id + " и логином: " + deletedUser.getName() +
-							 " успешно удалён";
+				" успешно удалён";
 			request.getSession().setAttribute("success", success);
 		}
 		return "redirect:/director/stuff";
@@ -556,7 +557,7 @@ public class DirectorController {
 				customerService.save(deletedCustomer);
 				String success =
 					"Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " +
-					deletedCustomer.getSecName() + " успешно удалён";
+						deletedCustomer.getSecName() + " успешно удалён";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete customer with id: ", id);
@@ -602,11 +603,11 @@ public class DirectorController {
 			String error = "Покуптаель с таким телефоном" + searchingPhone + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingCustomer.getPhone() == null) ||
-				   "".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
+			"".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
 			String error = "Необходимо указать телепхон";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingCustomer.getEmail() == null) ||
-				   "".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
+			"".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
 			String error = "Необходимо указать Email";
 			request.getSession().setAttribute("error", error);
 		} else {
@@ -688,12 +689,12 @@ public class DirectorController {
 	@RequestMapping(value = {"/director/customer/update"}, method = RequestMethod.POST)
 	public String updateCustomer(@ModelAttribute("customer") Customer incomingCustomer,
 								 @ModelAttribute("includeDeliveries")
-								 HttpServletRequest request) {
+									 HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе пользователя с таким же логином.
 		 * В случае нахождения пользователя с таким логином, проверяем id и в случае если они разные генерим сообщение
-		  * error.
+		 * error.
 		 * Если же ничего не находим или если id совпадают, то обновляем пользователя в базе данных и создаём
 		 * сообщение о усрехе.
 		 */
@@ -746,26 +747,22 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/statistic/middle/"}, method = RequestMethod.GET)
 	public ModelAndView statisticAverage() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticAverage");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticAverage");
 	}
 
 	@RequestMapping(value = {"/director/statistic/sum/"}, method = RequestMethod.GET)
 	public ModelAndView statisticSum() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticSum");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticSum");
 	}
 
 	@RequestMapping(value = {"/director/statistic/geo/"}, method = RequestMethod.GET)
 	public ModelAndView statisticGeo() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticGeo");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticGeo");
 	}
 
 	@RequestMapping(value = {"/director/statistic/newCustomers/"}, method = RequestMethod.GET)
 	public ModelAndView statisticNewCustomers() {
-		ModelAndView model = new ModelAndView("/directorView/DirectorStatisticNewCustomer");
-		return model;
+		return new ModelAndView("/directorView/DirectorStatisticNewCustomer");
 	}
 
 	//Меняем менеджер заказа
@@ -783,7 +780,7 @@ public class DirectorController {
 		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
-	private void injectMessageToPage(HttpServletRequest request, ModelAndView model){
+	private void injectMessageToPage(HttpServletRequest request, ModelAndView model) {
 		String success = (String) request.getSession().getAttribute("success");
 		String error = (String) request.getSession().getAttribute("error");
 		if (success != null) {

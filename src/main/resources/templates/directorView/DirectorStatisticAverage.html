@@ -116,15 +116,18 @@
 
     <div >
     <h2 style="text-align: center">Средняя сумма заказов</h2>
-    <!--Календарь-->
-    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
-        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-        <span></span> <b class="caret"></b>
-    </div>
+        <!--Календарь-->
+        <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px;
+        border: 1px
+     solid #ccc; margin-right: 15px">
+            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+            <span></span> <b class="caret"></b>
+        </div>
+        <br>
 
     <div class="container">
         <button type="button" class="btn" onclick="test('%m-%d')">По дням</button>
-        <button type="button" class="btn" onclick="test('%%Y-%u')">По неделям</button>
+        <button type="button" class="btn" onclick="test('%Y-%u')">По неделям</button>
         <button type="button" class="btn" onclick="test('%Y-%m')">По месяцам</button>
 
         <!--График-->
@@ -162,11 +165,6 @@
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 
 
-    <!--<script type="text/javascript">-->
-        <!--$(function() {-->
-            <!--$('input[name="daterange"]').daterangepicker();-->
-        <!--});-->
-    <!--</script>-->
 
 
 

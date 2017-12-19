@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.Helpers;
 import main.model.*;
 import main.service.*;
 import org.joda.time.DateTime;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -92,6 +94,7 @@ public class ManagerController {
 		modelAndView.addObject("endIndex", end);
 		modelAndView.addObject("currentIndex", current);
 		modelAndView.addObject("totalPageCount", totalPageCount);
+		modelAndView.addObject("allStatus", statusService.getAll());
 		return modelAndView;
 	}
 
@@ -244,8 +247,6 @@ public class ManagerController {
 			orderService.save(order);
 			return new ModelAndView("redirect:/manager/order/update/" + orderId);
 		}
-/*		order.setPrice(order.getAmount());
-		orderService.save(order);*/
 	}
 
 	//Удаляем позицию из заказа
@@ -480,5 +481,22 @@ public class ManagerController {
 		}
 		model.addObject("orderList", orderList);
 		return model;
+	}
+
+	@RequestMapping(value = {"/manager/order/{id}/money"}, method = RequestMethod.GET)
+	public ModelAndView getPayment(@PathVariable Long id, HttpServletRequest request) {
+		String url;
+		try {
+			url = Helpers.getUrl(request.getHeader("referer"));
+		} catch (Exception e) {
+			url = "/403";
+			return new ModelAndView("redirect:" + url);
+		}
+		try {
+			orderService.getPayment(id);
+		} catch (Exception e) {
+			logger.warn("You couldn't get the money for order");
+		}
+		return new ModelAndView("redirect:" + url);
 	}
 }
