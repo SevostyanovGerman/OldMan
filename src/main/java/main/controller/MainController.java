@@ -87,8 +87,7 @@ public class MainController {
 			Comment comment;
 			if (!commentId.isEmpty()) {
 				Comment parent = commentService.get(Long.parseLong(commentId));
-				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date(),
-					parent);
+				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date(), parent);
 			} else {
 				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date());
 			}
@@ -96,9 +95,7 @@ public class MainController {
 			Order order = orderService.get(id);
 			order.addComment(comment);
 			orderService.save(order);
-			Notification notification = new Notification(
-				recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient,
-				order.getId());
+			Notification notification = new Notification(recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient, order.getId());
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
@@ -113,8 +110,8 @@ public class MainController {
 		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		Comment comment = commentService.get(id);
-			commentService.delete(comment);
-			notificationService.delete(comment.getId());
+		commentService.delete(comment);
+		notificationService.delete(comment.getId());
 		return model;
 	}
 
@@ -134,7 +131,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
-	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort,
+	public String orderSearch(String search, Date  startDate, Date endDate, Model model, String sort,
 							  Double minPrice, Double maxPrice, int pageNumber, int pageSize,
 							  String orderBy) {
 		DateTime endTime = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
