@@ -77,7 +77,7 @@ $('#changePassword').on( 'click', function( event ){
     $('#currentPass').css('display', 'inline');
     $('#newPass').css('display', 'inline');
     $('#replyPass').css('display', 'inline');
-    $('#faggotPass').css('display', 'inline');
+    $('#forgotPass').css('display', 'inline');
     $('#changePassBtn').css('display', 'inline');
     $('#cancelPassBtn').css('display', 'inline');
 
@@ -89,7 +89,7 @@ $('#cancelPassBtn').on( 'click', function( event ){
     $('#currentPass').css('display', 'none');
     $('#newPass').css('display', 'none');
     $('#replyPass').css('display', 'none');
-    $('#faggotPass').css('display', 'none');
+    $('#forgotPass').css('display', 'none');
     $('#changePassBtn').css('display', 'none');
     $('#cancelPassBtn').css('display', 'none');
 
@@ -126,9 +126,16 @@ function hideChangeBtn() {
     $('#currentPass').css('display', 'none');
     $('#newPass').css('display', 'none');
     $('#replyPass').css('display', 'none');
-    $('#faggotPass').css('display', 'none');
+    $('#forgotPass').css('display', 'none');
     $('#changePassBtn').css('display', 'none');
     $('#cancelPassBtn').css('display', 'none');
 
 }
 
+function forgotPassword() {
+
+    $("#errorCurrentPass").load("/profile/forgot", function() {
+        hideChangeBtn();
+    });
+
+}

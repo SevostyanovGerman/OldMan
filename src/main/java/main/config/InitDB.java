@@ -130,7 +130,7 @@ public class InitDB {
 				"+7(123)456-78-93");
 		userService.save(user3);
 		User user4 =
-			new User("boss", "123", "Director", "Boss", false, false, boss, "vasya@kremlin.ru",
+			new User("boss", "123", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru",
 				"+7(123)456-78-94");
 		userService.save(user4);
 		//Payment//

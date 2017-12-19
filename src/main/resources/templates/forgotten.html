@@ -1,0 +1,45 @@
+<html html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>CaseMobile</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous"/>
+
+    <link href="/css/signin.css" rel="stylesheet">
+
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4">
+            <br><br><br><br>
+
+
+                <a href="/login">Назад</a>
+                <br>
+                <div class="form-group " >
+                    <div class="input-group custom-input-field">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <label for="email" class="sr-only">Email</label>
+                        <input  id="email" class="form-control" placeholder="Email" required name='email'>
+                    </div>
+                </div>
+                <button class="btn btn-md btn-primary btn-block"  name="submit" onclick="forgotPassword()">
+                    Сбросить пароль</button>
+
+            <span id="forgottenMessage" style="color: limegreen"></span>
+
+            <br>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script src="/js/forgottenPassword.js"></script>
+</body>
+</html>

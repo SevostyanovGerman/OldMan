@@ -35,6 +35,10 @@
                         <input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required name='password'>
                     </div>
                 </div>
+                <div  style="text-align: right">
+                    <a href="/forgotten" >Забыли пароль?</a>
+                </div>
+
                 <button class="btn btn-md btn-primary btn-block" type="submit" name="submit">Вход</button>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
@@ -42,6 +46,8 @@
         </div>
     </div>
 </div>
+
+
 
 </body>
 </html>

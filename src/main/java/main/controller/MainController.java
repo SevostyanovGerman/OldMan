@@ -188,4 +188,9 @@ public class MainController {
 		model.addAttribute("orderList", orderList);
 		return "managerView/ManagerDashBoard :: tableOrders";
 	}
+
+	@RequestMapping(value = {"/forgotten"}, method = RequestMethod.GET)
+	public ModelAndView forgotten() {
+		return new ModelAndView("forgotten");
+	}
 }
