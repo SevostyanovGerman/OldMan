@@ -35,8 +35,8 @@ public class User implements UserDetails {
 	private String name;
 
 	@NotNull
-	@Size(min = 3, max = 20, message = "{user.password.wrong}")
-	@Column(name = "password", nullable = false, length = 50)
+	//@Size(min = 3, max = 20, message = "{user.password.wrong}")
+	@Column(name = "password", nullable = false)
 	private String password;
 
 	@Column(name = "deleted")

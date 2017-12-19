@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
@@ -33,6 +34,9 @@ public class UserServiceImpl implements UserService {
 	private static final int IMG_WIDTH = 200;
 
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
 	public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
 		this.userRepository = userRepository;
 		this.roleService = roleService;
@@ -52,6 +56,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		logger.debug("Save user {}", user.toString());
 		return userRepository.saveAndFlush(user);
 	}
