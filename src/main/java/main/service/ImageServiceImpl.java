@@ -1,5 +1,6 @@
 package main.service;
 
+import main.Helpers;
 import main.model.Image;
 import main.model.ImageType;
 import main.repository.ImageRepository;
@@ -12,9 +13,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.transaction.Transactional;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -57,15 +60,14 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
-	public List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles)
-		throws IOException, SQLException {
+	public List<Image> uploadAndSaveBlobFile(MultipartHttpServletRequest uploadFiles) throws IOException, SQLException {
 		List<Image> blobFileList = new ArrayList<>();
 		String imageType;
 		List<MultipartFile> fileList;
-		if(uploadFiles.getMultiFileMap().containsKey(CUSTOMER_FILES)){
+		if (uploadFiles.getMultiFileMap().containsKey(CUSTOMER_FILES)) {
 			imageType = ImageType.CUSTOMER.toString();
 			fileList = uploadFiles.getFiles(CUSTOMER_FILES);
-		}else {
+		} else {
 			imageType = ImageType.DESIGNER.toString();
 			fileList = uploadFiles.getFiles(DESIGNER_FILES);
 		}
@@ -73,12 +75,12 @@ public class ImageServiceImpl implements ImageService {
 			if (!file.isEmpty()) {
 				BufferedImage resizedImage;
 				BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
-				if (originalImage.getWidth()>IMG_WIDTH){
-					resizedImage = resizePicture(originalImage, originalImage.getType());
-				}else {
+				if (originalImage.getWidth() > IMG_WIDTH) {
+					resizedImage = Helpers.resizePicture(originalImage, originalImage.getType(), IMG_WIDTH);
+				} else {
 					resizedImage = originalImage;
 				}
-				Blob resizedFile = new SerialBlob(convertToByteArray(resizedImage));
+				Blob resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage));
 				Blob originalFile = new SerialBlob(file.getBytes());
 				Image newImage = new Image();
 				newImage.setImageType(imageType);
@@ -138,23 +140,23 @@ public class ImageServiceImpl implements ImageService {
 		}
 	}
 
-	private byte[] convertToByteArray(BufferedImage bufferedImage) throws IOException {
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		ImageIO.write(bufferedImage, "jpg", outputStream);
-		outputStream.flush();
-		byte[] bytes = outputStream.toByteArray();
-		outputStream.close();
-		return bytes;
-	}
-
-	private BufferedImage resizePicture(BufferedImage originalImage, int type){
-		int widthImage = originalImage.getWidth();
-		int highImage = originalImage.getHeight();
-		int resizedHigh = (highImage*IMG_WIDTH)/widthImage;
-		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, resizedHigh, type);
-		Graphics2D graphics = resizedImage.createGraphics();
-		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-		graphics.drawImage(originalImage, 0, 0, IMG_WIDTH, resizedHigh, null);
-		return resizedImage;
-	}
+//	private byte[] convertToByteArray(BufferedImage bufferedImage) throws IOException {
+//		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//		ImageIO.write(bufferedImage, "jpg", outputStream);
+//		outputStream.flush();
+//		byte[] bytes = outputStream.toByteArray();
+//		outputStream.close();
+//		return bytes;
+//	}
+//
+//	private BufferedImage resizePicture(BufferedImage originalImage, int type){
+//		int widthImage = originalImage.getWidth();
+//		int highImage = originalImage.getHeight();
+//		int resizedHigh = (highImage*IMG_WIDTH)/widthImage;
+//		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, resizedHigh, type);
+//		Graphics2D graphics = resizedImage.createGraphics();
+//		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+//		graphics.drawImage(originalImage, 0, 0, IMG_WIDTH, resizedHigh, null);
+//		return resizedImage;
+//	}
 }

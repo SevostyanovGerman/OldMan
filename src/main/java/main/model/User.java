@@ -4,11 +4,18 @@ import main.constans.RegexpConstans;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import javax.imageio.ImageIO;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -59,23 +66,25 @@ public class User implements UserDetails {
 	@Column(name = "email", nullable = false)
 	private String email;
 
-
 	@Pattern(regexp = RegexpConstans.REG_EXP_OF_PHONE, message = "{user.phone.wrong}")
 	@Column(name = "phone", nullable = false, length = 20)
 	private String phone;
 
+	@Column(name = "avatar")
+	private Blob avatar;
+
 	@Size(min = 1, message = "{user.roles.wrong}")
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
-		inverseJoinColumns = {@JoinColumn(name = "role_id")})
+			   inverseJoinColumns = {@JoinColumn(name = "role_id")})
 	private Set<Role> roles;
 
 	public User() {
 		this.created = new Date();
 	}
 
-	public User(String name, String password, String firstName, String secName, boolean deleted,
-				boolean disable, Role role, String email, String phone) {
+	public User(String name, String password, String firstName, String secName, boolean deleted, boolean disable,
+				Role role, String email, String phone) {
 		this.name = name;
 		this.password = password;
 		this.firstName = firstName;
@@ -225,6 +234,33 @@ public class User implements UserDetails {
 	@Override
 	public String toString() {
 		return firstName + " " + secName;
+	}
+
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public boolean isDisable() {
+		return disable;
+	}
+
+	public String getAvatar() throws IOException, SQLException {
+		if (avatar != null) {
+			return "data:image/jpg;base64," + convertToBase64(this.avatar.getBinaryStream());
+		} else {
+			return null;
+		}
+	}
+
+	private String convertToBase64(InputStream inputStream) throws IOException {
+		BufferedImage image = ImageIO.read(inputStream);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(image, "jpg", baos);
+		return DatatypeConverter.printBase64Binary(baos.toByteArray());
+	}
+
+	public void setAvatar(Blob avatar) {
+		this.avatar = avatar;
 	}
 
 	@Override

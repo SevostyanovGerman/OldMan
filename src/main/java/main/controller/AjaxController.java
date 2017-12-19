@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -152,6 +153,17 @@ public class AjaxController {
 		} catch (Exception e) {
 			logger.error("while getting notification for current user");
 			return null;
+		}
+	}
+
+	//Добавить аватар на профиль
+	@RequestMapping(value = {"/profile/avatar"}, method = RequestMethod.POST)
+	public void addAvatar(@RequestParam("0") MultipartFile file) {
+		User user = userService.getCurrentUser();
+		try {
+			userService.addAvatar(file, user);
+		} catch (Exception e) {
+			logger.error("while saving avatar image for profile");
 		}
 	}
 }

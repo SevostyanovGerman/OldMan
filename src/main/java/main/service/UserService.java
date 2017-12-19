@@ -1,7 +1,9 @@
 package main.service;
 
 import main.model.User;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserService {
@@ -25,4 +27,6 @@ public interface UserService {
 	User getCurrentUser();
 
 	List<User> getUsersByNameLike(String name);
+
+	void addAvatar(MultipartFile avatar, User user) throws IOException, SQLException;
 }
