@@ -115,6 +115,13 @@
           <version>5.4.1.Final</version>
       </dependency>
 
+      <!--//MailService-->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-mail</artifactId>
+          <version>1.5.9.RELEASE</version>
+      </dependency>
+
 
   </dependencies>
 

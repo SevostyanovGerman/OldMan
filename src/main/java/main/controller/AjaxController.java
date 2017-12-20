@@ -4,19 +4,20 @@ import main.model.Customer;
 import main.model.Notification;
 import main.model.Order;
 import main.model.User;
-import main.service.CustomerService;
-import main.service.NotificationService;
-import main.service.OrderService;
-import main.service.UserService;
+import main.service.*;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -26,16 +27,21 @@ public class AjaxController {
 	private OrderService orderService;
 	private UserService userService;
 	private NotificationService notificationService;
+	private MailService mailService;
 
 	private static final Logger logger = LoggerFactory.getLogger(AjaxController.class);
 
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
 	public AjaxController(CustomerService customerService, OrderService orderService, UserService userService,
-						  NotificationService notificationService) {
+						  NotificationService notificationService, MailService mailService) {
 		this.customerService = customerService;
 		this.orderService = orderService;
 		this.userService = userService;
 		this.notificationService = notificationService;
+		this.mailService = mailService;
 	}
 
 	//поиск клиентов в форме managerOrder
@@ -153,6 +159,83 @@ public class AjaxController {
 			logger.error("while getting notification for current user");
 			return null;
 		}
+	}
+
+	//Добавить аватар на профиль
+	@RequestMapping(value = {"/profile/avatar"}, method = RequestMethod.POST)
+	public void addAvatar(@RequestParam("0") MultipartFile file) {
+		User user = userService.getCurrentUser();
+		try {
+			userService.addAvatar(file, user);
+		} catch (Exception e) {
+			logger.error("while saving avatar image for profile");
+		}
+	}
+
+	//Изменение пароля
+	@RequestMapping(value = {"/profile/password"}, method = RequestMethod.POST)
+	public String changePassword(String currentPassword, String newPassword) {
+		User user = userService.getCurrentUser();
+
+		if (newPassword.length() < 3) {
+			return "Слишком короткий пароль, минимум 3 символа";
+		}
+		try {
+			if (passwordEncoder.matches(currentPassword, user.getPassword())) {
+				user.setPassword(newPassword);
+				userService.save(user);
+				return "Пароль изменен";
+			} else {
+				return "Не верный текущий пароль";
+			}
+
+		} catch (Exception e) {
+			logger.error("while changing password");
+			return "ошибка при смене пароля";
+		}
+	}
+
+	//Восстановление пароля
+	@RequestMapping(value = {"/profile/forgot"}, method = RequestMethod.GET)
+	public String forgotPassword() throws MessagingException {
+		try {
+			User user = userService.getCurrentUser();
+			String resetPassword = UUID.randomUUID().toString();
+			user.setPassword(resetPassword);
+			userService.save(user);
+			String title = user.getFirstName() + ", напоминаем Ваш пароль от CaseCRM";
+			mailService.sendEmail(title, "Ваш новый пароль:" + resetPassword, user, "mail/mailPassword");
+			return "Новый пароль отправлен на вашу почту";
+		} catch (Exception e) {
+			logger.error("While reset password");
+		}
+		return "Ошибка при сбросе пароля";
+	}
+
+	//Восстановление пароля по почте
+	@RequestMapping(value = {"/forgotten/mail/"}, method = RequestMethod.POST)
+	public String forgotPasswordByMail(String email) throws MessagingException {
+		User user;
+		try {
+			if (email.length() > 0) {
+				user = userService.getByEmail(email);
+			} else {
+				return "Введите ваш email";
+			}
+			if (user != null) {
+				//	String resetPassword = UUID.randomUUID().toString();
+				//user.setPassword(resetPassword);
+				//userService.save(user);
+				String title = user.getFirstName() + ", напоминаем Ваш пароль от CaseCRM";
+				mailService.sendEmail(title, "Для сброса пароля перейдите по ссылке", user, "mail/mailResetPassword");
+				return "Новый пароль отправлен на вашу почту";
+			}
+		} catch (Exception e) {
+			logger.error("While reset password by mail");
+		}
+
+		return "Пользователь не найден";
+
 	}
 }
 

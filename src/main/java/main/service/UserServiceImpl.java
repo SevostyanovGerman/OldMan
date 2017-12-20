@@ -1,5 +1,6 @@
 package main.service;
 
+import main.Helpers;
 import main.model.Role;
 import main.model.User;
 import main.repository.UserRepository;
@@ -7,9 +8,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
 import javax.transaction.Transactional;
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -21,6 +30,11 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 
 	private RoleService roleService;
+
+	private static final int IMG_WIDTH = 200;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
@@ -42,6 +56,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		logger.debug("Save user {}", user.toString());
 		return userRepository.saveAndFlush(user);
 	}
@@ -97,5 +112,22 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getUsersByNameLike(String name) {
 		return userRepository.getAllByNameLike(name);
+	}
+
+	@Override
+	public void addAvatar(MultipartFile file, User user) throws IOException, SQLException {
+
+		if (!file.isEmpty()) {
+			BufferedImage resizedImage;
+			BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
+			if (originalImage.getWidth() > IMG_WIDTH) {
+				resizedImage = Helpers.resizePicture(originalImage, originalImage.getType(), IMG_WIDTH);
+			} else {
+				resizedImage = originalImage;
+			}
+			Blob resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage));
+			user.setAvatar(resizedFile);
+			save(user);
+		}
 	}
 }
