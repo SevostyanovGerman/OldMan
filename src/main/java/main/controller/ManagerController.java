@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -122,7 +123,6 @@ public class ManagerController {
 				model.addObject("tabIndex", 1);
 			}
 		}
-
 		return model;
 	}
 
@@ -144,7 +144,7 @@ public class ManagerController {
 
 	//Меняем дизайнера заказа
 	@RequestMapping(value = {"/manager/order/change/{id}/designer/{designerId}"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView changeDesigner(@PathVariable("id") Long id,
 									   @PathVariable("designerId") Long designerId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
@@ -157,7 +157,7 @@ public class ManagerController {
 
 	//Меняем мастера заказа
 	@RequestMapping(value = {"/manager/order/change/{id}/master/{masterId}"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView changeMaster(@PathVariable("id") Long id,
 									 @PathVariable("masterId") Long masterId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
@@ -261,7 +261,7 @@ public class ManagerController {
 
 	//Устанавливаем тип оплаты в существующем заказе
 	@RequestMapping(value = {"/manager/order/setPaymentType/{orderId}/{paymentId}"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView setPaymentType(@PathVariable("orderId") Long orderId,
 									   @PathVariable("paymentId") Long paymentId) {
 		Order order = orderService.get(orderId);
@@ -296,7 +296,7 @@ public class ManagerController {
 
 	//Выбор/изменения клиента в заказе
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"},
-					method = RequestMethod.POST)
+		method = RequestMethod.POST)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
 									   @ModelAttribute("newCustomer") Customer editCustomer) {
 		Order order = orderService.get(orderId);
@@ -339,7 +339,7 @@ public class ManagerController {
 
 	//Выбор адреса доставки
 	@RequestMapping(value = {"/manager/order/selectDelivery/{orderId}/{deliveryId}"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView selectAddress(@PathVariable("orderId") Long orderId,
 									  @PathVariable("deliveryId") Long deliveryId) {
 		try {
@@ -368,10 +368,10 @@ public class ManagerController {
 
 	//Удаление загруженного файла заказчик
 	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
 								   @PathVariable("itemId") Long itemId,
-								   @PathVariable("fileId") Long fileId){
+								   @PathVariable("fileId") Long fileId) {
 		Image file = imageService.get(fileId);
 		imageService.delete(file);
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
@@ -387,7 +387,7 @@ public class ManagerController {
 
 	//Устанавливаем тип доставки в существующем заказе
 	@RequestMapping(value = {"/manager/order/setDeliveryType/{orderId}/{paymentId}"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView setDeliveryType(@PathVariable("orderId") Long orderId,
 										@PathVariable("paymentId") Long deliveryTypeId) {
 		try {
@@ -404,7 +404,7 @@ public class ManagerController {
 
 	//Выбор клиента из списка
 	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}/{customerId}"},
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
 									   @PathVariable("customerId") Long customerId) {
 		Order order = orderService.get(orderId);
@@ -423,48 +423,46 @@ public class ManagerController {
 
 	//Загрузка на компьютер всех файлов заказчика
 	@RequestMapping(value = "/manager/downloadAllFiles/{orderId}/{itemId}",
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView downloadAllFiles(@PathVariable("orderId") Long orderId,
 										 @PathVariable("itemId") Long itemId) {
 		List<Image> customerFileList = itemService.get(itemId).getFiles();
 		try {
 			imageService.downloadAllFiles(customerFileList);
-		} catch (IOException ioe) {
-			logger.error("Ошибка в чтении файла: " + ioe);
-		} catch (SQLException sqle) {
-			logger.error("Ошибка выборки из базы данных: " + sqle);
+		} catch (IOException | SQLException ex) {
+			for (Image image : customerFileList) {
+				logger.error("Error reading file from database: " + image.getFileName());
+			}
 		}
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
 
 	//Загрузка на компьютер всех файлов дизайнера
 	@RequestMapping(value = "/manager/downloadAllImages/{orderId}/{itemId}",
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId,
 										  @PathVariable("itemId") Long itemId) {
 		List<Image> designerFileList = itemService.get(itemId).getImages();
 		try {
 			imageService.downloadAllFiles(designerFileList);
-		} catch (IOException ioe) {
-			logger.error("Ошибка в чтении файла: " + ioe);
-		} catch (SQLException sqle) {
-			logger.error("Ошибка выборки из базы данных: " + sqle);
+		} catch (IOException | SQLException ex) {
+			for (Image image : designerFileList) {
+				logger.error("Error reading file from database: " + image.getFileName());
+			}
 		}
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
 
 	//Загрузка на компьютер одного файла заказчика
 	@RequestMapping(value = "/manager/downloadOneFile/{orderId}/{itemId}/{fileId}",
-					method = RequestMethod.GET)
+		method = RequestMethod.GET)
 	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId,
 										@PathVariable("itemId") Long itemId,
 										@PathVariable("fileId") Long fileId) {
 		try {
 			imageService.downloadOneFile(imageService.get(fileId));
-		} catch (IOException ioe) {
-			logger.error("Ошибка в чтении файла: " + ioe);
-		} catch (SQLException sqle) {
-			logger.error("Ошибка выборки из базы данных: " + sqle);
+		} catch (IOException | SQLException ex) {
+			logger.error("Error reading file from database: " + imageService.get(fileId).getFileName());
 		}
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
 	}
