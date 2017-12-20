@@ -45,3 +45,7 @@ tr th, tr td {
 .row-height{
     height: 1%;
 }
+
+.req {
+    color: red;
+}

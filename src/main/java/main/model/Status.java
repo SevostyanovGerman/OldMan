@@ -1,6 +1,10 @@
 package main.model;
 
+import main.constans.RegexpConstans;
+
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 @Entity
@@ -12,6 +16,7 @@ public class Status {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_GENERAL, message = "{general.wrong.message}")
 	@Column(name = "name", nullable = false)
 	private String name;
 
@@ -21,6 +26,7 @@ public class Status {
 	@Column(name = "deleted")
 	private boolean deleted;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_COLOR, message = "{formatcolor.wrong}")
 	@Column(name = "color")
 	private String color;
 
@@ -92,6 +98,9 @@ public class Status {
 		if (!Objects.equals(this.number, status.number)) {
 			return false;
 		}
+		if (!Objects.equals(this.color, status.color)) {
+			return false;
+		}
 		return Objects.equals(this.deleted, status.deleted);
 	}
 
@@ -112,6 +121,7 @@ public class Status {
 		int result = (int) (id ^ (id >>> 32));
 		result = 42 * result + Objects.hashCode(this.name);
 		result = 42 * result + Objects.hashCode(this.number);
+		result = 42 * result + Objects.hashCode(this.color);
 		result = 42 * result + Objects.hashCode(this.deleted);
 		return result;
 	}
