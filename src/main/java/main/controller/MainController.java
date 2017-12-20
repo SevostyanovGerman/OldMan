@@ -2,10 +2,7 @@ package main.controller;
 
 import main.Helpers;
 import main.model.*;
-import main.service.CommentService;
-import main.service.NotificationService;
-import main.service.OrderService;
-import main.service.UserService;
+import main.service.*;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class MainController {
@@ -36,13 +30,16 @@ public class MainController {
 
 	private NotificationService notificationService;
 
+	private MailService mailService;
+
 	@Autowired
 	public MainController(CommentService commentService, OrderService orderService, UserService userService,
-						  NotificationService notificationService) {
+						  NotificationService notificationService, MailService mailService) {
 		this.commentService = commentService;
 		this.orderService = orderService;
 		this.userService = userService;
 		this.notificationService = notificationService;
+		this.mailService = mailService;
 	}
 
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
@@ -66,8 +63,7 @@ public class MainController {
 
 	@RequestMapping(value = {"/403"}, method = RequestMethod.GET)
 	public ModelAndView page403() {
-		ModelAndView model = new ModelAndView("403");
-		return model;
+		return new ModelAndView("403");
 	}
 
 	//Добавление комментария
@@ -192,5 +188,27 @@ public class MainController {
 	@RequestMapping(value = {"/forgotten"}, method = RequestMethod.GET)
 	public ModelAndView forgotten() {
 		return new ModelAndView("forgotten");
+	}
+
+	@RequestMapping(value = {"/resetpassword/"}, method = RequestMethod.GET)
+	public ModelAndView resetpassword(String code, String mail) {
+		ModelAndView model = new ModelAndView("resetPassword");
+		User user = userService.getByEmail(mail);
+		if (user != null & code != null & user.getPassword().equals(code)) {
+			String resetPassword = UUID.randomUUID().toString();
+			user.setPassword(resetPassword);
+			userService.save(user);
+			String title = user.getFirstName() + ", Ваш пароль от CaseCRM";
+			try {
+				mailService.sendEmail(title, "Ваш новый пароль:" + resetPassword, user, "mail/mailPassword");
+			} catch (Exception e) {
+				logger.error("while sending mail");
+			}
+			model.addObject("message", "Пароль сброшен, новый пароль выслан вам на почту");
+		} else {
+			model.addObject("message", "Не удалось сбросить пароль");
+		}
+
+		return model;
 	}
 }

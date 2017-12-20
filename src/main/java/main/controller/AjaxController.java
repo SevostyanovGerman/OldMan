@@ -204,7 +204,7 @@ public class AjaxController {
 			user.setPassword(resetPassword);
 			userService.save(user);
 			String title = user.getFirstName() + ", напоминаем Ваш пароль от CaseCRM";
-			mailService.sendEmail(title, "Ваш новый пароль:" + resetPassword, user, "mailForgot");
+			mailService.sendEmail(title, "Ваш новый пароль:" + resetPassword, user, "mail/mailPassword");
 			return "Новый пароль отправлен на вашу почту";
 		} catch (Exception e) {
 			logger.error("While reset password");
@@ -223,11 +223,11 @@ public class AjaxController {
 				return "Введите ваш email";
 			}
 			if (user != null) {
-				String resetPassword = UUID.randomUUID().toString();
-				user.setPassword(resetPassword);
-				userService.save(user);
+				//	String resetPassword = UUID.randomUUID().toString();
+				//user.setPassword(resetPassword);
+				//userService.save(user);
 				String title = user.getFirstName() + ", напоминаем Ваш пароль от CaseCRM";
-				mailService.sendEmail(title, "Ваш новый пароль:" + resetPassword, user, "mailForgot");
+				mailService.sendEmail(title, "Для сброса пароля перейдите по ссылке", user, "mail/mailResetPassword");
 				return "Новый пароль отправлен на вашу почту";
 			}
 		} catch (Exception e) {
