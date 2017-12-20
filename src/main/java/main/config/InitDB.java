@@ -70,7 +70,7 @@ public class InitDB {
 		statusService.save(status4);
 		Status status5 = new Status("delivery", 5L, "#D0F0C0");
 		statusService.save(status5);
-		Status status6 = new Status("finish", 6L, "dfe3");
+		Status status6 = new Status("finish", 6L, "#dfe300");
 		statusService.save(status6);
 		//Роли//
 		HashSet<Status> allStatus = new HashSet<>();

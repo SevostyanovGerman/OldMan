@@ -14,4 +14,12 @@ public class RegexpConstans {
 
 	// Регулярное выражение для номера телефона.
 	public static final String REG_EXP_OF_PHONE = "^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,20}(\\s*)?$";
+
+	// Регулярное выражение для общих случаев
+	public static final String REG_EXP_GENERAL = "^[а-яёА-ЯЁa-zA-Z0-9 ]{2,20}$";
+
+	// Выражение задающее формат цвета в 16-ричной системе счисления
+	public static final String REG_EXP_COLOR = "^[#]{1}[0-9A-Fa-f]{6}$";
+
+
 }

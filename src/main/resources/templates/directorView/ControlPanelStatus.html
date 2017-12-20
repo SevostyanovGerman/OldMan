@@ -104,25 +104,42 @@
                 <div class="panel panel-default">
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane active " id="newstatus">
+                        <div th:classappend="${wrongstatus}? '' : 'active'" class="tab-pane" id="newstatus">
                             <!-- Default panel contents -->
                             <div class="col-sm-offset-5 col-sm-10">
                                 <div class="panel-heading"><b>Создать новый статус</b></div>
                             </div>
-                            <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/create}" action="create" method="post">
+                            <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/create}" th:object="${newstatus}" action="create" method="post">
 
                                 <input class="noneVisible" type="text" name="id" th:value="${newstatus.getId()}" readonly="readonly" hidden="hidden" />
 
-                                <div class="form-group row">
-                                    <label for="name" class="control-label col-sm-2">Название статуса</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="name" th:value="${newstatus.getName()}" placeholder="Название статуса" required />
+                                <div class="form-group row row-height">
+                                    <label for="name" class="control-label col-sm-2">Название статуса<span class="req">*</span></label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="text" name="name" th:value="${newstatus.getName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 ]{2,20}$" placeholder="Название статуса" required />
+                                        <div class="notes">Длина названия статуса должна быть от 2 до 20 символов. Название может содержать русские и латинкие буквы а также пробелы</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="wrong-field" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row row-height">
                                     <label for="number" class="control-label col-sm-2">Индекс статуса</label>
-                                    <div class="col-sm-8">
-                                        <input class="form-control" type="text" name="number" th:value="${newstatus.getNumber()}" placeholder="Индекс статуса">
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="number" name="number" th:value="${newstatus.getNumber()}" placeholder="Индекс статуса">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="wrong-field" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group row row-height">
+                                    <label for="color" class="control-label col-sm-2">Цвет</label>
+                                    <div class="col-sm-6">
+                                        <input class="form-control" type="color" name="color" th:value="${newstatus.getColor()}" placeholder="Индекс статуса">
+                                        <div class="notes">В данный цвет будет закрашиваться заказ при выводе в таблице заказов</div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <span class="wrong-field" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -133,26 +150,42 @@
                             </form>
                         </div>
 
-                        <th:block th:each="status : ${statuses}">
-                            <div class="tab-pane" th:id="${status.getId()}">
-                                <!-- Default panel contents -->
+                        <th:block th:if="${wrongstatus}">
+                            <div class="tab-pane active" th:id="wrongstatus">
                                 <div class="col-sm-offset-5 col-sm-10">
                                     <div class="panel-heading"><b>Редактирование статуса</b></div>
                                 </div>
-                                <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/update}" action="update" method="post">
+                                <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/update}" th:object="${status}" action="update" method="post">
 
-                                    <input class="noneVisible" type="text" name="id" th:value="${status.getId()}" readonly="readonly" placeholder="ID статуса" hidden="hidden" />
+                                    <input class="noneVisible" type="text" name="id" th:value="${wrongstatus.getId()}" readonly="readonly" placeholder="ID статуса" hidden="hidden" />
 
-                                    <div class="form-group row">
-                                        <label for="name" class="control-label col-sm-2">SНазвание статуса</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="name" th:value="${status.getName()}" placeholder="Название статуса" required />
+                                    <div class="form-group row row-height">
+                                        <label for="name" class="control-label col-sm-2">Название статуса<span class="req">*</span></label>
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="text" name="name" th:value="${wrongstatus.getName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 ]{2,20}$" placeholder="Название статуса" required />
+                                            <div class="notes">Длина названия статуса должна быть от 2 до 20 символов. Название может содержать русские и латинкие буквы а также пробелы</div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <span class="wrong-field" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row row-height">
                                         <label for="number" class="control-label col-sm-2">Индекс статуса</label>
-                                        <div class="col-sm-8">
-                                            <input class="form-control" type="text" name="number" th:value="${status.getNumber()}" placeholder="Индекс статуса" />
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="number" name="number" th:value="${wrongstatus.getNumber()}" placeholder="Индекс статуса" />
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <span class="wrong-field" th:if="${#fields.hasErrors('number')}" th:errors="*{number}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row row-height">
+                                        <label for="color" class="control-label col-sm-2">Цвет</label>
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="color" name="color" th:value="${wrongstatus.getColor()}">
+                                            <div class="notes">Цвет, в который будет закрашиваться заказ, получивший данный статус.</div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <span class="wrong-field" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></span>
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -164,6 +197,49 @@
                                 </form>
                             </div>
                         </th:block>
+
+
+
+                        <th:block th:each="status : ${statuses}">
+                            <div class="tab-pane" th:id="${status.getId()}">
+                                <!-- Default panel contents -->
+                                <div class="col-sm-offset-5 col-sm-10">
+                                    <div class="panel-heading"><b>Редактирование статуса</b></div>
+                                </div>
+                                <form class="form-horizontal" th:action="@{/director/controlpanel/statuses/update}" action="update" method="post">
+
+                                    <input class="noneVisible" type="text" name="id" th:value="${status.getId()}" readonly="readonly" placeholder="ID статуса" hidden="hidden" />
+
+                                    <div class="form-group row row-height">
+                                        <label for="name" class="control-label col-sm-2">Название статуса<span class="req">*</span></label>
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="text" name="name" th:value="${status.getName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 ]{2,20}$" placeholder="Название статуса" required />
+                                            <div class="notes">Длина названия статуса должна быть от 2 до 20 символов. Название может содержать русские и латинкие буквы а также пробелы</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row row-height">
+                                        <label for="number" class="control-label col-sm-2">Индекс статуса</label>
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="number" name="number" th:value="${status.getNumber()}" placeholder="Индекс статуса" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row row-height">
+                                        <label for="color" class="control-label col-sm-2">Цвет</label>
+                                        <div class="col-sm-6">
+                                            <input class="form-control" type="color" name="color" th:value="${status.getColor()}">
+                                            <div class="notes">Цвет, в который будет закрашиваться заказ, получивший данный статус.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="button" class="btn btn-default" href="#newstatus" data-toggle="tab">Закрыть</button>
+                                            <input class="btn btn-success" type="submit" value="Cохранить изменения" />
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </th:block>
+                        <p><span class="req">*</span> - поля обязательные для заполнения. </p>
                     </div>
                 </div>
             </div>
@@ -177,6 +253,7 @@
                         <th>#ID</th>
                         <th>Статус</th>
                         <th>Индекс статуса</th>
+                        <th>Цвет статуса</th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -186,6 +263,7 @@
                         <td th:text="${status.getId()}"></td>
                         <td th:text="${status.getName()}"></td>
                         <td th:text="${status.getNumber()}"></td>
+                        <td th:style="'background-color: ' + ${status.getColor()}"></td>
                         <td>
                             <a class="btn btn-xs btn-info" th:href="'#' + ${status.getId()}" data-toggle="tab">Изменить</a>
                         </td>

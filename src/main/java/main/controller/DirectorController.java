@@ -128,41 +128,51 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/create"}, method = RequestMethod.POST)
-	public String createStatus(@ModelAttribute("status") Status status,
+	public ModelAndView createStatus(@ModelAttribute("newstatus") @Valid Status newstatus, BindingResult bindingResult,
 							   HttpServletRequest request) {
+
+		ModelAndView modelAndView = new ModelAndView();
 
 		/*
 		 * Ищем в базе статус с таким же именем.
 		 * В случае нахождения статуса с таким именем генерим сообщение error.
 		 * Если же ничего не находим то записываем статус в базу данных и создаём сообщение о усрехе.
 		 */
-		String searchingStatus = status.getName();
-		long searchingIndex = status.getNumber();
-		Status foundStatus = statusService.getByName(searchingStatus);
-		Status foundStatusByNumber = statusService.get(searchingIndex);
-		if (foundStatus != null) {
-			String error = "Статус с именем: " + searchingStatus + " уже существует";
-			request.getSession().setAttribute("error", error);
-		} else if ((foundStatusByNumber != null) && (searchingIndex != 0)) {
-			String error = "Статус с индексом: " + searchingIndex + " уже существует";
-			request.getSession().setAttribute("error", error);
+		if(bindingResult.hasErrors()){
+			modelAndView.setViewName("/directorView/ControlPanelStatus");
+			modelAndView.addObject("statuses", statusService.getAll());
+			return modelAndView;
 		} else {
-			try {
-				statusService.save(status);
-				String success = "Статус с именем: " + searchingStatus + " успешно создан";
-				request.getSession().setAttribute("success", success);
-			} catch (Exception e) {
-				logger.error("Can\'t create status", e);
-				String error = "Ошибка при записи в базу данных";
+			String searchingStatus = newstatus.getName();
+			long searchingIndex = newstatus.getNumber();
+			Status foundStatus = statusService.getByName(searchingStatus);
+			Status foundStatusByNumber = statusService.get(searchingIndex);
+			if (foundStatus != null) {
+				String error = "Статус с именем: " + searchingStatus + " уже существует";
 				request.getSession().setAttribute("error", error);
+			} else if ((foundStatusByNumber != null) && (searchingIndex != 0)) {
+				String error = "Статус с индексом: " + searchingIndex + " уже существует";
+				request.getSession().setAttribute("error", error);
+			} else {
+				try {
+					statusService.save(newstatus);
+					String success = "Статус с именем: " + searchingStatus + " успешно создан";
+					request.getSession().setAttribute("success", success);
+				} catch (Exception e) {
+					logger.error("Can\'t create status", e);
+					String error = "Ошибка при записи в базу данных";
+					request.getSession().setAttribute("error", error);
+				}
 			}
 		}
-		return "redirect:/director/controlpanel/statuses";
+		modelAndView.setViewName("redirect:/director/controlpanel/statuses");
+		return modelAndView;
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/update"}, method = RequestMethod.POST)
-	public String updateStatus(@ModelAttribute("status") Status incomingStatus,
+	public ModelAndView updateStatus(@ModelAttribute("status") @Valid Status incomingStatus, BindingResult bindingResult,
 							   HttpServletRequest request) {
+		ModelAndView modelAndView = new ModelAndView();
 
 		/*
 		 * Ищем в базе статус с таким же именем.
@@ -170,29 +180,38 @@ public class DirectorController {
 		 * Если же ничего не находим или если id совпадают, то обновляем статус в базе данных и создаём сообщение об
 		 * успехе.
 		 */
-		long number = incomingStatus.getNumber();
-		Status foundStatus = statusService.getByName(incomingStatus.getName());
-		Status foundStatusByNumber = statusService.get(number);
-		if ((foundStatus != null) && (incomingStatus.getId() != foundStatus.getId())) {
-			String error = "Статус с именем: " + incomingStatus.getName() + " уже существует";
-			request.getSession().setAttribute("error", error);
-		} else if ((foundStatusByNumber != null) && (number > 0) &&
-			(incomingStatus.getId() != foundStatusByNumber.getId())) {
-			String error = "Статус с индексом: " + number +
-				" уже существует. Допустимо дублирование только с индексом: 0";
-			request.getSession().setAttribute("error", error);
+		if(bindingResult.hasErrors()){
+			modelAndView.setViewName("/directorView/ControlPanelStatus");
+			modelAndView.addObject("wrongstatus", incomingStatus);
+			modelAndView.addObject("newstatus", new Status());
+			modelAndView.addObject("statuses", statusService.getAll());
+			return modelAndView;
 		} else {
-			try {
-				statusService.save(incomingStatus);
-				String success = "Статус успешно изменён.";
-				request.getSession().setAttribute("success", success);
-			} catch (Exception e) {
-				logger.error("Can\'t save status", e);
-				String error = "Ошибка при записи в базу данных";
+			long number = incomingStatus.getNumber();
+			Status foundStatus = statusService.getByName(incomingStatus.getName());
+			Status foundStatusByNumber = statusService.get(number);
+			if ((foundStatus != null) && (incomingStatus.getId() != foundStatus.getId())) {
+				String error = "Статус с именем: " + incomingStatus.getName() + " уже существует";
 				request.getSession().setAttribute("error", error);
+			} else if ((foundStatusByNumber != null) && (number > 0) &&
+				(incomingStatus.getId() != foundStatusByNumber.getId())) {
+				String error = "Статус с индексом: " + number +
+					" уже существует. Допустимо дублирование только с индексом: 0";
+				request.getSession().setAttribute("error", error);
+			} else {
+				try {
+					statusService.save(incomingStatus);
+					String success = "Статус успешно изменён.";
+					request.getSession().setAttribute("success", success);
+				} catch (Exception e) {
+					logger.error("Can\'t save status", e);
+					String error = "Ошибка при записи в базу данных";
+					request.getSession().setAttribute("error", error);
+				}
 			}
 		}
-		return "redirect:/director/controlpanel/statuses";
+		modelAndView.setViewName("redirect:/director/controlpanel/statuses");
+		return modelAndView;
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/status/delete/{id}"}, method = RequestMethod.GET)
