@@ -73,6 +73,12 @@ public class User implements UserDetails {
 	@Column(name = "avatar")
 	private Blob avatar;
 
+	@Column(name = "token")
+	private String token;
+
+	@Column(name = "tokenExpire")
+	private Date tokenExpire;
+
 	@Size(min = 1, message = "{user.roles.wrong}")
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
 	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
@@ -83,10 +89,9 @@ public class User implements UserDetails {
 		this.created = new Date();
 	}
 
-	public User(String name, String password, String firstName, String secName, boolean deleted, boolean disable,
-				Role role, String email, String phone) {
+	public User(String name, String firstName, String secName, boolean deleted, boolean disable, Role role,
+				String email, String phone) {
 		this.name = name;
-		this.password = password;
 		this.firstName = firstName;
 		this.secName = secName;
 		this.phone = phone;
@@ -106,6 +111,22 @@ public class User implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.roles;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
+	public Date getTokenExpire() {
+		return tokenExpire;
+	}
+
+	public void setTokenExpire(Date tokenExpire) {
+		this.tokenExpire = tokenExpire;
 	}
 
 	@Override

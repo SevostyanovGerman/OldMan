@@ -142,7 +142,8 @@
                                 <div class="form-group row row-height">
                                     <label for="password" class="control-label col-sm-2">Пароль</label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="password" th:value="${user.getPassword()}" minlength="3" maxlength="20" placeholder="Пароль" required />
+                                        <input class="form-control" type="password" name="password"
+                                               th:value="${user.getPassword()}" minlength="3" maxlength="20" placeholder="Пароль" required />
                                         <div class="notes">Минимальная длина пароля должна быть не меньше 3 и не больше 20</div>
                                     </div>
                                     <div class="col-sm-4">

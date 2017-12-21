@@ -313,7 +313,7 @@
                                                 <a  href="#" id ="changePassword">Изменить пароль</a>
                                             </div>
 
-                                            <div class="btn-group" class="col-sm-6" style="text-align: right">
+                                            <div class="btn-group col-sm-6" style="text-align: right">
                                                 <button type="button" class="btn btn-primary btn-sm right"
                                                         data-dismiss="modal" onclick="hideChangeBtn()">
                                                     Закрыть
@@ -327,34 +327,29 @@
                                             <span id="errorCurrentPass" style="color: limegreen"></span>
 
                                             <div class="input-group">
-                                                <input type="text" id="currentPass" class="form-control"
+                                                <input id="currentPass" class="form-control"
                                                        placeholder="Текущий пароль" style="display: none;margin-top:
                                                        5px"  type="password" required>
                                             </div>
 
                                             <div class="input-group">
-                                                <input type="text" id="newPass" class="form-control"
+                                                <input id="newPass" class="form-control"
                                                        placeholder="Новый пароль" style="display: none;margin-top:
                                                        5px" type="password" required >
                                             </div>
 
                                             <div class="input-group">
-                                                <input type="text" id="replyPass" class="form-control"
+                                                <input id="replyPass" class="form-control"
                                                        placeholder="Повторите пароль" style="display: none;margin-top:
                                                        5px" type="password" required >
                                             </div>
 
-                                            <div>
-                                                <a id="forgotPass" style="display: none;" onclick="forgotPassword()" >
-                                                    Сбросить пароль</a>
-                                            </div>
                                             <button id="changePassBtn" class="btn btn-sm  btn-success" style="display: none;margin-top:
                                                        5px" > Применить
                                             </button>
                                             <button type="submit" id="cancelPassBtn" class="btn btn-sm  btn-warning"
                                                      style="display: none;margin-top:
                                                        5px" > Отмена</button>
-
                                         </div>
 
                                     </div>

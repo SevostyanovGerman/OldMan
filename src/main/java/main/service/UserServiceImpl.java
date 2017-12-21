@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User save(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+//		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		logger.debug("Save user {}", user.toString());
 		return userRepository.saveAndFlush(user);
 	}
@@ -129,5 +129,15 @@ public class UserServiceImpl implements UserService {
 			user.setAvatar(resizedFile);
 			save(user);
 		}
+	}
+
+	@Override
+	public User getByToken(String token) {
+		return userRepository.findByToken(token);
+	}
+
+	@Override
+	public void setPasswordEncoder(User user, String password) {
+		user.setPassword(passwordEncoder.encode(password));
 	}
 }

@@ -29,4 +29,8 @@ public interface UserService {
 	List<User> getUsersByNameLike(String name);
 
 	void addAvatar(MultipartFile avatar, User user) throws IOException, SQLException;
+
+	User getByToken(String token);
+
+	void setPasswordEncoder(User user, String password);
 }

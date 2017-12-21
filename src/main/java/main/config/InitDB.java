@@ -4,7 +4,6 @@ import main.model.*;
 import main.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,9 +35,8 @@ public class InitDB {
 
 	@Autowired
 	public InitDB(UserService userService, RoleService roleService, PaymentService paymentService,
-				  StatusService statusService, DeliveryService deliveryService,
-				  OrderService orderService, CustomerService customerService,
-				  ItemService itemService, DeliveryTypeService deliveryTypeService,
+				  StatusService statusService, DeliveryService deliveryService, OrderService orderService,
+				  CustomerService customerService, ItemService itemService, DeliveryTypeService deliveryTypeService,
 				  FuncMenuService functionService) {
 		this.userService = userService;
 		this.roleService = roleService;
@@ -119,19 +117,20 @@ public class InitDB {
 		roleService.save(boss);
 		//Пользователи//
 		User user1 =
-			new User("manager", "123", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru",
-				"+7(123)456-78-91");
+			new User("manager", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru", "+7(123)456-78-91");
+		userService.setPasswordEncoder(user1, "123");
 		userService.save(user1);
-		User user2 = new User("designer", "123", "Designer", "Gucci", false, false, role2,
-			"medvedev@kremlin.ru", "+7(123)456-78-92");
+		User user2 =
+			new User("designer", "Designer", "Gucci", false, false, role2, "medvedev@kremlin.ru", "+7(123)456-78-92");
+		userService.setPasswordEncoder(user2, "123");
 		userService.save(user2);
 		User user3 =
-			new User("master", "123", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru",
-				"+7(123)456-78-93");
+			new User("master", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru", "+7(123)456-78-93");
+		userService.setPasswordEncoder(user3, "123");
 		userService.save(user3);
 		User user4 =
-			new User("boss", "123", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru",
-				"+7(123)456-78-94");
+			new User("boss", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru", "+7(123)456-78-94");
+		userService.setPasswordEncoder(user4, "123");
 		userService.save(user4);
 		//Payment//
 		Payment payment1 = new Payment("Cash");
@@ -150,11 +149,9 @@ public class InitDB {
 		Delivery deliveryPickup2 = new Delivery("Canada", "Toronto", "NHL street", "321", true);
 		deliveryService.save(deliveryPickup2);
 		//Customer//
-		Customer customer1 =
-			new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1);
+		Customer customer1 = new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1);
 		customerService.save(customer1);
-		Customer customer2 =
-			new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
+		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
 		customerService.save(customer2);
 		//Item//
 		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
@@ -162,11 +159,8 @@ public class InitDB {
 		Item item3 = new Item("Case", "iphone 8", "plastic", "my comment...", 1, 100d, false);
 		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, false);
 		Item item5 = new Item("Case", "Nexus 6P", "wood", "через гравировка", 5, 230d, false);
-		Item item6 =
-			new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3,
-				130d, false);
-		Item item7 =
-			new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
+		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d, false);
+		Item item7 = new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
 		//Order//
 		Date createDate = new Date();
 		String date1 = "03/10/2017";
@@ -175,28 +169,26 @@ public class InitDB {
 		Date d1 = dateFormat.parse(date1);
 		Date d2 = dateFormat.parse(date2);
 		Order order1 =
-			new Order("1", false, false, createDate, toAddress, payment1, status1, customer1, item1,
-				user1, user2, user3);
+			new Order("1", false, false, createDate, toAddress, payment1, status1, customer1, item1, user1, user2,
+				user3);
 		orderService.save(order1);
 		Order order2 =
-			new Order("2", false, false, createDate, toAddress, payment2, status2, customer2, item2,
-				user1, user2, user3);
+			new Order("2", false, false, createDate, toAddress, payment2, status2, customer2, item2, user1, user2,
+				user3);
 		orderService.save(order2);
 		Order order3 =
-			new Order("3", false, false, createDate, pickup, payment1, status3, customer2, item3,
-				user1, user2, user3, deliveryPickup2);
+			new Order("3", false, false, createDate, pickup, payment1, status3, customer2, item3, user1, user2, user3,
+				deliveryPickup2);
 		orderService.save(order3);
 		Order order4 =
-			new Order("4", false, false, createDate, pickup, payment2, status4, customer1, item4,
-				user1, user2, user3, deliveryPickup);
+			new Order("4", false, false, createDate, pickup, payment2, status4, customer1, item4, user1, user2, user3,
+				deliveryPickup);
 		orderService.save(order4);
 		Order order5 =
-			new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1,
-				user2, user3);
+			new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1, user2, user3);
 		orderService.save(order5);
 		Order order6 =
-			new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1,
-				user2, user3);
+			new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1, user2, user3);
 		orderService.save(order6);
 	}
 }

@@ -115,7 +115,7 @@ $('#changePassBtn').on( 'click', function( event ) {
         });
 
     } else {
-        error.innerHTML = "Поля пароля не совпадают"
+        error.innerHTML = "Пароли не совпадают"
     }
 
 
@@ -132,10 +132,3 @@ function hideChangeBtn() {
 
 }
 
-function forgotPassword() {
-
-    $("#errorCurrentPass").load("/profile/forgot", function() {
-        hideChangeBtn();
-    });
-
-}

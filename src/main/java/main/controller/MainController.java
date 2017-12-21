@@ -15,7 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 @Controller
 public class MainController {
@@ -194,21 +197,15 @@ public class MainController {
 	public ModelAndView resetpassword(String code, String mail) {
 		ModelAndView model = new ModelAndView("resetPassword");
 		User user = userService.getByEmail(mail);
-		if (user != null & code != null & user.getPassword().equals(code)) {
-			String resetPassword = UUID.randomUUID().toString();
-			user.setPassword(resetPassword);
-			userService.save(user);
-			String title = user.getFirstName() + ", Ваш пароль от CaseCRM";
-			try {
-				mailService.sendEmail(title, "Ваш новый пароль:" + resetPassword, user, "mail/mailPassword");
-			} catch (Exception e) {
-				logger.error("while sending mail");
+		if (user.getToken() != null & code != null & user.getToken().equals(code)) {
+			if (user.getTokenExpire().before(new Date())) {
+				model.addObject("message", "срок действия токена истек");
+				return model;
 			}
-			model.addObject("message", "Пароль сброшен, новый пароль выслан вам на почту");
-		} else {
-			model.addObject("message", "Не удалось сбросить пароль");
+			model.addObject("message", code);
+			return model;
 		}
-
+		model.addObject("message", "Не удалось сбросить пароль");
 		return model;
 	}
 }

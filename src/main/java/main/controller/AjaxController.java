@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.mail.MessagingException;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -182,7 +183,7 @@ public class AjaxController {
 		}
 		try {
 			if (passwordEncoder.matches(currentPassword, user.getPassword())) {
-				user.setPassword(newPassword);
+				userService.setPasswordEncoder(user, newPassword);
 				userService.save(user);
 				return "Пароль изменен";
 			} else {
@@ -193,23 +194,6 @@ public class AjaxController {
 			logger.error("while changing password");
 			return "ошибка при смене пароля";
 		}
-	}
-
-	//Восстановление пароля
-	@RequestMapping(value = {"/profile/forgot"}, method = RequestMethod.GET)
-	public String forgotPassword() throws MessagingException {
-		try {
-			User user = userService.getCurrentUser();
-			String resetPassword = UUID.randomUUID().toString();
-			user.setPassword(resetPassword);
-			userService.save(user);
-			String title = user.getFirstName() + ", напоминаем Ваш пароль от CaseCRM";
-			mailService.sendEmail(title, "Ваш новый пароль:" + resetPassword, user, "mail/mailPassword");
-			return "Новый пароль отправлен на вашу почту";
-		} catch (Exception e) {
-			logger.error("While reset password");
-		}
-		return "Ошибка при сбросе пароля";
 	}
 
 	//Восстановление пароля по почте
@@ -223,11 +207,17 @@ public class AjaxController {
 				return "Введите ваш email";
 			}
 			if (user != null) {
-				//	String resetPassword = UUID.randomUUID().toString();
-				//user.setPassword(resetPassword);
-				//userService.save(user);
-				String title = user.getFirstName() + ", напоминаем Ваш пароль от CaseCRM";
-				mailService.sendEmail(title, "Для сброса пароля перейдите по ссылке", user, "mail/mailResetPassword");
+				SecureRandom random = new SecureRandom();
+				byte bytes[] = new byte[100];
+				random.nextBytes(bytes);
+				String token = bytes.toString() + UUID.randomUUID().toString();
+				user.setToken(token);
+				DateTime expire = new DateTime().plusHours(1);
+				user.setTokenExpire(expire.toDate());
+				userService.save(user);
+				String title = user.getFirstName() + ", забыли Ваш пароль от CaseCRM?";
+				mailService
+					.sendEmail(title, "Для изменения пароля перейдите по ссылке", user, "mail/mailResetPassword");
 				return "Новый пароль отправлен на вашу почту";
 			}
 		} catch (Exception e) {
@@ -236,6 +226,29 @@ public class AjaxController {
 
 		return "Пользователь не найден";
 
+	}
+
+	//Изменение пароля по токену
+	@RequestMapping(value = {"/profile/newPassword"}, method = RequestMethod.POST)
+	public String newPasswordByToken(String newPassword, String token) {
+		User user = userService.getByToken(token);
+		if (user == null) {
+			return "токен не действителен";
+		}
+		if (newPassword.length() < 3) {
+			return "Слишком короткий пароль, минимум 3 символа";
+		}
+		try {
+			userService.setPasswordEncoder(user, newPassword);
+			user.setTokenExpire(null);
+			user.setToken(null);
+			userService.save(user);
+			return "Пароль изменен";
+
+		} catch (Exception e) {
+			logger.error("while changing password");
+			return "ошибка при смене пароля";
+		}
 	}
 }
 

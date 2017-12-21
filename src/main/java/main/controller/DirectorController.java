@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -43,9 +42,8 @@ public class DirectorController {
 	private final static Logger logger = LoggerFactory.getLogger(DirectorController.class);
 
 	@Autowired
-	public DirectorController(UserService userService, OrderService orderService,
-							  StatusService statusService, RoleService roleService,
-							  CustomerService customerService, DeliveryService deliveryService,
+	public DirectorController(UserService userService, OrderService orderService, StatusService statusService,
+							  RoleService roleService, CustomerService customerService, DeliveryService deliveryService,
 							  NotificationService notificationService) {
 		this.userService = userService;
 		this.orderService = orderService;
@@ -64,9 +62,8 @@ public class DirectorController {
 		Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
 		Sort sorting = new Sort(orderByDirection, "number");
 
-		Page page = orderService
-			.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
-				new PageRequest(0, 25, sorting));
+		Page page = orderService.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
+			new PageRequest(0, 25, sorting));
 		modelAndView.addObject("orderList", page);
 
 		//Pagination variables
@@ -129,7 +126,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/create"}, method = RequestMethod.POST)
 	public ModelAndView createStatus(@ModelAttribute("newstatus") @Valid Status newstatus, BindingResult bindingResult,
-							   HttpServletRequest request) {
+									 HttpServletRequest request) {
 
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -138,7 +135,7 @@ public class DirectorController {
 		 * В случае нахождения статуса с таким именем генерим сообщение error.
 		 * Если же ничего не находим то записываем статус в базу данных и создаём сообщение о усрехе.
 		 */
-		if(bindingResult.hasErrors()){
+		if (bindingResult.hasErrors()) {
 			modelAndView.setViewName("/directorView/ControlPanelStatus");
 			modelAndView.addObject("statuses", statusService.getAll());
 			return modelAndView;
@@ -170,8 +167,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/update"}, method = RequestMethod.POST)
-	public ModelAndView updateStatus(@ModelAttribute("status") @Valid Status incomingStatus, BindingResult bindingResult,
-							   HttpServletRequest request) {
+	public ModelAndView updateStatus(@ModelAttribute("status") @Valid Status incomingStatus,
+									 BindingResult bindingResult, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 
 		/*
@@ -180,7 +177,7 @@ public class DirectorController {
 		 * Если же ничего не находим или если id совпадают, то обновляем статус в базе данных и создаём сообщение об
 		 * успехе.
 		 */
-		if(bindingResult.hasErrors()){
+		if (bindingResult.hasErrors()) {
 			modelAndView.setViewName("/directorView/ControlPanelStatus");
 			modelAndView.addObject("wrongstatus", incomingStatus);
 			modelAndView.addObject("newstatus", new Status());
@@ -194,9 +191,9 @@ public class DirectorController {
 				String error = "Статус с именем: " + incomingStatus.getName() + " уже существует";
 				request.getSession().setAttribute("error", error);
 			} else if ((foundStatusByNumber != null) && (number > 0) &&
-				(incomingStatus.getId() != foundStatusByNumber.getId())) {
-				String error = "Статус с индексом: " + number +
-					" уже существует. Допустимо дублирование только с индексом: 0";
+					   (incomingStatus.getId() != foundStatusByNumber.getId())) {
+				String error =
+					"Статус с индексом: " + number + " уже существует. Допустимо дублирование только с индексом: 0";
 				request.getSession().setAttribute("error", error);
 			} else {
 				try {
@@ -423,6 +420,7 @@ public class DirectorController {
 			} else {
 				try {
 					incomingUser.setCreated(new Date());
+					userService.setPasswordEncoder(incomingUser, incomingUser.getPassword());
 					userService.save(incomingUser);
 					String success = "Пользователь с логином: " + searchingUser + " успешно создан";
 					request.getSession().setAttribute("success", success);
@@ -466,6 +464,10 @@ public class DirectorController {
 				request.getSession().setAttribute("error", error);
 			} else {
 				try {
+					User checkPasswordUser = userService.get(incomingUser.getId());
+					if (!checkPasswordUser.getPassword().equals(incomingUser.getPassword())) {
+						userService.setPasswordEncoder(incomingUser, incomingUser.getPassword());
+					}
 					userService.save(incomingUser);
 					String success = "Информация о пользователе успешно записана в базе данных.";
 					request.getSession().setAttribute("success", success);
@@ -533,8 +535,7 @@ public class DirectorController {
 				String error = "Ошибка при удалении пользователя c id: " + id + " из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
-			String success = "Пользователь с id:" + id + " и логином: " + deletedUser.getName() +
-				" успешно удалён";
+			String success = "Пользователь с id:" + id + " и логином: " + deletedUser.getName() + " успешно удалён";
 			request.getSession().setAttribute("success", success);
 		}
 		return "redirect:/director/stuff";
@@ -574,9 +575,8 @@ public class DirectorController {
 			deletedCustomer.setDeleted(true);
 			try {
 				customerService.save(deletedCustomer);
-				String success =
-					"Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " +
-						deletedCustomer.getSecName() + " успешно удалён";
+				String success = "Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " +
+								 deletedCustomer.getSecName() + " успешно удалён";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete customer with id: ", id);
@@ -603,8 +603,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customer/create"}, method = RequestMethod.POST)
 	public String createCustomer(@ModelAttribute("customer") Customer incomingCustomer,
-								 @ModelAttribute("delivery") Delivery incomingDelivery,
-								 HttpServletRequest request) {
+								 @ModelAttribute("delivery") Delivery incomingDelivery, HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе покупателя с такой же почтой или телефоном.
@@ -622,11 +621,11 @@ public class DirectorController {
 			String error = "Покуптаель с таким телефоном" + searchingPhone + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingCustomer.getPhone() == null) ||
-			"".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
+				   "".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
 			String error = "Необходимо указать телепхон";
 			request.getSession().setAttribute("error", error);
 		} else if ((incomingCustomer.getEmail() == null) ||
-			"".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
+				   "".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
 			String error = "Необходимо указать Email";
 			request.getSession().setAttribute("error", error);
 		} else {
@@ -707,8 +706,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customer/update"}, method = RequestMethod.POST)
 	public String updateCustomer(@ModelAttribute("customer") Customer incomingCustomer,
-								 @ModelAttribute("includeDeliveries")
-									 HttpServletRequest request) {
+								 @ModelAttribute("includeDeliveries") HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе пользователя с таким же логином.
@@ -735,10 +733,10 @@ public class DirectorController {
 		return "redirect:/director/customer/edit/" + incomingCustomer.getId();
 	}
 
-	@RequestMapping(value = {"/director/customer/removedelivery/{customerId}/{deliveryIndex}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/director/customer/removedelivery/{customerId}/{deliveryIndex}"},
+					method = RequestMethod.GET)
 	public ModelAndView removeDelivery(@PathVariable("customerId") Long customerId,
-									   @PathVariable("deliveryIndex") int deliveryIndex,
-									   HttpServletRequest request) {
+									   @PathVariable("deliveryIndex") int deliveryIndex, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 		Customer customer = null;
 		try {
@@ -786,8 +784,7 @@ public class DirectorController {
 
 	//Меняем менеджер заказа
 	@RequestMapping(value = {"/director/order/change/{id}/manager/{managerId}"}, method = RequestMethod.GET)
-	public ModelAndView changeManager(@PathVariable("id") Long id,
-									  @PathVariable("managerId") Long managerId) {
+	public ModelAndView changeManager(@PathVariable("id") Long id, @PathVariable("managerId") Long managerId) {
 		try {
 			Order order = orderService.get(id);
 			User manager = userService.get(managerId);
