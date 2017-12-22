@@ -33,11 +33,17 @@ public class InitDB {
 
 	private FuncMenuService functionService;
 
+	private ProductService productService;
+
+	private PhoneModelService phoneModelService;
+
 	@Autowired
 	public InitDB(UserService userService, RoleService roleService, PaymentService paymentService,
-				  StatusService statusService, DeliveryService deliveryService, OrderService orderService,
-				  CustomerService customerService, ItemService itemService, DeliveryTypeService deliveryTypeService,
-				  FuncMenuService functionService) {
+				  StatusService statusService, DeliveryService deliveryService,
+				  OrderService orderService, CustomerService customerService,
+				  ItemService itemService, DeliveryTypeService deliveryTypeService,
+				  FuncMenuService functionService, ProductService productService,
+				  PhoneModelService phoneModelService) {
 		this.userService = userService;
 		this.roleService = roleService;
 		this.paymentService = paymentService;
@@ -48,6 +54,8 @@ public class InitDB {
 		this.itemService = itemService;
 		this.deliveryTypeService = deliveryTypeService;
 		this.functionService = functionService;
+		this.productService = productService;
+		this.phoneModelService = phoneModelService;
 	}
 
 	@PostConstruct
@@ -153,14 +161,35 @@ public class InitDB {
 		customerService.save(customer1);
 		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
 		customerService.save(customer2);
+		//Product//
+		Product product1 = new Product("Case");
+		productService.save(product1);
+		Product product2 = new Product("Box");
+		productService.save(product2);
+		//Phone Model//
+		PhoneModel phoneModel1 = new PhoneModel("iPhone X");
+		phoneModelService.save(phoneModel1);
+		PhoneModel phoneModel2 = new PhoneModel("Samsung One Note");
+		phoneModelService.save(phoneModel2);
+		PhoneModel phoneModel3 = new PhoneModel("Sony Experia Z");
+		phoneModelService.save(phoneModel3);
+		PhoneModel phoneModel4 = new PhoneModel("GOOGLE PIXEL 2");
+		phoneModelService.save(phoneModel4);
+		PhoneModel phoneModel5 = new PhoneModel("HTC U ULTRA");
+		phoneModelService.save(phoneModel5);
+		PhoneModel phoneModel6 = new PhoneModel("HUAWEI MATE 10");
+		phoneModelService.save(phoneModel6);
+		PhoneModel phoneModel7 = new PhoneModel("MEIZU MX7");
+		phoneModelService.save(phoneModel7);
 		//Item//
-		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
-		Item item2 = new Item("Case", "iphone 7", "wood", "my comment...", 2, 200d, false);
-		Item item3 = new Item("Case", "iphone 8", "plastic", "my comment...", 1, 100d, false);
-		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, false);
-		Item item5 = new Item("Case", "Nexus 6P", "wood", "через гравировка", 5, 230d, false);
-		Item item6 = new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3, 130d, false);
-		Item item7 = new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
+		Item item1 = new Item(product1, phoneModel1, "metal", "my comment...", 1, 100d, false);
+		Item item2 = new Item(product1, phoneModel2, "wood", "my comment...", 2, 200d, false);
+		Item item3 = new Item(product2, phoneModel3, "plastic", "my comment...", 1, 100d, false);
+		Item item4 = new Item(product2, phoneModel4, "wood", "my comment...", 2, 200d, false);
+		Item item5 = new Item(product1, phoneModel5, "wood", "через гравировка", 5, 230d, false);
+		Item item6 = new Item(product1, phoneModel6, "plastic", "матовый пластик найдешь на складе", 3,
+				130d, false);
+		Item item7 = new Item(product2, phoneModel7, "metal", "метал должен быть матовым", 1, 350d, false);
 		//Order//
 		Date createDate = new Date();
 		String date1 = "03/10/2017";
