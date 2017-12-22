@@ -4,6 +4,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "items")
@@ -14,14 +15,16 @@ public class Item {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "name")
-	private String name;
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product;
 
-	@Column(name = "model")
-	private String model;
+	@ManyToOne
+	@JoinColumn(name = "model_id")
+	private PhoneModel phoneModel;
 
-	@Column(name = "type")
-	private String type;
+	@Column(name = "material")
+	private String material;
 
 	@Column(name = "comment")
 	private String comment;
@@ -51,11 +54,11 @@ public class Item {
 	public Item() {
 	}
 
-	public Item(String name, String model, String type, String comment, int count, double price,
+	public Item(Product product, PhoneModel phoneModel, String material, String comment, int count, double price,
 				boolean status) {
-		this.name = name;
-		this.model = model;
-		this.type = type;
+		this.product = product;
+		this.phoneModel = phoneModel;
+		this.material = material;
 		this.comment = comment;
 		this.count = count;
 		this.price = price;
@@ -71,28 +74,28 @@ public class Item {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public String getModel() {
-		return model;
+	public PhoneModel getPhoneModel() {
+		return phoneModel;
 	}
 
-	public void setModel(String model) {
-		this.model = model;
+	public void setPhoneModel(PhoneModel phoneModel) {
+		this.phoneModel = phoneModel;
 	}
 
-	public String getType() {
-		return type;
+	public String getMaterial() {
+		return material;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setMaterial(String material) {
+		this.material = material;
 	}
 
 	public String getComment() {
@@ -164,62 +167,25 @@ public class Item {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+		if (this == o) return true;
+		if (!(o instanceof Item)) return false;
 		Item item = (Item) o;
-		if (count != item.count) {
-			return false;
-		}
-		if (Double.compare(item.price, price) != 0) {
-			return false;
-		}
-		if (status != item.status) {
-			return false;
-		}
-		if (id != null ? !id.equals(item.id) : item.id != null) {
-			return false;
-		}
-		if (name != null ? !name.equals(item.name) : item.name != null) {
-			return false;
-		}
-		if (model != null ? !model.equals(item.model) : item.model != null) {
-			return false;
-		}
-		if (type != null ? !type.equals(item.type) : item.type != null) {
-			return false;
-		}
-		if (comment != null ? !comment.equals(item.comment) : item.comment != null) {
-			return false;
-		}
-		if (amount != null ? !amount.equals(item.amount) : item.amount != null) {
-			return false;
-		}
-		if (files != null ? !files.equals(item.files) : item.files != null) {
-			return false;
-		}
-		return images != null ? images.equals(item.images) : item.images == null;
+		return count == item.count &&
+			Double.compare(item.price, price) == 0 &&
+			status == item.status &&
+			Objects.equals(id, item.id) &&
+			Objects.equals(product, item.product) &&
+			Objects.equals(phoneModel, item.phoneModel) &&
+			Objects.equals(material, item.material) &&
+			Objects.equals(comment, item.comment) &&
+			Objects.equals(amount, item.amount) &&
+			Objects.equals(files, item.files) &&
+			Objects.equals(images, item.images);
 	}
 
 	@Override
 	public int hashCode() {
-		int result;
-		long temp;
-		result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (name != null ? name.hashCode() : 0);
-		result = 31 * result + (model != null ? model.hashCode() : 0);
-		result = 31 * result + (type != null ? type.hashCode() : 0);
-		result = 31 * result + (comment != null ? comment.hashCode() : 0);
-		result = 31 * result + count;
-		temp = Double.doubleToLongBits(price);
-		result = 31 * result + (int) (temp ^ (temp >>> 32));
-		result = 31 * result + (status ? 1 : 0);
-		result = 31 * result + (amount != null ? amount.hashCode() : 0);
-		result = 31 * result + (files != null ? files.hashCode() : 0);
-		result = 31 * result + (images != null ? images.hashCode() : 0);
-		return result;
+
+		return Objects.hash(id, product, phoneModel, material, comment, count, price, status, amount, files, images);
 	}
 }

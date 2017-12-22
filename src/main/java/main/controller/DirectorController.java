@@ -64,8 +64,7 @@ public class DirectorController {
 		Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
 		Sort sorting = new Sort(orderByDirection, "number");
 
-		Page page = orderService
-			.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
+		Page page = orderService.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
 				new PageRequest(0, 25, sorting));
 		modelAndView.addObject("orderList", page);
 

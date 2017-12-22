@@ -34,12 +34,17 @@ public class InitDB {
 
 	private FuncMenuService functionService;
 
+	private ProductService productService;
+
+	private PhoneModelService phoneModelService;
+
 	@Autowired
 	public InitDB(UserService userService, RoleService roleService, PaymentService paymentService,
 				  StatusService statusService, DeliveryService deliveryService,
 				  OrderService orderService, CustomerService customerService,
 				  ItemService itemService, DeliveryTypeService deliveryTypeService,
-				  FuncMenuService functionService) {
+				  FuncMenuService functionService, ProductService productService,
+				  PhoneModelService phoneModelService) {
 		this.userService = userService;
 		this.roleService = roleService;
 		this.paymentService = paymentService;
@@ -50,6 +55,8 @@ public class InitDB {
 		this.itemService = itemService;
 		this.deliveryTypeService = deliveryTypeService;
 		this.functionService = functionService;
+		this.productService = productService;
+		this.phoneModelService = phoneModelService;
 	}
 
 	@PostConstruct
@@ -118,19 +125,16 @@ public class InitDB {
 		boss.getFunctions().add(bossStatistic);
 		roleService.save(boss);
 		//Пользователи//
-		User user1 =
-			new User("manager", "123", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru",
-				"+7(123)456-78-91");
+		User user1 = new User("manager", "123", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru",
+			"+7(123)456-78-91");
 		userService.save(user1);
 		User user2 = new User("designer", "123", "Designer", "Gucci", false, false, role2,
 			"medvedev@kremlin.ru", "+7(123)456-78-92");
 		userService.save(user2);
-		User user3 =
-			new User("master", "123", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru",
+		User user3 = new User("master", "123", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru",
 				"+7(123)456-78-93");
 		userService.save(user3);
-		User user4 =
-			new User("boss", "123", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru",
+		User user4 = new User("boss", "123", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru",
 				"+7(123)456-78-94");
 		userService.save(user4);
 		//Payment//
@@ -156,17 +160,35 @@ public class InitDB {
 		Customer customer2 =
 			new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
 		customerService.save(customer2);
+		//Product//
+		Product product1 = new Product("Case");
+		productService.save(product1);
+		Product product2 = new Product("Box");
+		productService.save(product2);
+		//Phone Model//
+		PhoneModel phoneModel1 = new PhoneModel("iPhone X");
+		phoneModelService.save(phoneModel1);
+		PhoneModel phoneModel2 = new PhoneModel("Samsung One Note");
+		phoneModelService.save(phoneModel2);
+		PhoneModel phoneModel3 = new PhoneModel("Sony Experia Z");
+		phoneModelService.save(phoneModel3);
+		PhoneModel phoneModel4 = new PhoneModel("GOOGLE PIXEL 2");
+		phoneModelService.save(phoneModel4);
+		PhoneModel phoneModel5 = new PhoneModel("HTC U ULTRA");
+		phoneModelService.save(phoneModel5);
+		PhoneModel phoneModel6 = new PhoneModel("HUAWEI MATE 10");
+		phoneModelService.save(phoneModel6);
+		PhoneModel phoneModel7 = new PhoneModel("MEIZU MX7");
+		phoneModelService.save(phoneModel7);
 		//Item//
-		Item item1 = new Item("Case", "iphone 10", "metall", "my comment...", 1, 100d, false);
-		Item item2 = new Item("Case", "iphone 7", "wood", "my comment...", 2, 200d, false);
-		Item item3 = new Item("Case", "iphone 8", "plastic", "my comment...", 1, 100d, false);
-		Item item4 = new Item("Case", "iphone 5", "wood", "my comment...", 2, 200d, false);
-		Item item5 = new Item("Case", "Nexus 6P", "wood", "через гравировка", 5, 230d, false);
-		Item item6 =
-			new Item("Case", "Samsung Galaxy", "plactic", "матовый пластик найдешь на складе", 3,
+		Item item1 = new Item(product1, phoneModel1, "metal", "my comment...", 1, 100d, false);
+		Item item2 = new Item(product1, phoneModel2, "wood", "my comment...", 2, 200d, false);
+		Item item3 = new Item(product2, phoneModel3, "plastic", "my comment...", 1, 100d, false);
+		Item item4 = new Item(product2, phoneModel4, "wood", "my comment...", 2, 200d, false);
+		Item item5 = new Item(product1, phoneModel5, "wood", "через гравировка", 5, 230d, false);
+		Item item6 = new Item(product1, phoneModel6, "plastic", "матовый пластик найдешь на складе", 3,
 				130d, false);
-		Item item7 =
-			new Item("Case", "IPhoneX", "metal", "метал должен быть матовым", 1, 350d, false);
+		Item item7 = new Item(product2, phoneModel7, "metal", "метал должен быть матовым", 1, 350d, false);
 		//Order//
 		Date createDate = new Date();
 		String date1 = "03/10/2017";
@@ -174,28 +196,22 @@ public class InitDB {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 		Date d1 = dateFormat.parse(date1);
 		Date d2 = dateFormat.parse(date2);
-		Order order1 =
-			new Order("1", false, false, createDate, toAddress, payment1, status1, customer1, item1,
+		Order order1 = new Order("1", false, false, createDate, toAddress, payment1, status1, customer1, item1,
 				user1, user2, user3);
 		orderService.save(order1);
-		Order order2 =
-			new Order("2", false, false, createDate, toAddress, payment2, status2, customer2, item2,
+		Order order2 = new Order("2", false, false, createDate, toAddress, payment2, status2, customer2, item2,
 				user1, user2, user3);
 		orderService.save(order2);
-		Order order3 =
-			new Order("3", false, false, createDate, pickup, payment1, status3, customer2, item3,
+		Order order3 = new Order("3", false, false, createDate, pickup, payment1, status3, customer2, item3,
 				user1, user2, user3, deliveryPickup2);
 		orderService.save(order3);
-		Order order4 =
-			new Order("4", false, false, createDate, pickup, payment2, status4, customer1, item4,
+		Order order4 = new Order("4", false, false, createDate, pickup, payment2, status4, customer1, item4,
 				user1, user2, user3, deliveryPickup);
 		orderService.save(order4);
-		Order order5 =
-			new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1,
+		Order order5 = new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1,
 				user2, user3);
 		orderService.save(order5);
-		Order order6 =
-			new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1,
+		Order order6 = new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1,
 				user2, user3);
 		orderService.save(order6);
 	}
