@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-<html>
+
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -27,7 +27,7 @@
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
 
-    <link rel="stylesheet" type="text/css" href="/css/mxstyle.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/designerOrderForm.css" media="all">
 </head>
 
 <body onload="checkStatus();" ng-app="masterOrderForm">
@@ -75,7 +75,7 @@
                 <li><a href="#tabHistory" data-toggle="tab" >История</a></li>
             </ul>
             <div class="form-horizontal borderSimple" style="border-top: none;"  >
-                <div class="tab-content " >
+                <div class="tab-content" >
                     <div class="tab-pane fade "  id="tabItem" role="tabpanel">
                         <br>
                         <table>
@@ -96,7 +96,7 @@
                             </tr>
                         </table>
                     </div>
-                    <!-- Комментарии -->
+                    <!-- COMMENTS -->
                     <div class="tab-pane fade" id="tabComments" role="tabpanel" >
                         <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
                             <div class="comments-container" >
@@ -177,30 +177,31 @@
                                 </form>
                             </div> <!-- end of windows-->
                         </div> <!-- end of comment -->
+                    </div> <!--end Comments-->
+
+                    <!--HISTORY-->
+                    <div class="tab-pane" id="tabHistory" role="tabpanel">
+                        <table class="table table-bordered data">
+                            <thead>
+                            <tr class="tableHead">
+                                <th>Дата получения</th>
+                                <th>Дата отправки</th>
+                                <th>Статус</th>
+                                <th>Отправитель</th>
+                                <th>Получатель</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr th:each="element: ${order.getHistories()}">
+                                <td th:text="${element.getDateRecievedString()}">
+                                <td th:text="${element.getDateTransferredString()}">
+                                <td th:text="${element.getStatus()}">
+                                <td th:text="${element.getFrom()}">
+                                <td th:text="${element.getTo()}">
+                            </tbody>
+                        </table>
                     </div>
-
-                <div class="tab-pane" id="tabHistory" role="tabpanel">
-                    <table class="table table-bordered data">
-                        <thead>
-                        <tr class="tableHead">
-                            <th>Дата получения</th>
-                            <th>Дата отправки</th>
-                            <th>Статус</th>
-                            <th>Отправитель</th>
-                            <th>Получатель</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        <tr th:each="element: ${order.getHistories()}">
-                            <td th:text="${element.getDateRecievedString()}">
-                            <td th:text="${element.getDateTransferredString()}">
-                            <td th:text="${element.getStatus()}">
-                            <td th:text="${element.getFrom()}">
-                            <td th:text="${element.getTo()}">
-                        </tbody>
-                    </table>
-                </div>
                 </div>
                 </fieldset>
             </div>
@@ -239,27 +240,18 @@
                         <tr class="tableHead">
                             <th>№ Позиции</th>
                             <th>Продукт</th>
-                            <th>Материал</th>
                             <th>Модель</th>
+                            <th>Материал</th>
                             <th>Статус</th>
                             <th>Действие</th>
-
                         </tr>
-
                         <tr th:each ="item, stat: ${order.getItems()}">
                             <td th:text="${stat.count}"> </td>
-                            <td th:text="${item.getName()}" ></td>
-                            <td th:text="${item.getType()}" ></td>
-                            <td th:text="${item.getModel()}"></td>
+                            <td th:text="${item.product.getProductName()}" ></td>
+                            <td th:text="${item.phoneModel.getModelName()}" ></td>
+                            <td th:text="${item.getMaterial()}"></td>
                             <td th:text="${item.getStatusString()}" name="status"
                                 th:value="${item.getStatus()}"></td>
-                            <!--<td>
-                               <form  th:action="'/designer/order/item/'+${order.id}+'/'+${item.getId() }"
-                                      method="get"  >
-                                <button class="btn btn-success width100" type="submit"  >Открыть</button>
-                                </form>
-
-                            </td>-->
                             <td align="center">
                                 <a class="btn btn-info btn-sm" th:href="${'/designer/order/item/' + order.getId() + '/' + item.getId()}" title="Открыть заказ">
                                     <span class="glyphicon glyphicon-folder-open"> Открыть</span>

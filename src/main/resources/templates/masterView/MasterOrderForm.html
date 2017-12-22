@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/images/OldManFavicon.png">
     <title th:text="'Заказ № ' + ${order.number}"> Заказ №</title>
 
     <!--для комментов-->
@@ -39,21 +40,15 @@
 
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                        <span class="sr-only">
-                            Toggle navigation
-                        </span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
+            <div class="navbar-header">
+                <a class="navbar-brand navbar-link" th:href="@{/master}">CaseMobile</a>
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                        <li class="active" role="presentation"><a th:text="${function?.getName()}"
-                                                                  th:href="${function.getLink()}"></a></li>
+                        <li role="presentation">
+                            <a th:text="${function?.getName()}" th:href="${function.getLink()}"></a>
+                        </li>
                     </ul>
                 </th:block>
                 <ul class="nav navbar-nav navbar-right">
@@ -234,12 +229,12 @@
                         </thead>
                         <tbody>
 
-                        <tr th:each="element: ${order.getHistories()}">
-                            <td th:text="${element.getDateRecievedString()}">
-                            <td th:text="${element.getDateTransferredString()}">
-                            <td th:text="${element.getStatus()}">
-                            <td th:text="${element.getFrom()}">
-                            <td th:text="${element.getTo()}">
+                        <tr th:each="history: ${order.getHistories()}">
+                            <td th:text="${history.getDateRecievedString()}">
+                            <td th:text="${history.getDateTransferredString()}">
+                            <td th:text="${history.getStatus()}">
+                            <td th:text="${history.getFrom()}">
+                            <td th:text="${history.getTo()}">
                         </tbody>
                     </table>
                 </div>
@@ -261,29 +256,34 @@
             <table id="example" class="table table-bordered data" text-align="center" id="example">
                 <thead>
                 <tr>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">№</th>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Продукт</th>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Материал</th>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Модель</th>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Количество</th>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Цена</th>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
-                    <th style="background-color: #777777; color: #FFFFFF; text-align: center;">Действие</th>
+                    <th>№</th>
+                    <th>Продукт</th>
+                    <th>Модель телефона</th>
+                    <th>Материал</th>
+                    <th>Количество</th>
+                    <th>Цена за шт.(руб.)</th>
+                    <th>Сумма(руб.)</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="item, stat : ${order.getItems()}">
-                    <td th:text="${stat.count}" style="text-align: center;"></td>
-                    <td th:text="${item.getName()}" style="text-align: center;"></td>
-                    <td th:text="${item.getType()}" style="text-align: center;"></td>
-                    <td th:text="${item.getModel()}" style="text-align: center;"></td>
-                    <td th:text="${item.getCount()}" style="text-align: center;"></td>
-                    <td th:text="${item.getPrice()}" style="text-align: center;"></td>
-                    <td th:text="${item.getStatusString()}" name="status" style="text-align: center;"></td>
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${item.product.getProductName()}"></td>
+                    <td th:text="${item.phoneModel.getModelName()}"></td>
+                    <td th:text="${item.getMaterial()}"></td>
+                    <td th:text="${item.getCount()}"></td>
+                    <td th:text="${item.getPrice()}"></td>
+                    <td th:text="${item.getAmount()}"></td>
+                    <td th:text="${item.getStatusString()}" name="status"></td>
                     <td style="text-align:center">
-                        <form th:action="@{'/master/order/'+${order.id}+'/item/' + ${item.getId()}}" method="get">
+                        <!--<form th:action="@{'/master/order/'+${order.id}+'/item/' + ${item.getId()}}" method="get">
                             <input class="btn btn-info"  type="submit" value="Открыть" />
-                        </form>
+                        </form>-->
+                        <a class="btn btn-info btn-sm" th:href="${'/master/order/' + order.getId() + '/item/' + item.getId()}" title="Открыть заказ">
+                            <span class="glyphicon glyphicon-folder-open"> Открыть</span>
+                        </a>
                     </td>
                 </tr>
                 </tbody>

@@ -55,20 +55,20 @@ public class DesignerController {
 	}
 
 	//Order page
-	@RequestMapping(value = {"/designer/order/{id}"}, method = RequestMethod.GET)
-	public ModelAndView order(@PathVariable("id") Long id) {
-		ModelAndView model = new ModelAndView("/designerView/DesignerOrder");
+	@RequestMapping(value = {"/designer/order/{orderId}"}, method = RequestMethod.GET)
+	public ModelAndView order(@PathVariable("orderId") Long orderId) {
+		ModelAndView model = new ModelAndView("/designerView/DesignerOrderForm");
 		try {
-			model.addObject("order", orderService.get(id));
+			model.addObject("order", orderService.get(orderId));
 		} catch (Exception e) {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
-			logger.error("while retrieving order Id={}", id);
+			logger.error("while retrieving order Id={}", orderId);
 		}
 
 		String user = userService.getCurrentUser().getName();
 		List<Notification> myNotes = notificationService.findAllByUser(user);
 		for (Notification n : myNotes) {
-			if (n.getOrder() == orderService.get(id).getId()) {
+			if (n.getOrder() == orderService.get(orderId).getId()) {
 				notificationService.delete(n.getId());
 				model.addObject("tabIndex", "1");
 			}

@@ -71,21 +71,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Тип продукта:</span>
-                        <input type="text" class="form-control" th:value="${item.name}" readonly style="background: white">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Материал:</span>
-                        <input type="text" class="form-control" th:value="${item.type}" readonly style="background: white">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Модель телефона:</span>
-                        <input type="text" class="form-control" th:value="${item.model}" readonly style="background: white">
+                        <input type="text" class="form-control" th:value="${item.product.getProductName()}" readonly style="background: white">
                     </div>
                 </div>
 
@@ -93,6 +79,20 @@
                     <div class="input-group" >
                         <span class="input-group-addon" >Количество:</span>
                         <input type="text" class="form-control" th:value="${item.count}" readonly style="background: white">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Модель телефона:</span>
+                        <input type="text" class="form-control" th:value="${item.phoneModel.getModelName()}" readonly style="background: white">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Материал:</span>
+                        <input type="text" class="form-control" th:value="${item.getMaterial()}" readonly style="background: white">
                     </div>
                 </div>
 

@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/images/OldManFavicon.png">
     <title>Форма товара</title>
 
     <!-- Latest compiled and minified CSS -->
@@ -27,20 +28,13 @@
 <body ng-app="masterOrderForm">
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-        <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                	<span class="sr-only">
-                		Toggle navigation
-                	</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+        <div class="navbar-header">
+            <a class="navbar-brand navbar-link" th:href="@{/master}">CaseMobile</a>
         </div>
         <div class="collapse navbar-collapse" id="navcol-1">
             <th:block th:each="element:  ${#authentication.getAuthorities()}">
                 <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                    <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                    <li role="presentation"><a th:text="${function?.getName()}"
                                                               th:href="${function.getLink()}"></a></li>
                 </ul>
             </th:block>
@@ -73,17 +67,17 @@
                     <br>
                     <div class="input-group">
                         <li class="input-group-addon" id="basic-addon3" style="width: 170px; text-align: left;"><strong>Продукт:</strong></li>
-                        <li th:text="${item.name}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
+                        <li th:text="${item.product.getProductName()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
                     </div>
                         <br>
                     <div class="input-group">
                         <li class="input-group-addon" id="basic-addon3" style="width: 170px; text-align: left;"><strong>Модель телефона:</strong></li>
-                        <li th:text="${item.model}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
+                        <li th:text="${item.phoneModel.getModelName()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
                     </div>
                         <br>
                     <div class="input-group">
                         <li class="input-group-addon" id="basic-addon3" style="width: 170px; text-align: left;"><strong>Тип:</strong></li>
-                        <li th:text="${item.type}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
+                        <li th:text="${item.getMaterial()}" type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" style="width: 170px; text-align: left;"></li>
                     </div>
                 </div>
                 <div class="col-lg-6">

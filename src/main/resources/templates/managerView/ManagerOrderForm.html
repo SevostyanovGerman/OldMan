@@ -42,8 +42,9 @@
             <ul class="nav navbar-nav">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                        <li class="active" role="presentation"><a th:text="${function?.getName()}"
-                                                                  th:href="${function.getLink()}"></a></li>
+                        <li class="active" role="presentation">
+                            <a th:text="${function?.getName()}" th:href="${function.getLink()}"></a>
+                        </li>
                     </ul>
                 </th:block>
             </ul>
@@ -79,37 +80,31 @@
                     </ul>
                     <!-- ЗАКАЗ -->
                     <div class="tab-content">
-
                         <div class="tab-pane active " id="tabItem" role="tabpanel">
                             <br>
-
                             <div class="container-fluid  col-lg-12" style="margin-bottom: 5px">
-
-                                    <div class="col-lg-4">
-                                       <div class="input-group">
-                                            <span class="input-group-addon customerField"
-                                                 th:if="${order?.getDesigner()?.toString()}"   th:text="'Дизайнер: ' + ${order?.getDesigner()?.toString()}"
-                                                  style="width: 100%; text-align: center"></span>
-                                            <span class="input-group-addon customerField"
-                                                  th:if="${order?.getDesigner()?.toString() == null}"
-                                                   style="width: 100%; text-align: center">Дизайнер: --</span>
-                                             <a href="#designerModal" class="form-control btn-info" data-toggle="modal">...</a>
-                                        </div>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-addon customerField"
+                                             th:if="${order?.getDesigner()?.toString()}"   th:text="'Дизайнер: ' + ${order?.getDesigner()?.toString()}"
+                                              style="width: 100%; text-align: center"></span>
+                                        <span class="input-group-addon customerField"
+                                              th:if="${order?.getDesigner()?.toString() == null}"
+                                               style="width: 100%; text-align: center">Дизайнер: --</span>
+                                        <a href="#designerModal" class="form-control btn-info" data-toggle="modal">...</a>
                                     </div>
-
+                                </div>
                                      <div class="col-lg-4" sec:authorize="hasAuthority('BOSS')">
                                          <div class="input-group ">
-                                              <span class="input-group-addon customerField"
-                                              th:if="${order?.getManager()?.toString()}"
-                                                    th:text="'Менеджер: ' + ${order?.getManager()?.toString()}"
+                                            <span class="input-group-addon customerField"
+                                              th:if="${order?.getManager()?.toString()}" th:text="'Менеджер: ' + ${order?.getManager()?.toString()}"
                                               style="width: 100%; text-align: center; font: bold"></span>
 
                                               <span class="input-group-addon customerField"
                                               th:if="${order?.getManager()?.toString() == null}"
                                               style="width: 100%; text-align: center">Менеджер: --</span>
 
-                                              <a href="#managerModal" class="form-control btn-info"
-                                                 data-toggle="modal">...</a>
+                                            <a href="#managerModal" class="form-control btn-info" data-toggle="modal">...</a>
                                     </div>
                                 </div>
                                     <div class="col-lg-4">
@@ -129,37 +124,37 @@
                             <div  id="formItemTable"  >
                             <table class="table table-bordered data" text-align="center" >
                                 <thead>
-                                <tr>
-                                    <th class="table-head">№</th>
-                                    <th class="table-head">Продукт</th>
-                                    <th class="table-head">Материал</th>
-                                    <th class="table-head">Модель</th>
-                                    <th class="table-head">Количество</th>
-                                    <th class="table-head">Цена за шт.(руб.)</th>
-                                    <th class="table-head">Сумма(руб.)</th>
-                                    <th colspan="2" class="table-head">Действия</th>
-                                </tr>
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Продукт</th>
+                                        <th>Модель телефона</th>
+                                        <th>Материал</th>
+                                        <th>Количество</th>
+                                        <th>Цена за шт.(руб.)</th>
+                                        <th>Сумма(руб.)</th>
+                                        <th colspan="2">Действия</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="item, stat : ${order.getItems()}">
-                                    <td class="table-body" th:text="${stat.count}">001</td>
-                                    <td class="table-body" th:text="${item.getName()}">Чехол</td>
-                                    <td class="table-body" th:text="${item.getType()}">Деревянный</td>
-                                    <td class="table-body" th:text="${item.getModel()}">Samsung</td>
-                                    <td class="table-body" th:text="${item.getCount()}">1</td>
-                                    <td class="table-body" th:text="${item.getPrice()}">100</td>
-                                    <td class="table-body" th:text="${item.getAmount()}">100</td>
-                                    <td align="center">
-                                        <a class="btn btn btn-info btn-xs"
-                                           th:href="${'/manager/item/update/'+ order.getId()+'/'+item.getId()}"
-                                           title="Редактировать данную позицию"><span class="glyphicon glyphicon-pencil"></span></a>
-                                    </td>
-                                    <td align="center">
-                                        <a class="btn btn-danger btn-xs"
-                                           th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}"
-                                           title="Удалить данную позицию"><span class="glyphicon glyphicon-remove"></span></a>
-                                    </td>
-                                </tr>
+                                    <tr th:each="item, stat : ${order.getItems()}">
+                                        <td th:text="${stat.count}"></td>
+                                        <td th:text="${item.product.getProductName()}"></td>
+                                        <td th:text="${item.phoneModel.getModelName()}"></td>
+                                        <td th:text="${item.getMaterial()}"></td>
+                                        <td th:text="${item.getCount()}"></td>
+                                        <td th:text="${item.getPrice()}"></td>
+                                        <td th:text="${item.getAmount()}"></td>
+                                        <td align="center">
+                                            <a class="btn btn btn-info btn-xs"
+                                               th:href="${'/manager/item/update/'+ order.getId()+'/'+item.getId()}"
+                                               title="Редактировать данную позицию"><span class="glyphicon glyphicon-pencil"></span></a>
+                                        </td>
+                                        <td align="center">
+                                            <a class="btn btn-danger btn-xs"
+                                               th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}"
+                                               title="Удалить данную позицию"><span class="glyphicon glyphicon-remove"></span></a>
+                                        </td>
+                                    </tr>
                                 <tr>
                                     <td colspan="6" align="left"><strong>Стоимость заказа:</strong></td>
                                     <td colspan="3" align="center" th:text="${order?.price} + ' рублей'"
@@ -179,117 +174,115 @@
                        </div>
                         <!-- Комментарии -->
                         <div class="tab-pane" id="tabComments" role="tabpanel"  >
-                                <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
-                                    <div class="comments-container" >
-                                        <ul id="comments-list" class="comments-list"
-                                            th:each="element: ${order?.getComments()}" th:fragment="commentsFragment" >
-                                            <li>
-                                                <div class="comment-main-level">
-                                                    <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                            <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
+                                <div class="comments-container" >
+                                    <ul id="comments-list" class="comments-list"
+                                        th:each="element: ${order?.getComments()}" th:fragment="commentsFragment" >
+                                        <li>
+                                            <div class="comment-main-level">
+                                                <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
 
-                                                    <div class="comment-box">
-                                                        <div class="comment-head">
-                                                            <h6 class="comment-name by-author" th:text="${element.getCreatedBy()}"></h6>
-                                                            <a class="receiver" th:text="${element.getSentTo()}" style="background: steelblue"></a>
-                                                            <span th:text="${element.getTime()}"></span>
-                                                            <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element.getId()}}" class="glyphicon glyphicon-trash"></a></span>
-                                                            <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
-                                                            <i th:if="${#authentication.principal.name != element.getCreatedBy().getName()}" class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'" th:id="${element}+'Btn'">Ответить</i>
-                                                        </div>
-                                                            <!-- main comment -->
-                                                            <div class="comment-content" th:utext="${element.getContent()}"></div>
+                                                <div class="comment-box">
+                                                    <div class="comment-head">
+                                                        <h6 class="comment-name by-author" th:text="${element.getCreatedBy()}"></h6>
+                                                        <a class="receiver" th:text="${element.getSentTo()}" style="background: steelblue"></a>
+                                                        <span th:text="${element.getTime()}"></span>
+                                                        <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element.getId()}}" class="glyphicon glyphicon-trash"></a></span>
+                                                        <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
+                                                        <i th:if="${#authentication.principal.name != element.getCreatedBy().getName()}" class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'" th:id="${element}+'Btn'">Ответить</i>
+                                                    </div>
+                                                        <!-- main comment -->
+                                                        <div class="comment-content" th:utext="${element.getContent()}"></div>
 
-                                                            <div class="comment-content comment-edition">
-                                                                <form th:action="'/order/comment/edit=' + ${element.getId()}" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}" method="post">
-                                                                    <textarea class="form-control" name="editText" th:utext="${element.getContent()}"></textarea>
-                                                                    <button class="btn btn-info btn-sm" type="submit" th:value="${element.getId()}" style="margin-top: 5px">Сохранить</button>
-                                                                </form>
-                                                            </div>
-                                                            <!-- end of main comment-->
-
-                                                        <div th:id="${element}" style="display: none; " class="container-fluid">
-                                                            <form th:action="'/order/comment/add='+${order.getId()}" method="post" th:id="${element}+'Frm'">
-                                                            <textarea class="form-control " th:id="${element}+'Text'" name="commentText"></textarea>
-                                                                <input type="hidden" name="sendTo" th:value="${element.getCreatedBy()}"/>
-                                                                <div style="text-align: right; margin-top: 5px">
-                                                                    <button class="btn btn-info btn-sm" type="submit" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
-                                                                </div>
+                                                        <div class="comment-content comment-edition">
+                                                            <form th:action="'/order/comment/edit=' + ${element.getId()}" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}" method="post">
+                                                                <textarea class="form-control" name="editText" th:utext="${element.getContent()}"></textarea>
+                                                                <button class="btn btn-info btn-sm" type="submit" th:value="${element.getId()}" style="margin-top: 5px">Сохранить</button>
                                                             </form>
                                                         </div>
+                                                        <!-- end of main comment-->
+
+                                                    <div th:id="${element}" style="display: none; " class="container-fluid">
+                                                        <form th:action="'/order/comment/add='+${order.getId()}" method="post" th:id="${element}+'Frm'">
+                                                        <textarea class="form-control " th:id="${element}+'Text'" name="commentText"></textarea>
+                                                            <input type="hidden" name="sendTo" th:value="${element.getCreatedBy()}"/>
+                                                            <div style="text-align: right; margin-top: 5px">
+                                                                <button class="btn btn-info btn-sm" type="submit" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
-                                                <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
-                                                    <li>
-                                                        <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
-                                                        <div class="comment-box">
-                                                            <div class="comment-head">
-                                                                <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
-                                                                <span th:text="${element2.getTime()} "></span>
-                                                                <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element2.getId()}}" class="glyphicon glyphicon-trash"></a></span>
-                                                                <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
-                                                            </div>
-                                                            <!-- answer comment -->
-                                                            <div class="comment-content" th:utext="${element2.getContent()}"></div>
-
-                                                            <div class="comment-content comment-edition">
-                                                                <form th:action="'/order/comment/edit=' + ${element2.getId()}" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}" method="post">
-                                                                    <textarea class="form-control" name="editText" th:utext="${element2.getContent()}"></textarea>
-                                                                    <button class="btn btn-info btn-sm" type="submit" th:value="${element2.getId()}" style="margin-top: 5px">Сохранить</button>
-                                                                </form>
-                                                            </div>
-                                                            <!-- end of answer comment -->
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <!-- write comment -->
-                                    <div class="panel-footer" ng-controller="MasterOrderController">
-                                        <form th:action="'/order/comment/add='+${order?.getId()}" method="post">
-                                            <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
-                                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                                            <div ng-show="noResults">
-                                                <i class="glyphicon glyphicon-remove"></i> No Results Found
                                             </div>
-                                            <textarea onfocus="toggleArea1()" class="form-control" name="commentText" placeholder="Напишите сообщение..." id="e_content" style="margin-top: 5px"></textarea>
-                                            <button class="btn btn-info btn-sm" type="submit" id="btn-chat"
-                                                    style="text-align: right; margin-top: 5px">Написать комментарий
-                                            </button>
-                                        </form>
-                                    </div>
-                                    <!-- end of windows-->
+                                            <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
+                                                <li>
+                                                    <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                                                    <div class="comment-box">
+                                                        <div class="comment-head">
+                                                            <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
+                                                            <span th:text="${element2.getTime()} "></span>
+                                                            <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element2.getId()}}" class="glyphicon glyphicon-trash"></a></span>
+                                                            <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
+                                                        </div>
+                                                        <!-- answer comment -->
+                                                        <div class="comment-content" th:utext="${element2.getContent()}"></div>
+
+                                                        <div class="comment-content comment-edition">
+                                                            <form th:action="'/order/comment/edit=' + ${element2.getId()}" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}" method="post">
+                                                                <textarea class="form-control" name="editText" th:utext="${element2.getContent()}"></textarea>
+                                                                <button class="btn btn-info btn-sm" type="submit" th:value="${element2.getId()}" style="margin-top: 5px">Сохранить</button>
+                                                            </form>
+                                                        </div>
+                                                        <!-- end of answer comment -->
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </div>
-                        </div>
-                            <!-- Конец комментариев -->
+                                <!-- write comment -->
+                                <div class="panel-footer" ng-controller="MasterOrderController">
+                                    <form th:action="'/order/comment/add='+${order?.getId()}" method="post">
+                                        <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                                        <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                                        <div ng-show="noResults">
+                                            <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                        </div>
+                                        <textarea onfocus="toggleArea1()" class="form-control" name="commentText" placeholder="Напишите сообщение..." id="e_content" style="margin-top: 5px"></textarea>
+                                        <button class="btn btn-info btn-sm" type="submit" id="btn-chat"
+                                                style="text-align: right; margin-top: 5px">Написать комментарий
+                                        </button>
+                                    </form>
+                                </div> <!-- end of windows-->
+                            </div>
+                        </div> <!-- Конец комментариев -->
+
                         <!-- ИСТОРИЯ ЗАКАЗА -->
                         <div class="tab-pane" id="tabHistory" role="tabpanel">
                             <br>
                             <table class="table table-bordered data" text-align="center">
                                 <thead>
                                 <tr>
-                                    <th class="table-head">№ Заказа</th>
-                                    <th class="table-head">Дата получения</th>
-                                    <th class="table-head">Дата отправки</th>
-                                    <th class="table-head">Статус</th>
-                                    <th class="table-head">Отправитель</th>
-                                    <th class="table-head">Получатель</th>
+                                    <th>№ Заказа</th>
+                                    <th>Дата получения</th>
+                                    <th>Дата отправки</th>
+                                    <th>Статус</th>
+                                    <th>Отправитель</th>
+                                    <th>Получатель</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="history : ${order.getHistories()}">
-                                    <td class="table-body" th:text="${history.getId()}"></td>
-                                    <td class="table-body" th:text="${history.getDateRecievedString()}"></td>
-                                    <td class="table-body" th:text="${history.getDateTransferredString()}"></td>
-                                    <td class="table-body" th:text="${history.getStatus()}"></td>
-                                    <td class="table-body" th:text="${history.getFrom()}"></td>
-                                    <td class="table-body" th:text="${history.getTo()}"></td>
+                                    <td th:text="${history.getId()}"></td>
+                                    <td th:text="${history.getDateRecievedString()}"></td>
+                                    <td th:text="${history.getDateTransferredString()}"></td>
+                                    <td th:text="${history.getStatus()}"></td>
+                                    <td th:text="${history.getFrom()}"></td>
+                                    <td th:text="${history.getTo()}"></td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-
+                    </div> <!--end tab-content-->
                 </fieldset>
             </div>
         </div> <!-- col-lg-9 -->

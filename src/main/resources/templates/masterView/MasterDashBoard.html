@@ -4,7 +4,9 @@
 <head>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/images/OldManFavicon.png">
 	<title th:text="'Таблица заказов: '+ ${#authentication.name}">Таблица заказов</title>
+
     <!--для комментов-->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/mxComment.css"/>
@@ -30,27 +32,19 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
 <body ng-app="masterOrderForm">
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
-		<div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-			<button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                	<span class="sr-only">
-                		Toggle navigation
-                	</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
+		<div class="navbar-header">
+            <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
 		</div>
 		<div class="collapse navbar-collapse" id="navcol-1">
             <th:block th:each="element:  ${#authentication.getAuthorities()}">
                 <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                    <li class="active" role="presentation"><a th:text="${function?.getName()}" th:href="${function.getLink()}"></a></li>
+                    <li role="presentation"><a th:text="${function?.getName()}" th:href="${function.getLink()}"></a></li>
                 </ul>
             </th:block>
 			<ul class="nav navbar-nav navbar-right">
@@ -79,32 +73,32 @@
 	<div class="table-responsive">
 		<table class="table table-bordered data" text-align="center" id="example">
 			<thead id="ex_head">
-			<tr>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">№ Заказа</th>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Мастер</th>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Платеж</th>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Доставка</th>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Статус</th>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата получения</th>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Дата отправки</th>
-				<th style="background-color: #777777; color: #FFFFFF; text-align: center;">Действие</th>
-			</tr>
+                <tr>
+                    <th>№ Заказа</th>
+                    <th>Мастер</th>
+                    <th>Платеж</th>
+                    <th>Доставка</th>
+                    <th>Статус</th>
+                    <th>Дата получения</th>
+                    <th>Дата отправки</th>
+                    <th>Действие</th>
+                </tr>
 			</thead>
 			<tbody id="ex_body">
-			<tr th:each="order : ${masterOrders}">
-				<td th:text="${order.getId()}" style="text-align: center;"></td>
-				<td th:text="${order.master}" style="text-align: center;"></td>
-				<td th:text="${order.getPaymentString()}" style="text-align: center;"></td>
-				<td th:text="${order.getDeliveryType()}" style="text-align: center;"></td>
-				<td th:text="${order.getStatus()}" style="text-align: center;"></td>
-				<td th:text="${order.getDateRecieved()}" style="text-align: center;"></td>
-				<td th:text="${order.getDateTransferred()}" style="text-align: center;"></td>
-				<td style="text-align:center">
-                    <form th:action="@{'/master/order/' + ${order.getId()}}" method="get">
-                        <input class="btn btn-info"  type="submit" value="Открыть" />
-                    </form>
-				</td>
-			</tr>
+                <tr th:each="order : ${masterOrders}">
+                    <td th:text="${order.getId()}"></td>
+                    <td th:text="${order.master}"></td>
+                    <td th:text="${order.getPaymentString()}"></td>
+                    <td th:text="${order.getDeliveryType()}"></td>
+                    <td th:text="${order.getStatus()}"></td>
+                    <td th:text="${order.getDateRecieved()}"></td>
+                    <td th:text="${order.getDateTransferred()}"></td>
+                    <td style="text-align:center">
+                        <a class="btn btn-info btn-sm" th:href="${'/master/order/' + order.getId()}" title="Открыть заказ">
+                            <span class="glyphicon glyphicon-folder-open"> Открыть</span>
+                        </a>
+                    </td>
+                </tr>
 			</tbody>
 		</table>
 	</div>
@@ -127,19 +121,24 @@
             integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <!-- JQuery scripts -->
-    <script>
-        $(function() {
 
-        $('#example').DataTable({
-            "scrollY":        "400px",
-            "scrollCollapse": true,
-            "paging":         true,
-            "columnDefs": [{
-                    "targets": [5,6],
-                    "searchable": false
-                }]
-        });
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#example').DataTable({
+                "oLanguage": {
+                    "sLengthMenu": "Показать _MENU_ записей на странице",
+                    "sZeroRecords": "Извините - ничего не найдено",
+                    "sInfo": "Показано _START_ до _END_ из _TOTAL_ записей",
+                    "sInfoEmpty": "Нет записей",
+                    "sInfoFiltered": "(из _MAX_ записей)",
+                    "sSearch": "Поиск:",
+                    "oPaginate": {
+                        "sNext": "След. стр.",
+                        "sPrevious": "Пред. стр."
+                    }
+                }
             });
+        });
     </script>
 </body>
 </html>
