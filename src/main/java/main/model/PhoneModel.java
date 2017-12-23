@@ -14,7 +14,7 @@ public class PhoneModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Pattern(regexp = RegexpConstans.REG_EXP_OF_FIRST_NAME, message = "{name.wrong}")
+	@Pattern(regexp = RegexpConstans.REG_EXP_OF_MODEL_PHONE, message = "{name.wrong}")
 	@Column(name = "model_name", length = 50)
 	private String modelName;
 

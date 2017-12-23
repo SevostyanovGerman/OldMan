@@ -21,5 +21,6 @@ public class RegexpConstans {
 	// Выражение задающее формат цвета в 16-ричной системе счисления
 	public static final String REG_EXP_COLOR = "^[#]{1}[0-9A-Fa-f]{6}$";
 
-
+	// Регулярное выражение для валидации модели телефона.
+	public static final String REG_EXP_OF_MODEL_PHONE = "^[а-яёА-ЯЁa-zA-Z0-9 -]{2,50}$";
 }
