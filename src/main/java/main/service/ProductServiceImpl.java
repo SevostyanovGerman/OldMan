@@ -30,6 +30,11 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public Product getByName(String name) {
+		return productRepository.getByProductName(name);
+	}
+
+	@Override
 	public void save(Product product) {
 		productRepository.saveAndFlush(product);
 	}

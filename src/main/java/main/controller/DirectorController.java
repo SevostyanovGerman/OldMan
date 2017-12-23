@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,12 +40,17 @@ public class DirectorController {
 
 	private NotificationService notificationService;
 
+	private ProductService productService;
+
+	private PhoneModelService phoneModelService;
+
 	private final static Logger logger = LoggerFactory.getLogger(DirectorController.class);
 
 	@Autowired
-	public DirectorController(UserService userService, OrderService orderService, StatusService statusService,
-							  RoleService roleService, CustomerService customerService, DeliveryService deliveryService,
-							  NotificationService notificationService) {
+	public DirectorController(UserService userService, OrderService orderService,
+		StatusService statusService, RoleService roleService, CustomerService customerService,
+		DeliveryService deliveryService, NotificationService notificationService,
+		ProductService productService, PhoneModelService phoneModelService) {
 		this.userService = userService;
 		this.orderService = orderService;
 		this.statusService = statusService;
@@ -52,6 +58,8 @@ public class DirectorController {
 		this.customerService = customerService;
 		this.deliveryService = deliveryService;
 		this.notificationService = notificationService;
+		this.productService = productService;
+		this.phoneModelService = phoneModelService;
 	}
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
@@ -62,8 +70,9 @@ public class DirectorController {
 		Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
 		Sort sorting = new Sort(orderByDirection, "number");
 
-		Page page = orderService.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
-			new PageRequest(0, 25, sorting));
+		Page page = orderService
+			.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
+				new PageRequest(0, 25, sorting));
 		modelAndView.addObject("orderList", page);
 
 		//Pagination variables
@@ -125,8 +134,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/create"}, method = RequestMethod.POST)
-	public ModelAndView createStatus(@ModelAttribute("newstatus") @Valid Status newstatus, BindingResult bindingResult,
-									 HttpServletRequest request) {
+	public ModelAndView createStatus(@ModelAttribute("newstatus") @Valid Status newstatus,
+		BindingResult bindingResult, HttpServletRequest request) {
 
 		ModelAndView modelAndView = new ModelAndView();
 
@@ -168,7 +177,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/controlpanel/statuses/update"}, method = RequestMethod.POST)
 	public ModelAndView updateStatus(@ModelAttribute("status") @Valid Status incomingStatus,
-									 BindingResult bindingResult, HttpServletRequest request) {
+		BindingResult bindingResult, HttpServletRequest request) {
 		ModelAndView modelAndView = new ModelAndView();
 
 		/*
@@ -190,10 +199,10 @@ public class DirectorController {
 			if ((foundStatus != null) && (incomingStatus.getId() != foundStatus.getId())) {
 				String error = "Статус с именем: " + incomingStatus.getName() + " уже существует";
 				request.getSession().setAttribute("error", error);
-			} else if ((foundStatusByNumber != null) && (number > 0) &&
-					   (incomingStatus.getId() != foundStatusByNumber.getId())) {
-				String error =
-					"Статус с индексом: " + number + " уже существует. Допустимо дублирование только с индексом: 0";
+			} else if ((foundStatusByNumber != null) && (number > 0) && (incomingStatus.getId()
+				!= foundStatusByNumber.getId())) {
+				String error = "Статус с индексом: " + number
+					+ " уже существует. Допустимо дублирование только с индексом: 0";
 				request.getSession().setAttribute("error", error);
 			} else {
 				try {
@@ -211,7 +220,8 @@ public class DirectorController {
 		return modelAndView;
 	}
 
-	@RequestMapping(value = {"/director/controlpanel/status/delete/{id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = {
+		"/director/controlpanel/status/delete/{id}"}, method = RequestMethod.GET)
 	public String deleteStatus(@PathVariable("id") Long id, HttpServletRequest request) {
 		logger.info("Deleting status with id: ", id);
 
@@ -232,7 +242,8 @@ public class DirectorController {
 			deletedStatus.setDeleted(true);
 			try {
 				statusService.save(deletedStatus);
-				String success = "Статус с id:" + id + " и именем: " + deletedStatus.getName() + " успешно удалён";
+				String success = "Статус с id:" + id + " и именем: " + deletedStatus.getName()
+					+ " успешно удалён";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete status with id: ", id);
@@ -264,7 +275,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/roles/create"}, method = RequestMethod.POST)
-	public String createRole(@ModelAttribute("role") Role incomingRole, HttpServletRequest request) {
+	public String createRole(@ModelAttribute("role") Role incomingRole,
+		HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе должность с таким же именем.
@@ -291,7 +303,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/roles/update"}, method = RequestMethod.POST)
-	public String updateRole(@ModelAttribute("role") Role incomingRole, HttpServletRequest request) {
+	public String updateRole(@ModelAttribute("role") Role incomingRole,
+		HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе должность с таким же именем.
@@ -362,7 +375,8 @@ public class DirectorController {
 			deletedRole.setDeleted(true);
 			try {
 				roleService.save(deletedRole);
-				String success = "Должность с id:" + id + " и именем: " + deletedRole.getName() + " успешно удалёна";
+				String success = "Должность с id:" + id + " и именем: " + deletedRole.getName()
+					+ " успешно удалёна";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete role with id: ", id);
@@ -392,8 +406,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/user/create"}, method = RequestMethod.POST)
-	public ModelAndView createUser(@ModelAttribute("user") @Valid User incomingUser, BindingResult bindingResult,
-								   HttpServletRequest request) {
+	public ModelAndView createUser(@ModelAttribute("user") @Valid User incomingUser,
+		BindingResult bindingResult, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 
 		/*
@@ -437,8 +451,8 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/controlpanel/user/update"}, method = RequestMethod.POST)
-	public ModelAndView updateUser(@ModelAttribute("user") @Valid User incomingUser, BindingResult bindingResult,
-								   HttpServletRequest request) {
+	public ModelAndView updateUser(@ModelAttribute("user") @Valid User incomingUser,
+		BindingResult bindingResult, HttpServletRequest request) {
 
 		ModelAndView model = new ModelAndView();
 		/*
@@ -457,10 +471,13 @@ public class DirectorController {
 			User foundUserByName = userService.getByName(incomingUser.getName());
 			User foundUserByEmail = userService.getByName(incomingUser.getEmail());
 			if ((foundUserByName != null) && (incomingUser.getId() != foundUserByName.getId())) {
-				String error = "Пользователь с логином: " + incomingUser.getName() + " уже существует";
+				String error =
+					"Пользователь с логином: " + incomingUser.getName() + " уже существует";
 				request.getSession().setAttribute("error", error);
-			} else if ((foundUserByEmail != null) && (incomingUser.getId() != foundUserByEmail.getId())) {
-				String error = "Пользователь с почтой: " + incomingUser.getEmail() + " уже существует";
+			} else if ((foundUserByEmail != null) && (incomingUser.getId() != foundUserByEmail
+				.getId())) {
+				String error =
+					"Пользователь с почтой: " + incomingUser.getEmail() + " уже существует";
 				request.getSession().setAttribute("error", error);
 			} else {
 				try {
@@ -535,7 +552,8 @@ public class DirectorController {
 				String error = "Ошибка при удалении пользователя c id: " + id + " из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
-			String success = "Пользователь с id:" + id + " и логином: " + deletedUser.getName() + " успешно удалён";
+			String success = "Пользователь с id:" + id + " и логином: " + deletedUser.getName()
+				+ " успешно удалён";
 			request.getSession().setAttribute("success", success);
 		}
 		return "redirect:/director/stuff";
@@ -575,8 +593,9 @@ public class DirectorController {
 			deletedCustomer.setDeleted(true);
 			try {
 				customerService.save(deletedCustomer);
-				String success = "Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " " +
-								 deletedCustomer.getSecName() + " успешно удалён";
+				String success =
+					"Покупатель с id:" + id + " и именем: " + deletedCustomer.getFirstName() + " "
+						+ deletedCustomer.getSecName() + " успешно удалён";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete customer with id: ", id);
@@ -603,7 +622,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customer/create"}, method = RequestMethod.POST)
 	public String createCustomer(@ModelAttribute("customer") Customer incomingCustomer,
-								 @ModelAttribute("delivery") Delivery incomingDelivery, HttpServletRequest request) {
+		@ModelAttribute("delivery") Delivery incomingDelivery, HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе покупателя с такой же почтой или телефоном.
@@ -620,12 +639,12 @@ public class DirectorController {
 		} else if (foundCustomerByPhone != null) { //проверяем есть ли покупатель с таким телефоном
 			String error = "Покуптаель с таким телефоном" + searchingPhone + " уже существует";
 			request.getSession().setAttribute("error", error);
-		} else if ((incomingCustomer.getPhone() == null) ||
-				   "".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
+		} else if ((incomingCustomer.getPhone() == null) || ""
+			.equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
 			String error = "Необходимо указать телепхон";
 			request.getSession().setAttribute("error", error);
-		} else if ((incomingCustomer.getEmail() == null) ||
-				   "".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
+		} else if ((incomingCustomer.getEmail() == null) || ""
+			.equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
 			String error = "Необходимо указать Email";
 			request.getSession().setAttribute("error", error);
 		} else {
@@ -676,8 +695,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customer/adddelivery/{id}"}, method = RequestMethod.POST)
 	public ModelAndView addDelivery(@PathVariable("id") Long id,
-									@ModelAttribute("newdelivery") Delivery incomingDelivery,
-									HttpServletRequest request) {
+		@ModelAttribute("newdelivery") Delivery incomingDelivery, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 		Customer customer = null;
 		try {
@@ -706,7 +724,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customer/update"}, method = RequestMethod.POST)
 	public String updateCustomer(@ModelAttribute("customer") Customer incomingCustomer,
-								 @ModelAttribute("includeDeliveries") HttpServletRequest request) {
+		@ModelAttribute("includeDeliveries") HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе пользователя с таким же логином.
@@ -717,7 +735,8 @@ public class DirectorController {
 		 */
 		Customer foundCustomer = customerService.getByEmail(incomingCustomer.getEmail());
 		if ((foundCustomer != null) && !(foundCustomer.getId().equals(incomingCustomer.getId()))) {
-			String error = "Покупатель с такой почтой: " + incomingCustomer.getEmail() + " уже существует";
+			String error =
+				"Покупатель с такой почтой: " + incomingCustomer.getEmail() + " уже существует";
 			request.getSession().setAttribute("error", error);
 		} else {
 			try {
@@ -733,10 +752,10 @@ public class DirectorController {
 		return "redirect:/director/customer/edit/" + incomingCustomer.getId();
 	}
 
-	@RequestMapping(value = {"/director/customer/removedelivery/{customerId}/{deliveryIndex}"},
-					method = RequestMethod.GET)
+	@RequestMapping(value = {
+		"/director/customer/removedelivery/{customerId}/{deliveryIndex}"}, method = RequestMethod.GET)
 	public ModelAndView removeDelivery(@PathVariable("customerId") Long customerId,
-									   @PathVariable("deliveryIndex") int deliveryIndex, HttpServletRequest request) {
+		@PathVariable("deliveryIndex") int deliveryIndex, HttpServletRequest request) {
 		ModelAndView model = new ModelAndView();
 		Customer customer = null;
 		try {
@@ -783,8 +802,10 @@ public class DirectorController {
 	}
 
 	//Меняем менеджер заказа
-	@RequestMapping(value = {"/director/order/change/{id}/manager/{managerId}"}, method = RequestMethod.GET)
-	public ModelAndView changeManager(@PathVariable("id") Long id, @PathVariable("managerId") Long managerId) {
+	@RequestMapping(value = {
+		"/director/order/change/{id}/manager/{managerId}"}, method = RequestMethod.GET)
+	public ModelAndView changeManager(@PathVariable("id") Long id,
+		@PathVariable("managerId") Long managerId) {
 		try {
 			Order order = orderService.get(id);
 			User manager = userService.get(managerId);
@@ -795,6 +816,237 @@ public class DirectorController {
 		}
 		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
+
+	//---------------------- Product block ---------------------
+
+	@RequestMapping(value = {"/director/controlpanel/product"}, method = RequestMethod.GET)
+	public ModelAndView controlPanelProduct(HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView("/directorView/ControlPanelProduct");
+
+		injectMessageToPage(request, model);
+
+		try {
+			model.addObject("productes", productService.getAll());
+			model.addObject("product", new Product());
+		} catch (Exception e) {
+			logger.error("Can\'t get product list {}", e);
+		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/production/save"}, method = RequestMethod.POST)
+	public ModelAndView saveProduct(@ModelAttribute("product") @Valid Product incomingProduct,
+		BindingResult bindingResult, HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView();
+
+		/*
+		 * Ищем в базе продукт с таким же именем.
+		 * В случае нахождения продукта с таким именем генерим сообщение error.
+		 * Если же ничего не находим то записываем продукт в базу данных и создаём сообщение о усрехе.
+		 */
+
+		if (bindingResult.hasErrors()) {
+			model.setViewName("/directorView/ControlPanelProduct");
+			model.addObject("productes", productService.getAll());
+			return model;
+		} else {
+			String searchingProduct = incomingProduct.getProductName();
+			Product foundProduct = productService.getByName(searchingProduct);
+			if ((foundProduct != null) &&
+				!(foundProduct.getId().equals(incomingProduct.getId()))) { //проверяем есть ли продукция с таким названием
+				String error = "Продукт с названием: " + searchingProduct + " уже существует";
+				request.getSession().setAttribute("error", error);
+			} else {
+				try {
+					productService.save(incomingProduct);
+					String success = "Продукт с названием: " + searchingProduct + " успешно создан";
+					request.getSession().setAttribute("success", success);
+				} catch (Exception e) {
+					logger.error("Can\'t save product {}", e);
+					String error = "При сохранении продукта произошла ошибка";
+					request.getSession().setAttribute("error", error);
+				}
+			}
+		}
+		model.setViewName("redirect:/director/controlpanel/product");
+		return model;
+
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/product/delete/{id}"}, method = RequestMethod.GET)
+	public String deleteProduct(@PathVariable("id") Long id, HttpServletRequest request) {
+
+		logger.info("Deleting product with id: {}", id);
+
+		/*
+		 * Перед удалением получаем продукт из базы данных.
+		 */
+		Product deletedProduct = null;
+		try {
+			deletedProduct = productService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get product with id: ", id);
+			String error = "При удалении продукта произошла ошибка обращения к базе данных";
+			request.getSession().setAttribute("error", error);
+		}
+		if (deletedProduct != null) {
+			try {
+				productService.delete(deletedProduct);
+				String success = "Продукт " + deletedProduct.getProductName() + " успешно удалён";
+				request.getSession().setAttribute("success", success);
+			} catch (Exception e) {
+				logger.error("Can\'t delete product with id: {}", id);
+				String error = "Ошибка при удалении продукта из базы данных";
+				request.getSession().setAttribute("error", error);
+			}
+		}
+		return "redirect:/director/controlpanel/product";
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/product/edit/{id}"}, method = RequestMethod.GET)
+	public String editProduct(@PathVariable("id") Long id, Model model,
+		HttpServletRequest request) {
+
+		logger.info("Edit product with id: {}", id);
+
+		Product product = null;
+		try {
+			product = productService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get product with id: {}", id);
+			String error = "При редактировании продукта произошла ошибка обращения к базе данных";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/product";
+		}
+
+		if (product != null) {
+			model.addAttribute("product", product);
+			model.addAttribute("productes", productService.getAll());
+			return "directorView/ControlPanelProduct";
+		} else {
+			String error = "Такой продукт не найден";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/product";
+		}
+	}
+
+	//---------------------- Model of Phone block ---------------------
+
+	@RequestMapping(value = {"/director/controlpanel/model"}, method = RequestMethod.GET)
+	public ModelAndView controlPanelModelPhone(HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView("/directorView/ControlPanelModelPhone");
+
+		injectMessageToPage(request, model);
+
+		try {
+			model.addObject("allModels", phoneModelService.getAll());
+			model.addObject("phoneModel", new PhoneModel());
+		} catch (Exception e) {
+			logger.error("Can\'t get model of phone list {}", e);
+		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/model/save"}, method = RequestMethod.POST)
+	public ModelAndView savePhoneModel(@ModelAttribute("phoneModel") @Valid PhoneModel incomingPhoneModel,
+		BindingResult bindingResult, HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView();
+
+		/*
+		 * Ищем в базе модель с таким же именем.
+		 * В случае нахождения модели с таким именем генерим сообщение error.
+		 * Если же ничего не находим то записываем модель в базу данных и создаём сообщение о усрехе.
+		 */
+
+		if (bindingResult.hasErrors()) {
+			model.setViewName("/directorView/ControlPanelModelPhone");
+			model.addObject("allModels", phoneModelService.getAll());
+			return model;
+		} else {
+			String searchingModel = incomingPhoneModel.getModelName();
+			PhoneModel foundModel = phoneModelService.getByName(searchingModel);
+			if ((foundModel != null) &&
+				!(foundModel.getId().equals(incomingPhoneModel.getId()))) { //проверяем есть ли модель с таким названием
+				String error = "Модель с названием: " + searchingModel + " уже существует";
+				request.getSession().setAttribute("error", error);
+			} else {
+				try {
+					phoneModelService.save(incomingPhoneModel);
+					String success = "Модель с названием: " + searchingModel + " успешно создана";
+					request.getSession().setAttribute("success", success);
+				} catch (Exception e) {
+					logger.error("Can\'t save model of phone {}", e);
+					String error = "При сохранении модели телефона произошла ошибка";
+					request.getSession().setAttribute("error", error);
+				}
+			}
+		}
+		model.setViewName("redirect:/director/controlpanel/model");
+		return model;
+
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/model/edit/{id}"}, method = RequestMethod.GET)
+	public String editPhoneModel(@PathVariable("id") Long id, Model model,
+		HttpServletRequest request) {
+
+		logger.info("Edit model of phone with id: {}", id);
+
+		PhoneModel phoneModel = null;
+		try {
+			phoneModel = phoneModelService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get model of phone with id: {}", id);
+			String error = "При редактировании модели произошла ошибка обращения к базе данных";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/model";
+		}
+
+		if (phoneModel != null) {
+			model.addAttribute("phoneModel", phoneModel);
+			model.addAttribute("allModels", phoneModelService.getAll());
+			return "directorView/ControlPanelModelPhone";
+		} else {
+			String error = "Такая модель не найдена";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/model";
+		}
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/model/delete/{id}"}, method = RequestMethod.GET)
+	public String deletePhoneModel(@PathVariable("id") Long id, HttpServletRequest request) {
+
+		logger.info("Deleting model of phone with id: {}", id);
+
+		/*
+		 * Перед удалением получаем модель из базы данных.
+		 */
+		PhoneModel deletedPhoneModel = null;
+		try {
+			deletedPhoneModel = phoneModelService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get model with id: {}", id);
+			String error = "При удалении модели произошла ошибка обращения к базе данных";
+			request.getSession().setAttribute("error", error);
+		}
+		if (deletedPhoneModel != null) {
+			try {
+				phoneModelService.delete(deletedPhoneModel);
+				String success = "Модель " + deletedPhoneModel.getModelName() + " успешно удалёна";
+				request.getSession().setAttribute("success", success);
+			} catch (Exception e) {
+				logger.error("Can\'t delete model of phone with id: ", id);
+				String error = "Ошибка при удалении модели телефона из базы данных";
+				request.getSession().setAttribute("error", error);
+			}
+		}
+		return "redirect:/director/controlpanel/model";
+	}
+
 
 	private void injectMessageToPage(HttpServletRequest request, ModelAndView model) {
 		String success = (String) request.getSession().getAttribute("success");
@@ -821,4 +1073,6 @@ public class DirectorController {
 		model.addObject("orders", masterOrders);
 		return model;
 	}
+
+
 }

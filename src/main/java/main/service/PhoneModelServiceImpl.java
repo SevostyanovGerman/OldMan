@@ -30,6 +30,12 @@ public class PhoneModelServiceImpl implements PhoneModelService {
 	}
 
 	@Override
+	public PhoneModel getByName(String name) {
+		return modelRepository.getByModelName(name);
+	}
+
+
+	@Override
 	public void save(PhoneModel phoneModel) {
 		modelRepository.saveAndFlush(phoneModel);
 	}
