@@ -23,7 +23,6 @@ ul {
 
 body {
     font-family: 'Roboto', Arial, Helvetica, Sans-serif, Verdana;
-    background: #dee1e3;
 }
 
 thead{
@@ -34,6 +33,15 @@ thead{
 
 tbody{
     text-align: center;
+}
+
+.input-group{
+    width: 100%;
+}
+
+.input-group-addon{
+    width: 150px;
+    text-align: left;
 }
 
 /** ====================
