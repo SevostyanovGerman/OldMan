@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PhoneModelRepository extends JpaRepository<PhoneModel, Long> {
+	PhoneModel getByModelName(String name);
 }

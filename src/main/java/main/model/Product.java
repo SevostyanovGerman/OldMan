@@ -2,6 +2,9 @@ package main.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import main.constans.RegexpConstans;
 
 @Entity
 @Table(name = "product")
@@ -12,7 +15,8 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "product_name")
+	@Pattern(regexp = RegexpConstans.REG_EXP_OF_FIRST_NAME, message = "{name.wrong}")
+	@Column(name = "product_name", length = 50)
 	private String productName;
 
 	public Product() {

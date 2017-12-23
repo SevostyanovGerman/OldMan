@@ -8,6 +8,7 @@ public interface PhoneModelService {
 
 	List<PhoneModel> getAll();
 	PhoneModel get(Long idPhoneModel);
+	PhoneModel getByName(String name);
 	void save(PhoneModel phoneModel);
 	void delete(PhoneModel phoneModel);
 }

@@ -2,6 +2,8 @@ package main.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import javax.validation.constraints.Pattern;
+import main.constans.RegexpConstans;
 
 @Entity
 @Table(name = "phone_model")
@@ -12,7 +14,8 @@ public class PhoneModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "model_name")
+	@Pattern(regexp = RegexpConstans.REG_EXP_OF_FIRST_NAME, message = "{name.wrong}")
+	@Column(name = "model_name", length = 50)
 	private String modelName;
 
 	public PhoneModel() {
