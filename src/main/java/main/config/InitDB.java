@@ -124,20 +124,16 @@ public class InitDB {
 		boss.getFunctions().add(bossStatistic);
 		roleService.save(boss);
 		//Пользователи//
-		User user1 =
-			new User("manager", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru", "+7(123)456-78-91");
+		User user1 = new User("manager", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru", "+7-123-456-78-91");
 		userService.setPasswordEncoder(user1, "123");
 		userService.save(user1);
-		User user2 =
-			new User("designer", "Designer", "Gucci", false, false, role2, "medvedev@kremlin.ru", "+7(123)456-78-92");
+		User user2 = new User("designer", "Designer", "Gucci", false, false, role2, "medvedev@kremlin.ru", "+7-123-456-78-92");
 		userService.setPasswordEncoder(user2, "123");
 		userService.save(user2);
-		User user3 =
-			new User("master", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru", "+7(123)456-78-93");
+		User user3 = new User("master", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru", "+7-123-456-78-93");
 		userService.setPasswordEncoder(user3, "123");
 		userService.save(user3);
-		User user4 =
-			new User("boss", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru", "+7(123)456-78-94");
+		User user4 = new User("boss", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru", "+7-123-456-78-94");
 		userService.setPasswordEncoder(user4, "123");
 		userService.save(user4);
 		//Payment//
@@ -182,14 +178,13 @@ public class InitDB {
 		PhoneModel phoneModel7 = new PhoneModel("MEIZU MX7");
 		phoneModelService.save(phoneModel7);
 		//Item//
-		Item item1 = new Item(product1, phoneModel1, "metal", "my comment...", 1, 100d, false);
+		Item item1 = new Item(product1, phoneModel1, "metal", "метал должен быть матовым", 1, 100d, false);
 		Item item2 = new Item(product1, phoneModel2, "wood", "my comment...", 2, 200d, false);
 		Item item3 = new Item(product2, phoneModel3, "plastic", "my comment...", 1, 100d, false);
 		Item item4 = new Item(product2, phoneModel4, "wood", "my comment...", 2, 200d, false);
 		Item item5 = new Item(product1, phoneModel5, "wood", "через гравировка", 5, 230d, false);
 		Item item6 = new Item(product1, phoneModel6, "plastic", "матовый пластик найдешь на складе", 3,
 				130d, false);
-		Item item7 = new Item(product2, phoneModel7, "metal", "метал должен быть матовым", 1, 350d, false);
 		//Order//
 		Date createDate = new Date();
 		String date1 = "03/10/2017";
@@ -213,11 +208,9 @@ public class InitDB {
 			new Order("4", false, false, createDate, pickup, payment2, status4, customer1, item4, user1, user2, user3,
 				deliveryPickup);
 		orderService.save(order4);
-		Order order5 =
-			new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1, user2, user3);
+		Order order5 = new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1, user2, user3);
 		orderService.save(order5);
-		Order order6 =
-			new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1, user2, user3);
+		Order order6 = new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1, user2, user3);
 		orderService.save(order6);
 	}
 }

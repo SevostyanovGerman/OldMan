@@ -287,54 +287,29 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+		if (this == o) return true;
+		if (!(o instanceof User)) return false;
 		User user = (User) o;
-		if (!Objects.equals(this.id, user.id)) {
-			return false;
-		}
-		if (!Objects.equals(this.deleted, user.deleted)) {
-			return false;
-		}
-		if (!Objects.equals(this.disable, user.disable)) {
-			return false;
-		}
-		if (!Objects.equals(this.name, user.name)) {
-			return false;
-		}
-		if (!Objects.equals(this.password, user.password)) {
-			return false;
-		}
-		if (!Objects.equals(this.firstName, user.firstName)) {
-			return false;
-		}
-		if (!Objects.equals(this.secName, user.secName)) {
-			return false;
-		}
-		if (!Objects.equals(this.position, user.position)) {
-			return false;
-		}
-		if (!Objects.equals(this.created, user.created)) {
-			return false;
-		}
-		return Objects.equals(this.roles, user.roles);
+		return id == user.id &&
+			deleted == user.deleted &&
+			disable == user.disable &&
+			Objects.equals(name, user.name) &&
+			Objects.equals(password, user.password) &&
+			Objects.equals(firstName, user.firstName) &&
+			Objects.equals(secName, user.secName) &&
+			Objects.equals(position, user.position) &&
+			Objects.equals(created, user.created) &&
+			Objects.equals(email, user.email) &&
+			Objects.equals(phone, user.phone) &&
+			Objects.equals(avatar, user.avatar) &&
+			Objects.equals(token, user.token) &&
+			Objects.equals(tokenExpire, user.tokenExpire) &&
+			Objects.equals(roles, user.roles);
 	}
 
 	@Override
 	public int hashCode() {
-		int result = (int) (id ^ (id >>> 32));
-		result = 31 * result + Objects.hashCode(this.name);
-		result = 31 * result + Objects.hashCode(this.password);
-		result = 31 * result + Objects.hashCode(this.deleted);
-		result = 31 * result + Objects.hashCode(this.disable);
-		result = 31 * result + Objects.hashCode(this.firstName);
-		result = 31 * result + Objects.hashCode(this.secName);
-		result = 31 * result + Objects.hashCode(this.position);
-		result = 31 * result + Objects.hashCode(this.created);
-		return result;
+
+		return Objects.hash(id, name, password, deleted, disable, firstName, secName, position, created, email, phone, avatar, token, tokenExpire, roles);
 	}
 }

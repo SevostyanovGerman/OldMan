@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -47,6 +48,10 @@ public class ManagerController {
 
 	private NotificationService notificationService;
 
+	private ProductService productService;
+
+	private PhoneModelService phoneModelService;
+
 	private final static Logger logger = LoggerFactory.getLogger(ManagerController.class);
 
 	@Autowired
@@ -55,7 +60,8 @@ public class ManagerController {
 							 UserService userService, StatusService statusService,
 							 PaymentService paymentService, ImageService imageService,
 							 DeliveryTypeService deliveryTypeService,
-							 NotificationService notificationService) {
+							 NotificationService notificationService, ProductService productService,
+							 PhoneModelService phoneModelService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -66,6 +72,8 @@ public class ManagerController {
 		this.imageService = imageService;
 		this.deliveryTypeService = deliveryTypeService;
 		this.notificationService = notificationService;
+		this.productService = productService;
+		this.phoneModelService = phoneModelService;
 	}
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
@@ -173,17 +181,29 @@ public class ManagerController {
 	public ModelAndView madeNewOrder() {
 		ModelAndView model = new ModelAndView("/managerView/ManagerNewOrder");
 		Item item = new Item();
+		List<Product> productList = productService.getAll();
+		List<PhoneModel> phoneModelList = phoneModelService.getAll();
 		model.addObject("item", item);
+		model.addObject("productList", productList);
+		model.addObject("phoneModels", phoneModelList);
 		return model;
 	}
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.POST)
-	public ModelAndView saveNewOrder(@ModelAttribute("item") Item item,
+	public ModelAndView saveNewOrder(HttpServletRequest request,
 									 MultipartHttpServletRequest uploadCustomerFiles)
 		throws IOException, SQLException {
-		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L),
-			userService.getCurrentUser());
+		String product = request.getParameter("product");
+		String phoneModel = request.getParameter("phoneModel");
+		String material = request.getParameter("material");
+		Integer count = Integer.valueOf(request.getParameter("count"));
+		Double price = Double.valueOf(request.getParameter("price"));
+		String comment = request.getParameter("comment");
+		Product itemProduct = productService.getByProductName(product);
+		PhoneModel itemPhoneModel = phoneModelService.getByModelName(phoneModel);
+		Item item = new Item(itemProduct, itemPhoneModel, material, comment, count, price, false);
+		Order order = new Order(false, false, new Date(), statusService.getByNumber(1L), userService.getCurrentUser());
 		orderService.save(order);
 		order.setNumber(order.getId().toString());
 		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
@@ -208,30 +228,57 @@ public class ManagerController {
 	public ModelAndView addItem(@PathVariable("orderId") Long orderId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerItemForm");
 		Item item = new Item();
+		List<Product> productList = productService.getAll();
+		List<PhoneModel> phoneModelList = phoneModelService.getAll();
 		model.addObject("order", orderService.get(orderId));
 		model.addObject("item", item);
+		model.addObject("productList", productList);
+		model.addObject("phoneModels", phoneModelList);
 		return model;
 	}
 
-	//Обновляем существующую позицию в существующем заказе
+	//Редактируем существующую позицию в существующем заказе
 	@RequestMapping(value = {"/manager/item/update/{orderId}/{itemId}"}, method = RequestMethod.GET)
 	public ModelAndView updateItem(@PathVariable("orderId") Long orderId,
 								   @PathVariable("itemId") Long itemId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerItemForm");
+		List<Product> productList = productService.getAll();
+		List<PhoneModel> phoneModelList = phoneModelService.getAll();
+		Collections.swap(productList, productList.indexOf(itemService.get(itemId).getProduct()), 0);
+		Collections.swap(phoneModelList, phoneModelList.indexOf(itemService.get(itemId).getPhoneModel()), 0);
 		model.addObject("order", orderService.get(orderId));
 		model.addObject("item", itemService.get(itemId));
+		model.addObject("productList", productList);
+		model.addObject("phoneModels", phoneModelList);
 		return model;
 	}
 
-	//Сохраняем позицию заказа (новую или обновлённую) в существующем заказе
-	@RequestMapping(value = {"/manager/item/save/{orderId}"}, method = RequestMethod.POST)
-	public ModelAndView saveItem(@PathVariable("orderId") long orderId,
-								 @ModelAttribute("item") Item item,
+	//Сохраняем позицию заказа (новую или отредактированную) в существующем заказе
+	@RequestMapping(value = {"/manager/item/save/{orderId}/{itemId}"}, method = RequestMethod.POST)
+	public ModelAndView saveItem(@PathVariable("orderId") Long orderId,
+								 @PathVariable("itemId") String itemId,
+								 HttpServletRequest request,
 								 MultipartHttpServletRequest uploadCustomerFiles)
 		throws IOException, SQLException {
+		String product = request.getParameter("product");
+		String phoneModel = request.getParameter("phoneModel");
+		String material = request.getParameter("material");
+		Integer count = Integer.valueOf(request.getParameter("count"));
+		Double price = Double.valueOf(request.getParameter("price"));
+		String comment = request.getParameter("comment");
+		Product itemProduct = productService.getByProductName(product);
+		PhoneModel itemPhoneModel = phoneModelService.getByModelName(phoneModel);
 		Order order = orderService.get(orderId);
 		List<Image> uploadFiles = imageService.uploadAndSaveBlobFile(uploadCustomerFiles);
-		if (item.getId() != null) {
+		if (!itemId.equals("null")) { //Проверка на null обязательна для определения нового заказа
+			Item item = itemService.get(Long.valueOf(itemId));
+			item.setProduct(itemProduct);
+			item.setPhoneModel(itemPhoneModel);
+			item.setMaterial(material);
+			item.setCount(count);
+			item.setPrice(price);
+			item.setComment(comment);
+			item.setAmount(count * price);
 			Item updateItem = itemService.get(item.getId());
 			item.setFiles(updateItem.getFiles());
 			item.setImages(updateItem.getImages());
@@ -241,8 +288,9 @@ public class ManagerController {
 			orderService.save(order);
 			return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + updateItem.getId());
 		} else {
-			item.setImages(uploadFiles);
-			order.addItem(item);
+			Item newItem = new Item(itemProduct, itemPhoneModel, material, comment, count, price, false);
+			newItem.setImages(uploadFiles);
+			order.addItem(newItem);
 			order.setPrice(order.getAmount());
 			orderService.save(order);
 			return new ModelAndView("redirect:/manager/order/update/" + orderId);
