@@ -124,16 +124,16 @@ public class InitDB {
 		boss.getFunctions().add(bossStatistic);
 		roleService.save(boss);
 		//Пользователи//
-		User user1 = new User("manager", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru", "+7(123)456-78-91");
+		User user1 = new User("manager", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru", "+7-123-456-78-91");
 		userService.setPasswordEncoder(user1, "123");
 		userService.save(user1);
-		User user2 = new User("designer", "Designer", "Gucci", false, false, role2, "medvedev@kremlin.ru", "+7(123)456-78-92");
+		User user2 = new User("designer", "Designer", "Gucci", false, false, role2, "medvedev@kremlin.ru", "+7-123-456-78-92");
 		userService.setPasswordEncoder(user2, "123");
 		userService.save(user2);
-		User user3 = new User("master", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru", "+7(123)456-78-93");
+		User user3 = new User("master", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru", "+7-123-456-78-93");
 		userService.setPasswordEncoder(user3, "123");
 		userService.save(user3);
-		User user4 = new User("boss", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru", "+7(123)456-78-94");
+		User user4 = new User("boss", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru", "+7-123-456-78-94");
 		userService.setPasswordEncoder(user4, "123");
 		userService.save(user4);
 		//Payment//
