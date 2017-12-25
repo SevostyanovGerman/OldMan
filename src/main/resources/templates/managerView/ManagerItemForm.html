@@ -27,10 +27,10 @@
 </head>
 
 <body ng-app="masterOrderForm">
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
+            <a class="navbar-brand navbar-link" href="/manager">CaseMobile</a>
         </div>
         <div class="collapse navbar-collapse" >
             <ul class="nav navbar-nav">
@@ -43,68 +43,78 @@
                 </th:block>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span sec:authentication="principal"></a></li>
+                <li><a href="#"><span sec:authentication="principal"></span></a></li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
                         <a th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                     </form>
                 </li>
-                <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
+                <li><a href="/logout">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
             </ul>
         </div>
     </div>
 </nav>
-<br>
+<br><br><br>
 <div class="container">
     <div class="row">
         <div align="center">
             <h4 th:text="${'Заказ № ' + order.getId() + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
         </div>
         <br>
-        <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="${'/manager/item/save/'+order.getId()}" method="post">
+        <form class="form-horizontal" enctype="multipart/form-data" th:action="${'/manager/item/save/' + order.getId() + '/' + item.getId()}" method="post">
             <div class="col-lg-6" >
                 <div class="form-group">
-                    <input type="hidden" th:field="*{id}"/>
                     <div class="input-group">
-                        <span class="input-group-addon">Тип продукта:</span>
-                        <input type="text" class="form-control" th:field="*{name}" required>
+                        <span class="input-group-addon caret"><strong>Продукт:</strong></span>
+                        <select class="form-control" name="product" style="width: 100%">
+                            <option th:each="product : ${productList}"
+                                    th:value="${product.getProductName()}"
+                                    th:text="${product.getProductName()}"></option>
+                        </select>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon caret"><strong>Модель телефона:</strong></span>
+                        <select class="form-control" name="phoneModel" style="width: 100%">
+                            <option th:each="model : ${phoneModels}"
+                                    th:value="${model.getModelName()}"
+                                    th:text="${model.getModelName()}"></option>
+                        </select>
+                    </div>
+                </div>
+
                 <div class="form-group" >
                     <div class="input-group">
-                        <span class="input-group-addon">Материал:</span>
-                        <input type="text" class="form-control" th:field="*{type}" required>
+                        <span class="input-group-addon"><strong>Материал:</strong></span>
+                        <input type="text" class="form-control" name="material" th:value="${item.getMaterial()}" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon"><strong>Количество:</strong></span>
+                        <input class="form-control" type="number" name="count" th:value="${item.getCount()}" id="numberItemField" onchange="amountItem()"
+                               required="required" value="1" min="1" step="1">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon">Модель телефона:</span>
-                        <input type="text" class="form-control" th:field="*{model}" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group" >
-                        <span class="input-group-addon" >Количество:</span>
-                        <input class="form-control" th:field="*{count}" required
-                               id="numberItemField" onchange="amountItem()" type="number" value="1" min="1" step="1">
+                        <span class="input-group-addon"><strong>Цена за ед. (руб.):</strong></span>
+                        <input class="form-control" type="number"  name="price" th:value="${item.getPrice()}" id="priceItemField"  onchange="amountItem()"
+                               required="required" value="0" min="0" step="0.01">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon">Цена за ед. (руб.):</span>
-                        <input class="form-control" th:field="*{price}" id="priceItemField" onchange="amountItem()" type="number"
-                               required value="0" min="0" step="0.01">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Сумма (руб.):</span>
-                        <input class="form-control" th:field="*{amount}" required id="amountItemField" readonly>
+                        <span class="input-group-addon"><strong>Сумма (руб.):</strong></span>
+                        <input class="form-control" type="number" th:value="${item.getAmount()}" id="amountItemField"  readonly>
                     </div>
                 </div>
                 <div class="form-group">
                     <h4 align="left">Комментарий к позиции заказа</h4>
-                    <textarea class="form-control" rows="3" th:field="*{comment}"></textarea>
+                    <textarea class="form-control" rows="3" name="comment" th:text="${item.getComment()}"></textarea>
                 </div>
             </div> <!-- end col-lg-6 -->
 
@@ -147,6 +157,7 @@
                     <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
                     <hr>
                 </th:block>
+
                 <h4>Добавить файлы</h4>
                 <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
                 <label for="fileMulti" class="btn btn-default btn-xs">

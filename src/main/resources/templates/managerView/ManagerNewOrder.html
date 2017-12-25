@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="icon" href="/images/OldManFavicon.png">
     <title>Новый заказ</title>
 
     <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
@@ -22,7 +23,7 @@
 </head>
 
 <body th:object="${order}" ng-app="masterOrderForm">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand navbar-link" th:href="@{/manager}">CaseMobile</a>
@@ -52,59 +53,67 @@
         </div>
     </nav>
 
-    <br>
+    <br><br><br>
     <div class="container">
         <div class="row">
-            <form class="form-horizontal" enctype="multipart/form-data" th:object="${item}" th:action="@{/manager/item/saveNewOrder}" method="post">
+            <form class="form-horizontal" enctype="multipart/form-data" th:action="@{/manager/item/saveNewOrder}" method="post">
                 <div class="col-lg-6 col-lg-offset-3">
                     <div class="form-group" align="center">
                         <h4>Новый заказ</h4>
                         <hr/>
                     </div>
-                    <input type="hidden" th:field="*{id}"/>
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon">Тип продукта:</span>
-                            <input type="text" class="form-control" th:field="*{name}" required="required">
+                            <span class="input-group-addon caret"><strong>Продукт:</strong></span>
+                            <select class="form-control" name="product" style="width: 100%">
+                                <option th:each="product : ${productList}"
+                                        th:value="${product.getProductName()}"
+                                        th:text="${product.getProductName()}"></option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon caret"><strong>Модель телефона:</strong></span>
+                            <select class="form-control" name="phoneModel" style="width: 100%">
+                                <option th:each="model : ${phoneModels}"
+                                        th:value="${model.getModelName()}"
+                                        th:text="${model.getModelName()}"></option>
+                            </select>
                         </div>
                     </div>
+
                     <div class="form-group" >
                         <div class="input-group">
-                            <span class="input-group-addon">Материал:</span>
-                            <input type="text" class="form-control" th:field="*{type}"
-                                   required="required">
+                            <span class="input-group-addon"><strong>Материал:</strong></span>
+                            <input type="text" class="form-control" name="material" required="required">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><strong>Количество:</strong></span>
+                            <input class="form-control" type="number" name="count" id="numberItemField" onchange="amountItem()" required="required" value="1" min="1" step="1">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon">Модель телефона:</span>
-                            <input type="text" class="form-control" th:field="*{model}"
-                                   required="required">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon">Количество:</span>
-                            <input class="form-control" type="number" th:field="*{count}"
-                                   id="numberItemField" onchange="amountItem()" required="required" value="1" min="1" step="1">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon">Цена за ед. (руб.):</span>
-                            <input class="form-control" th:field="*{price}" type="number"  id="priceItemField" onchange="amountItem()"
+                            <span class="input-group-addon"><strong>Цена за ед. (руб.):</strong></span>
+                            <input class="form-control" type="number"  name="price" id="priceItemField" onchange="amountItem()"
                                    required="required" value="0" min="0" step="0.01">
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon">Сумма (руб.):</span>
-                            <input class="form-control" th:field="*{amount}" type="number" id="amountItemField"  readonly>
+                            <span class="input-group-addon"><strong>Сумма (руб.):</strong></span>
+                            <input class="form-control" type="number" id="amountItemField"  readonly>
                         </div>
                     </div>
                     <div class="form-group">
                         <h4 align="left">Комментарий к позиции заказа</h4>
-                        <textarea class="form-control" rows="3" th:field="*{comment}"></textarea>
+                        <textarea class="form-control" rows="3" name="comment"></textarea>
                     </div>
                     <div class="form-group">
                         <h4>Добавить файлы</h4>

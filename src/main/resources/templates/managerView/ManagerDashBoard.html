@@ -29,14 +29,6 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand navbar-link" href="#">CaseMobile</a>
-                <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
-                	<span class="sr-only">
-                		Toggle navigation
-                	</span>
-                	<span class="icon-bar"></span>
-                	<span class="icon-bar"></span>
-                	<span class="icon-bar"></span>
-                </button>
             </div>
             <div class="collapse navbar-collapse">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
@@ -54,7 +46,7 @@
                                 class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                         </form>
                     </li>
-                    <li><a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li><a href="/logout">Выход  <span class="glyphicon glyphicon-log-out"></span></a></li>
 				</ul>
             </div>
         </div>
@@ -72,7 +64,7 @@
 
             <div class="col-lg-3" style="text-align: right" >
                 <a style="margin-bottom: 10px" class="btn btn-primary btn-new-object" type="button"
-                   th:href="@{/manager/order/add}"
+                   href="/manager/order/add"
                    title="Создать новый заказ">Новый заказ</a>
             </div>
         </div>
@@ -171,8 +163,6 @@
                             </a>
                         </td>
                     </tr>
-
-
                     <tr>
                         <td colspan="11" align="centre">
                             <th:block th:if="${page != null}" >

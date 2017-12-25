@@ -16,13 +16,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" crossorigin="anonymous"/>
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
-          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" crossorigin="anonymous"/>
 
     <!-- Setup local bootstrap3 -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/cr-1.4.1/kt-2.3.2/r-2.2.0/rg-1.0.2/rr-1.2.3/sl-1.2.3/datatables.min.css"/>
     <link rel="stylesheet" href="/css/managerOrderForm.css"/>
-    <link rel="stylesheet" href="/css/manager.css"/>
 
     <!-- Angular JS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
@@ -33,7 +31,7 @@
 </head>
 
 <body data-spy="scroll" data-target="#formItemTable" ng-app="masterOrderForm">
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand navbar-link" th:href="@{/manager}">CaseMobile</a>
@@ -42,7 +40,7 @@
             <ul class="nav navbar-nav">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                        <li class="active" role="presentation">
+                        <li role="presentation">
                             <a th:text="${function?.getName()}" th:href="${function.getLink()}"></a>
                         </li>
                     </ul>
@@ -63,12 +61,12 @@
     </div>
 </nav>
 
-<br>
+<br><br><br>
 <div class="container">
     <div style="text-align: center">
-        <h4
-            th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
+        <h4 th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}">Заказ</h4>
     </div>
+    <hr>
     <div class="row">
         <div class="col-lg-9">
             <div class="form-horizontal">
@@ -109,9 +107,9 @@
                                 </div>
                                     <div class="col-lg-4">
                                     <div class="input-group ">
-                                              <span class="input-group-addon customerField"
-                                                    th:if="${order?.getMaster()?.toString()}"  th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
-                                                    style="width: 100%; text-align: center; font: bold"></span>
+                                        <span class="input-group-addon customerField"
+                                                th:if="${order?.getMaster()?.toString()}"  th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
+                                                style="width: 100%; text-align: center; font: bold"></span>
                                         <span class="input-group-addon customerField"
                                               th:if="${order?.getMaster()?.toString() == null}"
                                               style="width: 100%; text-align: center">Мастер: --</span>
