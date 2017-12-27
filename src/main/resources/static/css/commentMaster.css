@@ -8,6 +8,8 @@ html{
     font: normal 13px sans-serif;
 }
 
+
+
 .comment-section{
     list-style: none;
     max-width: 800px;
@@ -224,5 +226,26 @@ html{
     position: relative;
     top: -15px;
     left: -10px;
+}
+
+/* form-field-style */
+.input-group{
+    width: 100%;
+}
+
+.input-group-addon{
+    width: 160px;
+    text-align: left;
+}
+
+/* upload-images-style */
+.show-image{
+    padding-left: 10px;
+    display: inline-block;
+}
+
+.btn-download{
+    vertical-align: top;
+    left: 125px;
 }
 

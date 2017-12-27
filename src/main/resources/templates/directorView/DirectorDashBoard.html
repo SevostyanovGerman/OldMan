@@ -32,7 +32,7 @@
 </head>
 
 <body ng-app="masterOrderForm">
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header"><a class="navbar-brand navbar-link" href="#">CaseMobile</a>
                 <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navcol-1">
@@ -48,7 +48,7 @@
                 <ul class="nav navbar-nav">
                     <th:block th:each="element:  ${#authentication.getAuthorities()}">
                         <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                            <li class="active" role="presentation"><a th:text="${function?.getName()}"
+                            <li role="presentation"><a th:text="${function?.getName()}"
                                                                       th:href="${function.getLink()}"></a></li>
                         </ul>
                     </th:block>
@@ -61,16 +61,14 @@
                         </form>
                     </li>
 					<li>
-						<form class="navbar-form navbar-right">
-							<a class="btn btn-sm btn-info logout" th:href="@{/logout}">Выход</a>
-						</form>
+                        <a href="/logout">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
 					</li>
 				</ul>
             </div>
         </div>
     </nav>
 
-	<br>
+	<br><br><br>
 
     <div class="container">
 

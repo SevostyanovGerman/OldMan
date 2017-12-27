@@ -150,25 +150,23 @@ public class DesignerController {
 		List<Image> designerFileList = itemService.get(itemId).getImages();
 		try {
 			imageService.downloadAllFiles(designerFileList);
-		} catch (IOException ioe) {
-			logger.error("Ошибка в чтении файла: " + ioe);
-		} catch (SQLException sqle) {
-			logger.error("Ошибка выборки из базы данных: " + sqle);
+		} catch (IOException | SQLException ex) {
+			for (Image image : designerFileList) {
+				logger.error("Error reading file from database: " + image.getFileName());
+			}
 		}
 		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
 	}
 
-	//Загрузка на компьютер одного файла заказчика
+	//Загрузка на компьютер одного файла
 	@RequestMapping(value = "/designer/downloadOneFile/{orderId}/{itemId}/{fileId}", method = RequestMethod.GET)
 	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId,
 										@PathVariable("itemId") Long itemId,
 										@PathVariable("fileId") Long fileId) {
 		try {
 			imageService.downloadOneFile(imageService.get(fileId));
-		} catch (IOException ioe) {
-			logger.error("Ошибка в чтении файла: " + ioe);
-		} catch (SQLException sqle) {
-			logger.error("Ошибка выборки из базы данных: " + sqle);
+		} catch (IOException | SQLException ex) {
+			logger.error("Error reading file from database: " + imageService.get(fileId).getFileName());
 		}
 		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
 	}

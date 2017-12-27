@@ -853,7 +853,7 @@ public class DirectorController {
 			return model;
 		} else {
 			String searchingProduct = incomingProduct.getProductName();
-			Product foundProduct = productService.getByName(searchingProduct);
+			Product foundProduct = productService.getByProductName(searchingProduct);
 			if ((foundProduct != null) &&
 				!(foundProduct.getId().equals(incomingProduct.getId()))) { //проверяем есть ли продукция с таким названием
 				String error = "Продукт с названием: " + searchingProduct + " уже существует";
@@ -968,7 +968,7 @@ public class DirectorController {
 			return model;
 		} else {
 			String searchingModel = incomingPhoneModel.getModelName();
-			PhoneModel foundModel = phoneModelService.getByName(searchingModel);
+			PhoneModel foundModel = phoneModelService.getByModelName(searchingModel);
 			if ((foundModel != null) &&
 				!(foundModel.getId().equals(incomingPhoneModel.getId()))) { //проверяем есть ли модель с таким названием
 				String error = "Модель с названием: " + searchingModel + " уже существует";

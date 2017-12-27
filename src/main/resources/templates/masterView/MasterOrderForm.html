@@ -42,7 +42,7 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand navbar-link" th:href="@{/master}">CaseMobile</a>
+                <a class="navbar-brand navbar-link" href="/master">CaseMobile</a>
             </div>
             <div class="collapse navbar-collapse" id="navcol-1">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
@@ -62,7 +62,7 @@
                         </form>
                     </li>
                     <li>
-                        <a th:href="@{/logout}">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
+                        <a href="/logout">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
                     </li>
                 </ul>
             </div>

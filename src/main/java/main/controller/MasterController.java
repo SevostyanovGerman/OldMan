@@ -1,13 +1,11 @@
 package main.controller;
 
 import main.Helpers;
+import main.model.Image;
 import main.model.Item;
 import main.model.Notification;
 import main.model.Order;
-import main.service.ItemService;
-import main.service.NotificationService;
-import main.service.OrderService;
-import main.service.UserService;
+import main.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,13 +35,17 @@ public class MasterController {
 
 	private NotificationService notificationService;
 
+	private ImageService imageService;
+
 	@Autowired
 	public MasterController(OrderService orderService, ItemService itemService,
-							UserService userService, NotificationService notificationService) {
+							UserService userService, NotificationService notificationService,
+							ImageService imageService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
 		this.notificationService = notificationService;
+		this.imageService = imageService;
 	}
 
 	@RequestMapping(value = {"/master"}, method = RequestMethod.GET)
@@ -160,5 +164,33 @@ public class MasterController {
 		model.addObject("masterOrders", masterOrders);
 		return model;
 
+	}
+
+	//Загрузка на компьютер всех файлов дизайнера
+	@RequestMapping(value = "/master/downloadAllImages/{orderId}/{itemId}", method = RequestMethod.GET)
+	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId,
+										  @PathVariable("itemId") Long itemId) {
+		List<Image> designerFileList = itemService.get(itemId).getImages();
+		try {
+			imageService.downloadAllFiles(designerFileList);
+		} catch (IOException | SQLException ex) {
+			for (Image image : designerFileList) {
+				logger.error("Error reading file from database: " + image.getFileName());
+			}
+		}
+		return new ModelAndView("redirect:/master/order/" + orderId + "/item/" + itemId);
+	}
+
+	//Загрузка на компьютер одного файла
+	@RequestMapping(value = "/master/downloadOneFile/{orderId}/{itemId}/{fileId}", method = RequestMethod.GET)
+	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId,
+										@PathVariable("itemId") Long itemId,
+										@PathVariable("fileId") Long fileId) {
+		try {
+			imageService.downloadOneFile(imageService.get(fileId));
+		} catch (IOException | SQLException ex) {
+			logger.error("Error reading file from database: " + imageService.get(fileId).getFileName());
+		}
+		return new ModelAndView("redirect:/master/order/" + orderId + "/item/" + itemId);
 	}
 }

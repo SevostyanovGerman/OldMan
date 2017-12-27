@@ -340,32 +340,34 @@
                                 style="text-align: center;" form="addCustomer" id="editBtnSub"
                                 disabled>Сохранить
                         </button>
-                        <b>
-                            <div class="form-inline" style="margin-top: 15px"> Способ оплаты: <a
-                                href="#modalSetPaymentType" data-toggle="modal"> Изменить</a> </div>  </b>
+                        <br><br>
+                        <div>
+                            <a class="btn btn-info" href="#modalSetPaymentType" data-toggle="modal" style="width: 100%">Установить способ оплаты</a>
+                        </div>
                         <div style="text-align: center;color:#1abb57">
                             <h5>
                             <span  th:if="${order?.getPaymentType()} != null"
                                    th:text=" ${order?.getPaymentType()}"></span>
-                                <span  th:if="${order?.getPaymentType()} == null"> -- </span>
+                            <span  th:if="${order?.getPaymentType()} == null"> -- </span>
                             </h5>
                         </div>
 
                         <a th:if="${order?.getPayment()} == false" th:href="'/manager/order/'+${order.id} +'/money'"
                            class="btn btn-info form-control"
                            style=" text-align: center; ">Подтвердить оплату</a>
-                            <a th:if="${order?.getPayment()} == true" th:href="'/manager/order/'+${order.id} +'/money'"
+                        <a th:if="${order?.getPayment()} == true" th:href="'/manager/order/'+${order.id} +'/money'"
                                class="btn btn-info form-control"
                                style=" text-align: center; ">Отменить оплату</a>
-                            <div style="text-align: center;color:#1abb57">
-                                <h5>
-                            <span th:text=" ${order?.getPaymentString()}"></span>
-                                </h5>
-                            </div>
+                        <div style="text-align: center;color:#1abb57">
+                            <h5>
+                                <span th:text=" ${order?.getPaymentString()}"></span>
+                            </h5>
+                        </div>
 
-                        <b>
-                            <div>Тип доставки:   <a href="#modalSetDeliveryType" data-toggle="modal"> Изменить</a></div>
-                        </b>
+                        <br>
+                        <div>
+                            <a class="btn btn-info" href="#modalSetDeliveryType" data-toggle="modal" style="width: 100%">Установить тип доставки</a>
+                        </div>
                         <div style="text-align: center;color:#1abb57">
                             <h5>
                             <span  th:if="${order?.getDeliveryType()} != null"
@@ -807,8 +809,8 @@
                     <tr th:each="payment : ${paymentList}">
                         <td align="left" th:text="${payment.name}">Наличный</td>
                         <td align="right">
-                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"
-                               title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                            <a class="btn btn-info btn-sm" th:href="${'/manager/order/setPaymentType/'+ order.id+'/'+ payment.id}"
+                               title="Выбрать">Выбрать</a>
                         </td>
                     </tr>
                     </tbody>
@@ -836,7 +838,7 @@
                     <tr th:each="delivery : ${deliveryTypeList}">
                         <td align="left" th:text="${delivery.name}"></td>
                         <td align="right">
-                            <a class="btn btn-info btn-xs" th:href="${'/manager/order/setDeliveryType/'+ order.id+'/'+ delivery.id}" title="Выбрать"><span class="glyphicon glyphicon-ok"></span></a>
+                            <a class="btn btn-info btn-sm" th:href="${'/manager/order/setDeliveryType/'+ order.id+'/'+ delivery.id}" title="Выбрать">Выбрать</a>
                         </td>
                     </tr>
                     </tbody>
