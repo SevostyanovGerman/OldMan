@@ -9,7 +9,6 @@
     <!-- Latest compiled and minified CSS -->
 
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
-    <!--<link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">-->
     <!-- Optional theme -->
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
 
@@ -109,12 +108,12 @@
                                 <img th:src="${image?.getSmallImage()}" height="75">
                             </a>
                             <a class="btn btn-primary btn-xs btn-download" th:href="${'/master/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
-                               title="Загрузить один файл">
+                               title="Скачать один файл">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/master/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/master/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </div> <!--end col-lg-6-->
             </div> <!--end col-lg-10-->

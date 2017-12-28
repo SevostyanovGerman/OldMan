@@ -110,12 +110,12 @@
                                 <img th:src="${file?.getSmallImage()}" height="75">
                             </a>
                             <a class="btn btn-primary btn-xs btn-download" th:href="${'/designer/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
-                               title="Загрузить один файл">
+                               title="Скачать один файл">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Скачать все файлы на компьютер">Скачать все файлы</a>
                 </th:block>
             </div> <!--end col-lg-6-->
 
@@ -132,17 +132,17 @@
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
                             <a class="btn btn-primary btn-xs btn-download" th:href="${'/designer/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
-                               title="Загрузить один файл">
+                               title="Скачать один файл">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Загрузить все файлы">Загрузить всё</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </th:block>
                 <h4>Добавить файлы</h4>
                 <input type="file" id='fileMulti' name="uploadDesignerFiles" multiple="multiple" style="display: none"/>
-                <label for="fileMulti" class="btn btn-default btn-xs">
+                <label for="fileMulti" class="btn btn-default btn-sm">
                     <span>Обзор...</span>
                 </label>
                 <br/>
