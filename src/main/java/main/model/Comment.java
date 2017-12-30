@@ -36,7 +36,7 @@ public class Comment {
 	@ManyToOne
 	private Comment parent;
 
-	@OneToMany(mappedBy = "parent")
+	@OneToMany(mappedBy = "parent", cascade = CascadeType.REMOVE)
 	private List<Comment> answers;
 
 	public Comment() {

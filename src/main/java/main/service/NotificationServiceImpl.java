@@ -32,4 +32,9 @@ public class NotificationServiceImpl implements NotificationService {
 	public void delete(Long id) {
 		notificationRepository.delete(id);
 	}
+
+	@Override
+	public void removeAllByCommentId(Long commentId) {
+		notificationRepository.removeAllByCommentId(commentId);
+	}
 }
