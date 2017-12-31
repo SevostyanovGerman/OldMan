@@ -5,6 +5,7 @@ import main.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class NotificationServiceImpl implements NotificationService {
 		notificationRepository.delete(id);
 	}
 
+	@Transactional
 	@Override
 	public void removeAllByCommentId(Long commentId) {
 		notificationRepository.removeAllByCommentId(commentId);
