@@ -172,19 +172,20 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		this.price = item.getAmount();
 	}
 
-	static class PaymentStatus {
+	static final class PaymentStatus {
 
 		enum PaymentStatusEnum {
 			PAID, UNPAID
 		}
 
-		static EnumMap<PaymentStatusEnum, String> paymentMap = new EnumMap<>(PaymentStatusEnum.class);
+		static final EnumMap<PaymentStatusEnum, String> paymentMap;
 
-		static private EnumMap<PaymentStatusEnum, String> getPaymentMap() {
+		static {
+			paymentMap = new EnumMap<>(PaymentStatusEnum.class);
 			paymentMap.put(PaymentStatusEnum.PAID, "оплачено");
 			paymentMap.put(PaymentStatusEnum.UNPAID, "не оплачено");
-			return paymentMap;
 		}
+
 	}
 
 	public void addItem(Item item) {
@@ -241,12 +242,12 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 	public String getPaymentString() {
 		if (payment == null) {
 
-			return PaymentStatus.getPaymentMap().get(PaymentStatusEnum.UNPAID);
+			return PaymentStatus.paymentMap.get(PaymentStatusEnum.UNPAID);
 		}
 		if (payment) {
-			return PaymentStatus.getPaymentMap().get(PaymentStatusEnum.PAID);
+			return PaymentStatus.paymentMap.get(PaymentStatusEnum.PAID);
 		}
-		return PaymentStatus.getPaymentMap().get(PaymentStatusEnum.UNPAID);
+		return PaymentStatus.paymentMap.get(PaymentStatusEnum.UNPAID);
 	}
 
 	public void setPayment(Boolean payment) {
