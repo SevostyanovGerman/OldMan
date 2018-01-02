@@ -590,46 +590,11 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Override
 	public int compareTo(Order o) {
-//		return this.number.compareTo(o.number);
 		return this.customer.getFirstName().compareTo(o.customer.getFirstName());
-
 	}
 
 	@Override
 	public int compare(Order a, Order b) {
-
 		return Integer.parseInt(a.getNumber()) - Integer.parseInt(b.getNumber());
 	}
-
-	public static Comparator<Order> nameComparator = new Comparator<Order>() {
-
-		@Override
-		public int compare(Order a, Order b) {
-			return a.getCustomer().getFirstName().compareTo(b.getCustomer().getFirstName());
-		}
-	};
-
-	public static Comparator<Order> priceComparator = new Comparator<Order>() {
-
-		@Override
-		public int compare(Order a, Order b) {
-			return (int) a.getPrice() - (int) b.getPrice();
-		}
-	};
-
-	public static Comparator<Order> numberComparator = new Comparator<Order>() {
-
-		@Override
-		public int compare(Order a, Order b) {
-			return Integer.parseInt(a.getNumber()) - Integer.parseInt(b.getNumber());
-		}
-	};
-
-	public static Comparator<Order> statusComparator = new Comparator<Order>() {
-
-		@Override
-		public int compare(Order a, Order b) {
-			return (int) a.getStatus().getNumber() - (int) b.getStatus().getNumber();
-		}
-	};
 }

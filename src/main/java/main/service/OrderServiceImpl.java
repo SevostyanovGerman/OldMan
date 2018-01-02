@@ -1,5 +1,12 @@
 package main.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.transaction.Transactional;
 import main.model.Order;
 import main.model.Role;
 import main.model.Status;
@@ -11,9 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.*;
 
 @Service
 @Transactional
@@ -29,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	public OrderServiceImpl(OrderRepository orderRepository, StatusService statusService,
-							HistoryService historyService) {
+		HistoryService historyService) {
 		this.orderRepository = orderRepository;
 		this.statusService = statusService;
 		this.historyService = historyService;
@@ -179,16 +183,16 @@ public class OrderServiceImpl implements OrderService {
 
 		switch (sortBy) {
 			case "name":
-				Collections.sort(list, Order.nameComparator);
+				list.sort(Comparator.comparing(a -> a.getCustomer().getFirstName()));
 				return list;
 			case "price":
-				Collections.sort(list, Order.priceComparator);
+				list.sort(Comparator.comparingInt(a -> (int) a.getPrice()));
 				return list;
 			case "number":
-				Collections.sort(list, Order.numberComparator);
+				list.sort(Comparator.comparingInt(a -> Integer.parseInt(a.getNumber())));
 				return list;
 			case "status":
-				Collections.sort(list, Order.statusComparator);
+				list.sort(Comparator.comparingInt(a -> (int) a.getStatus().getNumber()));
 				return list;
 		}
 		return null;
@@ -205,15 +209,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Page<Order> getOrdersForDashboard(User user, Date start, Date end, String search,
-											 Double min, Double max, Pageable pageable) {
+	public Page<Order> getOrdersForDashboard(User user, Date start, Date end, String search, Double min, Double max,
+		Pageable pageable) {
 
 		return orderRepository.filterForDashboard(user, search, min, max, start, end, pageable);
 	}
 
 	@Override
-	public Page<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min,
-												 Double max, Pageable pageable) {
+	public Page<Order> getOrdersForDashboardBoss(Date start, Date end, String search, Double min, Double max,
+		Pageable pageable) {
 
 		return orderRepository.filterForDashboardBoss(search, min, max, start, end, pageable);
 
