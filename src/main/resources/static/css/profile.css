@@ -1,0 +1,20 @@
+#userProfile #avatarImg{
+    width:200px;
+    height:210px;
+}
+
+.profileContent{
+    text-align: center;
+}
+
+.profileClose{
+    text-align: right;
+}
+
+#errorCurrentPass{
+    color: limegreen;
+}
+
+.profileMargin{
+    margin-top: 5px;
+}
