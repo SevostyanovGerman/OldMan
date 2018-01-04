@@ -12,15 +12,13 @@ angular.module('masterOrderForm', ['ngAnimate', 'ngSanitize','ui.bootstrap'])
             $scope.buttonEnabled = event;
         }
     }])
-    .controller("NotificationController", ['$http', '$scope', '$window', function ($http, $scope, $window) {
+    .controller("NotificationController", ['$http', '$scope', function ($http, $scope) {
         $scope.notifications = [];
         setInterval(function () {
             $http.get("/notifications/get").then(function (response) {
                 var array = response.data;
-                if (array && array.length !== 0) {
+                if (array.length !== 0) {
                     $scope.notifications = response.data;
-                } else {
-                    $window.location.reload();
                 }
             }, function (exception) {
                 console.log(exception);
