@@ -60,7 +60,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
 	@Query(value =
 			   "SELECT  date_format(o.created, :dwm) as created , sum(o.price * o.payment) as price ,  sum(o.price), " +
-			   "date_format(o.created, :dwm)  FROM orders o " +
+			   "sum(o.price) as annotation FROM orders o " +
 			   "WHERE o.deleted=0 and o.created between STR_TO_DATE(:startDate, " + "'%Y-%m-%d " +
 			   "%H:%i:%s')  and  " + "STR_TO_DATE(:endDate, '%Y-%m-%d %H:%i:%s')  " + "GROUP BY " +
 			   "date_format(o.created, :dwm) ORDER BY date_format(o.created, :dwm)",

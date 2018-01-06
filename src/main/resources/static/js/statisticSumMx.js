@@ -36,7 +36,7 @@ var dwm = '%Y-%m';
                     data.addColumn('string', 'Дата');  //названия колонок
                     data.addColumn('number', 'сумма оплаченных заказов');
                     data.addColumn('number', 'сумма не оплаченных заказов');
-                    data.addColumn({type: 'string', role: 'annotation'});
+                    data.addColumn({type: 'number', role: 'annotation'});
 
                     data.addRows(averagePriceElement); // полученный массив данных
 
