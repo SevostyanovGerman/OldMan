@@ -57,7 +57,7 @@
                     </th:block>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#userProfile" data-toggle="modal"><span sec:authentication="principal"></span></a></li>
+                    <li><a href="#userProfile" data-toggle="modal" ><span sec:authentication="principal"></span></a></li>
                     <li>
                         <form ng-controller="NotificationController" class="navbar-form navbar-right">
                             <a th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
@@ -106,7 +106,7 @@
                     <input class="form-control" id="minPrice" name="minPrice" type="number" placeholder="Сумма заказа от" onkeyup="filterSearch()">
                 </div>
                 <div class="col-lg-6 " style="margin-right: 0px; padding-right: 0px">
-                    <input class="form-control" id="maxPrice" name="maxPrice" type="number" placeholder="до" onkeyup="filterSearch()">
+                    <input class="form-control" id="maxPrice" name="maxPrice" type="number" placeholder="До" onkeyup="filterSearch()">
                 </div>
 
             </div>
@@ -134,12 +134,12 @@
 
                 <div class="col-lg-4" style="padding-left: 0px; margin-left: 0px">
                     <select id="orderBy" class="form-control" onchange="filterSearch()" style="padding-left: 0px; margin-left: 0px">
-                        <option value="DESC">по убыванию</option>
-                        <option value="ASC">по возрастанию</option>
+                        <option value="DESC">По убыванию</option>
+                        <option value="ASC">По возрастанию</option>
                     </select>
                 </div>
 
-                <div class="col-lg-2" style=" padding-left: 0px; margin-left: 0px">
+                <div class="col-lg-2" style=" padding-left: 0px; margin-left: 0px; ">
                     <select id="pageSize" class="form-control" onchange="filterSearch()">
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -161,9 +161,9 @@
 
 
 
-        <div class="table-responsive" th:fragment="tableOrders" style="margin-top: 10px">
+        <div  th:fragment="tableOrders" style="margin-top: 10px" >
 
-            <table id="sortingTable" class="display table table-bordered data" cellspacing="0">
+            <table id="sortingTable" class="display table table-bordered data" cellspacing="0" >
                 <thead>
                     <tr>
                         <th>№ Заказа</th>
@@ -259,10 +259,8 @@
 
 
     <!-- Профиль модальное окно -->
-    <div id="userProfile" class="modal  ">
+    <div id="userProfile" class="modal">
         <div class="modal-dialog">
-
-
                 <div class="container">
                     <div class="row">
                         <div class="col-xs-12 col-sm-6 col-md-6">
@@ -275,10 +273,9 @@
                                            <input type="file" id='avatar' name="avatar"
                                                   style="display: none"/>
                                            <label for="avatar" >
-                                               <span class="btn btn-sm btn-info">Выбрать аватар...</span>
+                                               <span class="btn btn-sm btn-info profileMargin">Выбрать аватар...</span>
                                            </label>
-                                        <label id="avatarBtn" class="btn btn-primary" style="display: none;"  >Сменить
-                                            аватар</label>
+                                        <label id="avatarBtn" class="btn btn-primary profileMargin" style="display: none;"  >Сохранить</label>
 
                                     </div>
                                     <div class="col-sm-6 col-md-8">
@@ -344,8 +341,8 @@
 
                                             <button id="changePassBtn" class="btn btn-sm  btn-success profileMargin" style="display: none" > Применить
                                             </button>
-                                            <button type="submit" id="cancelPassBtn profileMargin" class="btn btn-sm  btn-warning"
-                                                     style="display: none" > Отмена</button>
+                                            <button type="submit" id="cancelPassBtn" class="btn btn-sm  btn-warning profileMargin"
+                                                    style="display: none" > Отмена</button>
                                         </div>
 
                                     </div>
@@ -377,12 +374,6 @@
 
     <script src="/js/searchFilter.js"></script>
     <script src="/js/profile.js"></script>
-
-
-
-
-
-
 
 </body>
 </html>

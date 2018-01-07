@@ -18,3 +18,7 @@
 .profileMargin{
     margin-top: 5px;
 }
+
+.show {
+    background: rgba(0, 0, 0, 0.22);
+}
