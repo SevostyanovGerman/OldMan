@@ -20,12 +20,16 @@ public class Notification {
 	@Column(name = "order_id")
 	private Long orderId;
 
+	@Column(name = "comment_id")
+	private Long commentId;
+
 	public Notification() {
 	}
 
-	public Notification(String recipient, Long order) {
+	public Notification(String recipient, Long order, Long commentId) {
 		this.recipient = recipient;
 		this.orderId = order;
+		this.commentId = commentId;
 	}
 
 	public Long getId() {
@@ -60,4 +64,12 @@ public class Notification {
 		this.orderId = orderId;
 	}
 
+
+	public Long getCommentId() {
+		return commentId;
+	}
+
+	public void setCommentId(Long commentId) {
+		this.commentId = commentId;
+	}
 }

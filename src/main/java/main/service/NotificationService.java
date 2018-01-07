@@ -11,4 +11,6 @@ public interface NotificationService {
 	void save(Notification notification);
 
 	void delete(Long id);
+
+	void removeAllByCommentId(Long commentId);
 }

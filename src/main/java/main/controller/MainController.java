@@ -84,13 +84,13 @@ public class MainController {
 			} else {
 				comment = new Comment(content, userService.getCurrentUser(), recipient, new Date());
 			}
-			commentService.save(comment);
+			Comment newComment = commentService.save(comment);
 			Order order = orderService.get(id);
 			order.addComment(comment);
 			orderService.save(order);
 			Notification notification =
 				new Notification(recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient,
-					order.getId());
+					order.getId(), newComment.getId());
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
@@ -106,7 +106,7 @@ public class MainController {
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		Comment comment = commentService.get(id);
 		commentService.delete(comment);
-		notificationService.delete(comment.getId());
+		notificationService.removeAllByCommentId(id);
 		return model;
 	}
 

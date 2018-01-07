@@ -143,7 +143,7 @@
                 </div>
                 <!-- Комментарии -->
                 <div class="tab-pane fade col-lg-9" id="comment">
-                    <div class="row" style="background-color: grey;border: solid;border-color:grey; border-radius: 5px" >
+                    <div class="row" style="background-color: grey; border: solid; border-color:grey; border-radius: 5px" >
                     <div class="comments-container" >
                         <ul id="comments-list" class="comments-list"
                             th:each="element: ${order.getComments()}">
@@ -212,13 +212,13 @@
                     <!-- write comment -->
                     <div class="panel-footer" ng-controller="MasterOrderController">
                         <form th:action="'/order/comment/add='+${order.getId()}" method="post">
-                            <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                            <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому" autocomplete="off" typeahead-editable="false" typeahead-on-select="typeHeadSelect($item, $model, $label, $event)" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
                             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                             <div ng-show="noResults">
                                 <i class="glyphicon glyphicon-remove"></i> No Results Found
                             </div>
                             <textarea onfocus="toggleArea1()" class="form-control" name="commentText" placeholder="Напишите сообщение..." id="e_content" style="margin-top: 5px"></textarea>
-                            <button class="btn btn-info btn-sm" type="submit" id="btn-chat"
+                            <button class="btn btn-info btn-sm" type="submit" id="btn-chat" ng-disabled="!buttonEnabled"
                                     style="text-align: right; margin-top: 5px">Написать комментарий
                             </button>
                         </form>

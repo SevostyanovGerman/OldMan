@@ -148,7 +148,7 @@ public class AjaxController {
 	//Контроллер возвращающий пользователей по typehead
 	@RequestMapping(value = "/users/get/{name}", method = RequestMethod.GET)
 	public List<String> getUsersByNameLike(@PathVariable String name) {
-		return userService.getUsersByNameLike(name).stream().map(User::getName).collect(Collectors.toList());
+			return userService.getUsersByNameLike(name).stream().map(User::getName).filter(newName -> !newName.equals(userService.getCurrentUser().getName())).collect(Collectors.toList());
 	}
 
 	//Контроллер возвращающий список уведомлений для конкретного пользователя
