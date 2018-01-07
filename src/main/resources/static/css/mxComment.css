@@ -45,11 +45,12 @@ tbody{
 }
 
 /** ====================
- * Lista de Comentarios
+ * Лента комментариев
  =======================*/
 .comments-container {
-    /*margin: 60px auto 15px;*/
     width: 768px;
+    max-height: 300px;
+    overflow-y:scroll;
 }
 
 .comments-container h1 {

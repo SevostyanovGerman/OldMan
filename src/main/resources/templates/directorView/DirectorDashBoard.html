@@ -23,6 +23,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
+
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 
     <link rel="stylesheet" href="/css/dashboard.css">
@@ -57,7 +58,7 @@
                     <li><a href="#userProfile" data-toggle="modal"><span sec:authentication="principal"></span></a></li>
                     <li>
                         <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                            <a onclick="notification()" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
+                            <a th:href="@{/order/manager/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                         </form>
                     </li>
 					<li>
