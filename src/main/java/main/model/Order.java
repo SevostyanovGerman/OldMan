@@ -18,6 +18,8 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	private static final DateTimeFormatter DATE_TIME_FORMATTER =
 		DateTimeFormat.forPattern("dd MMMM, yyyy");
+	private static final String PAID = "оплачено";
+	private static final String UNPAID = "не оплачено";
 
 	@Id
 	@Column(name = "id")
@@ -214,12 +216,12 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	public String getPaymentString() {
 		if (payment == null) {
-			return "не оплачен";
+			return UNPAID;
 		}
 		if (payment) {
-			return "оплачен";
+			return PAID;
 		}
-		return "не оплачен";
+		return UNPAID;
 	}
 
 	public void setPayment(Boolean payment) {
