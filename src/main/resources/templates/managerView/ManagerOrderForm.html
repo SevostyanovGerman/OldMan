@@ -64,7 +64,7 @@
 <br><br><br>
 <div class="container">
     <div style="text-align: center">
-        <h4 th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}">Заказ</h4>
+        <h4><span th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></span> <span class="label label-danger" href="#deleteOrderModal" data-toggle="modal">  Удалить</span> </h4>
     </div>
     <hr>
     <div class="row">
@@ -889,7 +889,24 @@
 </div>
 <!--- end modal -->
 
+<!-- Удаление заказа модального окна -->
+<div id="deleteOrderModal" class="modal  ">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content modal-sm">
+            <!-- Основное содержимое модального окна -->
+            <div class="modal-body">
+                <h4>Вы уверены, что хотите удалить заказ?</h4>
 
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <a class="btn btn-default " th:href="${'/manager/order/delete/' + order.getId()}">Да</a>
+                <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--- end modal -->
 
 
 <!-- Профиль модальное окно -->
