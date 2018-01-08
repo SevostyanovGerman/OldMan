@@ -51,11 +51,7 @@ public class Mail {
 	}
 
 	public void setTitleParametr(String parametr) {
-		try{
 			this.title = String.format(this.title, parametr);
-		} finally {
-
-		}
 	}
 
 	public User getForUser() {
