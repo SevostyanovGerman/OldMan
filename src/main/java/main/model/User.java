@@ -1,15 +1,5 @@
 package main.model;
 
-import main.constans.RegexpConstans;
-import org.hibernate.validator.constraints.Email;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import javax.imageio.ImageIO;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import javax.xml.bind.DatatypeConverter;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,7 +8,31 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import javax.imageio.ImageIO;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import javax.xml.bind.DatatypeConverter;
+import main.constans.RegexpConstans;
+import org.hibernate.validator.constraints.Email;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
@@ -81,8 +95,8 @@ public class User implements UserDetails {
 
 	@Size(min = 1, message = "{user.roles.wrong}")
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
-	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")},
-			   inverseJoinColumns = {@JoinColumn(name = "role_id")})
+	@JoinTable(name = "permissions", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {
+		@JoinColumn(name = "role_id")})
 	private Set<Role> roles;
 
 	public User() {
@@ -90,7 +104,7 @@ public class User implements UserDetails {
 	}
 
 	public User(String name, String firstName, String secName, boolean deleted, boolean disable, Role role,
-				String email, String phone) {
+		String email, String phone) {
 		this.name = name;
 		this.firstName = firstName;
 		this.secName = secName;
@@ -287,29 +301,77 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof User)) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
 		User user = (User) o;
-		return id == user.id &&
-			deleted == user.deleted &&
-			disable == user.disable &&
-			Objects.equals(name, user.name) &&
-			Objects.equals(password, user.password) &&
-			Objects.equals(firstName, user.firstName) &&
-			Objects.equals(secName, user.secName) &&
-			Objects.equals(position, user.position) &&
-			Objects.equals(created, user.created) &&
-			Objects.equals(email, user.email) &&
-			Objects.equals(phone, user.phone) &&
-			Objects.equals(avatar, user.avatar) &&
-			Objects.equals(token, user.token) &&
-			Objects.equals(tokenExpire, user.tokenExpire) &&
-			Objects.equals(roles, user.roles);
+
+		if (id != user.id) {
+			return false;
+		}
+		if (deleted != user.deleted) {
+			return false;
+		}
+		if (disable != user.disable) {
+			return false;
+		}
+		if (name != null ? !name.equals(user.name) : user.name != null) {
+			return false;
+		}
+		if (password != null ? !password.equals(user.password) : user.password != null) {
+			return false;
+		}
+		if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) {
+			return false;
+		}
+		if (secName != null ? !secName.equals(user.secName) : user.secName != null) {
+			return false;
+		}
+		if (position != null ? !position.equals(user.position) : user.position != null) {
+			return false;
+		}
+		if (created != null ? !created.equals(user.created) : user.created != null) {
+			return false;
+		}
+		if (email != null ? !email.equals(user.email) : user.email != null) {
+			return false;
+		}
+		if (phone != null ? !phone.equals(user.phone) : user.phone != null) {
+			return false;
+		}
+		if (avatar != null ? !avatar.equals(user.avatar) : user.avatar != null) {
+			return false;
+		}
+		if (token != null ? !token.equals(user.token) : user.token != null) {
+			return false;
+		}
+		if (tokenExpire != null ? !tokenExpire.equals(user.tokenExpire) : user.tokenExpire != null) {
+			return false;
+		}
+		return roles != null ? roles.equals(user.roles) : user.roles == null;
 	}
 
 	@Override
 	public int hashCode() {
-
-		return Objects.hash(id, name, password, deleted, disable, firstName, secName, position, created, email, phone, avatar, token, tokenExpire, roles);
+		int result = (int) (id ^ (id >>> 32));
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (password != null ? password.hashCode() : 0);
+		result = 31 * result + (deleted ? 1 : 0);
+		result = 31 * result + (disable ? 1 : 0);
+		result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+		result = 31 * result + (secName != null ? secName.hashCode() : 0);
+		result = 31 * result + (position != null ? position.hashCode() : 0);
+		result = 31 * result + (created != null ? created.hashCode() : 0);
+		result = 31 * result + (email != null ? email.hashCode() : 0);
+		result = 31 * result + (phone != null ? phone.hashCode() : 0);
+		result = 31 * result + (avatar != null ? avatar.hashCode() : 0);
+		result = 31 * result + (token != null ? token.hashCode() : 0);
+		result = 31 * result + (tokenExpire != null ? tokenExpire.hashCode() : 0);
+		result = 31 * result + (roles != null ? roles.hashCode() : 0);
+		return result;
 	}
 }

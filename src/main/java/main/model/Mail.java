@@ -51,7 +51,7 @@ public class Mail {
 	}
 
 	public void setTitleParametr(String parametr) {
-			this.title = String.format(this.title, parametr);
+		this.title = String.format(this.title, parametr);
 	}
 
 	public User getForUser() {
@@ -68,6 +68,10 @@ public class Mail {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public void setMessageParametr(String parametr) {
+		this.message = String.format(this.title, parametr);
 	}
 
 	public String getTemplate() {
@@ -135,7 +139,6 @@ public class Mail {
 	}
 
 	public enum MailNames {
-		RESET_PASSWORD,
-		NOTIFICATION
+		RESET_PASSWORD, NOTIFICATION
 	}
 }

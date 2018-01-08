@@ -1,28 +1,42 @@
 package main.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import main.Helpers;
-import main.model.*;
-import main.service.*;
+import main.model.Comment;
+import main.model.Mail;
+import main.model.Mail.MailNames;
+import main.model.Notification;
+import main.model.Order;
+import main.model.Role;
+import main.model.User;
+import main.service.CommentService;
+import main.service.MailService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-import main.model.Mail.MailNames;
 
 @Controller
-public class MainController {
+public class MainController implements ErrorController {
 
 	private final static Logger logger = LoggerFactory.getLogger(MainController.class);
 
@@ -38,7 +52,7 @@ public class MainController {
 
 	@Autowired
 	public MainController(CommentService commentService, OrderService orderService, UserService userService,
-						  NotificationService notificationService, MailService mailService) {
+		NotificationService notificationService, MailService mailService) {
 		this.commentService = commentService;
 		this.orderService = orderService;
 		this.userService = userService;
@@ -48,7 +62,7 @@ public class MainController {
 
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-							  @RequestParam(value = "logout", required = false) String logout) {
+		@RequestParam(value = "logout", required = false) String logout) {
 		try {
 			ModelAndView model = new ModelAndView();
 			if (error != null) {
@@ -73,8 +87,9 @@ public class MainController {
 	//Добавление комментария
 	@RequestMapping(value = {"/order/comment/add={id}"}, method = RequestMethod.POST)
 	public ModelAndView addComment(@PathVariable Long id, @ModelAttribute("commentText") String content,
-								   @ModelAttribute("recipient") String recipient,
-								   @ModelAttribute("commentBtnOrder") String commentId, HttpServletRequest request) {
+		@ModelAttribute("recipient") String recipient, @ModelAttribute("commentBtnOrder") String commentId,
+		HttpServletRequest request) {
+		User currentUser = userService.getCurrentUser();
 		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
@@ -89,15 +104,15 @@ public class MainController {
 			Order order = orderService.get(id);
 			order.addComment(comment);
 			orderService.save(order);
-			Notification notification =
-				new Notification(recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient,
-					order.getId(), newComment.getId());
+			Notification notification = new Notification(
+				recipient.equals("") ? comment.getParent().getCreatedBy().getName() : recipient, order.getId(),
+				newComment.getId());
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
 			Mail mail = mailService.getByMailName(MailNames.NOTIFICATION);
 			mail.setForUser(userService.getByName(recipient));
-			mail.setMessage("Вам пришло новое сообщение от " +  userService.getCurrentUser().getFirstName() + ", перейдите по ссылке чтобы его прочитать");
+			mail.setMessageParametr(currentUser.toString());
 			mailService.sendEmail(mail);
 		} catch (Exception e) {
 			logger.error("Ошибка при создании комментария, заказ id={}", e);
@@ -117,7 +132,7 @@ public class MainController {
 
 	@RequestMapping(value = {"/order/comment/edit={id}"}, method = RequestMethod.POST)
 	public ModelAndView editComment(HttpServletRequest request, @PathVariable Long id,
-									@RequestParam("editText") String content) {
+		@RequestParam("editText") String content) {
 		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		Comment comment = commentService.get(id);
@@ -132,7 +147,7 @@ public class MainController {
 
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort, Double minPrice,
-							  Double maxPrice, int pageNumber, int pageSize, String orderBy) {
+		Double maxPrice, int pageNumber, int pageSize, String orderBy) {
 		DateTime endTime = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 		User user = userService.getCurrentUser();
 		StringBuilder url = new StringBuilder();
@@ -212,5 +227,15 @@ public class MainController {
 		}
 		model.addObject("message", "Не удалось сбросить пароль");
 		return model;
+	}
+
+	@RequestMapping("/error")
+	public ModelAndView error() {
+		return new ModelAndView("whiteLabel");
+	}
+
+	@Override
+	public String getErrorPath() {
+		return "/error";
 	}
 }
