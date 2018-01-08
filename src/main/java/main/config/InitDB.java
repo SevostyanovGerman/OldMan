@@ -10,6 +10,7 @@ import main.model.Delivery;
 import main.model.DeliveryType;
 import main.model.FuncMenu;
 import main.model.Item;
+import main.model.Mail;
 import main.model.Order;
 import main.model.Payment;
 import main.model.PhoneModel;
@@ -22,6 +23,7 @@ import main.service.DeliveryService;
 import main.service.DeliveryTypeService;
 import main.service.FuncMenuService;
 import main.service.ItemService;
+import main.service.MailService;
 import main.service.OrderService;
 import main.service.PaymentService;
 import main.service.PhoneModelService;
@@ -59,6 +61,8 @@ public class InitDB {
 
 	private PhoneModelService phoneModelService;
 
+	private MailService mailService;
+
 	private final static String ColorNewStatus = "#C5D0E6";
 	private final static String ColorDesignStatus = "#F3FCF8";
 	private final static String ColorDesignDoneStatus = "#FADFAD";
@@ -70,7 +74,8 @@ public class InitDB {
 	public InitDB(UserService userService, RoleService roleService, PaymentService paymentService,
 		StatusService statusService, DeliveryService deliveryService, OrderService orderService,
 		CustomerService customerService, ItemService itemService, DeliveryTypeService deliveryTypeService,
-		FuncMenuService functionService, ProductService productService, PhoneModelService phoneModelService) {
+		FuncMenuService functionService, ProductService productService, PhoneModelService phoneModelService,
+		MailService mailService) {
 		this.userService = userService;
 		this.roleService = roleService;
 		this.paymentService = paymentService;
@@ -83,10 +88,15 @@ public class InitDB {
 		this.functionService = functionService;
 		this.productService = productService;
 		this.phoneModelService = phoneModelService;
+		this.mailService = mailService;
 	}
 
 	@PostConstruct
 	public void createDB() throws ParseException {
+
+		Mail resetPasswordMail = new Mail("RESET_PASSWORD", ", забыли Ваш пароль от CaseCRM?", null, "Для изменения "
+			+ "пароля перейдите по ссылке", "mail/mailResetPassword" );
+		mailService.save(resetPasswordMail);
 		//DeliveryType//
 		DeliveryType toAddress = new DeliveryType("address", false);
 		DeliveryType pickup = new DeliveryType("pickup", true);

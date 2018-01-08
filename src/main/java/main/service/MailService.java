@@ -1,9 +1,11 @@
 package main.service;
 
-import main.model.User;
-import javax.mail.MessagingException;
-public interface MailService {
+import main.model.Mail;
+import main.model.Mail.MailNames;
 
-	void sendEmail(String title, String content, User user, String template) throws MessagingException;
+public interface MailService {
+	void sendEmail(Mail mail);
+	Mail getByMailName(MailNames nameMail);
+	void save(Mail mail);
 
 }

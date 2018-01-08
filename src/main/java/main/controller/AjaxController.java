@@ -1,6 +1,8 @@
 package main.controller;
 
 import main.model.Customer;
+import main.model.Mail;
+import main.model.Mail.MailNames;
 import main.model.Notification;
 import main.model.Order;
 import main.model.User;
@@ -215,9 +217,10 @@ public class AjaxController {
 				DateTime expire = new DateTime().plusHours(1);
 				user.setTokenExpire(expire.toDate());
 				userService.save(user);
-				String title = user.getFirstName() + ", забыли Ваш пароль от CaseCRM?";
-				mailService
-					.sendEmail(title, "Для изменения пароля перейдите по ссылке", user, "mail/mailResetPassword");
+				Mail mail = mailService.getByMailName(MailNames.RESET_PASSWORD);
+				mail.setForUser(user);
+				mail.setTitle(user.getFirstName() + mail.getTitle());
+				mailService.sendEmail(mail);
 				return "Новый пароль отправлен на вашу почту";
 			}
 		} catch (Exception e) {
