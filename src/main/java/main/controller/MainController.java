@@ -1,27 +1,40 @@
 package main.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import main.Helpers;
-import main.model.*;
-import main.service.*;
+import main.model.Comment;
+import main.model.Notification;
+import main.model.Order;
+import main.model.Role;
+import main.model.User;
+import main.service.CommentService;
+import main.service.MailService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Controller
-public class MainController {
+public class MainController implements ErrorController {
 
 	private final static Logger logger = LoggerFactory.getLogger(MainController.class);
 
@@ -207,5 +220,16 @@ public class MainController {
 		}
 		model.addObject("message", "Не удалось сбросить пароль");
 		return model;
+	}
+
+	@RequestMapping("/error")
+	public ModelAndView error() {
+		ModelAndView modelAndView = new ModelAndView("whiteLabel");
+		return modelAndView;
+	}
+
+	@Override
+	public String getErrorPath() {
+		return "/error";
 	}
 }

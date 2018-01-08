@@ -169,7 +169,7 @@ public class DesignerController {
 	}
 
 	//Выборка тех заказов где есть уведомления для конкретного пользователя
-	@RequestMapping(value = {"/order/designer/notification/get"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/designer/order/notification/get"}, method = RequestMethod.GET)
 	public ModelAndView getOrdersByNotification() {
 		ModelAndView model = new ModelAndView("/designerView/DesignerDashBoard");
 		String user = userService.getCurrentUser().getName();

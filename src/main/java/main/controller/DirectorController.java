@@ -1061,7 +1061,7 @@ public class DirectorController {
 	}
 
 	//Выборка тех заказов где есть уведомления для конкретного пользователя
-	@RequestMapping(value = {"/order/director/notification/get"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/director/order/notification/get"}, method = RequestMethod.GET)
 	public ModelAndView getOrdersByNotification() {
 		ModelAndView model = new ModelAndView("/directorView/DirectorDashBoard");
 		String user = userService.getCurrentUser().getName();
