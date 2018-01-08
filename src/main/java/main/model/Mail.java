@@ -131,6 +131,7 @@ public class Mail {
 	}
 
 	public enum MailNames {
-		RESET_PASSWORD
+		RESET_PASSWORD,
+		NOTIFICATION
 	}
 }

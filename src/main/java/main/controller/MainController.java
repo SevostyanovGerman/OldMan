@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import main.model.Mail.MailNames;
 
 @Controller
 public class MainController {
@@ -94,6 +95,10 @@ public class MainController {
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
+			Mail mail = mailService.getByMailName(MailNames.NOTIFICATION);
+			mail.setForUser(userService.getByName(recipient));
+			mail.setMessage("Вам пришло новое сообщение от " +  userService.getCurrentUser().getFirstName() + ", перейдите по ссылке чтобы его прочитать");
+			mailService.sendEmail(mail);
 		} catch (Exception e) {
 			logger.error("Ошибка при создании комментария, заказ id={}", e);
 		}
