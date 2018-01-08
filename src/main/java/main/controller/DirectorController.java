@@ -574,7 +574,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customers/delete/{id}"}, method = RequestMethod.GET)
 	public String deleteCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
-		logger.info("Deleting user with id: ", id);
+		logger.info("Deleting user with id:{}", id);
 
 		/*
 		 * Перед удалением получаем покупателя из базы данных и устанавливаем значение поля
@@ -585,7 +585,7 @@ public class DirectorController {
 		try {
 			deletedCustomer = customerService.get(id);
 		} catch (Exception e) {
-			logger.error("Can\'t get customer with id: ", id);
+			logger.error("Can\'t get customer with id:{} ", id);
 			String error = "Ошибка при запросе пользователя c id: " + id + " из базы данных";
 			request.getSession().setAttribute("error", error);
 		}
@@ -599,7 +599,7 @@ public class DirectorController {
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete customer with id: ", id);
-				String error = "Ошибка при удалении покупателя c id: " + id + " из базы данных";
+				String error = "Ошибка при удалении покупателя c id:{}" + id + " из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
 		}
