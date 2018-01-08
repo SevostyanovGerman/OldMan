@@ -152,7 +152,7 @@ public class MasterController {
 	}
 
 	//Выборка тех заказов где есть уведомления для конкретного пользователя
-	@RequestMapping(value = {"/order/master/notification/get"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/master/order/notification/get"}, method = RequestMethod.GET)
 	public ModelAndView getOrdersByNotification() {
 		ModelAndView model = new ModelAndView("/masterView/MasterDashBoard");
 		String user = userService.getCurrentUser().getName();

@@ -219,7 +219,7 @@ public class AjaxController {
 				userService.save(user);
 				Mail mail = mailService.getByMailName(MailNames.RESET_PASSWORD);
 				mail.setForUser(user);
-				mail.setTitle(user.getFirstName() + mail.getTitle());
+				mail.setTitleParametr(user.toString());
 				mailService.sendEmail(mail);
 				return "Новый пароль отправлен на вашу почту";
 			}

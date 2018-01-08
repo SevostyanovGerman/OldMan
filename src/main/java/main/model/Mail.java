@@ -50,6 +50,10 @@ public class Mail {
 		this.title = title;
 	}
 
+	public void setTitleParametr(String parametr) {
+			this.title = String.format(this.title, parametr);
+	}
+
 	public User getForUser() {
 		return forUser;
 	}
