@@ -94,7 +94,8 @@ public class InitDB {
 	@PostConstruct
 	public void createDB() throws ParseException {
 
-		Mail resetPasswordMail = new Mail("RESET_PASSWORD", ", забыли Ваш пароль от CaseCRM?", null, "Для изменения "
+		Mail resetPasswordMail = new Mail("RESET_PASSWORD", "%s, забыли Ваш пароль от CaseCRM?", null, "Для "
+			+ "изменения "
 			+ "пароля перейдите по ссылке", "mail/mailResetPassword" );
 		mailService.save(resetPasswordMail);
 		//DeliveryType//
