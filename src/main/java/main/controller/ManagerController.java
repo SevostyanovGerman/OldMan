@@ -1,8 +1,36 @@
 package main.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import main.Helpers;
-import main.model.*;
-import main.service.*;
+import main.model.Customer;
+import main.model.Delivery;
+import main.model.DeliveryType;
+import main.model.Image;
+import main.model.Item;
+import main.model.Notification;
+import main.model.Order;
+import main.model.Payment;
+import main.model.PhoneModel;
+import main.model.Product;
+import main.model.User;
+import main.service.CustomerService;
+import main.service.DeliveryService;
+import main.service.DeliveryTypeService;
+import main.service.ImageService;
+import main.service.ItemService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.PaymentService;
+import main.service.PhoneModelService;
+import main.service.ProductService;
+import main.service.StatusService;
+import main.service.UserService;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +41,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
 
 @Controller
 public class ManagerController {
@@ -56,12 +82,9 @@ public class ManagerController {
 
 	@Autowired
 	public ManagerController(OrderService orderService, DeliveryService deliveryService,
-							 CustomerService customerService, ItemService itemService,
-							 UserService userService, StatusService statusService,
-							 PaymentService paymentService, ImageService imageService,
-							 DeliveryTypeService deliveryTypeService,
-							 NotificationService notificationService, ProductService productService,
-							 PhoneModelService phoneModelService) {
+		CustomerService customerService, ItemService itemService, UserService userService, StatusService statusService,
+		PaymentService paymentService, ImageService imageService, DeliveryTypeService deliveryTypeService,
+		NotificationService notificationService, ProductService productService, PhoneModelService phoneModelService) {
 		this.orderService = orderService;
 		this.deliveryService = deliveryService;
 		this.customerService = customerService;
@@ -85,8 +108,8 @@ public class ManagerController {
 		Sort sorting = new Sort(orderByDirection, "number");
 
 		Page page = orderService
-			.getOrdersForDashboard(userService.getCurrentUser(), startDate.toDate(),
-				endDate.toDate(), null, null, null, new PageRequest(0, 25, sorting));
+			.getOrdersForDashboard(userService.getCurrentUser(), startDate.toDate(), endDate.toDate(), null, null, null,
+				new PageRequest(0, 25, sorting));
 		modelAndView.addObject("orderList", page);
 
 		//Pagination variables
@@ -143,18 +166,15 @@ public class ManagerController {
 
 	//Меняем статус заказа на новый
 	@RequestMapping(value = {"/manager/order/send/{id}/to/{statusId}"}, method = RequestMethod.GET)
-	public ModelAndView sendOrderTo(@PathVariable("id") Long id,
-									@PathVariable("statusId") Long statusId) {
+	public ModelAndView sendOrderTo(@PathVariable("id") Long id, @PathVariable("statusId") Long statusId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		model.addObject("order", orderService.changeStatusTo(id, statusId));
 		return new ModelAndView("redirect:/manager/order/update/" + id);
 	}
 
 	//Меняем дизайнера заказа
-	@RequestMapping(value = {"/manager/order/change/{id}/designer/{designerId}"},
-		method = RequestMethod.GET)
-	public ModelAndView changeDesigner(@PathVariable("id") Long id,
-									   @PathVariable("designerId") Long designerId) {
+	@RequestMapping(value = {"/manager/order/change/{id}/designer/{designerId}"}, method = RequestMethod.GET)
+	public ModelAndView changeDesigner(@PathVariable("id") Long id, @PathVariable("designerId") Long designerId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		Order order = orderService.get(id);
 		User designer = userService.get(designerId);
@@ -164,10 +184,8 @@ public class ManagerController {
 	}
 
 	//Меняем мастера заказа
-	@RequestMapping(value = {"/manager/order/change/{id}/master/{masterId}"},
-		method = RequestMethod.GET)
-	public ModelAndView changeMaster(@PathVariable("id") Long id,
-									 @PathVariable("masterId") Long masterId) {
+	@RequestMapping(value = {"/manager/order/change/{id}/master/{masterId}"}, method = RequestMethod.GET)
+	public ModelAndView changeMaster(@PathVariable("id") Long id, @PathVariable("masterId") Long masterId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerOrderForm");
 		Order order = orderService.get(id);
 		User master = userService.get(masterId);
@@ -191,8 +209,7 @@ public class ManagerController {
 
 	//Сохраняем новый заказ с новой позицией
 	@RequestMapping(value = {"/manager/item/saveNewOrder"}, method = RequestMethod.POST)
-	public ModelAndView saveNewOrder(HttpServletRequest request,
-									 MultipartHttpServletRequest uploadCustomerFiles)
+	public ModelAndView saveNewOrder(HttpServletRequest request, MultipartHttpServletRequest uploadCustomerFiles)
 		throws IOException, SQLException {
 		String product = request.getParameter("product");
 		String phoneModel = request.getParameter("phoneModel");
@@ -239,8 +256,7 @@ public class ManagerController {
 
 	//Редактируем существующую позицию в существующем заказе
 	@RequestMapping(value = {"/manager/item/update/{orderId}/{itemId}"}, method = RequestMethod.GET)
-	public ModelAndView updateItem(@PathVariable("orderId") Long orderId,
-								   @PathVariable("itemId") Long itemId) {
+	public ModelAndView updateItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		ModelAndView model = new ModelAndView("/managerView/ManagerItemForm");
 		List<Product> productList = productService.getAll();
 		List<PhoneModel> phoneModelList = phoneModelService.getAll();
@@ -255,11 +271,8 @@ public class ManagerController {
 
 	//Сохраняем позицию заказа (новую или отредактированную) в существующем заказе
 	@RequestMapping(value = {"/manager/item/save/{orderId}/{itemId}"}, method = RequestMethod.POST)
-	public ModelAndView saveItem(@PathVariable("orderId") Long orderId,
-								 @PathVariable("itemId") String itemId,
-								 HttpServletRequest request,
-								 MultipartHttpServletRequest uploadCustomerFiles)
-		throws IOException, SQLException {
+	public ModelAndView saveItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") String itemId,
+		HttpServletRequest request, MultipartHttpServletRequest uploadCustomerFiles) throws IOException, SQLException {
 		String product = request.getParameter("product");
 		String phoneModel = request.getParameter("phoneModel");
 		String material = request.getParameter("material");
@@ -299,8 +312,7 @@ public class ManagerController {
 
 	//Удаляем позицию из заказа
 	@RequestMapping(value = {"/manager/item/delete/{orderId}/{itemId}"}, method = RequestMethod.GET)
-	public ModelAndView deleteItem(@PathVariable("orderId") Long orderId,
-								   @PathVariable("itemId") Long itemId) {
+	public ModelAndView deleteItem(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		Order order = orderService.get(orderId);
 		order.deductPrice(itemService.get(itemId).getAmount());
 		itemService.delete(itemId);
@@ -308,10 +320,9 @@ public class ManagerController {
 	}
 
 	//Устанавливаем тип оплаты в существующем заказе
-	@RequestMapping(value = {"/manager/order/setPaymentType/{orderId}/{paymentId}"},
-		method = RequestMethod.GET)
+	@RequestMapping(value = {"/manager/order/setPaymentType/{orderId}/{paymentId}"}, method = RequestMethod.GET)
 	public ModelAndView setPaymentType(@PathVariable("orderId") Long orderId,
-									   @PathVariable("paymentId") Long paymentId) {
+		@PathVariable("paymentId") Long paymentId) {
 		Order order = orderService.get(orderId);
 		Payment payment = paymentService.get(paymentId);
 		order.setPaymentType(payment);
@@ -322,8 +333,7 @@ public class ManagerController {
 	//Создание нового клиента
 	@RequestMapping(value = {"/manager/order/addcustomer/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView addCustomer(@PathVariable("orderId") Long orderId,
-									@ModelAttribute("newCustomer") Customer customer,
-									@ModelAttribute("newDelivery") Delivery delivery) {
+		@ModelAttribute("newCustomer") Customer customer, @ModelAttribute("newDelivery") Delivery delivery) {
 		Order order = orderService.get(orderId);
 		try {
 			deliveryService.save(delivery);
@@ -343,18 +353,18 @@ public class ManagerController {
 	}
 
 	//Выбор/изменения клиента в заказе
-	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"},
-		method = RequestMethod.POST)
+	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
-									   @ModelAttribute("newCustomer") Customer editCustomer) {
+		@ModelAttribute("newCustomer") Customer editCustomer) {
 		Order order = orderService.get(orderId);
 		try {
 			Customer customer = customerService.getByEmail(editCustomer.getEmail());
 			if (customer == null) {
 				customer = order.getCustomer();
 			}
-			customer.updateCustomerFields(editCustomer.getFirstName(), editCustomer.getSecName(),
-				editCustomer.getEmail(), editCustomer.getPhone());
+			customer
+				.updateCustomerFields(editCustomer.getFirstName(), editCustomer.getSecName(), editCustomer.getEmail(),
+					editCustomer.getPhone());
 			customerService.save(customer);
 			if (order.getDeliveryType() == null || !order.getDeliveryType().getPickup()) {
 				order.setDelivery(customer.getDefaultDelivery());
@@ -370,11 +380,10 @@ public class ManagerController {
 	//Изменение/Создание адреса доставки
 	@RequestMapping(value = {"/manager/order/editDelivery/{orderId}"}, method = RequestMethod.POST)
 	public ModelAndView changeAddress(@PathVariable("orderId") Long orderId,
-									  @ModelAttribute("newDelivery") Delivery delivery) {
+		@ModelAttribute("newDelivery") Delivery delivery) {
 		Order order = orderService.get(orderId);
 		try {
-			delivery =
-				deliveryService.checkContainsDeliveryInCustomer(order.getCustomer(), delivery);
+			delivery = deliveryService.checkContainsDeliveryInCustomer(order.getCustomer(), delivery);
 			deliveryService.save(delivery);
 			order.getCustomer().getDeliveries().add(delivery);
 			order.setDelivery(delivery);
@@ -386,10 +395,9 @@ public class ManagerController {
 	}
 
 	//Выбор адреса доставки
-	@RequestMapping(value = {"/manager/order/selectDelivery/{orderId}/{deliveryId}"},
-		method = RequestMethod.GET)
+	@RequestMapping(value = {"/manager/order/selectDelivery/{orderId}/{deliveryId}"}, method = RequestMethod.GET)
 	public ModelAndView selectAddress(@PathVariable("orderId") Long orderId,
-									  @PathVariable("deliveryId") Long deliveryId) {
+		@PathVariable("deliveryId") Long deliveryId) {
 		try {
 			Order order = orderService.get(orderId);
 			Delivery delivery = deliveryService.get(deliveryId);
@@ -405,8 +413,7 @@ public class ManagerController {
 	@RequestMapping(value = "/uploadCustomerFile/", method = RequestMethod.POST)
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId,
-								  MultipartHttpServletRequest uploadFiles)
+	public void uploadSampleFiles(@RequestParam(value = "id") Long itemId, MultipartHttpServletRequest uploadFiles)
 		throws IOException, SQLException {
 		List<Image> uploadedCustomerFiles = imageService.uploadAndSaveBlobFile(uploadFiles);
 		Item item = itemService.get(itemId);
@@ -415,11 +422,9 @@ public class ManagerController {
 	}
 
 	//Удаление загруженного файла заказчик
-	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"},
-		method = RequestMethod.GET)
-	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId,
-								   @PathVariable("itemId") Long itemId,
-								   @PathVariable("fileId") Long fileId) {
+	@RequestMapping(value = {"/manager/order/item/deleteFile/{orderId}/{itemId}/{fileId}"}, method = RequestMethod.GET)
+	public ModelAndView deleteFile(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
+		@PathVariable("fileId") Long fileId) {
 		Image file = imageService.get(fileId);
 		imageService.delete(file);
 		return new ModelAndView("redirect:/manager/item/update/" + orderId + "/" + itemId);
@@ -434,10 +439,9 @@ public class ManagerController {
 	}
 
 	//Устанавливаем тип доставки в существующем заказе
-	@RequestMapping(value = {"/manager/order/setDeliveryType/{orderId}/{paymentId}"},
-		method = RequestMethod.GET)
+	@RequestMapping(value = {"/manager/order/setDeliveryType/{orderId}/{paymentId}"}, method = RequestMethod.GET)
 	public ModelAndView setDeliveryType(@PathVariable("orderId") Long orderId,
-										@PathVariable("paymentId") Long deliveryTypeId) {
+		@PathVariable("paymentId") Long deliveryTypeId) {
 		try {
 			Order order = orderService.get(orderId);
 			DeliveryType deliveryType = deliveryTypeService.get(deliveryTypeId);
@@ -451,10 +455,9 @@ public class ManagerController {
 	}
 
 	//Выбор клиента из списка
-	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}/{customerId}"},
-		method = RequestMethod.GET)
+	@RequestMapping(value = {"/manager/order/changeCustomer/{orderId}/{customerId}"}, method = RequestMethod.GET)
 	public ModelAndView changeCustomer(@PathVariable("orderId") Long orderId,
-									   @PathVariable("customerId") Long customerId) {
+		@PathVariable("customerId") Long customerId) {
 		Order order = orderService.get(orderId);
 		Customer customer = customerService.get(customerId);
 		try {
@@ -470,10 +473,8 @@ public class ManagerController {
 	}
 
 	//Загрузка на компьютер всех файлов заказчика
-	@RequestMapping(value = "/manager/downloadAllFiles/{orderId}/{itemId}",
-		method = RequestMethod.GET)
-	public ModelAndView downloadAllFiles(@PathVariable("orderId") Long orderId,
-										 @PathVariable("itemId") Long itemId) {
+	@RequestMapping(value = "/manager/downloadAllFiles/{orderId}/{itemId}", method = RequestMethod.GET)
+	public ModelAndView downloadAllFiles(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		List<Image> customerFileList = itemService.get(itemId).getFiles();
 		try {
 			imageService.downloadAllFiles(customerFileList);
@@ -486,10 +487,8 @@ public class ManagerController {
 	}
 
 	//Загрузка на компьютер всех файлов дизайнера
-	@RequestMapping(value = "/manager/downloadAllImages/{orderId}/{itemId}",
-		method = RequestMethod.GET)
-	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId,
-										  @PathVariable("itemId") Long itemId) {
+	@RequestMapping(value = "/manager/downloadAllImages/{orderId}/{itemId}", method = RequestMethod.GET)
+	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		List<Image> designerFileList = itemService.get(itemId).getImages();
 		try {
 			imageService.downloadAllFiles(designerFileList);
@@ -502,11 +501,9 @@ public class ManagerController {
 	}
 
 	//Загрузка на компьютер одного файла заказчика
-	@RequestMapping(value = "/manager/downloadOneFile/{orderId}/{itemId}/{fileId}",
-		method = RequestMethod.GET)
-	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId,
-										@PathVariable("itemId") Long itemId,
-										@PathVariable("fileId") Long fileId) {
+	@RequestMapping(value = "/manager/downloadOneFile/{orderId}/{itemId}/{fileId}", method = RequestMethod.GET)
+	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
+		@PathVariable("fileId") Long fileId) {
 		try {
 			imageService.downloadOneFile(imageService.get(fileId));
 		} catch (IOException | SQLException ex) {

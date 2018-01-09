@@ -1,10 +1,9 @@
 package main.repository;
 
+import java.util.List;
 import main.model.Role;
 import main.model.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
 

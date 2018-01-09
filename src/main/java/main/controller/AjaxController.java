@@ -1,12 +1,22 @@
 package main.controller;
 
+import java.security.SecureRandom;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import javax.mail.MessagingException;
 import main.model.Customer;
 import main.model.Mail;
 import main.model.Mail.MailNames;
 import main.model.Notification;
 import main.model.Order;
 import main.model.User;
-import main.service.*;
+import main.service.CustomerService;
+import main.service.MailService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,14 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import javax.mail.MessagingException;
-import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 public class AjaxController {
@@ -39,7 +47,7 @@ public class AjaxController {
 
 	@Autowired
 	public AjaxController(CustomerService customerService, OrderService orderService, UserService userService,
-						  NotificationService notificationService, MailService mailService) {
+		NotificationService notificationService, MailService mailService) {
 		this.customerService = customerService;
 		this.orderService = orderService;
 		this.userService = userService;
@@ -150,7 +158,8 @@ public class AjaxController {
 	//Контроллер возвращающий пользователей по typehead
 	@RequestMapping(value = "/users/get/{name}", method = RequestMethod.GET)
 	public List<String> getUsersByNameLike(@PathVariable String name) {
-			return userService.getUsersByNameLike(name).stream().map(User::getName).filter(newName -> !newName.equals(userService.getCurrentUser().getName())).collect(Collectors.toList());
+		return userService.getUsersByNameLike(name).stream().map(User::getName)
+			.filter(newName -> !newName.equals(userService.getCurrentUser().getName())).collect(Collectors.toList());
 	}
 
 	//Контроллер возвращающий список уведомлений для конкретного пользователя

@@ -1,8 +1,7 @@
 package main.service;
 
-import main.model.DeliveryType;
-
 import java.util.List;
+import main.model.DeliveryType;
 
 public interface DeliveryTypeService {
 

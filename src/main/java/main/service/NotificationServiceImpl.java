@@ -1,12 +1,11 @@
 package main.service;
 
+import java.util.List;
+import javax.transaction.Transactional;
 import main.model.Notification;
 import main.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -14,8 +13,7 @@ public class NotificationServiceImpl implements NotificationService {
 	private NotificationRepository notificationRepository;
 
 	@Autowired
-	public NotificationServiceImpl(NotificationRepository notificationRepository,
-								   UserService userService) {
+	public NotificationServiceImpl(NotificationRepository notificationRepository, UserService userService) {
 		this.notificationRepository = notificationRepository;
 	}
 

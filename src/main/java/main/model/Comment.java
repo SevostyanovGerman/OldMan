@@ -1,11 +1,19 @@
 package main.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "comments")
@@ -122,20 +130,33 @@ public class Comment {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		Comment comment = (Comment) o;
 
-		if (!id.equals(comment.id)) return false;
-		if (createdBy != null ? !createdBy.equals(comment.createdBy) : comment.createdBy != null)
+		if (!id.equals(comment.id)) {
 			return false;
-		if (sentTo != null ? !sentTo.equals(comment.sentTo) : comment.sentTo != null) return false;
-		if (content != null ? !content.equals(comment.content) : comment.content != null)
+		}
+		if (createdBy != null ? !createdBy.equals(comment.createdBy) : comment.createdBy != null) {
 			return false;
-		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null)
+		}
+		if (sentTo != null ? !sentTo.equals(comment.sentTo) : comment.sentTo != null) {
 			return false;
-		if (time != null ? !time.equals(comment.time) : comment.time != null) return false;
+		}
+		if (content != null ? !content.equals(comment.content) : comment.content != null) {
+			return false;
+		}
+		if (deleted != null ? !deleted.equals(comment.deleted) : comment.deleted != null) {
+			return false;
+		}
+		if (time != null ? !time.equals(comment.time) : comment.time != null) {
+			return false;
+		}
 		return answers != null ? answers.equals(comment.answers) : comment.answers == null;
 	}
 

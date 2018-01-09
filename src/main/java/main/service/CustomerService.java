@@ -1,8 +1,7 @@
 package main.service;
 
-import main.model.Customer;
-
 import java.util.List;
+import main.model.Customer;
 
 public interface CustomerService {
 

@@ -1,8 +1,7 @@
 package main.service;
 
-import main.model.Notification;
-
 import java.util.List;
+import main.model.Notification;
 
 public interface NotificationService {
 

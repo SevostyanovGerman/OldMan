@@ -1,12 +1,20 @@
 package main.model;
 
-import org.springframework.security.core.GrantedAuthority;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "roles")
@@ -30,13 +38,13 @@ public class Role implements GrantedAuthority, Comparable<Role> {
 	private List<User> users;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "keys_roles_functions", joinColumns = {@JoinColumn(name = "role_id")},
-		inverseJoinColumns = {@JoinColumn(name = "function_id")})
+	@JoinTable(name = "keys_roles_functions", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {
+		@JoinColumn(name = "function_id")})
 	private List<FuncMenu> functions;
 
 	@ManyToMany(fetch = FetchType.EAGER, targetEntity = Status.class)
-	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "role_id")},
-		inverseJoinColumns = {@JoinColumn(name = "status_id")})
+	@JoinTable(name = "status_access", joinColumns = {@JoinColumn(name = "role_id")}, inverseJoinColumns = {
+		@JoinColumn(name = "status_id")})
 	private Set<Status> statuses;
 
 	public Role() {
@@ -144,18 +152,33 @@ public class Role implements GrantedAuthority, Comparable<Role> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		Role role = (Role) o;
 
-		if (id != role.id) return false;
-		if (deleted != role.deleted) return false;
-		if (name != null ? !name.equals(role.name) : role.name != null) return false;
-		if (url != null ? !url.equals(role.url) : role.url != null) return false;
-		if (users != null ? !users.equals(role.users) : role.users != null) return false;
-		if (functions != null ? !functions.equals(role.functions) : role.functions != null)
+		if (id != role.id) {
 			return false;
+		}
+		if (deleted != role.deleted) {
+			return false;
+		}
+		if (name != null ? !name.equals(role.name) : role.name != null) {
+			return false;
+		}
+		if (url != null ? !url.equals(role.url) : role.url != null) {
+			return false;
+		}
+		if (users != null ? !users.equals(role.users) : role.users != null) {
+			return false;
+		}
+		if (functions != null ? !functions.equals(role.functions) : role.functions != null) {
+			return false;
+		}
 		return statuses != null ? statuses.equals(role.statuses) : role.statuses == null;
 	}
 

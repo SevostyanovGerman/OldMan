@@ -1,6 +1,5 @@
 package main.constans;
 
-
 public class RegexpConstans {
 
 	// Регулярное выражение для логина.

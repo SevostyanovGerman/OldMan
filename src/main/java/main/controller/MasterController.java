@@ -1,11 +1,20 @@
 package main.controller;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import main.Helpers;
 import main.model.Image;
 import main.model.Item;
 import main.model.Notification;
 import main.model.Order;
-import main.service.*;
+import main.service.ImageService;
+import main.service.ItemService;
+import main.service.NotificationService;
+import main.service.OrderService;
+import main.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +24,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class MasterController {
@@ -38,9 +41,8 @@ public class MasterController {
 	private ImageService imageService;
 
 	@Autowired
-	public MasterController(OrderService orderService, ItemService itemService,
-							UserService userService, NotificationService notificationService,
-							ImageService imageService) {
+	public MasterController(OrderService orderService, ItemService itemService, UserService userService,
+		NotificationService notificationService, ImageService imageService) {
 		this.orderService = orderService;
 		this.itemService = itemService;
 		this.userService = userService;
@@ -82,8 +84,7 @@ public class MasterController {
 	}
 
 	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}"}, method = RequestMethod.GET)
-	public String getItemForm(@PathVariable("itemId") Long itemId,
-							  @PathVariable("orderId") Long orderId, Model model) {
+	public String getItemForm(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId, Model model) {
 		try {
 			Item item = itemService.get(itemId);
 			model.addAttribute(item);
@@ -136,10 +137,8 @@ public class MasterController {
 		return new ModelAndView("redirect:" + url);
 	}
 
-	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}/status"},
-		method = RequestMethod.GET)
-	public ModelAndView changeItemStatus(@PathVariable("itemId") Long itemId,
-										 @PathVariable("orderId") Long orderId) {
+	@RequestMapping(value = {"/master/order/{orderId}/item/{itemId}/status"}, method = RequestMethod.GET)
+	public ModelAndView changeItemStatus(@PathVariable("itemId") Long itemId, @PathVariable("orderId") Long orderId) {
 		try {
 			Item newItem = itemService.changeStatus(itemId);
 			itemService.save(newItem);
@@ -168,8 +167,7 @@ public class MasterController {
 
 	//Загрузка на компьютер всех файлов дизайнера
 	@RequestMapping(value = "/master/downloadAllImages/{orderId}/{itemId}", method = RequestMethod.GET)
-	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId,
-										  @PathVariable("itemId") Long itemId) {
+	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
 		List<Image> designerFileList = itemService.get(itemId).getImages();
 		try {
 			imageService.downloadAllFiles(designerFileList);
@@ -183,9 +181,8 @@ public class MasterController {
 
 	//Загрузка на компьютер одного файла
 	@RequestMapping(value = "/master/downloadOneFile/{orderId}/{itemId}/{fileId}", method = RequestMethod.GET)
-	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId,
-										@PathVariable("itemId") Long itemId,
-										@PathVariable("fileId") Long fileId) {
+	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
+		@PathVariable("fileId") Long fileId) {
 		try {
 			imageService.downloadOneFile(imageService.get(fileId));
 		} catch (IOException | SQLException ex) {

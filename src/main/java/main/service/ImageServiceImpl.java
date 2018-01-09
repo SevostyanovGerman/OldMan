@@ -1,5 +1,17 @@
 package main.service;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.transaction.Transactional;
 import main.Helpers;
 import main.model.Image;
 import main.model.ImageType;
@@ -10,18 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.transaction.Transactional;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Transactional
@@ -106,8 +106,8 @@ public class ImageServiceImpl implements ImageService {
 			}
 			for (Image downloadFile : downloadFiles) {
 				InputStream inputStream = downloadFile.getBlobFile().getBinaryStream();
-				FileOutputStream fileOutputStream =
-					new FileOutputStream(pathDownloadDirectory + downloadFile.getFileName());
+				FileOutputStream fileOutputStream = new FileOutputStream(
+					pathDownloadDirectory + downloadFile.getFileName());
 				int readByte;
 				while ((readByte = inputStream.read()) != -1) {
 					fileOutputStream.write(readByte);
@@ -129,8 +129,8 @@ public class ImageServiceImpl implements ImageService {
 				pathDownloadDirectory = System.getProperty("user.home") + "/Downloads/";
 			}
 			InputStream inputStream = downloadFile.getBlobFile().getBinaryStream();
-			FileOutputStream fileOutputStream =
-				new FileOutputStream(pathDownloadDirectory + downloadFile.getFileName());
+			FileOutputStream fileOutputStream = new FileOutputStream(
+				pathDownloadDirectory + downloadFile.getFileName());
 			int readByte;
 			while ((readByte = inputStream.read()) != -1) {
 				fileOutputStream.write(readByte);
@@ -139,24 +139,4 @@ public class ImageServiceImpl implements ImageService {
 			fileOutputStream.close();
 		}
 	}
-
-//	private byte[] convertToByteArray(BufferedImage bufferedImage) throws IOException {
-//		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//		ImageIO.write(bufferedImage, "jpg", outputStream);
-//		outputStream.flush();
-//		byte[] bytes = outputStream.toByteArray();
-//		outputStream.close();
-//		return bytes;
-//	}
-//
-//	private BufferedImage resizePicture(BufferedImage originalImage, int type){
-//		int widthImage = originalImage.getWidth();
-//		int highImage = originalImage.getHeight();
-//		int resizedHigh = (highImage*IMG_WIDTH)/widthImage;
-//		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, resizedHigh, type);
-//		Graphics2D graphics = resizedImage.createGraphics();
-//		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-//		graphics.drawImage(originalImage, 0, 0, IMG_WIDTH, resizedHigh, null);
-//		return resizedImage;
-//	}
 }

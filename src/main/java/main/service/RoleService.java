@@ -1,9 +1,8 @@
 package main.service;
 
+import java.util.List;
 import main.model.Role;
 import main.model.Status;
-
-import java.util.List;
 
 public interface RoleService {
 

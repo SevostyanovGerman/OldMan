@@ -1,11 +1,14 @@
 package main;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import javax.imageio.ImageIO;
+
 public class Helpers {
+
 	static public String getUrl(String referer) {
 		String url;
 		int index = referer.indexOf("?");
@@ -26,10 +29,10 @@ public class Helpers {
 		return bytes;
 	}
 
-	static public BufferedImage resizePicture(BufferedImage originalImage, int type, int IMG_WIDTH){
+	static public BufferedImage resizePicture(BufferedImage originalImage, int type, int IMG_WIDTH) {
 		int widthImage = originalImage.getWidth();
 		int highImage = originalImage.getHeight();
-		int resizedHigh = (highImage*IMG_WIDTH)/widthImage;
+		int resizedHigh = (highImage * IMG_WIDTH) / widthImage;
 		BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, resizedHigh, type);
 		Graphics2D graphics = resizedImage.createGraphics();
 		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);

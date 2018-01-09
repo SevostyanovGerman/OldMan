@@ -1,5 +1,14 @@
 package main.service;
 
+import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
+import java.util.List;
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.transaction.Transactional;
 import main.Helpers;
 import main.model.Role;
 import main.model.User;
@@ -11,15 +20,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialBlob;
-import javax.transaction.Transactional;
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.List;
 
 @Service
 @Transactional

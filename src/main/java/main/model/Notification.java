@@ -1,6 +1,11 @@
 package main.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "notification")
@@ -63,7 +68,6 @@ public class Notification {
 	public void setOrder(Long order) {
 		this.orderId = orderId;
 	}
-
 
 	public Long getCommentId() {
 		return commentId;

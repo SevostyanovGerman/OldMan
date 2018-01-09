@@ -231,7 +231,7 @@ public class MainController implements ErrorController {
 
 	@RequestMapping("/error")
 	public ModelAndView error() {
-		return new ModelAndView("whiteLabel");
+		return new ModelAndView("login");
 	}
 
 	@Override

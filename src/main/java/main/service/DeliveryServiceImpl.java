@@ -1,13 +1,12 @@
 package main.service;
 
+import java.util.List;
+import javax.transaction.Transactional;
 import main.model.Customer;
 import main.model.Delivery;
 import main.repository.DeliveryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 @Transactional

@@ -1,8 +1,7 @@
 package main.service;
 
-import main.model.Status;
-
 import java.util.List;
+import main.model.Status;
 
 public interface StatusService {
 

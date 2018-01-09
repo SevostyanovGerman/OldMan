@@ -1,8 +1,7 @@
 package main.service;
 
-import main.model.PhoneModel;
-
 import java.util.List;
+import main.model.PhoneModel;
 
 public interface PhoneModelService {
 

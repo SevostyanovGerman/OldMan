@@ -1,5 +1,6 @@
 package main.config;
 
+import java.util.List;
 import main.model.Role;
 import main.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder(){
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
@@ -51,8 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		for (int i = 0; i < roleList.size(); i++) {
 			if (!roleList.get(i).getUrl().equals("/")) {
 				String url = roleList.get(i).getUrl() + "**";
-				http.authorizeRequests().antMatchers(url)
-					.hasAnyAuthority(roleList.get(i).getName(), "BOSS");
+				http.authorizeRequests().antMatchers(url).hasAnyAuthority(roleList.get(i).getName(), "BOSS");
 			}
 		}
 	}

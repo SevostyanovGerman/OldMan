@@ -1,10 +1,18 @@
 package main.model;
 
-import org.hibernate.annotations.Where;
-
-import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "items")
@@ -55,7 +63,7 @@ public class Item {
 	}
 
 	public Item(Product product, PhoneModel phoneModel, String material, String comment, int count, double price,
-				boolean status) {
+		boolean status) {
 		this.product = product;
 		this.phoneModel = phoneModel;
 		this.material = material;
@@ -167,20 +175,17 @@ public class Item {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Item)) return false;
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Item)) {
+			return false;
+		}
 		Item item = (Item) o;
-		return count == item.count &&
-			Double.compare(item.price, price) == 0 &&
-			status == item.status &&
-			Objects.equals(id, item.id) &&
-			Objects.equals(product, item.product) &&
-			Objects.equals(phoneModel, item.phoneModel) &&
-			Objects.equals(material, item.material) &&
-			Objects.equals(comment, item.comment) &&
-			Objects.equals(amount, item.amount) &&
-			Objects.equals(files, item.files) &&
-			Objects.equals(images, item.images);
+		return count == item.count && Double.compare(item.price, price) == 0 && status == item.status && Objects
+			.equals(id, item.id) && Objects.equals(product, item.product) && Objects.equals(phoneModel, item.phoneModel)
+			&& Objects.equals(material, item.material) && Objects.equals(comment, item.comment) && Objects
+			.equals(amount, item.amount) && Objects.equals(files, item.files) && Objects.equals(images, item.images);
 	}
 
 	@Override

@@ -1,8 +1,7 @@
 package main.service;
 
-import main.model.Payment;
-
 import java.util.List;
+import main.model.Payment;
 
 public interface PaymentService {
 

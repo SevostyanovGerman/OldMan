@@ -1,18 +1,21 @@
 package main.model;
 
+import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-
-import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "history")
 public class History {
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER =
-		DateTimeFormat.forPattern("d MMMM, yyyy");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("d MMMM, yyyy");
 
 	@Id
 	@Column(name = "id")
@@ -117,12 +120,11 @@ public class History {
 		if (id != null ? !id.equals(history.id) : history.id != null) {
 			return false;
 		}
-		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) :
-			history.dateRecieved != null) {
+		if (dateRecieved != null ? !dateRecieved.equals(history.dateRecieved) : history.dateRecieved != null) {
 			return false;
 		}
-		if (dateTransferred != null ? !dateTransferred.equals(history.dateTransferred) :
-			history.dateTransferred != null) {
+		if (dateTransferred != null ? !dateTransferred.equals(history.dateTransferred)
+			: history.dateTransferred != null) {
 			return false;
 		}
 		if (status != null ? !status.equals(history.status) : history.status != null) {

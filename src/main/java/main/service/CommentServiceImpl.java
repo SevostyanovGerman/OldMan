@@ -1,11 +1,10 @@
 package main.service;
 
+import javax.transaction.Transactional;
 import main.model.Comment;
 import main.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Service
 @Transactional

@@ -1,8 +1,7 @@
 package main.service;
 
-import main.model.Product;
-
 import java.util.List;
+import main.model.Product;
 
 public interface ProductService {
 

@@ -1,9 +1,8 @@
 package main.service;
 
+import java.util.List;
 import main.model.Customer;
 import main.model.Delivery;
-
-import java.util.List;
 
 public interface DeliveryService {
 
