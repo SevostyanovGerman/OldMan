@@ -27,19 +27,19 @@ public class UserServiceImpl implements UserService {
 
 	private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+	private static final int IMG_WIDTH = 200;
+
 	private UserRepository userRepository;
 
 	private RoleService roleService;
 
-	private static final int IMG_WIDTH = 200;
-
-	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, RoleService roleService) {
+	public UserServiceImpl(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
 		this.userRepository = userRepository;
 		this.roleService = roleService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
