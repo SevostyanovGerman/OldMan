@@ -142,7 +142,27 @@
                         <td th:text="${unit.getId()}"></td>
                         <td th:text="${unit.getProductName()}"></td>
                         <td>
-                            <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/product/edit/' + ${unit.getId()}">Изменить</a>
+                            <a class="btn btn-xs btn-info" th:href="'#'+${unit.getId()}+'Modal'" data-toggle="modal" >Изменить</a>
+
+                            <!-- Изменение товара модального окна -->
+                            <div th:id="${unit.getId()} + 'Modal'" class="modal  ">
+                                <div class="modal-dialog ">
+                                    <div class="modal-content modal-lg">
+                                        <!-- Основное содержимое модального окна -->
+                                        <div class="modal-body">
+                                            <h4 id ="titleTest">При изменении названия товара будет утеряна вся статистика на этот товар. Если вы хотите её сохранить - создайте новый тип товара. Продолжить?</h4>
+                                        </div>
+                                        <!-- Футер модального окна -->
+                                        <div class="modal-footer">
+                                            <a id = "editProductBtn" class="btn btn-default" th:href="'/director/controlpanel/product/edit/' + ${unit.getId()}">Да</a>
+                                            <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                            <!--th:href="'/director/controlpanel/product/edit/' + ${unit.getId()}"-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--- end modal -->
+
                         </td>
                         <td>
                             <a class="btn btn-xs btn-danger" th:href="'/director/controlpanel/product/delete/' + ${unit.getId()}">Удалить</a>
@@ -255,6 +275,8 @@
 </div>
 
 
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="/js/jquery.js"></script>
@@ -291,6 +313,8 @@
 </script>
 
 <script src="/js/profile.js"></script>
+
+
 
 </body>
 </html>
