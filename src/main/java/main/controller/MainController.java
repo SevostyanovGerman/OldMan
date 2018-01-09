@@ -115,7 +115,7 @@ public class MainController implements ErrorController {
 			mail.setMessageParametr(currentUser.toString());
 			mailService.sendEmail(mail);
 		} catch (Exception e) {
-			logger.error("Ошибка при создании комментария, заказ id={}", e);
+			logger.error("While adding comment for order id={}", id);
 		}
 		return model;
 	}
@@ -230,8 +230,9 @@ public class MainController implements ErrorController {
 	}
 
 	@RequestMapping("/error")
-	public ModelAndView error() {
-		return new ModelAndView("login");
+	public ModelAndView error(HttpServletRequest request) {
+
+		return new ModelAndView("redirect: ");
 	}
 
 	@Override
