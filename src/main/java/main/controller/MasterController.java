@@ -147,7 +147,7 @@ public class MasterController {
 			logger.warn("You couldn't change the status of item");
 			new ModelAndView("masterView/MasterItemForm");
 		}
-		return new ModelAndView("redirect:/master/order/" + orderId + "/item/" + itemId);
+		return new ModelAndView("redirect:/master/order/" + orderId);
 	}
 
 	//Выборка тех заказов где есть уведомления для конкретного пользователя
