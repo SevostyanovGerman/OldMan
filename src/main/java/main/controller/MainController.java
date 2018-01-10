@@ -108,7 +108,7 @@ public class MainController implements ErrorController {
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
-			mailService.sendNotificationByMail(userService.getCurrentUser());
+			mailService.sendNotificationByMail(userService.getByName(recipient), comment);
 		} catch (Exception e) {
 			logger.error("While adding comment for order id={}", id);
 		}

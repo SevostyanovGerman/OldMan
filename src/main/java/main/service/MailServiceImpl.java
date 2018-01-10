@@ -1,6 +1,8 @@
 package main.service;
 
 import javax.mail.internet.MimeMessage;
+
+import main.model.Comment;
 import main.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,14 +59,14 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
-	public void sendNotificationByMail(User user) {
+	public void sendNotificationByMail(User user, Comment comment) {
 		try {
 			MimeMessage mail = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mail, true);
 
 			helper.setTo(user.getEmail());
 			helper.setSubject(titleNotification);
-			String content = mailContentBuilder.build(user, "mail/mailNotification");
+			String content = mailContentBuilder.build(user, "mail/mailNotification", comment);
 			helper.setText(content, true);
 			try {
 				javaMailSender.send(mail);
