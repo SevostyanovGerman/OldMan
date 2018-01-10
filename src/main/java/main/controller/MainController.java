@@ -87,7 +87,6 @@ public class MainController implements ErrorController {
 	public ModelAndView addComment(@PathVariable Long id, @ModelAttribute("commentText") String content,
 		@ModelAttribute("recipient") String recipient, @ModelAttribute("commentBtnOrder") String commentId,
 		HttpServletRequest request) {
-		User currentUser = userService.getCurrentUser();
 		String url = Helpers.getUrl(request.getHeader("referer"));
 		ModelAndView model = new ModelAndView("redirect:" + url);
 		try {
