@@ -10,7 +10,6 @@ import main.model.Delivery;
 import main.model.DeliveryType;
 import main.model.FuncMenu;
 import main.model.Item;
-import main.model.Mail;
 import main.model.Order;
 import main.model.Payment;
 import main.model.PhoneModel;
@@ -93,13 +92,11 @@ public class InitDB {
 
 	@PostConstruct
 	public void createDB() throws ParseException {
+//		Mail notificationMail = new Mail("NOTIFICATION", "Вам пришло новое сообщение", null,
+//			"%s, Вам пришло новое сообщение, перейдите по ссылке чтобы его прочитать", "mail/mailNotification");
+//		mailService.save(notificationMail);
+//		mailService.save(resetPasswordMail);
 
-		Mail resetPasswordMail = new Mail("RESET_PASSWORD", "%s, забыли Ваш пароль от CaseCRM?", null,
-			"Для " + "изменения " + "пароля перейдите по ссылке", "mail/mailResetPassword");
-		Mail notificationMail = new Mail("NOTIFICATION", "Вам пришло новое сообщение", null,
-			"%s, Вам пришло новое сообщение, перейдите по ссылке чтобы его прочитать", "mail/mailNotification");
-		mailService.save(notificationMail);
-		mailService.save(resetPasswordMail);
 		//DeliveryType//
 		DeliveryType toAddress = new DeliveryType("address", false);
 		DeliveryType pickup = new DeliveryType("pickup", true);

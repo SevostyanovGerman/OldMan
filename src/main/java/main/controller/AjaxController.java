@@ -7,8 +7,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import main.model.Customer;
-import main.model.Mail;
-import main.model.Mail.MailNames;
 import main.model.Notification;
 import main.model.Order;
 import main.model.User;
@@ -226,10 +224,7 @@ public class AjaxController {
 				DateTime expire = new DateTime().plusHours(1);
 				user.setTokenExpire(expire.toDate());
 				userService.save(user);
-				Mail mail = mailService.getByMailName(MailNames.RESET_PASSWORD);
-				mail.setForUser(user);
-				mail.setTitleParametr(user.toString());
-				mailService.sendEmail(mail);
+				mailService.sendResetPasswordMail(user);
 				return "Новый пароль отправлен на вашу почту";
 			}
 		} catch (Exception e) {

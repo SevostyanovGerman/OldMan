@@ -1,37 +1,15 @@
 package main.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "mail")
 public class Mail {
 
-	@Id
-	@Column(name = "id")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Column(name = "mailName")
 	private String mailName;
-
-	@Column(name = "title")
 	private String title;
-
-	@Column(name = "forUser")
 	private User forUser;
-
-	@Column(name = "message")
 	private String message;
-
-	@Column(name = "template")
 	private String template;
 
 	public Mail() {
+
 	}
 
 	public Mail(String mailName, String title, User forUser, String message, String template) {
@@ -82,13 +60,7 @@ public class Mail {
 		this.template = template;
 	}
 
-	public Long getId() {
-		return id;
-	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getMailName() {
 		return mailName;
@@ -109,9 +81,6 @@ public class Mail {
 
 		Mail mail = (Mail) o;
 
-		if (id != null ? !id.equals(mail.id) : mail.id != null) {
-			return false;
-		}
 		if (mailName != null ? !mailName.equals(mail.mailName) : mail.mailName != null) {
 			return false;
 		}
@@ -129,8 +98,7 @@ public class Mail {
 
 	@Override
 	public int hashCode() {
-		int result = id != null ? id.hashCode() : 0;
-		result = 31 * result + (mailName != null ? mailName.hashCode() : 0);
+		int result = mailName != null ? mailName.hashCode() : 0;
 		result = 31 * result + (title != null ? title.hashCode() : 0);
 		result = 31 * result + (forUser != null ? forUser.hashCode() : 0);
 		result = 31 * result + (message != null ? message.hashCode() : 0);
@@ -138,7 +106,4 @@ public class Mail {
 		return result;
 	}
 
-	public enum MailNames {
-		RESET_PASSWORD, NOTIFICATION
-	}
 }

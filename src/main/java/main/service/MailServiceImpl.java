@@ -1,43 +1,50 @@
 package main.service;
 
 import javax.mail.internet.MimeMessage;
-import main.model.Mail;
-import main.model.Mail.MailNames;
-import main.repository.MailRepository;
+import main.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 @Service
+@Configuration
+@PropertySource("mail.properties")
 public class MailServiceImpl implements MailService {
 
 	private MailContentBuilder mailContentBuilder;
 	private JavaMailSender javaMailSender;
-	private MailRepository mailRepository;
-
 	private final static Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
 
+	@Value("${titleResetPassword}")
+	private String titleResetPassword;
+
+	@Value("${titleNotification}")
+	private String titleNotification;
+
 	@Autowired
-	public MailServiceImpl(MailContentBuilder mailContentBuilder, JavaMailSender javaMailSender,
-		MailRepository mailRepository) {
+	public MailServiceImpl(MailContentBuilder mailContentBuilder, JavaMailSender javaMailSender) {
 		this.mailContentBuilder = mailContentBuilder;
 		this.javaMailSender = javaMailSender;
-		this.mailRepository = mailRepository;
+
 	}
 
 	@Override
-	public void sendEmail(Mail newMail) {
+	public void sendResetPasswordMail(User user) {
 		try {
 			MimeMessage mail = javaMailSender.createMimeMessage();
 			MimeMessageHelper helper = new MimeMessageHelper(mail, true);
 
-			helper.setTo(newMail.getForUser().getEmail());
-			helper.setSubject(newMail.getTitle());
+			helper.setTo(user.getEmail());
+			String title = String.format(titleResetPassword, user.toString());
+			helper.setSubject(title);
 			String content = mailContentBuilder
-				.build(newMail.getMessage(), newMail.getForUser(), newMail.getTemplate());
+				.build( user, "mail/mailResetPassword");
 			helper.setText(content, true);
 			try {
 				javaMailSender.send(mail);
@@ -48,15 +55,5 @@ public class MailServiceImpl implements MailService {
 			logger.error("While sending mail");
 		}
 	}
-
-	public Mail getByMailName(MailNames nameMail) {
-		return mailRepository.getByMailName(nameMail.toString());
-	}
-
-	@Override
-	public void save(Mail mail) {
-		mailRepository.save(mail);
-	}
-
 }
 
