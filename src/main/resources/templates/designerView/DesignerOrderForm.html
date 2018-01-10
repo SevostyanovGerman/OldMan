@@ -109,8 +109,8 @@
                                 th:each="element: ${order.getComments()}">
                                 <li>
                                     <div class="comment-main-level">
-                                        <div class="comment-avatar" th:if="${#authentication.principal.getAvatar() != null}"> <img class="img-responsive user-photo" th:src="${#authentication.principal.getAvatar()}"></div>
-                                        <div class="comment-avatar" th:if="${#authentication.principal.getAvatar() == null}"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                                        <div class="comment-avatar" th:if="${element.getCreatedBy().getAvatar() != null}"> <img class="img-responsive user-photo" th:src="${element.getCreatedBy().getAvatar()}"></div>
+                                        <div class="comment-avatar" th:if="${element.getCreatedBy().getAvatar() == null}"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
                                         <div class="comment-box">
                                             <div class="comment-head">
                                                 <h6 class="comment-name by-author" th:text="${element.getCreatedBy()}"></h6>
@@ -144,7 +144,8 @@
                                     </div>
                                     <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
                                         <li>
-                                            <div class="comment-avatar"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                                            <div class="comment-avatar" th:if="${element2.getCreatedBy().getAvatar() != null}"> <img class="img-responsive user-photo" th:src="${element2.getCreatedBy().getAvatar()}"></div>
+                                            <div class="comment-avatar" th:if="${element2.getCreatedBy().getAvatar() == null}"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
                                             <div class="comment-box">
                                                 <div class="comment-head">
                                                     <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
