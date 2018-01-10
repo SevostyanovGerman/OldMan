@@ -55,5 +55,26 @@ public class MailServiceImpl implements MailService {
 			logger.error("While sending mail");
 		}
 	}
+
+	@Override
+	public void sendNotificationByMail(User user) {
+		try {
+			MimeMessage mail = javaMailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(mail, true);
+
+			helper.setTo(user.getEmail());
+			helper.setSubject(titleNotification);
+			String content = mailContentBuilder.build(user, "mail/mailNotification");
+			helper.setText(content, true);
+			try {
+				javaMailSender.send(mail);
+			} catch (Exception e) {
+				logger.error("This error appeared because the mail was not sent");
+			}
+
+		} catch (Exception e) {
+			logger.error("This error appeared because the mail notification was not sent");
+		}
+	}
 }
 

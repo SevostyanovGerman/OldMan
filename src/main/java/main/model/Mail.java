@@ -28,10 +28,6 @@ public class Mail {
 		this.title = title;
 	}
 
-	public void setTitleParametr(String parametr) {
-		this.title = String.format(this.title, parametr);
-	}
-
 	public User getForUser() {
 		return forUser;
 	}
@@ -46,10 +42,6 @@ public class Mail {
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	public void setMessageParametr(String parametr) {
-		this.message = String.format(this.title, parametr);
 	}
 
 	public String getTemplate() {
