@@ -52,13 +52,21 @@ $('#avatarBtn').on('click', function (event) {
         // отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
         contentType: false,
         // функция успешного ответа сервера
+        beforeSend: function(){
+            var current = document.getElementById("avatarMessage");
+            current.style.color = "darkorange";
+            current.textContent = "Загрузка...";
+
+        },
         success: function (data) {
             var current = document.getElementById("avatarMessage");
+            current.style.color = "limegreen";
             current.textContent = "Аватар сохранен";
         },
         error: function () {
             var current = document.getElementById("avatarMessage");
             current.textContent = "Ошибка сохранения";
+            current.style.color = "red";
         }
 
     });
