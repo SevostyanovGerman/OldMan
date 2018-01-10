@@ -173,12 +173,14 @@ public class AjaxController {
 
 	//Добавить аватар на профиль
 	@RequestMapping(value = {"/profile/avatar"}, method = RequestMethod.POST)
-	public void addAvatar(@RequestParam("0") MultipartFile file) {
+	public String addAvatar(@RequestParam("0") MultipartFile file) {
 		User user = userService.getCurrentUser();
 		try {
 			userService.addAvatar(file, user);
+			return "{\"msg\":\"success\"}";
 		} catch (Exception e) {
 			logger.error("while saving avatar image for profile");
+			return "Ошибка сохранения";
 		}
 	}
 

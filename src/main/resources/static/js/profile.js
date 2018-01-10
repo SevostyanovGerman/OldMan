@@ -1,37 +1,39 @@
 var files; // переменная. будет содержать данные файлов
 
 // заполняем переменную данными, при изменении значения поля file
-$('input[type=file]').on('change', function(){
+$('input[type=file]').on('change', function () {
     files = this.files;
     // $("#avatarBtn").show();
 
     $('#avatarBtn').css('display', 'inline');
     readURL(this);
+
+    var current = document.getElementById("avatarMessage");
+    current.textContent = "";
 });
 
-
-$('#avatarBtn').on( 'click', function( event ){
+$('#avatarBtn').on('click', function (event) {
 
     // event.stopPropagation(); // остановка всех текущих JS событий
     // event.preventDefault();  // остановка дефолтного события для текущего элемента - клик для <a> тега
 
     // ничего не делаем если files пустой
-    if( typeof files == 'undefined' ) return;
+    if (typeof files == 'undefined') {
+        return;
+    }
 
     // создадим объект данных формы
-    var data = new FormData();
+    var dataValue = new FormData();
 
     // заполняем объект данных файлами в подходящем для отправки формате
-    $.each( files, function( key, value ){
+    $.each(files, function (key, value) {
 
-       // $('#avatarImg').attr('src', files.target.result);
-        data.append( key, value );
+        // $('#avatarImg').attr('src', files.target.result);
+        dataValue.append(key, value);
     });
 
-
     // добавим переменную для идентификации запроса
-    data.append( 'file', 1 );
-
+    dataValue.append('file', 1);
 
     // $("#avatarBtn").hidden;
     // $("#avatarBtn").hide();
@@ -39,25 +41,29 @@ $('#avatarBtn').on( 'click', function( event ){
 
     // AJAX запрос
     $.ajax({
-        url         : '/profile/avatar',
-        type        : 'POST', // важно!
-        data        : data,
-        cache       : false,
-        dataType    : 'json',
-        enctype     : "multipart/form-data",
+        url: '/profile/avatar',
+        type: 'POST', // важно!
+        data: dataValue,
+        cache: false,
+        dataType: 'json',
+        enctype: "multipart/form-data",
         // отключаем обработку передаваемых данных, пусть передаются как есть
-        processData : false,
+        processData: false,
         // отключаем установку заголовка типа запроса. Так jQuery скажет серверу что это строковой запрос
-        contentType : false,
+        contentType: false,
         // функция успешного ответа сервера
-        success     : function(){
+        success: function (data) {
+            var current = document.getElementById("avatarMessage");
+            current.textContent = "Аватар сохранен";
+        },
+        error: function () {
+            var current = document.getElementById("avatarMessage");
+            current.textContent = "Ошибка сохранения";
         }
 
     });
 
 });
-
-
 
 function readURL(input) {
     if (input.files && input.files[0]) {
@@ -71,8 +77,7 @@ function readURL(input) {
     }
 }
 
-
-$('#changePassword').on( 'click', function( event ){
+$('#changePassword').on('click', function (event) {
 
     $('#currentPass').css('display', 'inline');
     $('#newPass').css('display', 'inline');
@@ -83,8 +88,7 @@ $('#changePassword').on( 'click', function( event ){
 
 });
 
-
-$('#cancelPassBtn').on( 'click', function( event ){
+$('#cancelPassBtn').on('click', function (event) {
 
     $('#currentPass').css('display', 'none');
     $('#newPass').css('display', 'none');
@@ -95,29 +99,27 @@ $('#cancelPassBtn').on( 'click', function( event ){
 
 });
 
-$('#changePassBtn').on( 'click', function( event ) {
+$('#changePassBtn').on('click', function (event) {
 
     var current = document.getElementById("currentPass");
     var newPass = document.getElementById("newPass");
     var reply = document.getElementById("replyPass");
     var error = document.getElementById("errorCurrentPass");
 
-
-    if ( reply.value == newPass.value ) {
+    if (reply.value == newPass.value) {
 
         var data = {
             currentPassword: current.value,
             newPassword: newPass.value
         };
 
-        $("#errorCurrentPass").load("/profile/password", data, function() {
-           hideChangeBtn();
+        $("#errorCurrentPass").load("/profile/password", data, function () {
+            hideChangeBtn();
         });
 
     } else {
         error.innerHTML = "Пароли не совпадают"
     }
-
 
 });
 
@@ -129,6 +131,8 @@ function hideChangeBtn() {
     $('#forgotPass').css('display', 'none');
     $('#changePassBtn').css('display', 'none');
     $('#cancelPassBtn').css('display', 'none');
+    document.getElementById("avatarMessage").textContent = "";
+
 
 }
 
