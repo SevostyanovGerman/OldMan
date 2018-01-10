@@ -1,14 +1,9 @@
 package main.service;
 
-import main.model.Mail;
-import main.model.Mail.MailNames;
+import main.model.User;
 
 public interface MailService {
 
-	void sendEmail(Mail mail);
-
-	Mail getByMailName(MailNames nameMail);
-
-	void save(Mail mail);
+	void sendResetPasswordMail(User user);
 
 }

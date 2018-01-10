@@ -7,8 +7,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import main.Helpers;
 import main.model.Comment;
-import main.model.Mail;
-import main.model.Mail.MailNames;
 import main.model.Notification;
 import main.model.Order;
 import main.model.Role;
@@ -110,10 +108,14 @@ public class MainController implements ErrorController {
 			notificationService.save(notification);
 			model.addObject("order", order);
 			model.addObject("tabIndex", 1);
-			Mail mail = mailService.getByMailName(MailNames.NOTIFICATION);
-			mail.setForUser(userService.getByName(recipient));
-			mail.setMessageParametr(currentUser.toString());
-			mailService.sendEmail(mail);
+//			Mail mail = mailService.getByMailName(MailNames.NOTIFICATION);
+//			Mail mail = new Mail();
+//			mail.setForUser(userService.getByName(recipient));
+//
+//			mail.setMessageParametr(currentUser.toString());
+			//mailService.sendResetPasswordMail(user);
+
+			//mailService.sendEmail(mail);
 		} catch (Exception e) {
 			logger.error("While adding comment for order id={}", id);
 		}
