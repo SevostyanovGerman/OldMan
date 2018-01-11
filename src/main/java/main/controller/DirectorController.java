@@ -9,6 +9,7 @@ import main.model.Customer;
 import main.model.Delivery;
 import main.model.Notification;
 import main.model.Order;
+import main.model.Payment;
 import main.model.PhoneModel;
 import main.model.Product;
 import main.model.Role;
@@ -18,6 +19,7 @@ import main.service.CustomerService;
 import main.service.DeliveryService;
 import main.service.NotificationService;
 import main.service.OrderService;
+import main.service.PaymentService;
 import main.service.PhoneModelService;
 import main.service.ProductService;
 import main.service.RoleService;
@@ -60,12 +62,15 @@ public class DirectorController {
 
 	private PhoneModelService phoneModelService;
 
+	private PaymentService paymentService;
+
 	private final static Logger logger = LoggerFactory.getLogger(DirectorController.class);
 
 	@Autowired
 	public DirectorController(UserService userService, OrderService orderService, StatusService statusService,
 		RoleService roleService, CustomerService customerService, DeliveryService deliveryService,
-		NotificationService notificationService, ProductService productService, PhoneModelService phoneModelService) {
+		NotificationService notificationService, ProductService productService,
+		PhoneModelService phoneModelService, PaymentService paymentService) {
 		this.userService = userService;
 		this.orderService = orderService;
 		this.statusService = statusService;
@@ -75,6 +80,7 @@ public class DirectorController {
 		this.notificationService = notificationService;
 		this.productService = productService;
 		this.phoneModelService = phoneModelService;
+		this.paymentService = paymentService;
 	}
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
@@ -1045,6 +1051,119 @@ public class DirectorController {
 			}
 		}
 		return "redirect:/director/controlpanel/model";
+	}
+
+	//---------------------- Payment block ---------------------
+
+	@RequestMapping(value = {"/director/controlpanel/payment"}, method = RequestMethod.GET)
+	public ModelAndView controlPanelPayment(HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView("/directorView/ControlPanelPayment");
+
+		injectMessageToPage(request, model);
+
+		try {
+			model.addObject("allPayments", paymentService.getAll());
+			model.addObject("payment", new Payment());
+		} catch (Exception e) {
+			logger.error("Can\'t get payment list {}", e);
+		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/payment/save"}, method = RequestMethod.POST)
+	public ModelAndView savePayment(@ModelAttribute("payment") @Valid Payment incomingPayment,
+		BindingResult bindingResult, HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView();
+
+		/*
+		 * Ищем в базе тип оплаты с таким же именем.
+		 * В случае нахождения оплаты с таким названием генерим сообщение error.
+		 * Если же ничего не находим то записываем тип оплаты в базу данных и создаём сообщение о усрехе.
+		 */
+
+		if (bindingResult.hasErrors()) {
+			model.setViewName("/directorView/ControlPanelPayment");
+			model.addObject("allPayments", paymentService.getAll());
+			return model;
+		} else {
+			String searchingPayment = incomingPayment.getName();
+			Payment foundPayment = paymentService.getByName(searchingPayment);
+			if ((foundPayment != null) && !(foundPayment.getId().equals(incomingPayment.getId()))) { //проверяем есть ли оплата с таким названием
+				String error = "Тип оплаты с названием: " + searchingPayment + " уже существует";
+				request.getSession().setAttribute("error", error);
+			} else {
+				try {
+					paymentService.save(incomingPayment);
+					String success = "Оплата с названием: " + searchingPayment + " успешно создана";
+					request.getSession().setAttribute("success", success);
+				} catch (Exception e) {
+					logger.error("Can\'t save payment {}", e);
+					String error = "При сохранении типа оплаты произошла ошибка";
+					request.getSession().setAttribute("error", error);
+				}
+			}
+		}
+		model.setViewName("redirect:/director/controlpanel/payment");
+		return model;
+
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/payment/edit/{id}"}, method = RequestMethod.GET)
+	public String editPayment(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+
+		logger.info("Edit payment with id: {}", id);
+
+		Payment payment = null;
+		try {
+			payment = paymentService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get payment with id: {}", id);
+			String error = "При редактировании типа оплаты произошла ошибка обращения к базе данных";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/payment";
+		}
+
+		if (payment != null) {
+			model.addAttribute("payment", payment);
+			model.addAttribute("allPayment", paymentService.getAll());
+			return "directorView/ControlPanelPayment";
+		} else {
+			String error = "Тип оплаты не найден";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/payment";
+		}
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/payment/delete/{id}"}, method = RequestMethod.GET)
+	public String deletePayment(@PathVariable("id") Long id, HttpServletRequest request) {
+
+		logger.info("Deleting payment with id: {}", id);
+
+		/*
+		 * Перед удалением получаем тип оплаты из базы данных.
+		 */
+		Payment deletedPayment = null;
+		try {
+			deletedPayment = paymentService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get payment with id: {}", id);
+			String error = "При удалении типа оплаты произошла ошибка обращения к базе данных";
+			request.getSession().setAttribute("error", error);
+		}
+		if (deletedPayment != null) {
+			try {
+				paymentService.delete(deletedPayment);
+				String success = "Оплата " + deletedPayment.getName() + " успешно удалёна";
+				request.getSession().setAttribute("success", success);
+			} catch (Exception e) {
+				logger.error("Can\'t delete payment with id: ", id);
+				String error = "Ошибка при удалении типа оплаты из базы данных";
+				request.getSession().setAttribute("error", error);
+			}
+		}
+		return "redirect:/director/controlpanel/payment";
 	}
 
 	private void injectMessageToPage(HttpServletRequest request, ModelAndView model) {
