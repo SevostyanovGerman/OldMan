@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import main.constans.RegexpConstans;
 
 @Entity
 @Table(name = "payments")
@@ -16,9 +18,11 @@ public class Payment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_GENERAL, message = "{general.wrong.message}")
 	@Column(name = "name")
 	private String name;
 
+	// Данная переменная сигнализирует может ли этот способ оплаты приниматься производителем
 	@Column(name = "cash")
 	private Boolean cash;
 
