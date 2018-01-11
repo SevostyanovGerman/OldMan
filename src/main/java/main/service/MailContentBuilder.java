@@ -17,16 +17,18 @@ public class MailContentBuilder {
 		this.templateEngine = templateEngine;
 	}
 
-	protected String build(User user, String template) {
+	protected String build(User user, String template, String link) {
 		Context context = new Context();
 		context.setVariable("user", user);
+		context.setVariable("link", link);
 		return templateEngine.process(template, context);
 	}
 
-	protected String build(User user, String template, Comment comment) {
+	protected String build(User user, String template, Comment comment, String link) {
 		Context context = new Context();
 		context.setVariable("user", user);
 		context.setVariable("comment", comment);
+		context.setVariable("link", link);
 		return templateEngine.process(template, context);
 	}
 }
