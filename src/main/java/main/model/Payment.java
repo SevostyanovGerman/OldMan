@@ -19,8 +19,12 @@ public class Payment {
 	@Column(name = "name")
 	private String name;
 
-	public Payment(String name) {
+	@Column(name = "cash")
+	private Boolean cash;
+
+	public Payment(String name, Boolean cash) {
 		this.name = name;
+		this.cash = cash;
 	}
 
 	public Payment() {
@@ -42,6 +46,14 @@ public class Payment {
 		this.name = name;
 	}
 
+	public Boolean getCash() {
+		return cash;
+	}
+
+	public void setCash(Boolean cash) {
+		this.cash = cash;
+	}
+
 	@Override
 	public String toString() {
 		return name;
@@ -49,23 +61,21 @@ public class Payment {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
 		Payment payment = (Payment) o;
-		if (id != null ? !id.equals(payment.id) : payment.id != null) {
-			return false;
-		}
-		return name != null ? name.equals(payment.name) : payment.name == null;
+
+		if (id != null ? !id.equals(payment.id) : payment.id != null) return false;
+		if (name != null ? !name.equals(payment.name) : payment.name != null) return false;
+		return cash != null ? cash.equals(payment.cash) : payment.cash == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (name != null ? name.hashCode() : 0);
+		result = 31 * result + (cash != null ? cash.hashCode() : 0);
 		return result;
 	}
 }
