@@ -160,10 +160,27 @@
                             </a>
                         </td>
                         <td align="center">
-                            <a class="btn btn-danger btn-xs" th:href="${'/manager/order/delete/' + order.getId()}" title="Удалить заказа">
+                            <a class="btn btn-danger btn-xs" data-toggle="modal" th:href="${'#modalDeleteOrder_' + order.getId()}" title="Удалить заказа">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
                         </td>
+
+                        <!-- Модальное окно удаления заказа -->
+                        <div class="modal" th:id="${'modalDeleteOrder_' + order.getId()}">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <!-- Основное содержимое модального окна -->
+                                    <div class="modal-body">
+                                        <h4>Удалить заказ?</h4>
+                                    </div>
+                                    <!-- Футер модального окна -->
+                                    <div class="modal-footer" align="center">
+                                        <a class="btn btn-default " th:href="${'/manager/order/delete/' + order.getId()}">Да</a>
+                                        <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!--- end modal -->
                     </tr>
                     <tr>
                         <td colspan="11" align="centre">
@@ -221,8 +238,6 @@
     <!-- Профиль модальное окно -->
     <div id="userProfile" class="modal  ">
         <div class="modal-dialog">
-
-
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-6">
@@ -306,14 +321,12 @@
                                         <button type="submit" id="cancelPassBtn" class="btn btn-sm  btn-warning profileMargin"
                                                 style="display: none" > Отмена</button>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 

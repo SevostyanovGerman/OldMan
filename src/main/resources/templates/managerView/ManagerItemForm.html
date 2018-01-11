@@ -26,6 +26,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
+
 </head>
 
 <body ng-app="masterOrderForm">
@@ -128,13 +129,14 @@
                             <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${image?.getSmallImage()}" height="75">
                             </a>
-                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
-                               title="Скачать один файл">
+                            <a class="btn btn-primary btn-xs btn-download" th:href="${file?.getImage()}"
+                                title="Скачать один файл" download="DesignerImage.jpg">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Скачать все файлы на компьютер">Скачать все файлы</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllImages/'+order.getId()+'/'+item.getId()}"
+                       onclick="downloadAllFiles()" title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </th:block>
 
@@ -146,17 +148,36 @@
                             <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${file?.getSmallImage()}" height="75">
                             </a>
-                            <a class="btn btn-danger btn-xs btn-delete" th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
-                               title="Удалить изображение">
+
+                            <a class="btn btn-danger btn-xs btn-delete" data-toggle="modal" th:href="${'#modalDeleteImage_' + file.getId()}" title="Удалить изображение">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
-                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/manager/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
-                               title="Скачать один файл">
+
+                            <a class="btn btn-primary btn-xs btn-download" th:href="${file?.getImage()}"
+                                title="Скачать один файл" download="CustomerImage.jpg">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
+
+                            <!-- Модальное окно удаления изображения -->
+                            <div class="modal" th:id="${'modalDeleteImage_'+file.getId()}">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <!-- Основное содержимое модального окна -->
+                                        <div class="modal-body">
+                                            <h4>Удалить изображение?</h4>
+                                        </div>
+                                        <!-- Футер модального окна -->
+                                        <div class="modal-footer">
+                                            <a class="btn btn-default " th:href="${'/manager/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}">Да</a>
+                                            <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!--- end modal -->
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Скачать все файлы на компьютер">Скачать все файлы</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadAllFiles/'+order.getId()+'/'+item.getId()}"
+                       onclick="downloadAllFiles()" title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </th:block>
 
@@ -171,7 +192,8 @@
             <div class="col-lg-12">
                 <hr>
                 <div class="form-group" align="center">
-                    <a class="btn btn-default" th:href="${'/manager/order/update/' + order.getId()}" title="Назад">Отмена / Назад</a>
+                    <button type="reset" class="btn btn-success" id="resetItemBtn">Сбросить</button>
+                    <a class="btn btn-default" th:href="${'/manager/order/update/' + order.getId()}">Отмена</a>
                     <button type="submit" class="btn btn-primary" id="saveItemBtn">Сохранить</button>
                 </div>
             </div>
@@ -179,14 +201,9 @@
    </div> <!--end row-->
 </div> <!-- end container -->
 
-
-
-
 <!-- Профиль модальное окно -->
 <div id="userProfile" class="modal  ">
     <div class="modal-dialog">
-
-
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
@@ -230,7 +247,6 @@
                                     </th:block>
                                 </p>
                                 <!-- Split button -->
-
                                 <div class="row col-sm-12">
                                     <div class="col-sm-6 left" >
                                         <a  href="#" id ="changePassword">Изменить пароль</a>
@@ -244,7 +260,6 @@
                                     </div>
 
                                 </div>
-
 
                                 <div class = "row col-lg-12">
                                     <span id="errorCurrentPass"></span>
@@ -270,14 +285,12 @@
                                     <button type="submit" id="cancelPassBtn" class="btn btn-sm  btn-warning profileMargin"
                                             style="display: none" > Отмена</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -303,6 +316,16 @@
     });
 </script>
 <script src="/js/profile.js"></script>
+
+<!--Уведомление о загрузке всех файлов-->
+<script>
+    function downloadAllFiles() {
+        alert("Файлы загружены в папку \"Загрузки\".");
+    }
+</script>
+
+
+
 
 </body>
 </html>
