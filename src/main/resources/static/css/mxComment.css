@@ -47,10 +47,13 @@ tbody{
 /** ====================
  * Лента комментариев
  =======================*/
-.comments-container {
-    width: 768px;
+
+#scroll {
     max-height: 300px;
     overflow-y:scroll;
+}
+.comments-container {
+    width: 768px;
 }
 
 .comments-container h1 {
@@ -109,7 +112,6 @@ tbody{
 
 
 .comments-list li {
-    /*margin-bottom: 15px;*/
     display: block;
     position: relative;
 }
