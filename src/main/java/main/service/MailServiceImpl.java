@@ -29,6 +29,9 @@ public class MailServiceImpl implements MailService {
 	@Value("${titleNotification}")
 	private String titleNotification;
 
+	@Value("${link}")
+	private String link;
+
 	@Autowired
 	public MailServiceImpl(MailContentBuilder mailContentBuilder, JavaMailSender javaMailSender) {
 		this.mailContentBuilder = mailContentBuilder;
@@ -46,7 +49,7 @@ public class MailServiceImpl implements MailService {
 			String title = String.format(titleResetPassword, user.toString());
 			helper.setSubject(title);
 			String content = mailContentBuilder
-				.build( user, "mail/mailResetPassword");
+				.build( user, "mail/mailResetPassword", link);
 			helper.setText(content, true);
 			try {
 				javaMailSender.send(mail);
@@ -66,7 +69,7 @@ public class MailServiceImpl implements MailService {
 
 			helper.setTo(user.getEmail());
 			helper.setSubject(titleNotification);
-			String content = mailContentBuilder.build(user, "mail/mailNotification", comment);
+			String content = mailContentBuilder.build(user, "mail/mailNotification", comment, link);
 			helper.setText(content, true);
 			try {
 				javaMailSender.send(mail);
