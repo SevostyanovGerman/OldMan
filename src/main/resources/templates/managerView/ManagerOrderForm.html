@@ -64,7 +64,7 @@
 <br><br><br>
 <div class="container">
     <div style="text-align: center">
-        <h4><span th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></span> <span class="label label-danger" href="#deleteOrderModal" data-toggle="modal">  Удалить</span> </h4>
+        <h4><span th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></span></h4>
     </div>
     <hr>
     <div class="row">
@@ -149,12 +149,28 @@
                                         </td>
                                         <td align="center">
                                             <a class="btn btn-danger btn-xs"
-                                               th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}"
-                                               title="Удалить данную позицию"><span class="glyphicon glyphicon-remove"></span></a>
+                                                data-toggle="modal" th:href="${'#modalDeleteItem_' + item.getId()}"
+                                                title="Удалить данную позицию"><span class="glyphicon glyphicon-remove"></span></a>
                                         </td>
+                                        <!-- Модальное окно удаления товара -->
+                                        <div class="modal" th:id="${'modalDeleteItem_' + item.getId()}">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+                                                    <!-- Основное содержимое модального окна -->
+                                                    <div class="modal-body">
+                                                        <h4>Удалить товар?</h4>
+                                                    </div>
+                                                    <!-- Футер модального окна -->
+                                                    <div class="modal-footer">
+                                                        <a class="btn btn-default " th:href="${'/manager/item/delete/'+order.getId()+'/' + item.getId()}">Да</a>
+                                                        <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!--- end modal -->
                                     </tr>
                                 <tr>
-                                    <td colspan="6" align="left"><strong>Стоимость заказа:</strong></td>
+                                    <td colspan="6" align="right"><strong>Стоимость заказа:</strong></td>
                                     <td colspan="3" align="center" th:text="${order?.price} + ' рублей'"
                                         style="text-align: center; font-weight: 700;">
                                     </td>
@@ -890,28 +906,7 @@
             </div>
         </div>
     </div>
-</div>
-<!--- end modal -->
-
-<!-- Удаление заказа модального окна -->
-<div id="deleteOrderModal" class="modal  ">
-    <div class="modal-dialog modal-sm">
-        <div class="modal-content modal-sm">
-            <!-- Основное содержимое модального окна -->
-            <div class="modal-body">
-                <h4>Вы уверены, что хотите удалить заказ?</h4>
-
-            </div>
-            <!-- Футер модального окна -->
-            <div class="modal-footer">
-                <a class="btn btn-default " th:href="${'/manager/order/delete/' + order.getId()}">Да</a>
-                <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--- end modal -->
-
+</div> <!--- end modal -->
 
 <!-- Профиль модальное окно -->
 <div id="userProfile" class="modal  ">
