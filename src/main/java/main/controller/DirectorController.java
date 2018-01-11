@@ -1069,7 +1069,7 @@ public class DirectorController {
 		for (Notification n : myNotes) {
 			masterOrders.add(orderService.get(n.getOrder()));
 		}
-		model.addObject("orders", masterOrders);
+		model.addObject("orderList", masterOrders);
 		return model;
 	}
 
