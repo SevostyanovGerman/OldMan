@@ -1,6 +1,7 @@
 var startMx;
 var endMx;
-var dwm = '%Y-%m';
+var startDateSession;
+var endDateSession;
 // Календарь
 
 $(function() {
@@ -9,9 +10,25 @@ $(function() {
 
 
 $(function() {
-    // var start = moment().subtract(29, 'days');
-    var start = moment().startOf('month');
-    var end = moment();
+    var start;
+    var end;
+
+
+
+    if ( startDateSession != null) {
+        start = moment(startDateSession);
+    } else {
+        start = moment().startOf('month');
+
+    }
+
+    if ( endDateSession != null) {
+        end = moment(endDateSession);
+    } else {
+        end = moment();
+    }
+
+
 
     function cb(start, end) {
         $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));

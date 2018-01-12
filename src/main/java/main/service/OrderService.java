@@ -2,6 +2,7 @@ package main.service;
 
 import java.util.Date;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import main.model.Order;
 import main.model.User;
 import org.springframework.data.domain.Page;
@@ -53,6 +54,8 @@ public interface OrderService {
 	List<Object> statisticNewCustomers(Date start, Date end);
 
 	List<Order> sorting(List<Order> list, String sortBy);
+
+	Page<Order> getOrderBySession(HttpSession session, User user);
 
 	Page<Order> getOrdersForDashboard(User user, Date start, Date end, String search, Double min, Double max,
 		Pageable pageable);
