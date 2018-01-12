@@ -159,7 +159,7 @@
                     <hr>
                 </th:block>
                 <h4>Добавить файлы</h4>
-                <input type="file" id='fileMulti' name="uploadDesignerFiles" multiple="multiple" style="display: none"/>
+                <input type="file" id='fileMulti' onchange="ValidationFileSize()" multiple="multiple" style="display: none" accept="image/*"/>
                 <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный размер 1-го файла 50.0 МБ">
                     <span>Обзор...</span>
                 </label>
@@ -300,6 +300,22 @@
 <script>
     function downloadAllFiles() {
         alert("Файлы загружены в папку \"Загрузки\".");
+    }
+</script>
+
+<!--Валидация размера загружаемого файла-->
+<script>
+    function ValidationFileSize() {
+        var uploadFiles = document.getElementById('fileMulti');
+        if (uploadFiles.files.length > 0) {
+            for (var i = 0; i <= uploadFiles.files.length - 1; i++) {
+                var fileSize = uploadFiles.files.item(i).size;
+                if (Math.round((fileSize / 1024)) > 51200) {
+                    alert("Размер одного из выбранных файлов больше 50.0 МБ" );
+                    uploadFiles.value = "";
+                }
+            }
+        }
     }
 </script>
 

@@ -119,8 +119,8 @@
                     </div>
                     <div class="form-group">
                         <h4>Добавить файлы</h4>
-                        <input type="file" id='fileMulti' name="uploadCustomerFiles" multiple="multiple" style="display: none"/>
-                        <label for="fileMulti" class="btn btn-default btn-xs">
+                        <input type="file" id='fileMulti' onchange="ValidationFileSize()" multiple="multiple" style="display: none" accept="image/*"/>
+                        <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный размер 1-го файла 50.0 МБ">
                             <span>Обзор...</span>
                         </label>
                     </div>
@@ -137,15 +137,10 @@
         </div><!--end row-->
     </div> <!-- end container -->
 
-
-
-
     <!-- Профиль модальное окно -->
     <div id="userProfile" class="modal  ">
         <div class="modal-dialog">
-
-
-            <div class="container">
+           <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-6">
                         <div class="well well-sm">
@@ -239,18 +234,34 @@
         </div>
     </div>
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<!--Предпросмотр файлов загрузки-->
+<script src="/js/previewUploadCustomerFile.js"></script>
 
-    <!--Предпросмотр файлов загрузки-->
-    <script src="/js/previewUploadCustomerFile.js"></script>
+<!--Рассчёт суммы позиции-->
+<script src="/js/mxItemManager.js"></script>
+<script src="/js/profile.js"></script>
 
-    <!--Рассчёт суммы позиции-->
-    <script src="/js/mxItemManager.js"></script>
-    <script src="/js/profile.js"></script>
+<!--Валидация размера загружаемого файла-->
+<script>
+    function ValidationFileSize() {
+        var uploadFiles = document.getElementById('fileMulti');
+        if (uploadFiles.files.length > 0) {
+            for (var i = 0; i <= uploadFiles.files.length - 1; i++) {
+                var fileSize = uploadFiles.files.item(i).size;
+                if (Math.round((fileSize / 1024)) > 51200) {
+                    alert("Размер одного из выбранных файлов больше 50.0 МБ" );
+                    uploadFiles.value = "";
+                }
+            }
+        }
+    }
+</script>
+
 </body>
 </html>
