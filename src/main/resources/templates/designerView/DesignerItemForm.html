@@ -108,13 +108,14 @@
                             <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${file?.getSmallImage()}" height="75">
                             </a>
-                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/designer/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+file.getId()}"
-                               title="Скачать один файл">
+                            <a class="btn btn-primary btn-xs btn-download" th:href="${file?.getImage()}"
+                               title="Скачать один файл" download="CustomerImage.jpg">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllFiles/'+order.getId()+'/'+item.getId()}" title="Скачать все файлы на компьютер">Скачать все файлы</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllFiles/'+order.getId()+'/'+item.getId()}"
+                       title="Скачать все файлы на компьютер" onclick="downloadAllFiles()">Скачать все файлы</a>
                 </th:block>
             </div> <!--end col-lg-6-->
 
@@ -126,22 +127,40 @@
                             <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${image?.getSmallImage()}" height="75">
                             </a>
-                            <a class="btn btn-danger btn-xs btn-delete" th:href="${'/designer/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
-                               title="Удалить изображение">
+                            <a class="btn btn-danger btn-xs btn-delete" data-toggle="modal" th:href="${'#modalDeleteImage_' + image.getId()}"
+                                title="Удалить изображение">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
-                            <a class="btn btn-primary btn-xs btn-download" th:href="${'/designer/downloadOneFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}"
-                               title="Скачать один файл">
+                            <a class="btn btn-primary btn-xs btn-download" title="Скачать один файл" th:href="${image?.getImage()}"
+                                download="DesignerImage.jpg">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
+
+                            <!-- Модальное окно удаления изображения -->
+                            <div class="modal" th:id="${'modalDeleteImage_'+image.getId()}">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <!-- Основное содержимое модального окна -->
+                                        <div class="modal-body">
+                                            <h4>Удалить изображение?</h4>
+                                        </div>
+                                        <!-- Футер модального окна -->
+                                        <div class="modal-footer">
+                                            <a class="btn btn-default " th:href="${'/designer/order/item/deleteFile/'+order.getId()+'/'+item.getId()+'/'+image.getId()}">Да</a>
+                                            <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> <!--- end modal -->
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllImages/'+order.getId()+'/'+item.getId()}" title="Скачать все файлы на компьютер">Скачать все файлы</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllImages/'+order.getId()+'/'+item.getId()}"
+                        title="Скачать все файлы на компьютер" onclick="downloadAllFiles()">Скачать все файлы</a>
                     <hr>
                 </th:block>
                 <h4>Добавить файлы</h4>
                 <input type="file" id='fileMulti' name="uploadDesignerFiles" multiple="multiple" style="display: none"/>
-                <label for="fileMulti" class="btn btn-default btn-sm">
+                <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный размер 1-го файла 50.0 МБ">
                     <span>Обзор...</span>
                 </label>
                 <br/>
@@ -150,7 +169,7 @@
             <div class="col-lg-12">
                 <hr>
                 <div class="form-group" align="center">
-                    <a class="btn btn-default" th:href="${'/designer/order/' + order.getId()}" title="Назад">Отмена / Назад</a>
+                    <a class="btn btn-default" th:href="${'/designer/order/' + order.getId()}" title="Назад">Назад</a>
                     <button type="submit" class="btn btn-primary" id="saveItemBtn" title="Сохранить">Сохранить</button>
                 </div>
             </div> <!--end col-lg-12-->
@@ -276,6 +295,14 @@
         $(this).ekkoLightbox();
     });
 </script>
+
+<!--Уведомление о загрузке всех файлов-->
+<script>
+    function downloadAllFiles() {
+        alert("Файлы загружены в папку \"Загрузки\".");
+    }
+</script>
+
 <script src="/js/profile.js"></script>
 
 </body>
