@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import main.Helpers;
 import main.model.Comment;
 import main.model.Notification;
@@ -141,12 +142,20 @@ public class MainController implements ErrorController {
 
 	@RequestMapping(value = "/orders/search", method = RequestMethod.POST)
 	public String orderSearch(String search, Date startDate, Date endDate, Model model, String sort, Double minPrice,
-		Double maxPrice, int pageNumber, int pageSize, String orderBy) {
+		Double maxPrice, int pageNumber, int pageSize, String orderBy, HttpSession session) {
 		DateTime endTime = new DateTime(endDate).withHourOfDay(23).withMinuteOfHour(59);
 		User user = userService.getCurrentUser();
 		StringBuilder url = new StringBuilder();
 		Sort.Direction orderByDirection = Sort.Direction.fromString(orderBy);
 		Sort sorting = new Sort(orderByDirection, sort);
+		session.setAttribute("search", search);
+		session.setAttribute("startDate", startDate);
+		session.setAttribute("endDate", endDate);
+		session.setAttribute("maxPrice", maxPrice);
+		session.setAttribute("minPrice", minPrice);
+		session.setAttribute("sort", sort);
+		session.setAttribute("pageSize", pageSize);
+		session.setAttribute("orderBy", orderBy);
 		try {
 			Set<Role> roleSet = user.getRoles();
 			boolean boss = false;
@@ -169,6 +178,7 @@ public class MainController implements ErrorController {
 				url.append("managerView/ManagerDashBoard :: tableOrders");
 			}
 			model.addAttribute("page", page);
+			session.setAttribute("pageNumber", pageNumber-1);
 			model.addAttribute("orderList", page.getContent());
 
 			//Pagination variables

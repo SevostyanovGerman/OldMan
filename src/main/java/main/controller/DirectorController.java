@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import main.model.Customer;
 import main.model.Delivery;
@@ -84,15 +85,21 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director"}, method = RequestMethod.GET)
-	public ModelAndView director() {
+	public ModelAndView director(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView("/directorView/DirectorDashBoard");
-		DateTime startDate = new DateTime().withDayOfMonth(1);
-		DateTime endDate = new DateTime().withHourOfDay(23).withMinuteOfHour(59);
-		Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
-		Sort sorting = new Sort(orderByDirection, "number");
 
-		Page page = orderService.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
-			new PageRequest(0, 25, sorting));
+		Page page;
+		User boss = null;
+		try {
+			page = orderService.getOrderBySession(session, boss);
+		} catch (Exception e) {
+			DateTime startDate = new DateTime().withDayOfMonth(1);
+			DateTime endDate = new DateTime().withHourOfDay(23).withMinuteOfHour(59);
+			Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
+			Sort sorting = new Sort(orderByDirection, "number");
+			page = orderService.getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), null, null, null,
+				new PageRequest(0, 25, sorting));
+		}
 		modelAndView.addObject("orderList", page);
 
 		//Pagination variables

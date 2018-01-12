@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import main.Helpers;
 import main.model.Customer;
 import main.model.Delivery;
@@ -100,16 +101,27 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = {"/manager"}, method = RequestMethod.GET)
-	public ModelAndView getOrderList() {
-		ModelAndView modelAndView = new ModelAndView("/managerView/ManagerDashBoard");
-		DateTime startDate = new DateTime().withDayOfMonth(1);
-		DateTime endDate = new DateTime().withHourOfDay(23).withMinuteOfHour(59);
-		Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
-		Sort sorting = new Sort(orderByDirection, "number");
 
-		Page page = orderService
-			.getOrdersForDashboard(userService.getCurrentUser(), startDate.toDate(), endDate.toDate(), null, null, null,
-				new PageRequest(0, 25, sorting));
+	public ModelAndView getOrderList(HttpSession session) {
+
+		ModelAndView modelAndView = new ModelAndView("/managerView/ManagerDashBoard");
+		Page page;
+
+		try {
+			//Загружаем дашбоард с параметрами поиска из сессии
+			page = orderService.getOrderBySession(session, userService.getCurrentUser());
+		} catch (Exception e) {
+			// Если загрузка из сессии не удалась, загружаем стандартную страницу дашборда
+			DateTime startDate = new DateTime().withDayOfMonth(1);
+			DateTime endDate = new DateTime().withHourOfDay(23).withMinuteOfHour(59);
+			Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
+			Sort sorting = new Sort(orderByDirection, "number");
+
+			page = orderService.getOrdersForDashboard(userService.getCurrentUser(), startDate.toDate(), endDate.toDate(), null, null,
+					null, new PageRequest(0, 25, sorting));
+			modelAndView.addObject("orderList", page);
+		}
+
 		modelAndView.addObject("orderList", page);
 
 		//Pagination variables

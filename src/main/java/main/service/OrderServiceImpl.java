@@ -6,17 +6,21 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import main.model.Order;
 import main.model.Role;
 import main.model.Status;
 import main.model.User;
 import main.repository.OrderRepository;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -196,6 +200,56 @@ public class OrderServiceImpl implements OrderService {
 				return list;
 		}
 		return null;
+	}
+
+	@Override
+	//Загрузка страницы для дашборда из сессии
+	public Page<Order> getOrderBySession(HttpSession session, User user) {
+
+		String search = (String) session.getAttribute("search");
+		Integer pageNumber = (Integer) session.getAttribute("pageNumber");
+		Integer pageSize = (Integer) session.getAttribute("pageSize");
+		String sort = (String) session.getAttribute("sort");
+		String orderBy = (String) session.getAttribute("orderBy");
+		Double minPrice = (Double) session.getAttribute("minPrice");
+		Double maxPrice = (Double) session.getAttribute("maxPrice");
+
+		if (sort == null) {
+			sort = "number";
+		}
+		if (pageNumber == null) {
+			pageNumber = 0;
+		}
+		if (pageSize == null) {
+			pageSize = 25;
+		}
+
+		DateTime startDate;
+		if (session.getAttribute("startDate") != null) {
+			startDate = new DateTime(session.getAttribute("startDate"));
+		} else {
+			startDate = new DateTime().withDayOfMonth(1);
+		}
+
+		DateTime endDate;
+		if (session.getAttribute("endDate") != null) {
+			endDate = new DateTime(session.getAttribute("endDate")).withHourOfDay(23).withMinuteOfHour(59);
+		} else {
+			endDate = new DateTime().withHourOfDay(23).withMinuteOfHour(59);
+		}
+
+		Sort.Direction orderByDirection = Sort.Direction.fromString(orderBy);
+
+		Sort sorting = new Sort(orderByDirection, sort);
+
+		if (user == null) {
+			return getOrdersForDashboardBoss(startDate.toDate(), endDate.toDate(), search, minPrice, maxPrice,
+				new PageRequest(pageNumber, pageSize, sorting));
+		}
+
+		return getOrdersForDashboard(user, startDate.toDate(), endDate.toDate(), search, minPrice, maxPrice,
+			new PageRequest(pageNumber, pageSize, sorting));
+
 	}
 
 	@Override

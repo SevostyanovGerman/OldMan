@@ -72,11 +72,11 @@
         </div>
             <div class="row">
                 <div class="col-lg-4">
-                    <div class="col-lg-6" >
-                        <input class="form-control" id="minPrice" name="minPrice" type="number" placeholder="Сумма заказа от" onkeyup="filterSearch()">
+                    <div class="col-lg-6" style="padding-left: 0px; margin-left: 0px" >
+                        <input class="form-control" id="minPrice" name="minPrice" type="number" placeholder="Сумма заказа от" onkeyup="filterSearch()" th:value="${session.minPrice}">
                     </div>
                     <div class="col-lg-6" >
-                        <input class="form-control" id="maxPrice" name="maxPrice" type="number" placeholder="До" onkeyup="filterSearch()">
+                        <input class="form-control" id="maxPrice" name="maxPrice" type="number" placeholder="До" onkeyup="filterSearch()" th:value="${session.maxPrice}">
                     </div>
                 </div>
 
@@ -84,38 +84,47 @@
                 <div class="col-lg-4" style="text-align: right">
                     <input  id="search" name="search"
                             placeholder="Найти по номеру, клиенту, оплате, менеджеру" class="form-control"
-                            onkeyup="filterSearch()" >
+                            onkeyup="filterSearch()" th:value="${session.search}" >
                 </div>
             </div>
 
         <div class="row" style="margin-top: 10px">
-                <div class="col-lg-5">
-                    <div class="col-lg-6" style="padding-left: 0px; margin-left: 0px">
+                <div class="col-lg-7">
+                    <div class="col-lg-5" style="padding-left: 0px; margin-left: 0px">
                     <select id="sortingBy" class="form-control" onchange="filterSearch()">
-                        <option value="number">Сортирова по номеру</option>
-                        <option value="customerSecNameString">Сортирова по клиенту</option>
-                        <option value="price">Сортирова по цене</option>
-                        <option value="status">Сортирова по статусу</option>
+                        <option value="number" selected th:if="${session.sort} == 'number'">Сортирова по номеру</option>
+                        <option value="number"  th:if="${session.sort} != 'number'">Сортирова по номеру</option>
+                        <option value="customerSecNameString" selected th:if="${session.sort} == 'customerSecNameString'">Сортирова по клиенту</option>
+                        <option value="customerSecNameString" th:if="${session.sort} != 'customerSecNameString'">Сортирова по клиенту</option>
+                        <option value="price" selected th:if="${session.sort} == 'price'">Сортирова по цене</option>
+                        <option value="price"  th:if="${session.sort}!= 'price'">Сортирова по цене</option>
+                        <option value="status" selected th:if="${session.sort} == 'status'">Сортирова по статусу</option>
+                        <option value="status" th:if="${session.sort} != 'status'">Сортирова по статусу</option>
                     </select>
                     </div>
 
-                    <div class="col-lg-4" style="padding-left: 0px; margin-left: 0px">
+                    <div class="col-lg-5" style="padding-left: 0px; margin-left: 0px">
                     <select id="orderBy" class="form-control" onchange="filterSearch()" style="padding-left: 0px; margin-left: 0px">
-                        <option value="DESC">По убыванию</option>
-                        <option value="ASC">По возрастанию</option>
+                        <option value="DESC" selected th:if="${session.orderBy} == 'DESC'">По убыванию</option>
+                        <option value="DESC" th:if="${session.orderBy} != 'DESC'">По убыванию</option>
+                        <option value="ASC" selected th:if="${session.orderBy} == 'ASC'">По возрастанию</option>
+                        <option value="ASC" th:if="${session.orderBy} != 'ASC'">По возрастанию</option>
                     </select>
                     </div>
 
                     <div class="col-lg-2" style=" padding-left: 0px; margin-left: 0px">
                     <select id="pageSize" class="form-control" onchange="filterSearch()">
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        <option value="25" selected th:if="${session.pageSize} == '25'" >25</option>
+                        <option value="25" th:if="${session.pageSize} != '25'" >25</option>
+                        <option value="50" selected th:if="${session.pageSize} == '50'">50</option>
+                        <option value="50" th:if="${session.pageSize} != '50'">50</option>
+                        <option value="100" selected th:if="${session.pageSize} == '100'">100</option>
+                        <option value="100" th:if="${session.pageSize} != '100'">100</option>
                     </select>
                     </div>
                 </div>
 
-                <div class="col-lg-7">
+                <div class="col-lg-5">
                     <!--Календарь-->
                     <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
                         <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
@@ -350,6 +359,12 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+    <script th:inline="javascript">
+         startDateSession = [[${session.startDate}]];
+         endDateSession = [[${session.endDate}]];
+    </script>
 
 </body>
 </html>
