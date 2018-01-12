@@ -203,6 +203,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
+	//Загрузка страницы для дашборда из сессии
 	public Page<Order> getOrderBySession(HttpSession session, User user) {
 
 		String search = (String) session.getAttribute("search");

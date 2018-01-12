@@ -108,8 +108,10 @@ public class ManagerController {
 		Page page;
 
 		try {
+			//Загружаем дашбоард с параметрами поиска из сессии
 			page = orderService.getOrderBySession(session, userService.getCurrentUser());
 		} catch (Exception e) {
+			// Если загрузка из сессии не удалась, загружаем стандартную страницу дашборда
 			DateTime startDate = new DateTime().withDayOfMonth(1);
 			DateTime endDate = new DateTime().withHourOfDay(23).withMinuteOfHour(59);
 			Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
