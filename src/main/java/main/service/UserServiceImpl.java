@@ -84,13 +84,13 @@ public class UserServiceImpl implements UserService {
 		if (role == null) {
 			logger.debug("Role {} was not found", roleId);
 		}
-		return userRepository.getAllByRoles(role);
+		return userRepository.getAllByRolesAndDeleted(role, false);
 	}
 
 	@Override
 	public List<User> getByRoleName(String roleName) {
 		Role role = roleService.getByName(roleName);
-		return userRepository.getAllByRoles(role);
+		return userRepository.getAllByRolesAndDeleted(role, false);
 	}
 
 	public List<User> getAllUsers() {

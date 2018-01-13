@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	User findUserByNameAndDeletedAndDisable(String name, boolean del, boolean disable);
 
-	List<User> getAllByRoles(Role role);
+	List<User> getAllByRolesAndDeleted(Role role, boolean deleted);
 
 	List<User> getAllByDeleted(boolean del);
 
