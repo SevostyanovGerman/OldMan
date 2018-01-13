@@ -180,7 +180,7 @@
                                 <img id="avatarImg" alt=""
                                      class="img-rounded img-responsive centre"
                                      th:src="${#authentication.getPrincipal()?.avatar}"  />
-                                <input type="file" id='avatar' name="avatar"
+                                <input accept="image/*" type="file" id='avatar' name="avatar"
                                        style="display: none"/>
                                 <label for="avatar" >
                                     <span class="btn btn-sm btn-info profileMargin">Выбрать аватар...</span>
