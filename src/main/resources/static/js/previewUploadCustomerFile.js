@@ -5,7 +5,7 @@ function handleFileSelectMulti(evt) {
 
         // Only process image files.
         if (!f.type.match('image.*')) {
-            alert("Только изображения....");
+            alert("Только изображения...");
         }
 
         var reader = new FileReader();

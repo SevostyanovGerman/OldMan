@@ -22,6 +22,8 @@
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
 
+    <!--Валидация размера и расщирения загружаемого файла-->
+    <script src="/js/ValidationSizeAndTypeUploadFile.js"></script>
 </head>
 
 <body th:object="${order}" ng-app="masterOrderForm">
@@ -120,11 +122,11 @@
                     <div class="form-group">
                         <h4>Добавить файлы</h4>
                         <input type="file" id='fileMulti' name="uploadCustomerFiles" onchange="ValidationFileSize()" multiple="multiple" style="display: none" accept="image/*"/>
-                        <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный размер 1-го файла 50.0 МБ">
+                        <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный загружаемый размер одного файла: 50 Мбайт. &#013;Разрешенные расширения файлов: jpeg, jpg, png, gif.">
                             <span>Обзор...</span>
                         </label>
                     </div>
-                    <span id="outputMulti"></span>
+                    <span id="outputMulti"></span> <!--Предпросмотр изображений-->
                     <div class="form-group" align="center">
                         <hr/>
                         <button type="reset" class="btn btn-success" id="resetItemBtn">Сбросить</button>
@@ -246,22 +248,6 @@
 <!--Рассчёт суммы позиции-->
 <script src="/js/mxItemManager.js"></script>
 <script src="/js/profile.js"></script>
-
-<!--Валидация размера загружаемого файла-->
-<script>
-    function ValidationFileSize() {
-        var uploadFiles = document.getElementById('fileMulti');
-        if (uploadFiles.files.length > 0) {
-            for (var i = 0; i <= uploadFiles.files.length - 1; i++) {
-                var fileSize = uploadFiles.files.item(i).size;
-                if (Math.round((fileSize / 1024)) > 51200) {
-                    alert("Размер одного из выбранных файлов больше 50.0 МБ" );
-                    uploadFiles.value = "";
-                }
-            }
-        }
-    }
-</script>
 
 </body>
 </html>
