@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import main.constans.RegexpConstans;
 
 @Entity
 @Table(name = "delivery")
@@ -16,15 +18,18 @@ public class Delivery {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_GENERAL, message = "{general.wrong.message}")
 	@Column(name = "country")
 	private String country;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_GENERAL, message = "{general.wrong.message}")
 	@Column(name = "city")
 	private String city;
 
 	@Column(name = "address")
 	private String address;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_ZIP, message = "{zip.wrong}")
 	@Column(name = "zip")
 	private String zip;
 

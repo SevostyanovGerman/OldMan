@@ -16,6 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import main.constans.RegexpConstans;
+import org.hibernate.validator.constraints.Email;
 
 @Entity
 @Table(name = "customers")
@@ -26,15 +31,21 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "first_name", nullable = false)
+	@Pattern(regexp = RegexpConstans.REG_EXP_OF_FIRST_NAME, message = "{user.firstname.wrong}")
+	@Column(name = "first_name", length = 50, nullable = false)
 	private String firstName;
 
-	@Column(name = "sec_name")
+	@Size(max = 50, message = "{user.secname.wrong.size}")
+	@Pattern(regexp = RegexpConstans.REF_EXP_OF_SECOND_NAME, message = "{user.secname.wrong.pattern}")
+	@Column(name = "sec_name", length = 50)
 	private String secName;
 
+	@NotNull
+	@Email(message = "{user.email.wrong}")
 	@Column(name = "email", nullable = false)
 	private String email;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_OF_PHONE, message = "{user.phone.wrong}")
 	@Column(name = "phone", nullable = false)
 	private String phone;
 

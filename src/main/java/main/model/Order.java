@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import main.constans.RegexpConstans;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -37,6 +39,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_ORDER_NUMBER, message = "{order.number.wrong}")
 	@Column(name = "number")
 	private String number;
 
@@ -61,6 +64,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Column(name = "date_transferred")
 	private Date dateTransferred;
+
 
 	@Column(name = "o_from")
 	private String from;

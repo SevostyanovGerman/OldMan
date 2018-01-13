@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import main.constans.RegexpConstans;
 
 @Entity
 @Table(name = "notification")
@@ -16,6 +19,8 @@ public class Notification {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotNull
+	@Pattern(regexp = RegexpConstans.REG_EXP_OF_LOGIN, message = "{user.login.wrong}")
 	@Column(name = "recipient", nullable = false)
 	private String recipient;
 
