@@ -197,9 +197,9 @@ public class InitDB {
 		Delivery deliveryPickup2 = new Delivery("Canada", "Toronto", "NHL street", "321", true);
 		deliveryService.save(deliveryPickup2);
 		//Customer//
-		Customer customer1 = new Customer("Piter", "Parker", "spider@mail.ru", "911", delivery1);
+		Customer customer1 = new Customer("Piter", "Parker", "spider@mail.ru", "+7-777-777-79-11", delivery1);
 		customerService.save(customer1);
-		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "002", delivery2);
+		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "+7-777-777-70-02", delivery2);
 		customerService.save(customer2);
 		//Product//
 		Product product1 = new Product("Case");
