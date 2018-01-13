@@ -45,9 +45,9 @@ function toggleArea1() {
     }
 }
 
-window.addEventListener('DOMContentLoaded',function(){
-    new smartPhoto(".js-smartPhoto");
-});
+// window.addEventListener('DOMContentLoaded',function(){
+//     new smartPhoto(".js-smartPhoto");
+// });
 
 
 

@@ -12,7 +12,6 @@ public interface OrderService {
 
 	Order get(Long id);
 
-	@Deprecated
 	List<Order> getAll();
 
 	List<Order> getAllAllowed(User user);

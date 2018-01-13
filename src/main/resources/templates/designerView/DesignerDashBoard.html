@@ -7,8 +7,12 @@
     <link rel="icon" href="/images/OldManFavicon.png">
     <title th:text="'Таблица заказов: '+ ${#authentication.name}">Таблица заказов</title>
 
+    <!-- DataTables settings -->
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
+
     <link href="/css/designerDashBoard.css" rel="stylesheet"/>
     <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
     <link rel="stylesheet" href="/css/profile.css ">
@@ -19,7 +23,6 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script th:src="@{/js/masterOrderModule.js}"></script>
-
 </head>
 
 <body ng-app="masterOrderForm">
@@ -195,6 +198,14 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $('#DesignerTable').DataTable({
+
+                "columnDefs": [
+                    {
+                        "targets": [ 4 ],
+                        "searchable": false
+                    }
+                ],
+
                 "oLanguage": {
                     "sLengthMenu": "Показать _MENU_ записей на странице",
                     "sZeroRecords": "Извините - ничего не найдено",
