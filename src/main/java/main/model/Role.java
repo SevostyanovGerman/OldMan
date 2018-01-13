@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import main.constans.RegexpConstans;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
@@ -25,9 +27,11 @@ public class Role implements GrantedAuthority, Comparable<Role> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_GENERAL, message = "{general.wrong.message}")
 	@Column(name = "name")
 	private String name;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_OF_ROLE_URL, message = "{general.wrong.message}")
 	@Column(name = "def_url")
 	private String url;
 

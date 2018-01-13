@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import main.constans.RegexpConstans;
 import org.hibernate.annotations.Where;
 
 @Entity
@@ -31,6 +33,7 @@ public class Item {
 	@JoinColumn(name = "model_id")
 	private PhoneModel phoneModel;
 
+	@Pattern(regexp = RegexpConstans.REG_EXP_GENERAL, message = "{general.wrong.message}")
 	@Column(name = "material")
 	private String material;
 
