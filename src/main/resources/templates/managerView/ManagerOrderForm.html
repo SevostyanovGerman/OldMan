@@ -189,6 +189,9 @@
                        </div>
                         <!-- Комментарии -->
                         <div class="tab-pane" id="tabComments" role="tabpanel"  >
+
+
+
                             <div class="row" style="background-color: grey; border: solid; border-color:grey; border-radius: 5px" id="scroll">
                                 <div class="comments-container" >
                                     <ul id="comments-list" class="comments-list"
@@ -259,6 +262,11 @@
                             </div>
                             <!-- Написать комментарий -->
                             <div class="row" style="background-color: grey; border: solid; border-color:grey; border-radius: 5px">
+                                <!--Легенда-->
+                                <span class="label" th:text="'Менеджер: ' + ${order?.getManager()?.getName()}" th:if="${order?.getManager()?.getName()}"></span>
+                                <span class="label" th:text="'Дизайнер: ' + ${order?.getDesigner()?.getName()}" th:if="${order?.getDesigner()?.getName()}"></span>
+                                <span class="label" th:text="'Мастер: ' + ${order?.getMaster()?.getName()}" th:if="${order?.getMaster()?.getName()}"></span>
+
                                 <div class="panel-footer" ng-controller="MasterOrderController">
                                     <form th:action="'/order/comment/add='+${order?.getId()}" method="post">
                                         <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому" autocomplete="off" typeahead-editable="false" typeahead-on-select="typeHeadSelect($item, $model, $label, $event)" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
@@ -1081,6 +1089,8 @@
     }
 </script>
 <script src="/js/profile.js"></script>
+
+
 
 </body>
 </html>

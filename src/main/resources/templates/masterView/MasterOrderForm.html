@@ -276,6 +276,10 @@
             </div>
             <!-- Написать комментарий -->
             <div class="row" style="background-color: grey; border: solid; border-color:grey; border-radius: 5px">
+                <!--Легенда-->
+                <span class="label" th:text="'Менеджер: ' + ${order?.getManager()?.getName()}" th:if="${order?.getManager()?.getName()}"></span>
+                <span class="label" th:text="'Дизайнер: ' + ${order?.getDesigner()?.getName()}" th:if="${order?.getDesigner()?.getName()}"></span>
+
                 <div class="panel-footer" ng-controller="MasterOrderController">
                     <form th:action="'/order/comment/add='+${order.getId()}" method="post">
                         <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому"
