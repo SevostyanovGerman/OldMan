@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Профиль сотрудника</title>
+    <title>Продукция</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
@@ -48,8 +48,7 @@
             <ul class="nav navbar-nav">
                 <th:block th:each="element:  ${#authentication.getAuthorities()}">
                     <ul class="nav navbar-nav" th:each="function : ${element.getFunctions()}">
-                        <li role="presentation"><a th:text="${function?.getName()}"
-                                                                  th:href="${function.getLink()}"></a></li>
+                        <li role="presentation"><a th:text="${function?.getName()}" th:href="${function.getLink()}"></a></li>
                     </ul>
                 </th:block>
             </ul>
@@ -74,11 +73,11 @@
             <ul class="nav nav-sidebar">
                 <li><a href="/director/controlpanel/statuses">Статусы</a></li>
                 <li><a href="/director/controlpanel/roles">Должности</a></li>
-                <li class="active"><a href="/director/controlpanel/user">Сотрудник <span class="sr-only">(current)</span></a></li>
+                <li><a href="/director/controlpanel/user">Сотрудник</a></li>
                 <li><a href="/director/controlpanel/product">Типы товаров</a></li>
                 <li><a href="/director/controlpanel/model">Модели телефонов</a></li>
                 <li><a href="/director/controlpanel/payment">Тип оплаты</a></li>
-                <li><a href="/director/controlpanel/pickups">Адреса самовывозов</a></li>
+                <li class="active"><a href="/director/controlpanel/pickups">Адреса самовывозов<span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
     </div>
@@ -98,108 +97,108 @@
                 </th:block>
             </div>
 
+            <br>
+
             <div class="row" style="margin-top: 1%;">
-
                 <div class="panel panel-default">
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div class="tab-pane active " id="newrole">
-                            <!-- Default panel contents -->
-                            <div class="col-sm-offset-4 col-sm-10">
-                                <div class="panel-heading"><b>Профиль сотрудника</b></div>
-                            </div>
-                            <form class="form-horizontal" th:object="${user}" th:action="@{/director/controlpanel/user/update}" action="create" method="post">
 
-                                <input class="noneVisible" type="text" name="id" th:value="${user.getId()}" readonly="readonly" hidden="hidden" />
-
-                                <div class="form-group row row-height">
-                                    <label for="name" class="control-label col-sm-2">Логин</label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="name" th:value="${user.getName()}" pattern="^[A-Za-z]{1,16}$" placeholder="Логин" required />
-                                        <div class="notes">В логине сотрудника допускается использовать только латинские буквы. Длина от 1 до 16 символов.</div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="wrong-field" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group row row-height">
-                                    <label for="firstName" class="control-label col-sm-2">Имя</label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="firstName" th:value="${user.getFirstName()}" pattern="^[A-Za-zА-ЯЁа-яё]{2,16}$" placeholder="Имя сотрудника" required />
-                                        <div class="notes">Имя сотрудника может состоять только из английских и русских букв. Длина имени должна быть не менее 2 символов и не более 16.</div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span class="wrong-field" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group row row-height">
-                                    <label for="secName" class="control-label col-sm-2">Фамилия</label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="secName" th:value="${user.getSecName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 -]+" maxlength="50" placeholder="Фамилия" />
-                                        <div class="notes">Фамилия сотрудника может состоять из английских и русских букв, цифр, пробелов и тире. Максимальная длина 50. Заполнять не обязательно</div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span class="wrong-field" th:if="${#fields.hasErrors('secName')}" th:errors="*{secName}"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group row row-height">
-                                    <label for="password" class="control-label col-sm-2">Пароль</label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="password" name="password"
-                                               th:value="${user.getPassword()}" minlength="3" maxlength="20" placeholder="Пароль" required />
-                                        <div class="notes">Минимальная длина пароля должна быть не меньше 3 и не больше 20</div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span class="wrong-field" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-                                    </div>
-                                </div>
-                                <div class="form-group row row-height">
-                                    <label for="email" class="control-label col-sm-2">Email</label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="email" th:value="${user.getEmail()}" placeholder="Электронная почта пример заполнения: example@example.com" required>
-                                        <div class="notes">Электронная почта сотрудника. Обязательно к заполнению.</div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span class="wrong-field" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</span>
-                                    </div>
-                                </div>
-                                <div class="form-group row row-height">
-                                    <label for="phone" class="control-label col-sm-2">Телефон</label>
-                                    <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="phone" th:value="${user.getPhone()}" pattern="^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$" placeholder="+7(123)4567890" required>
-                                        <div class="notes">Телефон сотрудника. Обязательно к заполнению. Пример +7(123)4567890</div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="wrong-field" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <fieldset class="center-block" style="width: 95%;">
-                                        <legend>Должности</legend>
-                                        <div class="panel panel-default">
-                                            <div class="panel-body">
-                                                <div th:each="role : ${allRoles}">
-                                                    <div style="display: inline-block; width: 25%; height: 15px; float: left; margin-bottom: 3%;">
-                                                        <input th:field="*{roles}" th:value="${role.id}" type="checkbox">
-                                                        <label th:for="${#ids.prev('roles')}" th:text="${role.name}"></label>
-                                                    </div>
-                                                </div>
-                                                <div class="wrong-field" th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></div>
+                    <!-- Default panel contents -->
+                    <div class="col-sm-offset-4 col-sm-10">
+                        <div class="panel-heading"><b>Добавление адреса самовывоза</b></div>
+                    </div>
+                    <form class="form-horizontal" th:action="@{/director/controlpanel/pickup/save}" th:object="${delivery}" action="create" method="post">
+                        <div class="form-group row">
+                            <fieldset class="center-block" style="width: 95%;">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <input class="noneVisible" type="text" name="id" th:value="${delivery.getId()}"  th:object="${delivery}" readonly="readonly" hidden="hidden" />
+                                        <input type="checkbox" name="pickup" hidden checked />
+                                        <div class="form-group row">
+                                            <label for="zip" class="control-label col-sm-2">Индекс<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="number" name="zip" pattern="^[\\d]{3,6}$" th:value="${delivery.getZip()}" placeholder="Индекс" required>
+                                                <div class="notes">Индекс должен состоять из цифр, количество цифр должно быть от 3 до 6.</div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <span class="wrong-field" th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></span>
                                             </div>
                                         </div>
-                                    </fieldset>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-offset-4 col-sm-10">
-                                        <input class="btn btn-warning" type="reset" value="Сбросить" />
-                                        <a class="btn btn-danger" href="/director/stuff">Закрыть</a>
-                                        <input class="btn btn-success" type="submit" value="Сохранить" />
+                                        <div class="form-group row">
+                                            <label for="country" class="control-label col-sm-2">Страна<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="text" name="country" pattern="^[- а-яёА-ЯЁa-zA-Z0-9]{2,50}$" th:value="${delivery.getCountry()}" placeholder="Страна" required>
+                                                <div class="notes">Длина названия страны должна быть от 2 до 50 символов. Название может содержать русские и латинкие буквы а также пробелы и тире</div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <span class="wrong-field" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="city" class="control-label col-sm-2">Город<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="text" name="city" pattern="^[- а-яёА-ЯЁa-zA-Z0-9]{2,50}$" th:value="${delivery.getCity()}" placeholder="Город" required>
+                                                <div class="notes">Длина названия города должна быть от 2 до 50 символов. Название может содержать русские и латинкие буквы а также пробелы и тире</div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <span class="wrong-field" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="address" class="control-label col-sm-2">Адрес в городе<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="text" name="address" th:value="${delivery.getAddress()}" placeholder="Улица, дом, корпус/строение, квартирва/офис" required>
+                                            </div>
+                                        </div>
+
+
                                     </div>
                                 </div>
-                            </form>
+                            </fieldset>
                         </div>
-                    </div>
+                        <div class="form-group row">
+                            <div class="col-sm-offset-4 col-sm-10">
+                                <a th:if="${delivery.getId() > 0}" type="button" class="btn btn-default" th:href="@{/director/controlpanel/pickups}" href="/director/controlpanel/pickups">Отмена</a>
+                                <input class="btn btn-warning" type="reset" value="Сбросить" />
+                                <input class="btn btn-success" type="submit" value="Сохранить" />
+                            </div>
+                        </div>
+                    </form>
+                    <p><span class="req">*</span> - поля обязательные для заполнения. </p>
+
                 </div>
+            </div>
+
+        <br>
+
+            <div class="table-responsive">
+                <table id="myTable" class="display table table-bordered data" >
+                    <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Индекс</th>
+                        <th>Страна</th>
+                        <th>Город</th>
+                        <th>Адрес в городе</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each ="unit: ${deliveries}">
+                        <td th:text="${unit.getId()}"></td>
+                        <td th:text="${unit.getZip()}"></td>
+                        <td th:text="${unit.getCountry()}"></td>
+                        <td th:text="${unit.getCity()}"></td>
+                        <td th:text="${unit.getAddress()}"></td>
+                        <td>
+                            <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/pickup/edit/' + ${unit.getId()}">Изменить</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-xs btn-danger" th:href="'/director/controlpanel/pickup/delete/' + ${unit.getId()}">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
     </div>
 </div>
@@ -216,10 +215,10 @@
                     <div class="well well-sm">
                         <div class="row">
                             <div class="col-sm-6 col-md-4 profileContent">
-                                <img id="avatarImg" alt=""
+                                <img accept="image/*" id="avatarImg" alt=""
                                      class="img-rounded img-responsive centre"
                                      th:src="${#authentication.getPrincipal()?.avatar}"  />
-                                <input accept="image/*" type="file" id='avatar' name="avatar"
+                                <input type="file" id='avatar' name="avatar"
                                        style="display: none"/>
                                 <label for="avatar" >
                                     <span class="btn btn-sm btn-info profileMargin">Выбрать аватар...</span>
@@ -305,6 +304,8 @@
 </div>
 
 
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="/js/jquery.js"></script>
@@ -313,8 +314,36 @@
 <script src="/js/bootstrap.js"></script>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+
+
+<script>
+    function settingUpTable() {
+        $('#myTable').dataTable({
+            "oLanguage": {
+                "sLengthMenu": "Показать _MENU_ записей на странице",
+                "sZeroRecords": "Извините - ничего не найдено",
+                "sInfo": "Показано _START_ до _END_ из _TOTAL_ записей",
+                "sInfoEmpty": "Нет записей",
+                "sInfoFiltered": "(из _MAX_ записей)",
+                "sSearch": "Поиск:",
+                "oPaginate": {
+                    "sNext": "След. стр.",
+                    "sPrevious": "Пред. стр."
+                }
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        settingUpTable();
+    });
+</script>
 
 <script src="/js/profile.js"></script>
+
+
 
 </body>
 </html>

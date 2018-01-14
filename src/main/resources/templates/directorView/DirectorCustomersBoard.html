@@ -114,7 +114,6 @@
                     <th>Телефон</th>
                     <th>Адрес</th>
                     <th>Редактировать</th>
-                    <th>Добавить в заказ</th>
                     <th>Удалить</th>
                 </tr>
                 </thead>
@@ -128,9 +127,6 @@
                     <td th:text="${customer.getDefaultDelivery()}"></td>
                     <td>
                         <a class="btn btn-xs btn-info" th:href="'/director/customer/edit/' + ${customer.getId()}">Изменить</a>
-                    </td>
-                    <td>
-                        <a class="btn btn-xs btn-info" th:href="'#' + ${customer.getId()}">Добавить в заказ</a>
                     </td>
                     <td>
                         <a class="btn btn-xs btn-danger" th:href="'/director/customers/delete/' + ${customer.getId()}">Удалить</a>
