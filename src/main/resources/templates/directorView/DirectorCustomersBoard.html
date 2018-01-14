@@ -114,7 +114,6 @@
                     <th>Телефон</th>
                     <th>Адрес</th>
                     <th>Редактировать</th>
-                    <th>Добавить в заказ</th>
                     <th>Удалить</th>
                 </tr>
                 </thead>
@@ -127,14 +126,28 @@
                     <td th:text="${customer.getPhone()}">n/a</td>
                     <td th:text="${customer.getDefaultDelivery()}"></td>
                     <td>
-                        <a class="btn btn-xs btn-info" th:href="'/director/customer/edit/' + ${customer.getId()}">Изменить</a>
+                        <a class="btn btn-xs btn-info" th:href="'/director/customer/edit/' + ${customer.getId()}" title="Редактировать данные о клиенте">Изменить</a>
                     </td>
                     <td>
-                        <a class="btn btn-xs btn-info" th:href="'#' + ${customer.getId()}">Добавить в заказ</a>
+                        <a class="btn btn-xs btn-danger" data-toggle="modal" th:href="${'#modalDeleteCustomer_' + customer.getId()}" title="Удалить клиента">Удалить</a>
                     </td>
-                    <td>
-                        <a class="btn btn-xs btn-danger" th:href="'/director/customers/delete/' + ${customer.getId()}">Удалить</a>
-                    </td>
+
+                    <!-- Модальное окно удаления клиента -->
+                    <div class="modal" th:id="${'modalDeleteCustomer_' + customer.getId()}">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <!-- Основное содержимое модального окна -->
+                                <div class="modal-body">
+                                    <h4>Удалить клиента?</h4>
+                                </div>
+                                <!-- Футер модального окна -->
+                                <div class="modal-footer" align="center">
+                                    <a class="btn btn-default " th:href="'/director/customers/delete/' + ${customer.getId()}">Да</a>
+                                    <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!--- end modal -->
                 </tr>
                 </tbody>
             </table>
