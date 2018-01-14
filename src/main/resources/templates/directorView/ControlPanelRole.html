@@ -79,6 +79,7 @@
                 <li><a href="/director/controlpanel/product">Типы товаров</a></li>
                 <li><a href="/director/controlpanel/model">Модели телефонов</a></li>
                 <li><a href="/director/controlpanel/payment">Тип оплаты</a></li>
+                <li><a href="/director/controlpanel/pickups">Адреса самовывозов</a></li>
             </ul>
         </div>
     </div>
@@ -128,6 +129,34 @@
                     </tbody>
                 </table>
             </div>
+            <div class="table-responsive">
+            <table id="myTable" class="display table table-bordered data" >
+                <thead>
+                <tr>
+                    <th>#ID</th>
+                    <th>Роль</th>
+                    <th>Начальная страница</th>
+                    <th>Статусы</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each ="unit : ${roles}">
+                    <td th:text="${unit.getId()}"></td>
+                    <td th:text="${unit.getName()}"></td>
+                    <td th:text="${unit.getUrl()}"></td>
+                    <td>
+                        <div th:each="status : ${unit.statuses}">
+                            <span th:text="${status.name}"></span>
+                        </div>
+                    </td>
+                    <td>
+                        <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/role/edit/' + ${unit.getId()}">Изменить</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Модели телефонов</title>
+    <title>Продукция</title>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
@@ -75,9 +75,9 @@
                 <li><a href="/director/controlpanel/roles">Должности</a></li>
                 <li><a href="/director/controlpanel/user">Сотрудник</a></li>
                 <li><a href="/director/controlpanel/product">Типы товаров</a></li>
-                <li class="active"><a href="/director/controlpanel/model">Модели телефонов <span class="sr-only">(current)</span></a></li>
+                <li><a href="/director/controlpanel/model">Модели телефонов</a></li>
                 <li><a href="/director/controlpanel/payment">Тип оплаты</a></li>
-                <li><a href="/director/controlpanel/pickups">Адреса самовывозов</a></li>
+                <li class="active"><a href="/director/controlpanel/pickups">Адреса самовывозов<span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
     </div>
@@ -99,32 +99,73 @@
 
             <br>
 
-            <div class="row">
-                    <div class="col-sm-offset-5 col-sm-10">
-                        <div><b>Модель телефона</b></div>
+            <div class="row" style="margin-top: 1%;">
+                <div class="panel panel-default">
+
+                    <!-- Default panel contents -->
+                    <div class="col-sm-offset-4 col-sm-10">
+                        <div class="panel-heading"><b>Добавление адреса самовывоза</b></div>
                     </div>
-                    <form class="form-horizontal" th:action="@{/director/controlpanel/model/save}" th:object="${phoneModel}" action="save" method="post">
-
-                        <input class="noneVisible" type="text" name="id" th:value="*{id}" readonly="readonly" placeholder="ID статуса" hidden="hidden" />
-
-                        <div class="form-group row row-height">
-                            <label for="modelName" class="control-label col-sm-2">Название модели<span class="req">*</span></label>
-                            <div class="col-sm-6">
-                                <input class="form-control" type="text" name="modelName" th:value="*{modelName}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 -]{2,50}$"  placeholder="Название модели" autofocus required />
-                                <div class="notes">Длина названия модели должна быть от 2 до 50 символов. Название может содержать русские и латинкие буквы, цифры а также пробелы и тире</div>
-                            </div>
-                            <div class="col-sm-4">
-                                <span class="wrong-field" th:if="${#fields.hasErrors('modelName')}" th:errors="*{modelName}"></span>
-                            </div>
-                        </div>
-
+                    <form class="form-horizontal" th:action="@{/director/controlpanel/pickup/save}" th:object="${delivery}" action="create" method="post">
                         <div class="form-group row">
-                            <div class="col-sm-offset-2 col-sm-10">
-                                <a th:if="${phoneModel.getId() > 0}" type="button" class="btn btn-default" th:href="@{/director/controlpanel/model}" href="/director/controlpanel/model">Отмена</a>
-                                <input class="btn btn-success" type="submit" value="Cохранить" />
+                            <fieldset class="center-block" style="width: 95%;">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <input class="noneVisible" type="text" name="id" th:value="${delivery.getId()}"  th:object="${delivery}" readonly="readonly" hidden="hidden" />
+                                        <input type="checkbox" name="pickup" hidden checked />
+                                        <div class="form-group row">
+                                            <label for="zip" class="control-label col-sm-2">Индекс<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="number" name="zip" pattern="^[\\d]{3,6}$" th:value="${delivery.getZip()}" placeholder="Индекс" required>
+                                                <div class="notes">Индекс должен состоять из цифр, количество цифр должно быть от 3 до 6.</div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <span class="wrong-field" th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="country" class="control-label col-sm-2">Страна<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="text" name="country" pattern="^[- а-яёА-ЯЁa-zA-Z0-9]{2,50}$" th:value="${delivery.getCountry()}" placeholder="Страна" required>
+                                                <div class="notes">Длина названия страны должна быть от 2 до 50 символов. Название может содержать русские и латинкие буквы а также пробелы и тире</div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <span class="wrong-field" th:if="${#fields.hasErrors('country')}" th:errors="*{country}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="city" class="control-label col-sm-2">Город<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="text" name="city" pattern="^[- а-яёА-ЯЁa-zA-Z0-9]{2,50}$" th:value="${delivery.getCity()}" placeholder="Город" required>
+                                                <div class="notes">Длина названия города должна быть от 2 до 50 символов. Название может содержать русские и латинкие буквы а также пробелы и тире</div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <span class="wrong-field" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="address" class="control-label col-sm-2">Адрес в городе<span class="req">*</span></label>
+                                            <div class="col-sm-6">
+                                                <input class="form-control" type="text" name="address" th:value="${delivery.getAddress()}" placeholder="Улица, дом, корпус/строение, квартирва/офис" required>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-offset-4 col-sm-10">
+                                <a th:if="${delivery.getId() > 0}" type="button" class="btn btn-default" th:href="@{/director/controlpanel/pickups}" href="/director/controlpanel/pickups">Отмена</a>
+                                <input class="btn btn-warning" type="reset" value="Сбросить" />
+                                <input class="btn btn-success" type="submit" value="Сохранить" />
                             </div>
                         </div>
                     </form>
+                    <p><span class="req">*</span> - поля обязательные для заполнения. </p>
+
+                </div>
             </div>
 
         <br>
@@ -134,38 +175,26 @@
                     <thead>
                     <tr>
                         <th>#ID</th>
-                        <th>Модель телефона</th>
+                        <th>Индекс</th>
+                        <th>Страна</th>
+                        <th>Город</th>
+                        <th>Адрес в городе</th>
                         <th></th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each ="unit: ${allModels}">
+                    <tr th:each ="unit: ${deliveries}">
                         <td th:text="${unit.getId()}"></td>
-                        <td th:text="${unit.getModelName()}"></td>
+                        <td th:text="${unit.getZip()}"></td>
+                        <td th:text="${unit.getCountry()}"></td>
+                        <td th:text="${unit.getCity()}"></td>
+                        <td th:text="${unit.getAddress()}"></td>
                         <td>
-                            <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/model/edit/' + ${unit.getId()}">Изменить</a>
+                            <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/pickup/edit/' + ${unit.getId()}">Изменить</a>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" data-toggle="modal"  th:href="'#deletePhoneModal' + ${unit.getId()}">Удалить</a>
-
-                            <!-- Удаление модели модального окна -->
-                            <div th:id="'deletePhoneModal' + ${unit.getId()}" class="modal">
-                                <div class="modal-dialog modal-sm">
-                                    <div class="modal-content modal-sm">
-                                        <!-- Основное содержимое модального окна -->
-                                        <div class="modal-body">
-                                            <h4>Вы уверены, что хотите удалить товар?</h4>
-                                        </div>
-                                        <!-- Футер модального окна -->
-                                        <div class="modal-footer">
-                                            <a class="btn btn-default " th:href="'/director/controlpanel/model/delete/' + ${unit.getId()}">Да</a>
-                                            <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--- end modal -->
+                            <a class="btn btn-xs btn-danger" th:href="'/director/controlpanel/pickup/delete/' + ${unit.getId()}">Удалить</a>
                         </td>
                     </tr>
                     </tbody>
@@ -173,7 +202,6 @@
             </div>
     </div>
 </div>
-
 
 
 <!-- Профиль модальное окно -->
@@ -187,10 +215,10 @@
                     <div class="well well-sm">
                         <div class="row">
                             <div class="col-sm-6 col-md-4 profileContent">
-                                <img id="avatarImg" alt=""
+                                <img accept="image/*" id="avatarImg" alt=""
                                      class="img-rounded img-responsive centre"
                                      th:src="${#authentication.getPrincipal()?.avatar}"  />
-                                <input accept="image/*" type="file" id='avatar' name="avatar"
+                                <input type="file" id='avatar' name="avatar"
                                        style="display: none"/>
                                 <label for="avatar" >
                                     <span class="btn btn-sm btn-info profileMargin">Выбрать аватар...</span>
@@ -277,6 +305,7 @@
 
 
 
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="/js/jquery.js"></script>
@@ -285,8 +314,6 @@
 <script src="/js/bootstrap.js"></script>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-
-
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
 
@@ -315,6 +342,8 @@
 </script>
 
 <script src="/js/profile.js"></script>
+
+
 
 </body>
 </html>
