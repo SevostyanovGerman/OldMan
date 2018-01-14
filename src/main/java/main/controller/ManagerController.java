@@ -3,7 +3,6 @@ package main.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -117,7 +116,8 @@ public class ManagerController {
 			Sort.Direction orderByDirection = Sort.Direction.fromString("DESC");
 			Sort sorting = new Sort(orderByDirection, "number");
 
-			page = orderService.getOrdersForDashboard(userService.getCurrentUser(), startDate.toDate(), endDate.toDate(), null, null,
+			page = orderService
+				.getOrdersForDashboard(userService.getCurrentUser(), startDate.toDate(), endDate.toDate(), null, null,
 					null, new PageRequest(0, 25, sorting));
 			modelAndView.addObject("orderList", page);
 		}
@@ -272,8 +272,11 @@ public class ManagerController {
 		ModelAndView model = new ModelAndView("/managerView/ManagerItemForm");
 		List<Product> productList = productService.getAll();
 		List<PhoneModel> phoneModelList = phoneModelService.getAll();
-		Collections.swap(productList, productList.indexOf(itemService.get(itemId).getProduct()), 0);
-		Collections.swap(phoneModelList, phoneModelList.indexOf(itemService.get(itemId).getPhoneModel()), 0);
+		Item item = itemService.get(itemId);
+
+		productList.removeIf(x -> x.equals(item.getProduct()));
+		phoneModelList.removeIf(x -> x.equals(item.getPhoneModel()));
+
 		model.addObject("order", orderService.get(orderId));
 		model.addObject("item", itemService.get(itemId));
 		model.addObject("productList", productList);

@@ -155,7 +155,27 @@
                             <a class="btn btn-xs btn-info" th:href="'/director/controlpanel/payment/edit/' + ${unit.getId()}">Изменить</a>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" th:href="'/director/controlpanel/payment/delete/' + ${unit.getId()}">Удалить</a>
+                            <a class="btn btn-xs btn-danger"  data-toggle="modal"  th:href="'#deletePaymentTypeModal' + ${unit.getId()}">Удалить</a>
+
+                            <!-- Удаление модели модального окна -->
+                            <div th:id="'deletePaymentTypeModal' + ${unit.getId()}" class="modal">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content modal-sm">
+
+                            <!-- Основное содержимое модального окна -->
+                            <div class="modal-body">
+                                <h4>Вы уверены, что хотите удалить тип оплаты?</h4>
+                            </div>
+                            <!-- Футер модального окна -->
+                            <div class="modal-footer">
+                                <a class="btn btn-default " th:href="'/director/controlpanel/payment/delete/' + ${unit.getId()}">Да</a>
+                                <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                            </div>
+            </div>
+        </div>
+</div>
+<!--- end modal -->
+
                         </td>
                     </tr>
                     </tbody>

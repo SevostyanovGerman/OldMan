@@ -157,7 +157,6 @@
                                         <div class="modal-footer">
                                             <a id = "editProductBtn" class="btn btn-default" th:href="'/director/controlpanel/product/edit/' + ${unit.getId()}">Да</a>
                                             <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
-                                            <!--th:href="'/director/controlpanel/product/edit/' + ${unit.getId()}"-->
                                         </div>
                                     </div>
                                 </div>
@@ -166,7 +165,26 @@
 
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" th:href="'/director/controlpanel/product/delete/' + ${unit.getId()}">Удалить</a>
+                            <a class="btn btn-xs btn-danger" data-toggle="modal"  th:href="'#deleteProductionModal' + ${unit.getId()}">Удалить</a>
+
+                            <!-- Удаление продукта модального окна -->
+                            <div th:id="'deleteProductionModal' + ${unit.getId()}" class="modal">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content modal-sm">
+                                        <!-- Основное содержимое модального окна -->
+                                        <div class="modal-body">
+                                            <h4>Вы уверены, что хотите удалить товар?</h4>
+                                        </div>
+                                        <!-- Футер модального окна -->
+                                        <div class="modal-footer">
+                                            <a class="btn btn-default " th:href="'/director/controlpanel/product/delete/' + ${unit.getId()}">Да</a>
+                                            <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--- end modal -->
+
                         </td>
                     </tr>
                     </tbody>
@@ -274,6 +292,7 @@
 
     </div>
 </div>
+
 
 
 
