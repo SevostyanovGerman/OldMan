@@ -178,7 +178,7 @@ public class MainController implements ErrorController {
 				url.append("managerView/ManagerDashBoard :: tableOrders");
 			}
 			model.addAttribute("page", page);
-			session.setAttribute("pageNumber", pageNumber-1);
+			session.setAttribute("pageNumber", pageNumber - 1);
 			model.addAttribute("orderList", page.getContent());
 
 			//Pagination variables
@@ -236,7 +236,26 @@ public class MainController implements ErrorController {
 	@RequestMapping("/error")
 	public ModelAndView error(HttpServletRequest request) {
 
-		return new ModelAndView("redirect: ");
+		return new ModelAndView("redirect:/");
+	}
+
+	@RequestMapping("/")
+	public ModelAndView index(HttpServletRequest request) {
+		try {
+			String url = "/login";
+			User user = userService.getCurrentUser();
+
+			Set<Role> roleList = user.getRoles();
+			if (!roleList.isEmpty()) {
+				for (Role role : roleList) {
+					url = role.getUrl();
+					break;
+				}
+			}
+			return new ModelAndView("redirect:" + url);
+		} catch (Exception e) {
+			return new ModelAndView("redirect:/login");
+		}
 	}
 
 	@Override
