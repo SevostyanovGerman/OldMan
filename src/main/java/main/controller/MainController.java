@@ -66,6 +66,7 @@ public class MainController implements ErrorController {
 			ModelAndView model = new ModelAndView();
 			if (error != null) {
 				model.addObject("error", "Invalid username and password!");
+				model.addObject("authors", Helpers.authors());
 				logger.info("Invalid username and password");
 			}
 			if (logout != null) {

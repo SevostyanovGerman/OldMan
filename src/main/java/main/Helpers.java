@@ -39,4 +39,8 @@ public class Helpers {
 		graphics.drawImage(originalImage, 0, 0, IMG_WIDTH, resizedHigh, null);
 		return resizedImage;
 	}
+
+	static public String authors(){
+		return "Дмитрий Лахно, Дмитрий Огородников, Руслан Зиновьев, Максим Анваров";
+	}
 }
