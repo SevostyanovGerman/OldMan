@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getAll() {
 		logger.debug("Getting list of products.");
-		List<Product> listProducts = productRepository.findAll();
+		List<Product> listProducts = productRepository.findAllByDeleted(false);
 		if (listProducts.size() > 0) {
 			logger.debug("The resulting list");
 		} else {
@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product getByProductName(String productName) {
 		logger.debug("Searching product with name: {}", productName);
-		Product searchingProduct = productRepository.getByProductName(productName);
+		Product searchingProduct = productRepository.getByProductNameAndDeleted(productName, false);
 		if (searchingProduct == null) {
 			logger.debug("Product {} not found", productName);
 		}
@@ -58,6 +58,7 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void delete(Product product) {
 		logger.debug("Delete product: {}", product.toString());
-		productRepository.delete(product);
+		product.setDeleted(true);
+		productRepository.save(product);
 	}
 }

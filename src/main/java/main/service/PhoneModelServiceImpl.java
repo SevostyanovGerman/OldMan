@@ -24,7 +24,7 @@ public class PhoneModelServiceImpl implements PhoneModelService {
 	@Override
 	public List<PhoneModel> getAll() {
 		logger.debug("Getting list of phone models.");
-		List<PhoneModel> listModels = modelRepository.findAll();
+		List<PhoneModel> listModels = modelRepository.findAllByDeleted(false);
 		if (listModels.size() > 0) {
 			logger.debug("The resulting list");
 		} else {
@@ -42,7 +42,7 @@ public class PhoneModelServiceImpl implements PhoneModelService {
 	@Override
 	public PhoneModel getByModelName(String modelName) {
 		logger.debug("Searching model phone with name: {}", modelName);
-		PhoneModel searchingModel = modelRepository.getByModelName(modelName);
+		PhoneModel searchingModel = modelRepository.getByModelNameAndDeleted(modelName, false);
 		if (searchingModel == null) {
 			logger.debug("Product {} not found", modelName);
 		}
@@ -58,6 +58,7 @@ public class PhoneModelServiceImpl implements PhoneModelService {
 	@Override
 	public void delete(PhoneModel phoneModel) {
 		logger.debug("Delete phone model: {}", phoneModel.toString());
-		modelRepository.delete(phoneModel);
+		phoneModel.setDeleted(true);
+		modelRepository.save(phoneModel);
 	}
 }

@@ -77,6 +77,7 @@
                 <li><a href="/director/controlpanel/product">Типы товаров</a></li>
                 <li><a href="/director/controlpanel/model">Модели телефонов</a></li>
                 <li><a href="/director/controlpanel/payment">Тип оплаты</a></li>
+                <li><a href="/director/controlpanel/pickups">Адреса самовывозов</a></li>
             </ul>
         </div>
     </div>
@@ -115,8 +116,8 @@
                                 <div class="form-group row row-height">
                                     <label for="name" class="control-label col-sm-2">Название статуса<span class="req">*</span></label>
                                     <div class="col-sm-6">
-                                        <input class="form-control" type="text" name="name" th:value="${newstatus.getName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 ]{2,20}$" placeholder="Название статуса" required />
-                                        <div class="notes">Длина названия статуса должна быть от 2 до 20 символов. Название может содержать русские и латинкие буквы а также пробелы</div>
+                                        <input class="form-control" type="text" name="name" th:value="${newstatus.getName()}" pattern="^[а-яёА-ЯЁa-zA-Z0-9 ]{2,50}$" placeholder="Название статуса" required />
+                                        <div class="notes">Длина названия статуса должна быть от 2 до 50 символов. Название может содержать русские и латинкие буквы а также пробелы</div>
                                     </div>
                                     <div class="col-sm-4">
                                         <span class="wrong-field" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
@@ -264,11 +265,28 @@
                         <td th:text="${status.getNumber()}"></td>
                         <td th:style="'background-color: ' + ${status.getColor()}"></td>
                         <td>
-                            <a class="btn btn-xs btn-info" th:href="'#' + ${status.getId()}" data-toggle="tab">Изменить</a>
+                            <a class="btn btn-xs btn-info" th:href="'#' + ${status.getId()}" data-toggle="tab" title="Редактировать статус">Изменить</a>
                         </td>
                         <td>
-                            <a class="btn btn-xs btn-danger" th:href="'status/delete/' + ${status.getId()}">Удалить</a>
+                            <a class="btn btn-xs btn-danger" data-toggle="modal" th:href="${'#modalDeleteStatus_' + status.getId()}" title="Удалить статус">Удалить</a>
                         </td>
+
+                        <!-- Модальное окно удаления статуса -->
+                        <div class="modal" th:id="${'modalDeleteStatus_' + status.getId()}">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <!-- Основное содержимое модального окна -->
+                                    <div class="modal-body">
+                                        <h4>Удалить статус?</h4>
+                                    </div>
+                                    <!-- Футер модального окна -->
+                                    <div class="modal-footer" align="center">
+                                        <a class="btn btn-default " th:href="'status/delete/' + ${status.getId()}">Да</a>
+                                        <button type="button" class="btn btn-default " data-dismiss="modal">Нет</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!--- end modal -->
                     </tr>
                     </tbody>
                 </table>

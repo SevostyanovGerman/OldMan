@@ -1173,6 +1173,111 @@ public class DirectorController {
 		return "redirect:/director/controlpanel/payment";
 	}
 
+	//---------------------- Pickup block --------------------- pickupDeliveries
+
+	@RequestMapping(value = {"/director/controlpanel/pickups"}, method = RequestMethod.GET)
+	public ModelAndView controlPanelPickup(HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView("/directorView/DirectorPickup");
+
+		injectMessageToPage(request, model);
+
+		try {
+			model.addObject("deliveries", deliveryService.pickupDeliveries());
+			model.addObject("delivery", new Delivery());
+		} catch (Exception e) {
+			logger.error("Can\'t get pickup's deliveriesy list {}", e);
+		}
+		return model;
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/pickup/save"}, method = RequestMethod.POST)
+	public ModelAndView savePickup(@ModelAttribute("delivery") @Valid Delivery incomingDelivery,
+		BindingResult bindingResult, HttpServletRequest request) {
+
+		ModelAndView model = new ModelAndView();
+
+		if (bindingResult.hasErrors()) {
+			model.setViewName("/directorView/DirectorPickup");
+			model.addObject("deliveries", deliveryService.pickupDeliveries());
+			return model;
+		} else {
+			try {
+				deliveryService.save(incomingDelivery);
+				String success = "Адрес самовывоза успешно сохранён";
+				request.getSession().setAttribute("success", success);
+			} catch (Exception e) {
+				logger.error("Can\'t save pickup delivery {}", e);
+				String error = "При сохранении адреса самовывоза произошла ошибка";
+				request.getSession().setAttribute("error", error);
+			}
+		}
+
+		model.setViewName("redirect:/director/controlpanel/pickups");
+		return model;
+
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/pickup/edit/{id}"}, method = RequestMethod.GET)
+	public String editPickup(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+
+		logger.info("Edit pickup delivery with id: {}", id);
+
+		Delivery delivery = null;
+		try {
+			delivery = deliveryService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get pickup delivery with id: {}", id);
+			String error = "При редактировании адреса самовывоза произошла ошибка";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/pickup";
+		}
+
+		if ((delivery != null) && delivery.getPickup()) {
+			model.addAttribute("delivery", delivery);
+			model.addAttribute("deliveries", deliveryService.pickupDeliveries());
+			return "/directorView/DirectorPickup";
+		} else {
+			String error = "Такой адрес не найден или это не адрес самовывоза";
+			request.getSession().setAttribute("error", error);
+			return "redirect:/director/controlpanel/pickups";
+		}
+	}
+
+	@RequestMapping(value = {"/director/controlpanel/pickup/delete/{id}"}, method = RequestMethod.GET)
+	public String deletePickup(@PathVariable("id") Long id, HttpServletRequest request) {
+
+		logger.info("Deleting pickup delivery with id: {}", id);
+
+
+		Delivery deletedPickup = null;
+		try {
+			deletedPickup = deliveryService.get(id);
+		} catch (Exception e) {
+			logger.error("Can\'t get pickup delivery with id: {}", id);
+			String error = "При удалении адреса самовывоза произошла ошибка обращения к базе данных";
+			request.getSession().setAttribute("error", error);
+		}
+		if ((deletedPickup != null) && deletedPickup.getPickup()) {
+			try {
+				deletedPickup.setPickup(false);
+				deliveryService.save(deletedPickup);
+				String success = "Адрес самовывоза успешно удалёна";
+				request.getSession().setAttribute("success", success);
+			} catch (Exception e) {
+				logger.error("Can\'t delete pickup delivery with id: ", id);
+				String error = "Ошибка при удалении адреса самовывоза";
+				request.getSession().setAttribute("error", error);
+			}
+		} else {
+			String error = "Такого адреса не существует или это не адрес самовывоза.";
+			request.getSession().setAttribute("error", error);
+		}
+		return "redirect:/director/controlpanel/pickups";
+	}
+
+
+
 	private void injectMessageToPage(HttpServletRequest request, ModelAndView model) {
 		String success = (String) request.getSession().getAttribute("success");
 		String error = (String) request.getSession().getAttribute("error");

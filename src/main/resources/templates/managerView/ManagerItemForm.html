@@ -73,9 +73,13 @@
                     <div class="input-group">
                         <span class="input-group-addon caret"><strong>Продукт:</strong></span>
                         <select class="form-control" name="product" style="width: 100%">
+                            <option  selected
+                                    th:value="${item?.getProduct().getProductName()}"
+                                    th:text="${item?.getProduct().getProductName()}"></option>
+
                             <option th:each="product : ${productList}"
-                                    th:value="${product.getProductName()}"
-                                    th:text="${product.getProductName()}"></option>
+                                    th:value="${product?.getProductName()}"
+                                    th:text="${product?.getProductName()}"></option>
                         </select>
                     </div>
                 </div>
@@ -84,9 +88,13 @@
                     <div class="input-group">
                         <span class="input-group-addon caret"><strong>Модель телефона:</strong></span>
                         <select class="form-control" name="phoneModel" style="width: 100%">
+                            <option  selected
+                                     th:value="${item?.getPhoneModel().getModelName()}"
+                                     th:text="${item?.getPhoneModel().getModelName()}"></option>
+
                             <option th:each="model : ${phoneModels}"
-                                    th:value="${model.getModelName()}"
-                                    th:text="${model.getModelName()}"></option>
+                                    th:value="${model?.getModelName()}"
+                                    th:text="${model?.getModelName()}"></option>
                         </select>
                     </div>
                 </div>

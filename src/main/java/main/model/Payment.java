@@ -26,12 +26,17 @@ public class Payment {
 	@Column(name = "cash")
 	private Boolean cash;
 
+	@Column(name = "deleted")
+	private Boolean deleted;
+
 	public Payment(String name, Boolean cash) {
 		this.name = name;
 		this.cash = cash;
+		this.deleted = false;
 	}
 
 	public Payment() {
+		this.deleted = false;
 	}
 
 	public Long getId() {
@@ -58,6 +63,14 @@ public class Payment {
 		this.cash = cash;
 	}
 
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	@Override
 	public String toString() {
 		return name;
@@ -65,14 +78,25 @@ public class Payment {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		Payment payment = (Payment) o;
 
-		if (id != null ? !id.equals(payment.id) : payment.id != null) return false;
-		if (name != null ? !name.equals(payment.name) : payment.name != null) return false;
-		return cash != null ? cash.equals(payment.cash) : payment.cash == null;
+		if (id != null ? !id.equals(payment.id) : payment.id != null) {
+			return false;
+		}
+		if (name != null ? !name.equals(payment.name) : payment.name != null) {
+			return false;
+		}
+		if (cash != null ? !cash.equals(payment.cash) : payment.cash != null) {
+			return false;
+		}
+		return deleted != null ? deleted.equals(payment.deleted) : payment.deleted == null;
 	}
 
 	@Override
@@ -80,6 +104,7 @@ public class Payment {
 		int result = id != null ? id.hashCode() : 0;
 		result = 31 * result + (name != null ? name.hashCode() : 0);
 		result = 31 * result + (cash != null ? cash.hashCode() : 0);
+		result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
 		return result;
 	}
 }

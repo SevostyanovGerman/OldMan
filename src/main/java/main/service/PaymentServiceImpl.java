@@ -29,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public Payment getByName(String name) {
-		return paymentRepository.findByName(name);
+		return paymentRepository.findByNameAndDeleted(name, false);
 	}
 
 	@Override
@@ -40,11 +40,12 @@ public class PaymentServiceImpl implements PaymentService {
 	@Override
 	public void delete(Payment payment) {
 		logger.debug("Delete product: {}", payment.toString());
-		paymentRepository.delete(payment);
+		payment.setDeleted(true);
+		paymentRepository.save(payment);
 	}
 
 	@Override
 	public List<Payment> getAll() {
-		return paymentRepository.findAll();
+		return paymentRepository.findAllByDeleted(false);
 	}
 }

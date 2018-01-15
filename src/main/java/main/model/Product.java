@@ -1,6 +1,5 @@
 package main.model;
 
-import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,11 +22,16 @@ public class Product {
 	@Column(name = "product_name", length = 50)
 	private String productName;
 
+	@Column(name = "deleted")
+	private Boolean deleted;
+
 	public Product() {
+		this.deleted = false;
 	}
 
 	public Product(String productName) {
 		this.productName = productName;
+		this.deleted = false;
 	}
 
 	public Long getId() {
@@ -51,21 +55,39 @@ public class Product {
 		return productName;
 	}
 
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof Product)) {
+		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
+
 		Product product = (Product) o;
-		return Objects.equals(id, product.id) && Objects.equals(productName, product.productName);
+
+		if (id != null ? !id.equals(product.id) : product.id != null) {
+			return false;
+		}
+		if (productName != null ? !productName.equals(product.productName) : product.productName != null) {
+			return false;
+		}
+		return deleted != null ? deleted.equals(product.deleted) : product.deleted == null;
 	}
 
 	@Override
 	public int hashCode() {
-
-		return Objects.hash(id, productName);
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (productName != null ? productName.hashCode() : 0);
+		result = 31 * result + (deleted != null ? deleted.hashCode() : 0);
+		return result;
 	}
 }
