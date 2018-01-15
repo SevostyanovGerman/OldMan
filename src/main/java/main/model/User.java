@@ -299,6 +299,10 @@ public class User implements UserDetails {
 		this.avatar = avatar;
 	}
 
+	public Blob getAvatarBlob(){
+		return this.avatar;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {

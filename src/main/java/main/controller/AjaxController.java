@@ -166,7 +166,7 @@ public class AjaxController {
 		try {
 			return notificationService.findAllByUser(userService.getCurrentUser().getName());
 		} catch (Exception e) {
-			logger.error("while getting notification for current user");
+//			logger.error("while getting notification for current user");
 			return null;
 		}
 	}

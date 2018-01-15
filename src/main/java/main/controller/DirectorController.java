@@ -504,6 +504,11 @@ public class DirectorController {
 					if (!checkPasswordUser.getPassword().equals(incomingUser.getPassword())) {
 						userService.setPasswordEncoder(incomingUser, incomingUser.getPassword());
 					}
+					//вставляем аватарку из существующего пользователя в редактируемый
+					User userById = userService.get(incomingUser.getId());
+					if ( userById.getAvatarBlob() != null) {
+						incomingUser.setAvatar(userById.getAvatarBlob());
+					}
 					userService.save(incomingUser);
 					String success = "Информация о пользователе успешно записана в базе данных.";
 					request.getSession().setAttribute("success", success);
@@ -520,7 +525,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/controlpanel/user/edit/{id}"}, method = RequestMethod.GET)
 	public ModelAndView editUser(@PathVariable("id") Long id, HttpServletRequest request) {
-		logger.info("Edit user with id: ", id);
+		logger.info("Edit user with id:{}", id);
 		ModelAndView model = new ModelAndView();
 		User user = null;
 		try {

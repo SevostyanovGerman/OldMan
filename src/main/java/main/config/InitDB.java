@@ -93,28 +93,24 @@ public class InitDB {
 
 	@PostConstruct
 	public void createDB() throws ParseException {
-//		Mail notificationMail = new Mail("NOTIFICATION", "Вам пришло новое сообщение", null,
-//			"%s, Вам пришло новое сообщение, перейдите по ссылке чтобы его прочитать", "mail/mailNotification");
-//		mailService.save(notificationMail);
-//		mailService.save(resetPasswordMail);
 
 		//DeliveryType//
-		DeliveryType toAddress = new DeliveryType("address", false);
-		DeliveryType pickup = new DeliveryType("pickup", true);
+		DeliveryType toAddress = new DeliveryType("до адреса", false);
+		DeliveryType pickup = new DeliveryType("самовывоз", true);
 		deliveryTypeService.save(toAddress);
 		deliveryTypeService.save(pickup);
 		//Status//
-		Status status1 = new Status("new", 1L, ColorNewStatus);
+		Status status1 = new Status("новый", 1L, ColorNewStatus);
 		statusService.save(status1);
-		Status status2 = new Status("design", 2L, ColorDesignStatus);
+		Status status2 = new Status("дизайн", 2L, ColorDesignStatus);
 		statusService.save(status2);
-		Status status3 = new Status("design done", 3L, ColorDesignDoneStatus);
+		Status status3 = new Status("дизайн готов", 3L, ColorDesignDoneStatus);
 		statusService.save(status3);
-		Status status4 = new Status("production", 4L, ColorProductionStatus);
+		Status status4 = new Status("производство", 4L, ColorProductionStatus);
 		statusService.save(status4);
-		Status status5 = new Status("delivery", 5L, ColorDeliveryStatus);
+		Status status5 = new Status("доставка", 5L, ColorDeliveryStatus);
 		statusService.save(status5);
-		Status status6 = new Status("finish", 6L, ColorFinishStatus);
+		Status status6 = new Status("закончен", 6L, ColorFinishStatus);
 		statusService.save(status6);
 		//Роли//
 		HashSet<Status> allStatus = new HashSet<>();
@@ -125,23 +121,23 @@ public class InitDB {
 		allStatus.add(status5);
 		allStatus.add(status6);
 		//Функции ролей
-		FuncMenu managerFunc = new FuncMenu("Manager Dashboard", "/manager");
+		FuncMenu managerFunc = new FuncMenu("Главная страница", "/manager");
 		functionService.save(managerFunc);
 //		FuncMenu managerCustomerFunc = new FuncMenu("Customers", "/manager/customers/");
 //		functionService.save(managerCustomerFunc);
-		FuncMenu bossFunc = new FuncMenu("Boss Dashboard", "/director");
+		FuncMenu bossFunc = new FuncMenu("Главная страница", "/director");
 		functionService.save(bossFunc);
-		FuncMenu bossCustomerFunc = new FuncMenu("Customers", "/director/customers/");
+		FuncMenu bossCustomerFunc = new FuncMenu("Клиенты", "/director/customers/");
 		functionService.save(bossCustomerFunc);
-		FuncMenu bossStuffFunc = new FuncMenu("Stuff", "/director/stuff/");
+		FuncMenu bossStuffFunc = new FuncMenu("Персонал", "/director/stuff/");
 		functionService.save(bossStuffFunc);
-		FuncMenu bossPanelFunc = new FuncMenu("Panel", "/director/controlpanel/statuses");
+		FuncMenu bossPanelFunc = new FuncMenu("Панель управления", "/director/controlpanel/statuses");
 		functionService.save(bossPanelFunc);
-		FuncMenu bossStatistic = new FuncMenu("Statistic", "/director/statistic/middle/");
+		FuncMenu bossStatistic = new FuncMenu("Статистика", "/director/statistic/middle/");
 		functionService.save(bossStatistic);
-		FuncMenu designerDashboardFunction = new FuncMenu("Designer Dashboard", "/designer");
+		FuncMenu designerDashboardFunction = new FuncMenu("Главная страница", "/designer");
 		functionService.save(designerDashboardFunction);
-		FuncMenu masterDashboardFunction = new FuncMenu("Master Dashboard", "/master");
+		FuncMenu masterDashboardFunction = new FuncMenu("Главная страница", "/master");
 		functionService.save(masterDashboardFunction);
 		//Роли
 		Role role1 = new Role("MANAGER", "/manager/", allStatus);
@@ -185,7 +181,7 @@ public class InitDB {
 		paymentService.save(payment1);
 		Payment payment2 = new Payment("Visa", false);
 		paymentService.save(payment2);
-		Payment payment3 = new Payment("Post", false);
+		Payment payment3 = new Payment("наложный платеж", false);
 		paymentService.save(payment3);
 		//Delivery//
 		Delivery delivery1 = new Delivery("Russia", "saint-Petersburg", "sizam street", "777");
