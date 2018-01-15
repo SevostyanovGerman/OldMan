@@ -151,7 +151,10 @@
                                                     <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
                                                     <span th:text="${element2.getTime()} "></span>
                                                     <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element2.getId()}}" class="glyphicon glyphicon-trash"></a></span>
-                                                    <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a href="#" class="glyphicon glyphicon-edit"></a></span>
+                                                    <span onclick="toggleComment(event)"
+                                                          style="display: inline-block; margin-left: 5px"
+                                                          th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a
+                                                        class="glyphicon glyphicon-edit"></a></span>
                                                 </div>
                                                 <!-- Ответ на комментарий -->
                                                 <div class="comment-content" th:utext="${element2.getContent()}"></div>
@@ -368,6 +371,7 @@
 </script>
 
 <script src="/js/profile.js"></script>
+<script type="text/javascript" th:src="@{/js/masterScript.js}"></script>
 
 </body>
 </html>
