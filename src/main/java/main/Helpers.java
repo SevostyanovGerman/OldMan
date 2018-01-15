@@ -40,7 +40,7 @@ public class Helpers {
 		return resizedImage;
 	}
 
-	static public String authors(){
+	static public String authors() {
 		return "Дмитрий Лахно, Дмитрий Огородников, Руслан Зиновьев, Максим Анваров";
 	}
 }

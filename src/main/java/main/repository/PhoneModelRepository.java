@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface PhoneModelRepository extends JpaRepository<PhoneModel, Long> {
 
 	PhoneModel getByModelNameAndDeleted(String modelName, boolean deleted);
-	List<PhoneModel> findAllByDeleted (boolean deleted);
+
+	List<PhoneModel> findAllByDeleted(boolean deleted);
 }

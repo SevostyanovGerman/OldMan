@@ -29,8 +29,7 @@ import org.joda.time.format.DateTimeFormatter;
 @Table(name = "orders")
 public class Order implements Comparable<Order>, Comparator<Order> {
 
-	private static final DateTimeFormatter DATE_TIME_FORMATTER =
-		DateTimeFormat.forPattern("dd MMMM, yyyy");
+	private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("dd MMMM, yyyy");
 	private static final String PAID = "оплачено";
 	private static final String UNPAID = "не оплачено";
 
@@ -64,7 +63,6 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 
 	@Column(name = "date_transferred")
 	private Date dateTransferred;
-
 
 	@Column(name = "o_from")
 	private String from;
@@ -134,9 +132,8 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		this.manager = manager;
 	}
 
-	public Order(String number, Boolean payment, Boolean deleted, Date created,
-				 DeliveryType deliveryType, Payment paymentType, Status status, Customer customer,
-				 Item item, User manager, User designer, User master) {
+	public Order(String number, Boolean payment, Boolean deleted, Date created, DeliveryType deliveryType,
+		Payment paymentType, Status status, Customer customer, Item item, User manager, User designer, User master) {
 		this.number = number;
 		this.payment = payment;
 		this.deleted = deleted;
@@ -156,9 +153,9 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		this.price = item.getAmount();
 	}
 
-	public Order(String number, Boolean payment, Boolean deleted, Date created,
-				 DeliveryType deliveryType, Payment paymentType, Status status, Customer customer,
-				 Item item, User manager, User designer, User master, Delivery delivery) {
+	public Order(String number, Boolean payment, Boolean deleted, Date created, DeliveryType deliveryType,
+		Payment paymentType, Status status, Customer customer, Item item, User manager, User designer, User master,
+		Delivery delivery) {
 		this.number = number;
 		this.payment = payment;
 		this.deleted = deleted;
@@ -229,6 +226,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		return payment;
 	}
 
+	@Access(AccessType.PROPERTY)
 	public String getPaymentString() {
 		if (payment == null) {
 			return UNPAID;
@@ -237,6 +235,10 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 			return PAID;
 		}
 		return UNPAID;
+	}
+
+	@Access(AccessType.PROPERTY)
+	public void setPaymentString(String paymentString) {
 	}
 
 	public void setPayment(Boolean payment) {
@@ -363,8 +365,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 	}
 
 	public List<Comment> getComments() {
-		return comments.stream().filter(comment -> comment.getParent() == null)
-			.collect(Collectors.toList());
+		return comments.stream().filter(comment -> comment.getParent() == null).collect(Collectors.toList());
 	}
 
 	public void setComments(List<Comment> comments) {
@@ -527,16 +528,13 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		if (created != null ? !created.equals(order.created) : order.created != null) {
 			return false;
 		}
-		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) :
-			order.deliveryType != null) {
+		if (deliveryType != null ? !deliveryType.equals(order.deliveryType) : order.deliveryType != null) {
 			return false;
 		}
-		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) :
-			order.dateRecieved != null) {
+		if (dateRecieved != null ? !dateRecieved.equals(order.dateRecieved) : order.dateRecieved != null) {
 			return false;
 		}
-		if (dateTransferred != null ? !dateTransferred.equals(order.dateTransferred) :
-			order.dateTransferred != null) {
+		if (dateTransferred != null ? !dateTransferred.equals(order.dateTransferred) : order.dateTransferred != null) {
 			return false;
 		}
 		if (from != null ? !from.equals(order.from) : order.from != null) {
@@ -548,8 +546,7 @@ public class Order implements Comparable<Order>, Comparator<Order> {
 		if (delivery != null ? !delivery.equals(order.delivery) : order.delivery != null) {
 			return false;
 		}
-		if (paymentType != null ? !paymentType.equals(order.paymentType) :
-			order.paymentType != null) {
+		if (paymentType != null ? !paymentType.equals(order.paymentType) : order.paymentType != null) {
 			return false;
 		}
 		if (status != null ? !status.equals(order.status) : order.status != null) {

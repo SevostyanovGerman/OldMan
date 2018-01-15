@@ -299,7 +299,7 @@ public class User implements UserDetails {
 		this.avatar = avatar;
 	}
 
-	public Blob getAvatarBlob(){
+	public Blob getAvatarBlob() {
 		return this.avatar;
 	}
 

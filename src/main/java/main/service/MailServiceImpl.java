@@ -1,7 +1,6 @@
 package main.service;
 
 import javax.mail.internet.MimeMessage;
-
 import main.model.Comment;
 import main.model.User;
 import org.slf4j.Logger;
@@ -48,8 +47,7 @@ public class MailServiceImpl implements MailService {
 			helper.setTo(user.getEmail());
 			String title = String.format(titleResetPassword, user.toString());
 			helper.setSubject(title);
-			String content = mailContentBuilder
-				.build( user, "mail/mailResetPassword", link);
+			String content = mailContentBuilder.build(user, "mail/mailResetPassword", link);
 			helper.setText(content, true);
 			try {
 				javaMailSender.send(mail);

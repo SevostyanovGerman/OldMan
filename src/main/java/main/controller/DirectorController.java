@@ -70,8 +70,8 @@ public class DirectorController {
 	@Autowired
 	public DirectorController(UserService userService, OrderService orderService, StatusService statusService,
 		RoleService roleService, CustomerService customerService, DeliveryService deliveryService,
-		NotificationService notificationService, ProductService productService,
-		PhoneModelService phoneModelService, PaymentService paymentService) {
+		NotificationService notificationService, ProductService productService, PhoneModelService phoneModelService,
+		PaymentService paymentService) {
 		this.userService = userService;
 		this.orderService = orderService;
 		this.statusService = statusService;
@@ -506,7 +506,7 @@ public class DirectorController {
 					}
 					//вставляем аватарку из существующего пользователя в редактируемый
 					User userById = userService.get(incomingUser.getId());
-					if ( userById.getAvatarBlob() != null) {
+					if (userById.getAvatarBlob() != null) {
 						incomingUser.setAvatar(userById.getAvatarBlob());
 					}
 					userService.save(incomingUser);
@@ -1102,7 +1102,8 @@ public class DirectorController {
 		} else {
 			String searchingPayment = incomingPayment.getName();
 			Payment foundPayment = paymentService.getByName(searchingPayment);
-			if ((foundPayment != null) && !(foundPayment.getId().equals(incomingPayment.getId()))) { //проверяем есть ли оплата с таким названием
+			if ((foundPayment != null) && !(foundPayment.getId()
+				.equals(incomingPayment.getId()))) { //проверяем есть ли оплата с таким названием
 				String error = "Тип оплаты с названием: " + searchingPayment + " уже существует";
 				request.getSession().setAttribute("error", error);
 			} else {
@@ -1254,7 +1255,6 @@ public class DirectorController {
 
 		logger.info("Deleting pickup delivery with id: {}", id);
 
-
 		Delivery deletedPickup = null;
 		try {
 			deletedPickup = deliveryService.get(id);
@@ -1280,8 +1280,6 @@ public class DirectorController {
 		}
 		return "redirect:/director/controlpanel/pickups";
 	}
-
-
 
 	private void injectMessageToPage(HttpServletRequest request, ModelAndView model) {
 		String success = (String) request.getSession().getAttribute("success");

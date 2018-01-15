@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	Product getByProductNameAndDeleted(String productName, boolean deleted);
+
 	List<Product> findAllByDeleted(boolean deleted);
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 	Payment findByNameAndDeleted(String name, boolean deleted);
+
 	List<Payment> findAllByDeleted(boolean deleted);
 
 }
