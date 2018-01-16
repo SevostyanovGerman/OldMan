@@ -65,7 +65,7 @@
 <br><br><br>
 <div class="container">
     <div style="text-align: center">
-        <h4><span th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' Статус заказа: '"></span><span th:text="${order?.getStatus().toString()}" style="color: orange"></span> <span class="label label-danger" href="#deleteOrderModal" data-toggle="modal">  Удалить</span> </h4>
+        <h4><span th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' Статус заказа: '"></span><span th:text="${order?.getStatus().toString()}" style="color: orange"></span></h4>
     </div>
 
     <hr>
@@ -440,7 +440,9 @@
     </div>
     <div class="container-fluid" style="background-color: lightgrey;padding: 0px;margin: 0px">
         <div class="row col-sm-12" style="padding: 0px;margin: 0px"  >
-            <div class="col-sm-9" ></div>
+            <div class="col-sm-9">
+                <span class="btn btn-danger" href="#deleteOrderModal" data-toggle="modal">  Удалить</span>
+            </div>
             <div class="col-sm-3" style="text-align: center; "  >
                 <a
                     th:if="${order.getDesigner()} != null AND ${order.getMaster()} != null AND ${order.getItems().size()} > 0 AND ${order.getCustomer()} != null AND ${order.getPaymentType()} != null AND ${order.getDelivery()} != null AND ${order.getDeliveryType()} != null" href="#myModal"

@@ -12,4 +12,6 @@ public interface NotificationService {
 	void delete(Long id);
 
 	void removeAllByCommentId(Long commentId);
+
+	List<Notification> getByUserAndOrder(Long order, String user);
 }

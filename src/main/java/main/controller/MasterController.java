@@ -10,6 +10,7 @@ import main.model.Image;
 import main.model.Item;
 import main.model.Notification;
 import main.model.Order;
+import main.model.User;
 import main.service.ImageService;
 import main.service.ItemService;
 import main.service.NotificationService;
@@ -66,6 +67,15 @@ public class MasterController {
 	public String getOrderForm(@PathVariable("id") Long id, Model model) {
 		try {
 			Order order = orderService.get(id);
+			User currentUser = userService.getCurrentUser();
+			List<Order> orderList = orderService.getAllAllowed(currentUser);
+			//проверка доступа к заказу. с учетом уведомлений
+			if (!orderList.contains(order)) {
+				List<Notification> orderNotification = notificationService.getByUserAndOrder(id, currentUser.getName());
+				if (orderNotification.size() <= 0) {
+					return "redirect: /master";
+				}
+			}
 
 			String user = userService.getCurrentUser().getName();
 			List<Notification> myNotes = notificationService.findAllByUser(user);

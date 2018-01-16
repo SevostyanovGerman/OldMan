@@ -8,6 +8,7 @@ import main.model.Image;
 import main.model.Item;
 import main.model.Notification;
 import main.model.Order;
+import main.model.User;
 import main.service.ImageService;
 import main.service.ItemService;
 import main.service.NotificationService;
@@ -59,9 +60,21 @@ public class DesignerController {
 	//Order page
 	@RequestMapping(value = {"/designer/order/{orderId}"}, method = RequestMethod.GET)
 	public ModelAndView order(@PathVariable("orderId") Long orderId) {
+		Order order = orderService.get(orderId);
+		User currentUser = userService.getCurrentUser();
+		List<Order> orderList = orderService.getAllAllowed(currentUser);
+		//проверка доступа к заказу. с учетом уведомлений
+		if (!orderList.contains(order)) {
+			List<Notification> orderNotification = notificationService
+				.getByUserAndOrder(orderId, currentUser.getName());
+			if (orderNotification.size() <= 0) {
+				return new ModelAndView("redirect: /designer");
+			}
+		}
+
 		ModelAndView model = new ModelAndView("/designerView/DesignerOrderForm");
 		try {
-			model.addObject("order", orderService.get(orderId));
+			model.addObject("order", order);
 		} catch (Exception e) {
 			model = new ModelAndView("/designerView/DesignerDashBoard");
 			logger.error("while retrieving order Id={}", orderId);

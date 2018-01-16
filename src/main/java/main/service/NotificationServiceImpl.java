@@ -37,4 +37,9 @@ public class NotificationServiceImpl implements NotificationService {
 	public void removeAllByCommentId(Long commentId) {
 		notificationRepository.removeAllByCommentId(commentId);
 	}
+
+	@Override
+	public List<Notification> getByUserAndOrder(Long order, String user) {
+		return notificationRepository.findAllByOrderIdAndRecipient(order, user);
+	}
 }
