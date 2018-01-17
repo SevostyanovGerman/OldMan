@@ -37,20 +37,19 @@ public class AjaxController {
 	private UserService userService;
 	private NotificationService notificationService;
 	private MailService mailService;
+	private PasswordEncoder passwordEncoder;
 
 	private static final Logger logger = LoggerFactory.getLogger(AjaxController.class);
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
 	public AjaxController(CustomerService customerService, OrderService orderService, UserService userService,
-		NotificationService notificationService, MailService mailService) {
+		NotificationService notificationService, MailService mailService, PasswordEncoder passwordEncoder) {
 		this.customerService = customerService;
 		this.orderService = orderService;
 		this.userService = userService;
 		this.notificationService = notificationService;
 		this.mailService = mailService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	//поиск клиентов в форме managerOrder
