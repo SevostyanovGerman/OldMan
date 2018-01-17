@@ -36,6 +36,9 @@ public class Image {
 	@Column(name = "file_name")
 	private String fileName;
 
+	@Column(name = "formatType")
+	private String formatType;
+
 	public Image() {
 	}
 
@@ -84,18 +87,33 @@ public class Image {
 	}
 
 	public String getImage() throws IOException, SQLException {
-		return "data:image/jpg;base64," + convertToBase64(this.image.getBinaryStream());
+		return "data:image/" + this.formatType + ";base64," + convertToBase64(this.image.getBinaryStream(),
+			this.formatType);
+
 	}
 
 	public String getSmallImage() throws IOException, SQLException {
-		return "data:image/jpg;base64," + convertToBase64(this.smallImage.getBinaryStream());
+		return "data:image/" + this.formatType + ";base64," + convertToBase64(this.smallImage.getBinaryStream(),
+			this.formatType);
 	}
 
-	private String convertToBase64(InputStream inputStream) throws IOException {
+	private String convertToBase64(InputStream inputStream, String type) throws IOException {
+
 		BufferedImage image = ImageIO.read(inputStream);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(image, "jpg", baos);
+		if (type == null) {
+			type = "jpg";
+		}
+		ImageIO.write(image, type, baos);
 		return DatatypeConverter.printBase64Binary(baos.toByteArray());
+	}
+
+	public String getFormatType() {
+		return formatType;
+	}
+
+	public void setFormatType(String formatType) {
+		this.formatType = formatType;
 	}
 
 	@Override
@@ -103,24 +121,38 @@ public class Image {
 		if (this == o) {
 			return true;
 		}
-		if (!(o instanceof Image)) {
+		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
+
 		Image image1 = (Image) o;
+
 		if (id != null ? !id.equals(image1.id) : image1.id != null) {
+			return false;
+		}
+		if (smallImage != null ? !smallImage.equals(image1.smallImage) : image1.smallImage != null) {
 			return false;
 		}
 		if (image != null ? !image.equals(image1.image) : image1.image != null) {
 			return false;
 		}
-		return fileName != null ? fileName.equals(image1.fileName) : image1.fileName == null;
+		if (imageType != null ? !imageType.equals(image1.imageType) : image1.imageType != null) {
+			return false;
+		}
+		if (fileName != null ? !fileName.equals(image1.fileName) : image1.fileName != null) {
+			return false;
+		}
+		return formatType != null ? formatType.equals(image1.formatType) : image1.formatType == null;
 	}
 
 	@Override
 	public int hashCode() {
 		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (smallImage != null ? smallImage.hashCode() : 0);
 		result = 31 * result + (image != null ? image.hashCode() : 0);
+		result = 31 * result + (imageType != null ? imageType.hashCode() : 0);
 		result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
+		result = 31 * result + (formatType != null ? formatType.hashCode() : 0);
 		return result;
 	}
 }

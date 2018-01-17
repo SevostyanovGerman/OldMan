@@ -76,17 +76,29 @@ public class ImageServiceImpl implements ImageService {
 				BufferedImage resizedImage;
 				BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
 				if (originalImage.getWidth() > IMG_WIDTH) {
-					resizedImage = Helpers.resizePicture(originalImage, originalImage.getType(), IMG_WIDTH);
+					try {
+						resizedImage = Helpers.resizePicture(originalImage, originalImage.getType(), IMG_WIDTH);
+					} catch (Exception e) {
+						resizedImage = originalImage;
+					}
 				} else {
 					resizedImage = originalImage;
 				}
-				Blob resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage));
+				String filename = file.getOriginalFilename();
+				String type = "jpg";
+				if (filename.lastIndexOf(".") != -1) {
+					 type = filename.substring(filename.lastIndexOf(".")+1, filename.length());
+				}
+
+
+				Blob resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage, type));
 				Blob originalFile = new SerialBlob(file.getBytes());
 				Image newImage = new Image();
 				newImage.setImageType(imageType);
 				newImage.setFileName(file.getOriginalFilename());
 				newImage.setSmallImage(resizedFile);
 				newImage.setImage(originalFile);
+				newImage.setFormatType(type);
 				save(newImage);
 				blobFileList.add(newImage);
 			}

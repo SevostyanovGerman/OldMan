@@ -87,6 +87,9 @@ public class User implements UserDetails {
 	@Column(name = "avatar")
 	private Blob avatar;
 
+	@Column(name = "avatarType")
+	private String avatarType;
+
 	@Column(name = "token")
 	private String token;
 
@@ -282,16 +285,20 @@ public class User implements UserDetails {
 
 	public String getAvatar() throws IOException, SQLException {
 		if (avatar != null) {
-			return "data:image/jpg;base64," + convertToBase64(this.avatar.getBinaryStream());
+			String type = this.avatarType;
+			if (type == null) {
+				type = "jpg";
+			}
+			return "data:image/" + type + ";base64," + convertToBase64(this.avatar.getBinaryStream(),  type);
 		} else {
 			return null;
 		}
 	}
 
-	private String convertToBase64(InputStream inputStream) throws IOException {
+	private String convertToBase64(InputStream inputStream, String type) throws IOException {
 		BufferedImage image = ImageIO.read(inputStream);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		ImageIO.write(image, "jpg", baos);
+		ImageIO.write(image, type, baos);
 		return DatatypeConverter.printBase64Binary(baos.toByteArray());
 	}
 
@@ -301,6 +308,14 @@ public class User implements UserDetails {
 
 	public Blob getAvatarBlob() {
 		return this.avatar;
+	}
+
+	public String getAvatarType() {
+		return avatarType;
+	}
+
+	public void setAvatarType(String avatarType) {
+		this.avatarType = avatarType;
 	}
 
 	@Override
@@ -350,6 +365,9 @@ public class User implements UserDetails {
 		if (avatar != null ? !avatar.equals(user.avatar) : user.avatar != null) {
 			return false;
 		}
+		if (avatarType != null ? !avatarType.equals(user.avatarType) : user.avatarType != null) {
+			return false;
+		}
 		if (token != null ? !token.equals(user.token) : user.token != null) {
 			return false;
 		}
@@ -373,6 +391,7 @@ public class User implements UserDetails {
 		result = 31 * result + (email != null ? email.hashCode() : 0);
 		result = 31 * result + (phone != null ? phone.hashCode() : 0);
 		result = 31 * result + (avatar != null ? avatar.hashCode() : 0);
+		result = 31 * result + (avatarType != null ? avatarType.hashCode() : 0);
 		result = 31 * result + (token != null ? token.hashCode() : 0);
 		result = 31 * result + (tokenExpire != null ? tokenExpire.hashCode() : 0);
 		result = 31 * result + (roles != null ? roles.hashCode() : 0);

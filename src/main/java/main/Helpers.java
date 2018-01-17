@@ -20,9 +20,9 @@ public class Helpers {
 		return url;
 	}
 
-	static public byte[] convertToByteArray(BufferedImage bufferedImage) throws IOException {
+	static public byte[] convertToByteArray(BufferedImage bufferedImage, String type) throws IOException {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-		ImageIO.write(bufferedImage, "jpg", outputStream);
+		ImageIO.write(bufferedImage, type, outputStream);
 		outputStream.flush();
 		byte[] bytes = outputStream.toByteArray();
 		outputStream.close();

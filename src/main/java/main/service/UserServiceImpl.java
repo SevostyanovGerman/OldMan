@@ -125,7 +125,14 @@ public class UserServiceImpl implements UserService {
 			} else {
 				resizedImage = originalImage;
 			}
-			Blob resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage));
+			String filename = file.getOriginalFilename();
+			String type = "jpg";
+			if (filename.lastIndexOf(".") != -1) {
+				type = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
+			}
+
+			Blob resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage, type));
+			user.setAvatarType(type);
 			user.setAvatar(resizedFile);
 			save(user);
 		}

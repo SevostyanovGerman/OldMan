@@ -220,18 +220,23 @@ public class MainController implements ErrorController {
 
 	@RequestMapping(value = {"/resetpassword/"}, method = RequestMethod.GET)
 	public ModelAndView resetpassword(String code, String mail) {
-		ModelAndView model = new ModelAndView("resetPassword");
-		User user = userService.getByEmail(mail);
-		if (user.getToken() != null & code != null & user.getToken().equals(code)) {
-			if (user.getTokenExpire().before(new Date())) {
-				model.addObject("message", "срок действия токена истек");
+		try {
+			ModelAndView model = new ModelAndView("resetPassword");
+			User user = userService.getByEmail(mail);
+			if (user.getToken() != null & code != null & user.getToken().equals(code)) {
+				if (user.getTokenExpire().before(new Date())) {
+					model.addObject("message", "срок действия токена истек");
+					return model;
+				}
+				model.addObject("message", code);
 				return model;
 			}
-			model.addObject("message", code);
+			model.addObject("message", "Не удалось сбросить пароль");
 			return model;
+		} catch (Exception e) {
+			return new ModelAndView("redirect:/");
 		}
-		model.addObject("message", "Не удалось сбросить пароль");
-		return model;
+
 	}
 
 	@RequestMapping("/error")
