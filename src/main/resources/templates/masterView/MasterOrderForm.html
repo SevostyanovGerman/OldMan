@@ -135,15 +135,22 @@
                         <div class="col-lg-4">
                             <br>
                             <p align="right">
-                                <button class="btn btn-success" type="submit" form="sendOrder" style="width: 150px;"
+                                <button class="btn btn-success" type="submit" form="sendOrder" style="width: 180px;"
                                         name="sendBtn" disabled>Отправить
                                 </button>
                             </p>
-                            <p align="right">
-                                <a th:href="@{'/master/order/' + ${order.getId()}} + '/money'"
-                                   class="btn btn-success" type="button" style="width: 150px;"
-                                   th:if="${order.getPaymentType().getCash() == true}">Получить деньги</a>
-                            </p>
+                                <span th:if="${order.getPaymentType().getCash() == true}">
+                                    <p align="right">
+                                        <a th:if="${order?.getPayment()} == false"
+                                           th:href="@{'/master/order/' + ${order.getId()}} + '/money'"
+                                           class="btn btn-success form-control" style="width: 180px;">Подтвердить оплату</a>
+                                    </p>
+                                    <p align="right">
+                                        <a th:if="${order?.getPayment()} == true"
+                                           th:href="@{'/master/order/' + ${order.getId()}} + '/money'"
+                                           class="btn btn-success form-control" style="width: 180px;">Отменить оплату</a>
+                                    </p>
+                                </span>
                         </div> <!--end col-lg-4-->
                     </div>
                 </div>
