@@ -1,14 +1,13 @@
 package main.service;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import javax.imageio.ImageIO;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.transaction.Transactional;
@@ -150,5 +149,25 @@ public class ImageServiceImpl implements ImageService {
 			fileOutputStream.flush();
 			fileOutputStream.close();
 		}
+	}
+
+	@Override
+	public File zipFiles(List<Image> downloadFiles) throws IOException, SQLException {
+		File zipFile = new File("archive.zip");
+		FileOutputStream fos = new FileOutputStream(zipFile);
+		ZipOutputStream zos = new ZipOutputStream(fos);
+		for (Image downloadFile : downloadFiles) {
+			InputStream inputStream = downloadFile.getBlobFile().getBinaryStream();
+			File srcFile = new File(downloadFile.getFileName());
+			zos.putNextEntry(new ZipEntry(srcFile.getName()));
+			int readByte;
+			while ((readByte = inputStream.read()) != -1) {
+				zos.write(readByte);
+			}
+			zos.closeEntry();
+		}
+		zos.close();
+		logger.debug("Files compressed to zip");
+		return zipFile;
 	}
 }
