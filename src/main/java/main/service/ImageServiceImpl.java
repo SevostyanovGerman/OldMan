@@ -73,34 +73,47 @@ public class ImageServiceImpl implements ImageService {
 		}
 		for (MultipartFile file : fileList) {
 			if (!file.isEmpty()) {
-				BufferedImage resizedImage;
-				BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
-				if (originalImage.getWidth() > IMG_WIDTH) {
-					try {
-						resizedImage = Helpers.resizePicture(originalImage, originalImage.getType(), IMG_WIDTH);
-					} catch (Exception e) {
-						resizedImage = originalImage;
-					}
-				} else {
-					resizedImage = originalImage;
-				}
+				Blob resizedFile;
 				String filename = file.getOriginalFilename();
 				String type = "jpg";
+				Image newImage = new Image();
 				if (filename.lastIndexOf(".") != -1) {
-					 type = filename.substring(filename.lastIndexOf(".")+1, filename.length());
+					type = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
 				}
 
+				try {
+					BufferedImage resizedImage;
+					BufferedImage originalImage = ImageIO.read(new BufferedInputStream(file.getInputStream()));
 
-				Blob resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage, type));
-				Blob originalFile = new SerialBlob(file.getBytes());
-				Image newImage = new Image();
-				newImage.setImageType(imageType);
-				newImage.setFileName(file.getOriginalFilename());
-				newImage.setSmallImage(resizedFile);
-				newImage.setImage(originalFile);
-				newImage.setFormatType(type);
-				save(newImage);
-				blobFileList.add(newImage);
+					if (originalImage.getWidth() > IMG_WIDTH) {
+						try {
+							resizedImage = Helpers.resizePicture(originalImage, originalImage.getType(), IMG_WIDTH);
+						} catch (Exception e) {
+							resizedImage = originalImage;
+						}
+					} else {
+						resizedImage = originalImage;
+					}
+					resizedFile = new SerialBlob(Helpers.convertToByteArray(resizedImage, type));
+					Blob originalFile = new SerialBlob(file.getBytes());
+					newImage.setImageType(imageType);
+					newImage.setFileName(file.getOriginalFilename());
+					newImage.setSmallImage(resizedFile);
+					newImage.setImage(originalFile);
+					newImage.setFormatType(type);
+					newImage.setIsImage(true);
+					save(newImage);
+					blobFileList.add(newImage);
+				} catch (Exception e) {
+					Blob originalFile = new SerialBlob(file.getBytes());
+					newImage.setImageType(imageType);
+					newImage.setFileName(file.getOriginalFilename());
+					newImage.setImage(originalFile);
+					newImage.setFormatType(type);
+					newImage.setIsImage(false);
+					save(newImage);
+					blobFileList.add(newImage);
+				}
 			}
 		}
 		return blobFileList;

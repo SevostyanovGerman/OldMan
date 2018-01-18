@@ -14,10 +14,10 @@ function ValidationFileSize() {
                 uploadFiles.value = "";
             }
 
-            if(!allowedExtensions.exec(fileName)){
-                alert("Один из выбранных файлов не является изображением!");
-                uploadFiles.value = "";
-            }
+            // if(!allowedExtensions.exec(fileName)){
+            //     alert("Один из выбранных файлов не является изображением!");
+            //     uploadFiles.value = "";
+            // }
         }
     }
 }
