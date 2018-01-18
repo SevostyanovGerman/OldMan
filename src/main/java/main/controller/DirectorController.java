@@ -182,10 +182,18 @@ public class DirectorController {
 			Status foundStatusByNumber = statusService.get(searchingIndex);
 			if (foundStatus != null) {
 				String error = "Статус с именем: " + searchingStatus + " уже существует";
-				request.getSession().setAttribute("error", error);
+				modelAndView.addObject("error", error);
+				modelAndView.setViewName("/directorView/ControlPanelStatus");
+				modelAndView.addObject("statuses", statusService.getAll());
+				modelAndView.addObject("newstatus", newstatus);
+				return modelAndView;
 			} else if ((foundStatusByNumber != null) && (searchingIndex != 0)) {
 				String error = "Статус с индексом: " + searchingIndex + " уже существует";
-				request.getSession().setAttribute("error", error);
+				modelAndView.addObject("error", error);
+				modelAndView.setViewName("/directorView/ControlPanelStatus");
+				modelAndView.addObject("statuses", statusService.getAll());
+				modelAndView.addObject("newstatus", newstatus);
+				return modelAndView;
 			} else {
 				try {
 					statusService.save(newstatus);
@@ -398,7 +406,7 @@ public class DirectorController {
 			deletedRole.setDeleted(true);
 			try {
 				roleService.save(deletedRole);
-				String success = "Должность с id:" + id + " и именем: " + deletedRole.getName() + " успешно удалёна";
+				String success = "Должность с id: " + id + " и именем: " + deletedRole.getName() + " успешно удалёна";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
 				logger.error("Can\'t delete role with id: ", id);
@@ -449,10 +457,18 @@ public class DirectorController {
 			User foundUserByEmail = userService.getByEmail(searchingEmail);
 			if (foundUser != null) { //проверяем есть ли сотрудник с таким логином
 				String error = "Пользователь с логином: " + searchingUser + " уже существует";
-				request.getSession().setAttribute("error", error);
+				model.addObject("error", error);
+				model.setViewName("/directorView/ControlPanelUser");
+				model.addObject("allRoles", roleService.getAll());
+				model.addObject("user", incomingUser);
+				return model;
 			} else if (foundUserByEmail != null) { //проверяем есть ли сотрудник с такой почтой
 				String error = "Сотрудник с таким email уже существует";
-				request.getSession().setAttribute("error", error);
+				model.addObject("error", error);
+				model.setViewName("/directorView/ControlPanelUser");
+				model.addObject("allRoles", roleService.getAll());
+				model.addObject("user", incomingUser);
+				return model;
 			} else {
 				try {
 					incomingUser.setCreated(new Date());
@@ -491,13 +507,23 @@ public class DirectorController {
 			return model;
 		} else {
 			User foundUserByName = userService.getByName(incomingUser.getName());
-			User foundUserByEmail = userService.getByName(incomingUser.getEmail());
+			User foundUserByEmail = userService.getByEmail(incomingUser.getEmail());
 			if ((foundUserByName != null) && (incomingUser.getId() != foundUserByName.getId())) {
 				String error = "Пользователь с логином: " + incomingUser.getName() + " уже существует";
-				request.getSession().setAttribute("error", error);
+				model.setViewName("/directorView/ControlPanelUserEdit");
+				model.addObject("error", error);
+				model.addObject("allRoles", roleService.getAll());
+				model.addObject("allStatuses", statusService.getAll());
+				model.addObject("user", incomingUser);
+				return model;
 			} else if ((foundUserByEmail != null) && (incomingUser.getId() != foundUserByEmail.getId())) {
 				String error = "Пользователь с почтой: " + incomingUser.getEmail() + " уже существует";
-				request.getSession().setAttribute("error", error);
+				model.setViewName("/directorView/ControlPanelUserEdit");
+				model.addObject("error", error);
+				model.addObject("allRoles", roleService.getAll());
+				model.addObject("allStatuses", statusService.getAll());
+				model.addObject("user", incomingUser);
+				return model;
 			} else {
 				try {
 					User checkPasswordUser = userService.get(incomingUser.getId());
@@ -513,7 +539,7 @@ public class DirectorController {
 					String success = "Информация о пользователе успешно записана в базе данных.";
 					request.getSession().setAttribute("success", success);
 				} catch (Exception e) {
-					logger.error("Can\'t update user", e);
+					logger.error("Can\'t update user {}", e);
 					String error = "Ошибка при записи в базу данных";
 					request.getSession().setAttribute("error", error);
 				}
@@ -608,7 +634,7 @@ public class DirectorController {
 		try {
 			deletedCustomer = customerService.get(id);
 		} catch (Exception e) {
-			logger.error("Can\'t get customer with id:{} ", id);
+			logger.error("Can\'t get customer with id: {}", id);
 			String error = "Ошибка при запросе пользователя c id: " + id + " из базы данных";
 			request.getSession().setAttribute("error", error);
 		}
@@ -621,8 +647,8 @@ public class DirectorController {
 						.getSecName() + " успешно удалён";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
-				logger.error("Can\'t delete customer with id: ", id);
-				String error = "Ошибка при удалении покупателя c id:{}" + id + " из базы данных";
+				logger.error("Can\'t delete customer with id: {}", id);
+				String error = "Ошибка при удалении покупателя c id: " + id + " из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
 		}
@@ -644,8 +670,10 @@ public class DirectorController {
 	}
 
 	@RequestMapping(value = {"/director/customer/create"}, method = RequestMethod.POST)
-	public String createCustomer(@ModelAttribute("customer") Customer incomingCustomer,
-		@ModelAttribute("delivery") Delivery incomingDelivery, HttpServletRequest request) {
+	public ModelAndView createCustomer(@ModelAttribute("customer") @Valid Customer incomingCustomer,
+		@ModelAttribute("delivery") @Valid Delivery incomingDelivery, HttpServletRequest request) {
+
+		ModelAndView modelAndView = new ModelAndView();
 
 		/*
 		 * Ищем в базе покупателя с такой же почтой или телефоном.
@@ -658,18 +686,32 @@ public class DirectorController {
 		Customer foundCustomerByPhone = customerService.getByPhone(searchingPhone);
 		if (foundCustomerByEmail != null) { //проверяем есть ли покупатель с такой почтой
 			String error = "Покупатель с такой почтой: " + searchingEmail + " уже существует";
-			request.getSession().setAttribute("error", error);
+			modelAndView.addObject("customer", incomingCustomer);
+			modelAndView.addObject("delivery", incomingDelivery);
+			modelAndView.addObject("error", error);
+			modelAndView.setViewName("/directorView/DirectorCustomer");
+			return modelAndView;
 		} else if (foundCustomerByPhone != null) { //проверяем есть ли покупатель с таким телефоном
 			String error = "Покуптаель с таким телефоном" + searchingPhone + " уже существует";
-			request.getSession().setAttribute("error", error);
-		} else if ((incomingCustomer.getPhone() == null) || ""
-			.equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
+			modelAndView.addObject("customer", incomingCustomer);
+			modelAndView.addObject("delivery", incomingDelivery);
+			modelAndView.addObject("error", error);
+			modelAndView.setViewName("/directorView/DirectorCustomer");
+			return modelAndView;
+		} else if ((incomingCustomer.getPhone() == null) || "".equals(incomingCustomer.getPhone())) { //проверка что поле телефона не пустое
 			String error = "Необходимо указать телепхон";
-			request.getSession().setAttribute("error", error);
-		} else if ((incomingCustomer.getEmail() == null) || ""
-			.equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
+			modelAndView.addObject("customer", incomingCustomer);
+			modelAndView.addObject("delivery", incomingDelivery);
+			modelAndView.addObject("error", error);
+			modelAndView.setViewName("/directorView/DirectorCustomer");
+			return modelAndView;
+		} else if ((incomingCustomer.getEmail() == null) || "".equals(incomingCustomer.getEmail())) { //проверка что поле почты не пустое
 			String error = "Необходимо указать Email";
-			request.getSession().setAttribute("error", error);
+			modelAndView.addObject("customer", incomingCustomer);
+			modelAndView.addObject("delivery", incomingDelivery);
+			modelAndView.addObject("error", error);
+			modelAndView.setViewName("/directorView/DirectorCustomer");
+			return modelAndView;
 		} else {
 			try {
 				incomingCustomer.setCreationDate(new Date());
@@ -686,19 +728,21 @@ public class DirectorController {
 				request.getSession().setAttribute("error", error);
 			}
 		}
-		return "redirect:/director/customer";
+
+		modelAndView.setViewName("redirect:/director/customer");
+		return modelAndView;
 	}
 
 	@RequestMapping(value = {"/director/customer/edit/{id}"}, method = RequestMethod.GET)
 	public ModelAndView editCustomer(@PathVariable("id") Long id, HttpServletRequest request) {
-		logger.info("Edit customer with id: ", id);
+		logger.info("Edit customer with id: {}", id);
 		ModelAndView model = new ModelAndView();
 		injectMessageToPage(request, model);
 		Customer customer = null;
 		try {
 			customer = customerService.get(id);
 		} catch (Exception e) {
-			logger.error("Can\'t get customer with id: ", id);
+			logger.error("Can\'t get customer with id: {}", id);
 			String error = "Такой клиент не существует";
 			request.getSession().setAttribute("error", error);
 			model.setViewName("redirect:/director/customers");
@@ -724,7 +768,7 @@ public class DirectorController {
 		try {
 			customer = customerService.get(id);
 		} catch (Exception e) {
-			logger.error("Can\'t get customer with id: ", id);
+			logger.error("Can\'t get customer with id: {}", id);
 			String error = "При добавлении адреса произошла ошибка обращения к базе данных";
 			request.getSession().setAttribute("error", error);
 			model.setViewName("redirect:/director/customers");
@@ -747,7 +791,7 @@ public class DirectorController {
 
 	@RequestMapping(value = {"/director/customer/update"}, method = RequestMethod.POST)
 	public String updateCustomer(@ModelAttribute("customer") Customer incomingCustomer,
-		@ModelAttribute("includeDeliveries") HttpServletRequest request) {
+		HttpServletRequest request) {
 
 		/*
 		 * Ищем в базе пользователя с таким же логином.
@@ -796,7 +840,7 @@ public class DirectorController {
 			request.getSession().setAttribute("success", success);
 			model.setViewName("redirect:/director/customer/edit/" + customer.getId());
 		} catch (Exception e) {
-			logger.error("Can\'t save delivery", e);
+			logger.error("Can\'t save delivery {}", e);
 			String error = "Ошибка при записи в базу данных";
 			request.getSession().setAttribute("error", error);
 		}
@@ -907,7 +951,7 @@ public class DirectorController {
 		try {
 			deletedProduct = productService.get(id);
 		} catch (Exception e) {
-			logger.error("Can\'t get product with id: ", id);
+			logger.error("Can\'t get product with id: {}", id);
 			String error = "При удалении продукта произошла ошибка обращения к базе данных";
 			request.getSession().setAttribute("error", error);
 		}
@@ -1057,7 +1101,7 @@ public class DirectorController {
 				String success = "Модель " + deletedPhoneModel.getModelName() + " успешно удалёна";
 				request.getSession().setAttribute("success", success);
 			} catch (Exception e) {
-				logger.error("Can\'t delete model of phone with id: ", id);
+				logger.error("Can\'t delete model of phone with id: {}", id);
 				String error = "Ошибка при удалении модели телефона из базы данных";
 				request.getSession().setAttribute("error", error);
 			}
