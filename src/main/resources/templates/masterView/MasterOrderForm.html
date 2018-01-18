@@ -8,8 +8,7 @@
     <title th:text="'Заказ № ' + ${order.number}"> Заказ №</title>
 
     <!--для комментов-->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
     <!-- DataTables settings -->
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
@@ -24,12 +23,11 @@
     <link rel="stylesheet" type="text/css" href="/css/commentMaster.css" media="all">
 
     <!-- JavaScript libraries-->
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script type="text/javascript" th:src="@{/js/masterScript.js}"></script>
-    <script type="text/javascript" th:src="@{/js/tabs.js}"></script>
 
     <!-- Angular JS -->
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
@@ -59,14 +57,11 @@
                 <li><a href="#userProfile" data-toggle="modal"><span sec:authentication="principal"></span></a></li>
                 <li>
                     <form ng-controller="NotificationController" class="navbar-form navbar-right">
-                        <a th:href="@{/master/order/notification/get}" ng-hide="notifications.length == 0"
-                           ng-cloak><span class="glyphicon glyphicon-comment"
-                                          style="font-size: 22px; color: white"></span><span class="badge badge-notify"
-                                                                                             style="background: #ff6d3c">{{notifications.length}}</span></a>
+                        <a th:href="@{/master/order/notification/get}" ng-hide="notifications.length == 0" ng-cloak><span class="glyphicon glyphicon-comment" style="font-size: 22px; color: white"></span><span class="badge badge-notify" style="background: #ff6d3c">{{notifications.length}}</span></a>
                     </form>
                 </li>
                 <li>
-                    <a href="/logout">Выход <span class="glyphicon glyphicon-log-out"></span></a>
+                    <a href="/logout">Выход  <span class="glyphicon glyphicon-log-out"></span></a>
                 </li>
             </ul>
         </div>
@@ -79,7 +74,7 @@
         <h4 th:text="${'Заказ № ' + order.number + ' от ' + order.getCreated()} +' ' + ${'Статус заказа: ' + order?.getStatus().toString()}"></h4>
     </div>
     <hr>
-    <ul class="nav nav-tabs" id="myTab">
+    <ul class="nav nav-tabs" id="myTab" >
         <li class="active"><a href="#order" data-toggle="tab">Заказ</a></li>
         <li class=""><a href="#comment" data-toggle="tab">Комментарии</a></li>
         <li class=""><a href="#history" data-toggle="tab">История</a></li>
@@ -94,63 +89,52 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><strong>Менджер:</strong></span>
-                                    <input type="text" class="form-control" th:value="${order.getManager()}" readonly
-                                           style="background: white">
+                                    <input type="text" class="form-control" th:value="${order.getManager()}" readonly style="background: white">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><strong>Оплата:</strong></span>
-                                    <input type="text" class="form-control" th:value="${order.getPaymentString()}"
-                                           readonly style="background: white">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><strong>Тип платежа:</strong></span>
-                                    <input type="text" class="form-control" th:value="${order.getPaymentType()}"
-                                           readonly style="background: white">
+                                    <span class="input-group-addon"><strong>Платёж:</strong></span>
+                                    <input type="text" class="form-control" th:value="${order.getPaymentString()}" readonly style="background: white">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><strong>Тип доставки:</strong></span>
-                                    <input type="text" class="form-control" th:value="${order.getDeliveryType()}"
-                                           readonly style="background: white">
+                                    <input type="text" class="form-control" th:value="${order.getDeliveryType()}" readonly style="background: white">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><strong>Адрес доставки:</strong></span>
-                                    <input type="text" class="form-control" th:value="${order.getDelivery()}" readonly
-                                           style="background: white">
+                                    <input type="text" class="form-control" th:value="${order.getDelivery()}" readonly style="background: white">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><strong>Дата получения:</strong></span>
-                                    <input type="text" class="form-control" th:value="${order.getDateRecieved()}"
-                                           readonly style="background: white">
+                                    <input type="text" class="form-control" th:value="${order.getDateRecieved()}" readonly style="background: white">
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><strong>Дата доставки:</strong></span>
+                                    <input type="text" class="form-control" th:value="${order.getDateTransferred()}" readonly style="background: white">
+                                </div>
+                            </div>
                         </div> <!--end col-lg-8-->
                         <div class="col-lg-4">
                             <br>
                             <p align="right">
-                                <button class="btn btn-success" type="submit" form="sendOrder" style="width: 150px;"
-                                        name="sendBtn" disabled>Отправить
-                                </button>
+                                <button  class="btn btn-success"  type="submit" form="sendOrder" style="width: 150px;" name="sendBtn" disabled>Отправить</button>
                             </p>
                             <p align="right">
-                                <a th:href="@{'/master/order/' + ${order.getId()}} + '/money'"
-                                   class="btn btn-success" type="button" style="width: 150px;"
-                                   th:if="${order.getPaymentType().getCash() == true}">Получить деньги</a>
+                                <a th:href="@{'/master/order/' + ${order.getId()}} + '/money'" class="btn btn-success" type="button"  style="width: 150px;">Получить деньги</a>
                             </p>
                         </div> <!--end col-lg-4-->
                     </div>
@@ -159,65 +143,41 @@
         </div>
         <!-- Комментарии -->
         <div class="tab-pane fade col-lg-9" id="comment">
-            <div class="row" style="background-color: grey; border: solid; border-color:grey; border-radius: 5px"
-                 id="scroll">
-                <div class="comments-container">
+            <div class="row" style="background-color: grey; border: solid; border-color:grey; border-radius: 5px" >
+                <div class="comments-container" >
                     <ul id="comments-list" class="comments-list"
                         th:each="element: ${order.getComments()}">
                         <li>
                             <div class="comment-main-level">
-                                <div class="comment-avatar" th:if="${element.getCreatedBy().getAvatar() != null}"><img
-                                    class="img-responsive user-photo" th:src="${element.getCreatedBy().getAvatar()}">
-                                </div>
-                                <div class="comment-avatar" th:if="${element.getCreatedBy().getAvatar() == null}"><img
-                                    class="img-responsive user-photo"
-                                    src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                                <div class="comment-avatar" th:if="${element.getCreatedBy().getAvatar() != null}"> <img class="img-responsive user-photo" th:src="${element.getCreatedBy().getAvatar()}"></div>
+                                <div class="comment-avatar" th:if="${element.getCreatedBy().getAvatar() == null}"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
 
                                 <div class="comment-box">
                                     <div class="comment-head">
-                                        <h6 class="comment-name by-author"
-                                            th:text="${element.getCreatedBy().toString()}"></h6>
-                                        <a class="receiver" th:text="${element.getSentTo()}"
-                                           style="background: steelblue"></a>
+                                        <h6 class="comment-name by-author" th:text="${element.getCreatedBy().toString()}"></h6>
+                                        <a class="receiver" th:text="${element.getSentTo()}" style="background: steelblue"></a>
                                         <span th:text="${element.getTime()}"></span>
-                                        <span style="display: inline-block; margin-left: 5px"
-                                              th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a
-                                            th:href="@{'/order/comment/delete=' + ${element.getId()}}"
-                                            class="glyphicon glyphicon-trash"></a></span>
-                                        <span onclick="toggleComment(event)"
-                                              style="display: inline-block; margin-left: 5px"
-                                              th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a
-                                            class="glyphicon glyphicon-edit"></a></span>
-                                        <i th:if="${#authentication.principal.name != element.getCreatedBy().getName()}"
-                                           class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'"
-                                           th:id="${element}+'Btn'">Ответить</i>
+                                        <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element.getId()}}" class="glyphicon glyphicon-trash"></a></span>
+                                        <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
+                                        <i th:if="${#authentication.principal.name != element.getCreatedBy().getName()}" class="fa fa-reply" th:onclick="'showHide(\'' + ${element} + '\');'" th:id="${element}+'Btn'">Ответить</i>
                                     </div>
-                                    <!-- Основной комментарий -->
+                                    <!-- main comment -->
                                     <div class="comment-content" th:utext="${element.getContent()}"></div>
 
                                     <div class="comment-content comment-edition">
-                                        <form th:action="'/order/comment/edit=' + ${element.getId()}"
-                                              th:if="${#authentication.principal.name == element.getCreatedBy().getName()}"
-                                              method="post">
-                                            <textarea class="form-control" name="editText"
-                                                      th:utext="${element.getContent()}"></textarea>
-                                            <button class="btn btn-info btn-sm" type="submit"
-                                                    th:value="${element.getId()}" style="margin-top: 5px">Сохранить
-                                            </button>
+                                        <form th:action="'/order/comment/edit=' + ${element.getId()}" th:if="${#authentication.principal.name == element.getCreatedBy().getName()}" method="post">
+                                            <textarea class="form-control" name="editText" th:utext="${element.getContent()}"></textarea>
+                                            <button class="btn btn-info btn-sm" type="submit" th:value="${element.getId()}" style="margin-top: 5px">Сохранить</button>
                                         </form>
                                     </div>
-                                    <!-- Конец комментария-->
+                                    <!-- end of main comment-->
 
                                     <div th:id="${element}" style="display: none; " class="container-fluid">
-                                        <form th:action="'/order/comment/add='+${order.getId()}" method="post"
-                                              th:id="${element}+'Frm'">
-                                            <textarea class="form-control" th:id="${element}+'Text'"
-                                                      name="commentText"></textarea>
+                                        <form th:action="'/order/comment/add='+${order.getId()}" method="post" th:id="${element}+'Frm'">
+                                            <textarea class="form-control" th:id="${element}+'Text'" name="commentText"></textarea>
                                             <input type="hidden" name="sendTo" th:value="${element.getCreatedBy()}"/>
                                             <div style="text-align: right; margin-top: 5px">
-                                                <button class="btn btn-info btn-sm" type="submit" name="commentBtnOrder"
-                                                        th:value="${element.getId()}">Отправить
-                                                </button>
+                                                <button class="btn btn-info btn-sm" type="submit" name="commentBtnOrder" th:value="${element.getId()}">Отправить</button>
                                             </div>
                                         </form>
                                     </div>
@@ -226,76 +186,49 @@
 
                             <ul class="comments-list reply-list" th:each="element2: ${element.getAnswers()}">
                                 <li>
-                                    <div class="comment-avatar" th:if="${element2.getCreatedBy().getAvatar() != null}">
-                                        <img class="img-responsive user-photo"
-                                             th:src="${element2.getCreatedBy().getAvatar()}"></div>
-                                    <div class="comment-avatar" th:if="${element2.getCreatedBy().getAvatar() == null}">
-                                        <img class="img-responsive user-photo"
-                                             src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
+                                    <div class="comment-avatar" th:if="${element2.getCreatedBy().getAvatar() != null}"> <img class="img-responsive user-photo" th:src="${element2.getCreatedBy().getAvatar()}"></div>
+                                    <div class="comment-avatar" th:if="${element2.getCreatedBy().getAvatar() == null}"> <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"></div>
                                     <div class="comment-box">
                                         <div class="comment-head">
                                             <h6 class="comment-name" th:text="${element2.getCreatedBy()}"></h6>
                                             <span th:text="${element2.getTime()} "></span>
-                                            <span style="display: inline-block; margin-left: 5px"
-                                                  th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a
-                                                th:href="@{'/order/comment/delete=' + ${element2.getId()}}"
-                                                class="glyphicon glyphicon-trash"></a></span>
-                                            <span onclick="toggleComment(event)"
-                                                  style="display: inline-block; margin-left: 5px"
-                                                  th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a
-                                                class="glyphicon glyphicon-edit"></a></span>
+                                            <span style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a th:href="@{'/order/comment/delete=' + ${element2.getId()}}" class="glyphicon glyphicon-trash"></a></span>
+                                            <span onclick="toggleComment(event)" style="display: inline-block; margin-left: 5px" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"><a class="glyphicon glyphicon-edit"></a></span>
                                         </div>
-                                        <!-- Ответ на комментарий -->
+                                        <!-- answer comment -->
                                         <div class="comment-content" th:utext="${element2.getContent()}"></div>
 
                                         <div class="comment-content comment-edition">
-                                            <form th:action="'/order/comment/edit=' + ${element2.getId()}"
-                                                  th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}"
-                                                  method="post">
-                                                <textarea class="form-control" name="editText"
-                                                          th:utext="${element2.getContent()}"></textarea>
-                                                <button class="btn btn-info btn-sm" type="submit"
-                                                        th:value="${element2.getId()}" style="margin-top: 5px">Сохранить
-                                                </button>
+                                            <form th:action="'/order/comment/edit=' + ${element2.getId()}" th:if="${#authentication.principal.name == element2.getCreatedBy().getName()}" method="post">
+                                                <textarea class="form-control" name="editText" th:utext="${element2.getContent()}"></textarea>
+                                                <button class="btn btn-info btn-sm" type="submit" th:value="${element2.getId()}" style="margin-top: 5px">Сохранить</button>
                                             </form>
                                         </div>
-                                        <!-- Конец комментария -->
+                                        <!-- end of answer comment -->
                                     </div>
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-            </div>
-            <!-- Написать комментарий -->
-            <div class="row" style="background-color: grey; border: solid; border-color:grey; border-radius: 5px">
-                <!--Легенда-->
-                <span class="label" th:text="'Менеджер: ' + ${order?.getManager()?.getName()}" th:if="${order?.getManager()?.getName()}"></span>
-                <span class="label" th:text="'Дизайнер: ' + ${order?.getDesigner()?.getName()}" th:if="${order?.getDesigner()?.getName()}"></span>
-
+                <!-- write comment -->
                 <div class="panel-footer" ng-controller="MasterOrderController">
                     <form th:action="'/order/comment/add='+${order.getId()}" method="post">
-                        <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому"
-                               autocomplete="off" typeahead-editable="false"
-                               typeahead-on-select="typeHeadSelect($item, $model, $label, $event)"
-                               uib-typeahead="address for address in getUsers($viewValue)"
-                               typeahead-loading="loadingLocations" typeahead-no-results="noResults"
-                               class="form-control">
+                        <input name="recipient" type="text" ng-model="asyncSelected" placeholder="Кому" autocomplete="off" typeahead-editable="false" typeahead-on-select="typeHeadSelect($item, $model, $label, $event)" uib-typeahead="address for address in getUsers($viewValue)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
                         <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         <div ng-show="noResults">
                             <i class="glyphicon glyphicon-remove"></i> No Results Found
                         </div>
-                        <textarea onfocus="toggleArea1()" class="form-control" name="commentText"
-                                  placeholder="Напишите сообщение..." id="e_content" style="margin-top: 5px"></textarea>
+                        <textarea onfocus="toggleArea1()" class="form-control" name="commentText" placeholder="Напишите сообщение..." id="e_content" style="margin-top: 5px"></textarea>
                         <button class="btn btn-info btn-sm" type="submit" id="btn-chat" ng-disabled="!buttonEnabled"
                                 style="text-align: right; margin-top: 5px">Написать комментарий
                         </button>
                     </form>
                 </div>
+                <!-- end of windows-->
             </div>
         </div>
         <!-- Конец комментариев -->
-        <!-- История -->
         <div class="tab-pane fade col-lg-9" id="history">
             <table class="table table-bordered data">
                 <thead>
@@ -318,16 +251,13 @@
                 </tbody>
             </table>
         </div>
-        <!-- Конец истории -->
     </div>
     <div class="col-lg-3">
         <form class="form-horizontal">
             <div class="row" align="center" style="margin-top:4px">
                 <h4>Текущий статус</h4>
-                <h4 th:text="${order.getStatus()}" align="center"
-                    style="border:1px solid green; width: 150px; padding:5px; color:green;"></h4>
-                <h4 th:text="${order.getPaymentString()}" align="center"
-                    style="border:1px solid red; width: 150px; padding:5px; color:red;"></h4>
+                <h4 th:text="${order.getStatus()}" align="center" style="border:1px solid green; width: 150px; padding:5px; color:green;"></h4>
+                <h4 th:text="${order.getPaymentString()}" align="center" style="border:1px solid red; width: 150px; padding:5px; color:red;"></h4>
             </div>
         </form>
     </div>
@@ -361,8 +291,7 @@
                 <td th:text="${item.getAmount()}"></td>
                 <td th:text="${item.getStatusString()}" name="status"></td>
                 <td style="text-align:center">
-                    <a class="btn btn-info btn-sm"
-                       th:href="${'/master/order/' + order.getId() + '/item/' + item.getId()}" title="Открыть заказ">
+                    <a class="btn btn-info btn-sm" th:href="${'/master/order/' + order.getId() + '/item/' + item.getId()}" title="Открыть заказ">
                         <span class="glyphicon glyphicon-folder-open"> Открыть</span>
                     </a>
                 </td>
@@ -386,35 +315,35 @@
                             <div class="col-sm-6 col-md-4 profileContent">
                                 <img id="avatarImg" alt=""
                                      class="img-rounded img-responsive centre"
-                                     th:src="${#authentication.getPrincipal()?.avatar}"/>
-                                <input accept="image/*" type="file" id='avatar' name="avatar"
+                                     th:src="${#authentication.getPrincipal()?.avatar}"  />
+                                <input type="file" id='avatar' name="avatar"
                                        style="display: none"/>
-                                <label for="avatar">
+                                <label for="avatar" >
                                     <span class="btn btn-sm btn-info profileMargin">Выбрать аватар...</span>
                                 </label>
-                                <label id="avatarBtn" class="btn btn-primary profileMargin" style="display: none;">Сохранить</label>
-                                <p><span id="avatarMessage"></span></p>
+                                <label id="avatarBtn" class="btn btn-primary profileMargin" style="display: none;"  >Сохранить</label>
+                                <p> <span id = "avatarMessage"></span> </p>
                             </div>
                             <div class="col-sm-6 col-md-8">
                                 <h4
-                                    th:text="${#authentication.getPrincipal()?.firstName} +' '+ ${#authentication.getPrincipal()?.secName}">
+                                    th:text="${#authentication.getPrincipal()?.firstName} +' '+ ${#authentication.getPrincipal()?.secName}" >
                                     Name Secname</h4>
                                 <small><cite th:text="${#authentication.getPrincipal()?.created}"><i
                                     class="glyphicon glyphicon-time">
                                 </i></cite></small>
                                 <p>
-                                    <i class="glyphicon glyphicon-user"></i><span
+                                    <i class="glyphicon glyphicon-user"  ></i><span
                                     th:text="${#authentication.getPrincipal().name}"></span>
-                                    <br/>
-                                    <i class="glyphicon glyphicon-education"></i><span
+                                    <br />
+                                    <i class="glyphicon glyphicon-education"  ></i><span
                                     th:text="${#authentication.getPrincipal()?.position}"></span>
-                                    <br/>
-                                    <i class="glyphicon glyphicon-envelope"></i><span
+                                    <br />
+                                    <i class="glyphicon glyphicon-envelope"  ></i><span
                                     th:text="${#authentication.getPrincipal()?.email}"></span>
-                                    <br/>
+                                    <br />
                                     <i class="glyphicon glyphicon-phone-alt"></i><span
                                     th:text="${#authentication.getPrincipal()?.phone}"></span>
-                                    <br/>
+                                    <br />
                                     <th:block th:each="element: ${#authentication.getPrincipal()?.roles}">
                                         <i class="glyphicon glyphicon-briefcase"></i>
                                         <span th:text="${element?.name}"></span>
@@ -423,8 +352,8 @@
                                 <!-- Split button -->
 
                                 <div class="row col-sm-12">
-                                    <div class="col-sm-6 left">
-                                        <a href="#" id="changePassword">Изменить пароль</a>
+                                    <div class="col-sm-6 left" >
+                                        <a  href="#" id ="changePassword">Изменить пароль</a>
                                     </div>
 
                                     <div class="btn-group col-sm-6 profileClose">
@@ -437,34 +366,29 @@
                                 </div>
 
 
-                                <div class="row col-lg-12">
+                                <div class = "row col-lg-12">
                                     <span id="errorCurrentPass"></span>
 
                                     <div class="input-group">
                                         <input id="currentPass" class="form-control" style="display: none;margin-top:
                                                        5px"
-                                               placeholder="Текущий пароль" type="password" required>
+                                               placeholder="Текущий пароль"  type="password" required>
                                     </div>
 
                                     <div class="input-group">
                                         <input id="newPass" class="form-control profileMargin"
-                                               placeholder="Новый пароль" style="display: none" type="password"
-                                               required>
+                                               placeholder="Новый пароль" style="display: none" type="password" required >
                                     </div>
 
                                     <div class="input-group">
                                         <input id="replyPass" class="form-control profileMargin"
-                                               placeholder="Повторите пароль" style="display: none" type="password"
-                                               required>
+                                               placeholder="Повторите пароль" style="display: none" type="password" required >
                                     </div>
 
-                                    <button id="changePassBtn" class="btn btn-sm  btn-success profileMargin"
-                                            style="display: none"> Применить
+                                    <button id="changePassBtn" class="btn btn-sm  btn-success profileMargin" style="display: none" > Применить
                                     </button>
-                                    <button type="submit" id="cancelPassBtn"
-                                            class="btn btn-sm  btn-warning profileMargin"
-                                            style="display: none"> Отмена
-                                    </button>
+                                    <button type="submit" id="cancelPassBtn" class="btn btn-sm  btn-warning profileMargin"
+                                            style="display: none" > Отмена</button>
                                 </div>
 
                             </div>
@@ -483,19 +407,20 @@
 
 <script src="/js/masterScript.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-            integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-            integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 
 <script>
-    $(document).ready(function () {
+    $(document).ready( function() {
         $('#example').DataTable({
-            "scrollY": "200px",
+            "scrollY":        "200px",
             "scrollCollapse": true,
-            "paging": false,
+            "paging":         false,
             "oLanguage": {
                 "sLengthMenu": "Показать _MENU_ записей на странице",
                 "sZeroRecords": "Извините - ничего не найдено",
@@ -510,27 +435,20 @@
 
 <!--переключение вкладок при создании комментария и открытии заказа с комментарием-->
 <script th:inline="javascript">
-    $(document).ready(function () {
-        var tab = [[${tabIndex}]];
-        var x = getQueryParam('tabIndex');
-
-        if (x < 0) {
+    var tab = [[${tabIndex}]];
+    var x = getQueryParam('tabIndex');
+    if (x < 0) {
+        $("#myTab2 li:eq(0) a").tab('show');
+    }
+    if (tab != null ) {
+        $('#myTab2 li:eq('+tab +') a').tab('show');
+    } else {
+        if (x > 0) {
+            $('#myTab2 li:eq('+x +') a').tab('show');
+        } else {
             $("#myTab2 li:eq(0) a").tab('show');
         }
-
-        if (tab != null) {
-            $('#myTab2 li:eq(' + tab + ') a').tab('show');
-
-        } else {
-
-            if (x > 0) {
-                $('#myTab2 li:eq(' + x + ') a').tab('show');
-            } else {
-                $("#myTab2 li:eq(0) a").tab('show');
-            }
-        }
-    })
-
+    }
 </script>
 
 <script src="/js/profile.js"></script>
