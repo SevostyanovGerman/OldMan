@@ -142,7 +142,6 @@
                                 <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                     <img th:src="${image?.getSmallImage()}" height="75">
                                 </a>
-                                <p th:text="${image?.getFileName()}"></p>
                             </th:block>
 
                             <th:block th:if="${image?.getSmallImage()} == null">
@@ -171,17 +170,11 @@
                                 <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                     <img th:src="${file?.getSmallImage()}" height="75">
                                 </a>
-                                <p th:text="${file?.getFileName()}"></p>
                             </th:block>
 
                             <th:block th:if="${file?.getSmallImage()} == null">
                                 <p> <h3><a th:href="${file?.getImage()}"  th:text="${file?.getFileName()}"  th:attr="download= ${file?.getFileName()}"></a></h3> </p>
                             </th:block>
-
-                            <!---->
-                            <!--<a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">-->
-                                <!--<img th:src="${file?.getSmallImage()}" height="75">-->
-                            <!--</a>-->
 
                             <a class="btn btn-danger btn-xs btn-delete" data-toggle="modal" th:href="${'#modalDeleteImage_' + file.getId()}" title="Удалить изображение">
                                 <span class="glyphicon glyphicon-remove"></span>
@@ -351,13 +344,6 @@
     });
 </script>
 <script src="/js/profile.js"></script>
-
-<!--Уведомление о загрузке всех файлов-->
-<script>
-    function downloadAllFiles() {
-        alert("Файлы загружены в папку \"Загрузки\".");
-    }
-</script>
 
 </body>
 </html>

@@ -111,7 +111,6 @@
                                 <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                     <img th:src="${file?.getSmallImage()}" height="75">
                                 </a>
-                                <p th:text="${file?.getFileName()}"></p>
                             </th:block>
 
                             <th:block th:if="${file?.getSmallImage()} == null">
@@ -138,10 +137,9 @@
                         <ul class="show-image" th:each="image: ${item?.getImages()}">
 
                             <th:block th:if="${image?.getSmallImage()} != null">
-                            <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
-                                <img th:src="${image?.getSmallImage()}" height="75">
-                            </a>
-                            <p th:text="${image?.getFileName()}"></p>
+                                <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                    <img th:src="${image?.getSmallImage()}" height="75">
+                                </a>
                             </th:block>
 
                             <th:block th:if="${image?.getSmallImage()} == null">
@@ -203,8 +201,6 @@
 <!-- Профиль модальное окно -->
 <div id="userProfile" class="modal  ">
     <div class="modal-dialog">
-
-
         <div class="container">
             <div class="row">
                 <div class="col-xs-12 col-sm-6 col-md-6">
