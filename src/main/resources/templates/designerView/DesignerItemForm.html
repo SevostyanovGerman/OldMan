@@ -101,17 +101,26 @@
                     <h4 align="left">Комментарий к позиции заказа</h4>
                     <textarea class="form-control" rows="3" th:text="${item.comment}" readonly style="background: white"></textarea>
                 </div>
-
                 <th:block th:if="${item?.getFiles()}">
                     <div>
                         <h4>Изображения от пользователя:</h4>
                         <ul class="show-image" th:each="file: ${item?.getFiles()}">
                             <br>
-                            <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
-                                <img th:src="${file?.getSmallImage()}" height="75">
-                            </a>
+
+                            <th:block th:if="${file?.getSmallImage()} != null">
+                                <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                    <img th:src="${file?.getSmallImage()}" height="75">
+                                </a>
+                                <p th:text="${file?.getFileName()}"></p>
+                            </th:block>
+
+                            <th:block th:if="${file?.getSmallImage()} == null">
+                                <p> <h3><a th:href="${file?.getImage()}"  th:text="${file?.getFileName()}"  th:attr="download= ${file?.getFileName()}"></a></h3> </p>
+                            </th:block>
+
                             <a class="btn btn-primary btn-xs btn-download" th:href="${file?.getImage()}"
-                               title="Скачать один файл" download="CustomerImage.jpg">
+                               title="Скачать один файл"  th:attr="download= ${file?.getFileName()}">
+                                <!--download="CustomerImage.jpg"-->
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>
@@ -126,15 +135,24 @@
                     <div>
                         <h4>Изображения от дизайнера:</h4>
                         <ul class="show-image" th:each="image: ${item?.getImages()}">
+
+                            <th:block th:if="${image?.getSmallImage()} != null">
                             <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                 <img th:src="${image?.getSmallImage()}" height="75">
                             </a>
+                            <p th:text="${image?.getFileName()}"></p>
+                            </th:block>
+
+                            <th:block th:if="${image?.getSmallImage()} == null">
+                              <p> <h3><a th:href="${image?.getImage()}"  th:text="${image?.getFileName()}"  th:attr="download= ${image?.getFileName()}"></a></h3> </p>
+                            </th:block>
+
                             <a class="btn btn-danger btn-xs btn-delete" data-toggle="modal" th:href="${'#modalDeleteImage_' + image.getId()}"
                                 title="Удалить изображение">
                                 <span class="glyphicon glyphicon-remove"></span>
                             </a>
                             <a class="btn btn-primary btn-xs btn-download" title="Скачать один файл" th:href="${image?.getImage()}"
-                                download="DesignerImage.jpg">
+                                th:attr="download= ${image?.getFileName()}">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
 
@@ -161,7 +179,7 @@
                     <hr>
                 </th:block>
                 <h4>Добавить файлы</h4>
-                <input type="file" id='fileMulti' name="uploadDesignerFiles" onchange="ValidationFileSize()" multiple="multiple" style="display: none" accept="image/*"/>
+                <input type="file" id='fileMulti' name="uploadDesignerFiles" onchange="ValidationFileSize()" multiple="multiple" style="display: none" />
                 <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный загружаемый размер одного файла: 50 Мбайт. &#013;Разрешенные расширения файлов: jpeg, jpg, png, gif.">
                     <span>Обзор...</span>
                 </label>

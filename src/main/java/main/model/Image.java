@@ -39,7 +39,12 @@ public class Image {
 	@Column(name = "formatType")
 	private String formatType;
 
+	@Column(name = "isImage")
+	private boolean isImage;
+
 	public Image() {
+
+		this.isImage = false;
 	}
 
 	public String getImageType() {
@@ -87,14 +92,33 @@ public class Image {
 	}
 
 	public String getImage() throws IOException, SQLException {
-		return "data:image/" + this.formatType + ";base64," + convertToBase64(this.image.getBinaryStream(),
-			this.formatType);
+		try {
+			if (this.image != null) {
+				if (isImage) {
+					return "data:image/" + this.formatType + ";base64," + convertToBase64(this.image.getBinaryStream(),
+						this.formatType);
+				} else {
+					byte[] bytes = this.image.getBytes(1, (int) this.image.length());
+					String encodedURL = java.util.Base64.getEncoder().encodeToString(bytes);
+					return "data:file/" + this.formatType + ";base64," + encodedURL;
+				}
+			}
+		} catch (Exception e) {
 
+		}
+		return null;
 	}
 
 	public String getSmallImage() throws IOException, SQLException {
-		return "data:image/" + this.formatType + ";base64," + convertToBase64(this.smallImage.getBinaryStream(),
-			this.formatType);
+		if (this.smallImage != null) {
+			if (isImage) {
+				return "data:image/" + this.formatType + ";base64," + convertToBase64(this.smallImage.getBinaryStream(),
+					this.formatType);
+			} else {
+				return null;
+			}
+		}
+		return null;
 	}
 
 	private String convertToBase64(InputStream inputStream, String type) throws IOException {
@@ -116,6 +140,14 @@ public class Image {
 		this.formatType = formatType;
 	}
 
+	public boolean isImage() {
+		return isImage;
+	}
+
+	public void setIsImage(boolean image) {
+		isImage = image;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -127,6 +159,9 @@ public class Image {
 
 		Image image1 = (Image) o;
 
+		if (isImage != image1.isImage) {
+			return false;
+		}
 		if (id != null ? !id.equals(image1.id) : image1.id != null) {
 			return false;
 		}
@@ -153,6 +188,7 @@ public class Image {
 		result = 31 * result + (imageType != null ? imageType.hashCode() : 0);
 		result = 31 * result + (fileName != null ? fileName.hashCode() : 0);
 		result = 31 * result + (formatType != null ? formatType.hashCode() : 0);
+		result = 31 * result + (isImage ? 1 : 0);
 		return result;
 	}
 }
