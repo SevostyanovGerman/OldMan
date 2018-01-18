@@ -1,6 +1,9 @@
 package main.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class DesignerController {
@@ -141,44 +147,52 @@ public class DesignerController {
 		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
 	}
 
-	//Загрузка на компьютер всех файлов заказчика
-	@RequestMapping(value = "/designer/downloadAllFiles/{orderId}/{itemId}", method = RequestMethod.GET)
-	public ModelAndView downloadAllFiles(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
-		List<Image> customerFileList = itemService.get(itemId).getFiles();
+	//Архивирование и загрузка на компьютер всех файлов дизайнера
+	@RequestMapping(value = "/designer/downloadZipImage/{itemId}", method = RequestMethod.GET)
+	public StreamingResponseBody downloadZipImages(@PathVariable("itemId") Long itemId, HttpServletResponse response){
+		List<Image> designerImageList = itemService.get(itemId).getImages();
 		try {
-			imageService.downloadAllFiles(customerFileList);
-		} catch (IOException ioe) {
-			logger.error("Ошибка в чтении файла: " + ioe);
-		} catch (SQLException sqle) {
-			logger.error("Ошибка выборки из базы данных: " + sqle);
-		}
-		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
-	}
-
-	//Загрузка на компьютер всех файлов дизайнера
-	@RequestMapping(value = "/designer/downloadAllImages/{orderId}/{itemId}", method = RequestMethod.GET)
-	public ModelAndView downloadAllImages(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId) {
-		List<Image> designerFileList = itemService.get(itemId).getImages();
-		try {
-			imageService.downloadAllFiles(designerFileList);
+			File downloadFile = imageService.zipFiles(designerImageList);
+			InputStream inputStream = new FileInputStream(downloadFile);
+			response.setContentType("application/zip");
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
+			return outputStream -> {
+				int nRead;
+				byte[] data = new byte[1024];
+				while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+					outputStream.write(data, 0, nRead);
+				}
+			};
 		} catch (IOException | SQLException ex) {
-			for (Image image : designerFileList) {
+			for (Image image : designerImageList) {
 				logger.error("Error reading file from database: " + image.getFileName());
 			}
 		}
-		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
+		return null;
 	}
 
-	//Загрузка на компьютер одного файла
-	@RequestMapping(value = "/designer/downloadOneFile/{orderId}/{itemId}/{fileId}", method = RequestMethod.GET)
-	public ModelAndView downloadOneFile(@PathVariable("orderId") Long orderId, @PathVariable("itemId") Long itemId,
-		@PathVariable("fileId") Long fileId) {
+	//Архивирование и загрузка на компьютер всех файлов заказчик
+	@RequestMapping(value = "/designer/downloadZipFiles/{itemId}", method = RequestMethod.GET)
+	public StreamingResponseBody downloadZipFiles(@PathVariable("itemId") Long itemId, HttpServletResponse response){
+		List<Image> customerFileList = itemService.get(itemId).getFiles();
 		try {
-			imageService.downloadOneFile(imageService.get(fileId));
+			File downloadFile = imageService.zipFiles(customerFileList);
+			InputStream inputStream = new FileInputStream(downloadFile);
+			response.setContentType("application/zip");
+			response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
+			return outputStream -> {
+				int nRead;
+				byte[] data = new byte[1024];
+				while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+					outputStream.write(data, 0, nRead);
+				}
+			};
 		} catch (IOException | SQLException ex) {
-			logger.error("Error reading file from database: " + imageService.get(fileId).getFileName());
+			for (Image image : customerFileList) {
+				logger.error("Error reading file from database: " + image.getFileName());
+			}
 		}
-		return new ModelAndView("redirect:/designer/order/item/" + orderId + "/" + itemId);
+		return null;
 	}
 
 	//Выборка тех заказов где есть уведомления для конкретного пользователя

@@ -125,8 +125,9 @@
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllFiles/'+order.getId()+'/'+item.getId()}"
-                       title="Скачать все файлы на компьютер" onclick="downloadAllFiles()">Скачать все файлы</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadZipFiles/' + item.getId()}"
+                       title="Скачать все файлы на компьютер">Скачать все файлы</a>
+                    <hr>
                 </th:block>
             </div> <!--end col-lg-6-->
 
@@ -174,8 +175,8 @@
                             </div> <!--- end modal -->
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadAllImages/'+order.getId()+'/'+item.getId()}"
-                        title="Скачать все файлы на компьютер" onclick="downloadAllFiles()">Скачать все файлы</a>
+                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadZipImage/' + item.getId()}"
+                       title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </th:block>
                 <h4>Добавить файлы</h4>

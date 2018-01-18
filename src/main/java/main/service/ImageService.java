@@ -1,5 +1,6 @@
 package main.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -19,4 +20,6 @@ public interface ImageService {
 	void downloadAllFiles(List<Image> downloadFiles) throws IOException, SQLException;
 
 	void downloadOneFile(Image downloadFile) throws IOException, SQLException;
+
+	File zipFiles (List<Image> downloadFiles) throws IOException, SQLException;
 }
