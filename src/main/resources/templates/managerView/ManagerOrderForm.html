@@ -82,44 +82,30 @@
                     <div class="tab-content">
                         <div class="tab-pane active " id="tabItem" role="tabpanel">
                             <br>
-                            <div class="container-fluid  col-lg-12" style="margin-bottom: 5px">
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <span class="input-group-addon customerField"
-                                             th:if="${order?.getDesigner()?.toString()}"   th:text="'Дизайнер: ' + ${order?.getDesigner()?.toString()}"
-                                              style="width: 100%; text-align: center"></span>
-                                        <span class="input-group-addon customerField"
-                                              th:if="${order?.getDesigner()?.toString() == null}"
-                                               style="width: 100%; text-align: center">Дизайнер: --</span>
-                                        <a href="#designerModal" class="form-control btn-info" data-toggle="modal">...</a>
-                                    </div>
+                            <div class="row col-lg-12" style="text-align: center;padding-bottom: 10px">
+                                <div  class="col-lg-4">
+                                    <b><span style="color: darkorange;">Дизайнер:</span></b>
+                                    <span  th:if="${order?.getDesigner()?.toString()}" th:text="${order?.getDesigner()?.toString()}" ></span>
+                                    <span  th:if="${order?.getDesigner()} == null" >--</span>
+
+                                    <span href="#designerModal" data-toggle="modal" class="badge" style="background-color: #269abc;cursor: pointer;">...</span>
                                 </div>
-                                     <div class="col-lg-4" sec:authorize="hasAuthority('BOSS')">
-                                         <div class="input-group ">
-                                            <span class="input-group-addon customerField"
-                                              th:if="${order?.getManager()?.toString()}" th:text="'Менеджер: ' + ${order?.getManager()?.toString()}"
-                                              style="width: 100%; text-align: center; font: bold"></span>
+                                <div  class="col-lg-4" sec:authorize="hasAuthority('BOSS')">
+                                    <b><span style="color: darkorange;">Менеджер:</span></b>
+                                    <span  th:if="${order?.getManager()?.toString()}"  th:text="${order?.getManager()?.toString()}"></span>
+                                    <span  th:if="${order?.getManager()} == null" >--</span>
+                                    <span class="badge" href="#managerModal" data-toggle="modal"  style="background-color: #269abc;cursor: pointer;">...</span>
 
-                                              <span class="input-group-addon customerField"
-                                              th:if="${order?.getManager()?.toString() == null}"
-                                              style="width: 100%; text-align: center">Менеджер: --</span>
-
-                                            <a href="#managerModal" class="form-control btn-info" data-toggle="modal">...</a>
-                                    </div>
                                 </div>
-                                    <div class="col-lg-4">
-                                    <div class="input-group ">
-                                        <span class="input-group-addon customerField"
-                                                th:if="${order?.getMaster()?.toString()}"  th:text="'Мастер: ' + ${order?.getMaster()?.toString()}"
-                                                style="width: 100%; text-align: center; font: bold"></span>
-                                        <span class="input-group-addon customerField"
-                                              th:if="${order?.getMaster()?.toString() == null}"
-                                              style="width: 100%; text-align: center">Мастер: --</span>
 
-                                        <a href="#masterModal" class="form-control btn-info" data-toggle="modal">...</a>
-                                    </div>
+                                <div  class="col-lg-4">
+                                    <b><span style="color: darkorange;">Мастер:</span></b>
+                                    <span  th:if="${order?.getMaster()?.toString()}" th:text="${order?.getMaster()?.toString()}"></span>
+                                    <span  th:if="${order?.getMaster()}==null">--</span>
+                                    <span class="badge" href="#masterModal" data-toggle="modal"  style="background-color: #269abc;cursor: pointer;">...</span>
                                 </div>
                             </div>
+
                             <br>
                             <div  id="formItemTable"  >
                             <table class="table table-bordered data" text-align="center" >
@@ -180,7 +166,6 @@
                                 </tbody>
                             </table>
                                 <div class="row">
-                                    <!--<div class="col-sm-9"></div>-->
                                     <div class="col-sm-3 col-sm-offset-9" align="Right">
                                         <a class="btn btn-success" title="Добавить позицию к заказу"
                                            th:href="${'/manager/order/addItem/'+order.getId()}">Новая позиция</a>
@@ -651,8 +636,9 @@
                         <div class="col-xs-6">
                             <div class="input-group">
                                 <span class="input-group-addon"></span>
-                                <input type="text" class="form-control" required="required" pattern="[0-9]{3,12}" th:field="*{phone}">
+                                <input type="text" class="form-control" required="required" pattern="^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,20}(\s*)?$"th:field="*{phone}">
                             </div>
+                            <div style=" font-size: 1.2rem; color: rgba(0,0,0,.5);">Пример +7(123)4567890</div>
                             <span class="glyphicon form-control-feedback"></span>
                         </div>
                     </div>
@@ -698,7 +684,7 @@
                             <div class="col-xs-6">
                                 <div class="input-group">
                                     <span class="input-group-addon"></span>
-                                    <input type="text" class="form-control" required="required" pattern="[0-9]{3,}"
+                                    <input type="text" class="form-control" required="required" pattern="^[\d]{3,6}$"
                                            th:field="*{zip}">
                                 </div>
                                 <span class="glyphicon form-control-feedback"></span>

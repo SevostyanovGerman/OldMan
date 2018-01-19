@@ -36,6 +36,7 @@ public class Image {
 	@Column(name = "file_name")
 	private String fileName;
 
+	//расширение файла
 	@Column(name = "formatType")
 	private String formatType;
 
