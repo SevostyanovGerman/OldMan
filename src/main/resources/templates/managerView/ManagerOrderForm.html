@@ -124,12 +124,12 @@
                                 <tbody>
                                     <tr th:each="item, stat : ${order.getItems()}">
                                         <td th:text="${stat.count}"></td>
-                                        <td th:text="${item.product.getProductName()}"></td>
-                                        <td th:text="${item.phoneModel.getModelName()}"></td>
-                                        <td th:text="${item.getMaterial()}"></td>
-                                        <td th:text="${item.getCount()}"></td>
-                                        <td th:text="${item.getPrice()}"></td>
-                                        <td th:text="${item.getAmount()}"></td>
+                                        <td th:text="${item?.product?.getProductName()}"></td>
+                                        <td th:text="${item?.phoneModel?.getModelName()}"></td>
+                                        <td th:text="${item?.getMaterial()}"></td>
+                                        <td th:text="${item?.getCount()}"></td>
+                                        <td th:text="${item?.getPrice()}"></td>
+                                        <td th:text="${item?.getAmount()}"></td>
                                         <td align="center">
                                             <a class="btn btn btn-info btn-xs"
                                                th:href="${'/manager/item/update/'+ order.getId()+'/'+item.getId()}"
