@@ -350,15 +350,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item, stat : ${order.getItems()}">
-                <td th:text="${stat.count}"></td>
-                <td th:text="${item.product.getProductName()}"></td>
-                <td th:text="${item.phoneModel.getModelName()}"></td>
-                <td th:text="${item.getMaterial()}"></td>
-                <td th:text="${item.getCount()}"></td>
-                <td th:text="${item.getPrice()}"></td>
-                <td th:text="${item.getAmount()}"></td>
-                <td th:text="${item.getStatusString()}" name="status"></td>
+            <tr th:each="item, stat : ${order?.getItems()}">
+                <td th:text="${stat?.count}"></td>
+                <td th:text="${item?.product?.getProductName()}"></td>
+                <td th:text="${item?.phoneModel?.getModelName()}"></td>
+                <td th:text="${item?.getMaterial()}"></td>
+                <td th:text="${item?.getCount()}"></td>
+                <td th:text="${item?.getPrice()}"></td>
+                <td th:text="${item?.getAmount()}"></td>
+                <td th:text="${item?.getStatusString()}" name="status"></td>
                 <td style="text-align:center">
                     <a class="btn btn-info btn-sm"
                        th:href="${'/master/order/' + order.getId() + '/item/' + item.getId()}" title="Открыть заказ">

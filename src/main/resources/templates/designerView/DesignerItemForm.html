@@ -72,7 +72,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><strong>Тип продукта:</strong></span>
-                        <input type="text" class="form-control" th:value="${item.product.getProductName()}" readonly style="background: white">
+                        <input type="text" class="form-control" th:value="${item?.product?.getProductName()}" readonly style="background: white">
                     </div>
                 </div>
 
@@ -86,7 +86,7 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon"><strong>Модель телефона:</strong></span>
-                        <input type="text" class="form-control" th:value="${item.phoneModel.getModelName()}" readonly style="background: white">
+                        <input type="text" class="form-control" th:value="${item?.phoneModel?.getModelName()}" readonly style="background: white">
                     </div>
                 </div>
 
@@ -108,9 +108,9 @@
                             <br>
 
                             <th:block th:if="${file?.getSmallImage()} != null">
-                                <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                               <p> <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                     <img th:src="${file?.getSmallImage()}" height="75">
-                                </a>
+                                </a></p>
                             </th:block>
 
                             <th:block th:if="${file?.getSmallImage()} == null">
@@ -124,7 +124,8 @@
                             </a>
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadZipFiles/' + item.getId()}"
+                    <br>
+                    <a th:if="${item?.getFiles()?.size() > 0}" class="btn btn-info btn-xs" th:href="${'/designer/downloadZipFiles/' + item.getId()}"
                        title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </th:block>
@@ -137,9 +138,10 @@
                         <ul class="show-image" th:each="image: ${item?.getImages()}">
 
                             <th:block th:if="${image?.getSmallImage()} != null">
-                                <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                                <p>  <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                     <img th:src="${image?.getSmallImage()}" height="75">
                                 </a>
+                              </p>
                             </th:block>
 
                             <th:block th:if="${image?.getSmallImage()} == null">
@@ -173,7 +175,8 @@
                             </div> <!--- end modal -->
                         </ul>
                     </div>
-                    <a class="btn btn-info btn-xs" th:href="${'/designer/downloadZipImage/' + item.getId()}"
+                    <br>
+                    <a th:if="${item?.getImages()?.size() > 0}" class="btn btn-info btn-xs" th:href="${'/designer/downloadZipImage/' + item.getId()}"
                        title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </th:block>
@@ -182,9 +185,14 @@
                 <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный загружаемый размер одного файла: 50 Мбайт. &#013;Разрешенные расширения файлов: jpeg, jpg, png, gif.">
                     <span>Обзор...</span>
                 </label>
+
                 <br/>
                 <span id="outputMulti"></span>
+
+
+
             </div> <!--end col-lg-6-->
+
             <div class="col-lg-12">
                 <hr>
                 <div class="form-group" align="center">
@@ -195,7 +203,6 @@
         </form> <!--end form-->
     </div> <!--end row-->
 </div> <!--end container-->
-
 
 
 <!-- Профиль модальное окно -->

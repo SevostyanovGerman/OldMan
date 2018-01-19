@@ -85,13 +85,13 @@
                             <th>Статус</th>
                             <th></th>
                         </tr>
-                        <tr th:each ="item, stat: ${order.getItems()}">
+                        <tr th:each ="item, stat: ${order?.getItems()}">
                             <td th:text="${stat.count}"> </td>
-                            <td th:text="${item.product.getProductName()}"></td>
-                            <td th:text="${item.getCount()}"></td>
-                            <td th:text="${item.phoneModel.getModelName()}"></td>
-                            <td th:text="${item.getMaterial()}"></td>
-                            <td th:text="${item.getStatusString()}" name="status" th:value="${item.getStatus()}"></td>
+                            <td th:text="${item?.product?.getProductName()}"></td>
+                            <td th:text="${item?.getCount()}"></td>
+                            <td th:text="${item?.phoneModel?.getModelName()}"></td>
+                            <td th:text="${item?.getMaterial()}"></td>
+                            <td th:text="${item?.getStatusString()}" name="status" th:value="${item.getStatus()}"></td>
                             <td align="center">
                                 <a class="btn btn-info btn-sm" th:href="${'/designer/order/item/' + order.getId() + '/' + item.getId()}" title="Открыть заказ">
                                     <span class="glyphicon glyphicon-folder-open"> Открыть</span>

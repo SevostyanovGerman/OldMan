@@ -139,9 +139,9 @@
                         <ul class="show-image" th:each="image: ${item?.getImages()}">
 
                             <th:block th:if="${image?.getSmallImage()} != null">
-                                <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                              <p> <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                     <img th:src="${image?.getSmallImage()}" height="75">
-                                </a>
+                                </a></p>
                             </th:block>
 
                             <th:block th:if="${image?.getSmallImage()} == null">
@@ -154,7 +154,8 @@
                         </ul>
                     </div>
 
-                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadZipImage/' + item.getId()}"
+                    <br>
+                    <a th:if="${item?.getImages()?.size() > 0}" class="btn btn-info btn-xs" th:href="${'/manager/downloadZipImage/' + item.getId()}"
                        title="Скачать все файлы на компьютер">Скачать все файлы</a>
 
                     <hr>
@@ -167,9 +168,9 @@
                             <br>
 
                             <th:block th:if="${file?.getSmallImage()} != null">
-                                <a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
+                               <p><a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
                                     <img th:src="${file?.getSmallImage()}" height="75">
-                                </a>
+                                </a></p>
                             </th:block>
 
                             <th:block th:if="${file?.getSmallImage()} == null">
@@ -204,7 +205,8 @@
                         </ul>
                     </div>
 
-                    <a class="btn btn-info btn-xs" th:href="${'/manager/downloadZipFiles/' + item.getId()}"
+                    <br>
+                    <a th:if="${item?.getFiles()?.size() > 0}" class="btn btn-info btn-xs" th:href="${'/manager/downloadZipFiles/' + item.getId()}"
                        title="Скачать все файлы на компьютер">Скачать все файлы</a>
                     <hr>
                 </th:block>

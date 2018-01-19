@@ -119,6 +119,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
+	//не используется
 	public void downloadAllFiles(List<Image> downloadFiles) throws IOException, SQLException {
 		String pathDownloadDirectory;
 		if (downloadFiles.size() != 0) {
@@ -143,6 +144,7 @@ public class ImageServiceImpl implements ImageService {
 	}
 
 	@Override
+	//не используется
 	public void downloadOneFile(Image downloadFile) throws IOException, SQLException {
 		String pathDownloadDirectory;
 		if (downloadFile != null) {
