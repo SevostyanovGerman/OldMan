@@ -1,9 +1,13 @@
 package main.service;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.zip.ZipOutputStream;
+
 import main.model.Image;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 

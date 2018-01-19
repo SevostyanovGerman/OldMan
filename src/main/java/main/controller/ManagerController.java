@@ -32,6 +32,7 @@ import main.service.PhoneModelService;
 import main.service.ProductService;
 import main.service.StatusService;
 import main.service.UserService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -494,10 +495,9 @@ public class ManagerController {
 	public StreamingResponseBody downloadZipImages(@PathVariable("itemId") Long itemId, HttpServletResponse response){
 		List<Image> designerImageList = itemService.get(itemId).getImages();
 		try {
-			File downloadFile = imageService.zipFiles(designerImageList);
-			InputStream inputStream = new FileInputStream(downloadFile);
+			InputStream inputStream = new FileInputStream(imageService.zipFiles(designerImageList));
 			response.setContentType("application/zip");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"archive.zip\"");
 			return outputStream -> {
 				int nRead;
 				byte[] data = new byte[1024];
@@ -513,15 +513,14 @@ public class ManagerController {
 		return null;
 	}
 
-	//Архивирование и загрузка на компьютер всех файлов заказчик
+	//Архивирование и загрузка на компьютер всех файлов заказчика
 	@RequestMapping(value = "/manager/downloadZipFiles/{itemId}", method = RequestMethod.GET)
 	public StreamingResponseBody downloadZipFiles(@PathVariable("itemId") Long itemId, HttpServletResponse response){
 		List<Image> customerFileList = itemService.get(itemId).getFiles();
 		try {
-			File downloadFile = imageService.zipFiles(customerFileList);
-			InputStream inputStream = new FileInputStream(downloadFile);
+			InputStream inputStream = new FileInputStream(imageService.zipFiles(customerFileList));
 			response.setContentType("application/zip");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"archive.zip\"");
 			return outputStream -> {
 				int nRead;
 				byte[] data = new byte[1024];

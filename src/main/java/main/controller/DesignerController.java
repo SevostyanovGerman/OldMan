@@ -152,10 +152,9 @@ public class DesignerController {
 	public StreamingResponseBody downloadZipImages(@PathVariable("itemId") Long itemId, HttpServletResponse response){
 		List<Image> designerImageList = itemService.get(itemId).getImages();
 		try {
-			File downloadFile = imageService.zipFiles(designerImageList);
-			InputStream inputStream = new FileInputStream(downloadFile);
+			InputStream inputStream = new FileInputStream(imageService.zipFiles(designerImageList));
 			response.setContentType("application/zip");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"archive.zip\"");
 			return outputStream -> {
 				int nRead;
 				byte[] data = new byte[1024];
@@ -176,10 +175,9 @@ public class DesignerController {
 	public StreamingResponseBody downloadZipFiles(@PathVariable("itemId") Long itemId, HttpServletResponse response){
 		List<Image> customerFileList = itemService.get(itemId).getFiles();
 		try {
-			File downloadFile = imageService.zipFiles(customerFileList);
-			InputStream inputStream = new FileInputStream(downloadFile);
+			InputStream inputStream = new FileInputStream(imageService.zipFiles(customerFileList));
 			response.setContentType("application/zip");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"archive.zip\"");
 			return outputStream -> {
 				int nRead;
 				byte[] data = new byte[1024];

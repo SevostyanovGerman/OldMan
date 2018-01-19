@@ -109,7 +109,7 @@
                                 <img th:src="${image?.getSmallImage()}" height="75">
                             </a>
                             <a class="btn btn-primary btn-xs btn-download" th:href="${image?.getImage()}"
-                                title="Скачать один файл" download="DesignerImage.jpg">
+                                title="Скачать один файл" th:attr="download=${image?.getFileName()}">
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </ul>

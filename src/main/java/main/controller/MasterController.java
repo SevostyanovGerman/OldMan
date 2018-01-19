@@ -186,10 +186,9 @@ public class MasterController {
 	public StreamingResponseBody downloadZipImages(@PathVariable("itemId") Long itemId, HttpServletResponse response){
 		List<Image> designerImageList = itemService.get(itemId).getImages();
 		try {
-			File downloadFile = imageService.zipFiles(designerImageList);
-			InputStream inputStream = new FileInputStream(downloadFile);
+			InputStream inputStream = new FileInputStream(imageService.zipFiles(designerImageList));
 			response.setContentType("application/zip");
-			response.setHeader("Content-Disposition", "attachment; filename=\"" + downloadFile.getName() + "\"");
+			response.setHeader("Content-Disposition", "attachment; filename=\"archive.zip\"");
 			return outputStream -> {
 				int nRead;
 				byte[] data = new byte[1024];
