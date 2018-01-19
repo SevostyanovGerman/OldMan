@@ -168,8 +168,8 @@ public class ImageServiceImpl implements ImageService {
 
 	@Override
 	public File zipFiles(List<Image> downloadFiles) throws IOException, SQLException {
-		File zipFile = new File("archive.zip");
-		FileOutputStream fos = new FileOutputStream(zipFile);
+		File tempZipFile = File.createTempFile("archive_tmp", ".zip");
+		FileOutputStream fos = new FileOutputStream(tempZipFile);
 		ZipOutputStream zos = new ZipOutputStream(fos);
 		for (Image downloadFile : downloadFiles) {
 			InputStream inputStream = downloadFile.getBlobFile().getBinaryStream();
@@ -183,6 +183,6 @@ public class ImageServiceImpl implements ImageService {
 		}
 		zos.close();
 		logger.debug("Files compressed to zip");
-		return zipFile;
+		return tempZipFile;
 	}
 }
