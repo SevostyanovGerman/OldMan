@@ -140,13 +140,20 @@
 
                             <th:block th:if="${image?.getSmallImage()} != null">
                               <p> <a th:href="${image?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
-                                    <img th:src="${image?.getSmallImage()}" height="75">
+                                    <img th:src="${image?.getSmallImage()}" height="75" th:title="${image?.getFileName()}">
                                 </a></p>
+                                <p th:if="${image?.getFileName().length()}>6" th:text="${#strings.substring(image?.getFileName(), 0, 6)}"></p>
+                                <p th:if="${image?.getFileName().length()}<6" th:text="${image?.getFileName()}"></p>
+
                             </th:block>
 
                             <th:block th:if="${image?.getSmallImage()} == null">
-                                <p> <h3><a th:href="${image?.getImage()}"  th:text="${image?.getFileName()}"  th:attr="download= ${image?.getFileName()}"></a></h3> </p>
+                                <p><img src="/images/file.jpg" height="75" th:title="${image?.getFileName()}"></p>
+                                <p th:if="${image?.getFileName().length()}>6" th:text="${#strings.substring(image?.getFileName(), 0, 6)}"></p>
+                                <p th:if="${image?.getFileName().length()}<6" th:text="${image?.getFileName()}"></p>
+
                             </th:block>
+
                             <a class="btn btn-primary btn-xs btn-download" th:href="${image?.getImage()}"
                                 title="Скачать один файл" th:attr="download= ${image?.getFileName()}">
                                 <span class="glyphicon glyphicon-download"></span>
@@ -169,12 +176,18 @@
 
                             <th:block th:if="${file?.getSmallImage()} != null">
                                <p><a th:href="${file?.getSmallImage()}" data-toggle="lightbox" data-gallery="mygallery">
-                                    <img th:src="${file?.getSmallImage()}" height="75">
+                                    <img th:src="${file?.getSmallImage()}" height="75" th:title="${file?.getFileName()}">
                                 </a></p>
+                                <p th:if="${file?.getFileName()?.length()} > 6" th:text="${#strings.substring(file?.getFileName(), 0, 6)}"></p>
+                                <p th:if="${file?.getFileName()?.length()} < 6" th:text="${file?.getFileName()}"></p>
+
                             </th:block>
 
                             <th:block th:if="${file?.getSmallImage()} == null">
-                                <p> <h3><a th:href="${file?.getImage()}"  th:text="${file?.getFileName()}"  th:attr="download= ${file?.getFileName()}"></a></h3> </p>
+                                <p><img src="/images/file.jpg" height="75" th:title="${file?.getFileName()}"></p>
+                                <p th:if="${file?.getFileName()?.length()}>6" th:text="${#strings.substring(file?.getFileName(), 0, 6)}"></p>
+                                <p th:if="${file?.getFileName()?.length()}<6" th:text="${file?.getFileName()}"></p>
+
                             </th:block>
 
                             <a class="btn btn-danger btn-xs btn-delete" data-toggle="modal" th:href="${'#modalDeleteImage_' + file.getId()}" title="Удалить изображение">
@@ -213,7 +226,7 @@
 
                 <h4>Добавить файлы</h4>
                 <input type="file" id='fileMulti' name="uploadCustomerFiles" onchange="ValidationFileSize()" multiple="multiple" style="display: none" />
-                <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный загружаемый размер одного файла: 50 Мбайт. &#013;Разрешенные расширения файлов: jpeg, jpg, png, gif.">
+                <label for="fileMulti" class="btn btn-default btn-sm" title="Максимальный загружаемый размер одного файла: 50 Мбайт.">
                     <span>Обзор...</span>
                 </label>
                 <br/>
