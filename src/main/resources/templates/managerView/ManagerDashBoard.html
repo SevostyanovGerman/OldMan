@@ -217,17 +217,36 @@
                                                     </a>
                                                 </li>
 
-                                                <li th:class="${currentIndex != totalPageCount}? '' : 'disabled'">
-                                                    <span th:if='${currentIndex == totalPageCount}'>»</span>
-                                                    <a th:if='${currentIndex != totalPageCount}'
-                                                       th:onclick="'filterSearch('+${currentIndex+1}+')' "
-                                                       title='Вперед'>»</a>
-                                                </li>
-                                                <li th:class="${currentIndex == totalPageCount}? 'disabled' : ''">
-                                                    <span th:if='${currentIndex == totalPageCount}'>Конец</span>
-                                                    <a th:if='${currentIndex != totalPageCount}'
-                                                       th:onclick="'filterSearch('+${totalPageCount}+')'">Конец</a>
-                                                </li>
+                                                <th:block th:if="${totalPageCount == 0}">
+                                                    <li class="disabled">
+                                                        <span>»</span>
+                                                    </li>
+                                                </th:block>
+
+                                                <th:block th:if="${totalPageCount > 0}">
+                                                    <li th:class="${currentIndex != totalPageCount }? '' : 'disabled'">
+                                                        <span th:if='${currentIndex == totalPageCount}'>»</span>
+                                                        <a th:if='${currentIndex != totalPageCount}'
+                                                           th:onclick="'filterSearch('+${currentIndex+1}+')' "
+                                                           title='Вперед'>»</a>
+                                                    </li>
+                                                </th:block>
+
+
+                                                <th:block th:if="${totalPageCount > 0}">
+                                                    <li th:class="${currentIndex == totalPageCount}? 'disabled' : ''">
+                                                        <span th:if='${currentIndex == totalPageCount}'>Конец</span>
+                                                        <a th:if='${currentIndex != totalPageCount}'
+                                                           th:onclick="'filterSearch('+${totalPageCount}+')'">Конец</a>
+                                                    </li>
+                                                </th:block>
+
+                                                <th:block th:if="${totalPageCount == 0}">
+                                                    <li class="disabled">
+                                                        <span>Конец</span>
+                                                    </li>
+                                                </th:block>
+
                                             </ul>
                                         </div>
                                     </div>
