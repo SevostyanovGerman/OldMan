@@ -120,9 +120,9 @@ public class InitDB {
 		allStatus.add(status5);
 		allStatus.add(status6);
 		//Функции ролей
-		FuncMenu managerFunc = new FuncMenu("Главная страница", "/manager");
+		FuncMenu managerFunc = new FuncMenu("Главная: менеджер", "/manager");
 		functionService.save(managerFunc);
-		FuncMenu bossFunc = new FuncMenu("Главная страница", "/director");
+		FuncMenu bossFunc = new FuncMenu("Главная: директор", "/director");
 		functionService.save(bossFunc);
 		FuncMenu bossCustomerFunc = new FuncMenu("Клиенты", "/director/customers/");
 		functionService.save(bossCustomerFunc);
@@ -132,9 +132,9 @@ public class InitDB {
 		functionService.save(bossPanelFunc);
 		FuncMenu bossStatistic = new FuncMenu("Статистика", "/director/statistic/middle/");
 		functionService.save(bossStatistic);
-		FuncMenu designerDashboardFunction = new FuncMenu("Главная страница", "/designer");
+		FuncMenu designerDashboardFunction = new FuncMenu("Главная: дизайнер", "/designer");
 		functionService.save(designerDashboardFunction);
-		FuncMenu masterDashboardFunction = new FuncMenu("Главная страница", "/master");
+		FuncMenu masterDashboardFunction = new FuncMenu("Главная: мастер", "/master");
 		functionService.save(masterDashboardFunction);
 		//Роли
 		Role role1 = new Role("MANAGER", "/manager/", allStatus);
