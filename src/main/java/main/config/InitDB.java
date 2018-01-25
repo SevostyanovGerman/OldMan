@@ -1,19 +1,11 @@
 package main.config;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import javax.annotation.PostConstruct;
-import main.model.Customer;
-import main.model.Delivery;
 import main.model.DeliveryType;
 import main.model.FuncMenu;
-import main.model.Item;
-import main.model.Order;
 import main.model.Payment;
-import main.model.PhoneModel;
-import main.model.Product;
 import main.model.Role;
 import main.model.Status;
 import main.model.User;
@@ -44,23 +36,10 @@ public class InitDB {
 
 	private StatusService statusService;
 
-	private DeliveryService deliveryService;
-
-	private OrderService orderService;
-
-	private CustomerService customerService;
-
-	private ItemService itemService;
-
 	private DeliveryTypeService deliveryTypeService;
 
 	private FuncMenuService functionService;
 
-	private ProductService productService;
-
-	private PhoneModelService phoneModelService;
-
-	private MailService mailService;
 
 	private final static String ColorNewStatus = "#C5D0E6";
 	private final static String ColorDesignStatus = "#F3FCF8";
@@ -79,15 +58,8 @@ public class InitDB {
 		this.roleService = roleService;
 		this.paymentService = paymentService;
 		this.statusService = statusService;
-		this.deliveryService = deliveryService;
-		this.orderService = orderService;
-		this.customerService = customerService;
-		this.itemService = itemService;
 		this.deliveryTypeService = deliveryTypeService;
 		this.functionService = functionService;
-		this.productService = productService;
-		this.phoneModelService = phoneModelService;
-		this.mailService = mailService;
 	}
 
 	@PostConstruct
@@ -155,18 +127,6 @@ public class InitDB {
 		boss.getFunctions().add(bossStatistic);
 		roleService.save(boss);
 		//Пользователи//
-		User user1 = new User("manager", "Manager", "Tramp", false, false, role1, "putin@kremlin.ru",
-			"+7-123-456-78-91");
-		userService.setPasswordEncoder(user1, "123");
-		userService.save(user1);
-		User user2 = new User("designer", "Designer", "Gucci", false, false, role2, "medvedev@kremlin.ru",
-			"+7-123-456-78-92");
-		userService.setPasswordEncoder(user2, "123");
-		userService.save(user2);
-		User user3 = new User("master", "Master", "Carlo", false, false, role3, "pupkin@kremlin.ru",
-			"+7-123-456-78-93");
-		userService.setPasswordEncoder(user3, "123");
-		userService.save(user3);
 		User user4 = new User("boss", "Director", "Boss", false, false, boss, "arcas.llc@yandex.ru",
 			"+7-123-456-78-94");
 		userService.setPasswordEncoder(user4, "123");
@@ -178,71 +138,6 @@ public class InitDB {
 		paymentService.save(payment2);
 		Payment payment3 = new Payment("наложный платеж", false);
 		paymentService.save(payment3);
-		//Delivery//
-		Delivery delivery1 = new Delivery("Russia", "saint-Petersburg", "sizam street", "777");
-		deliveryService.save(delivery1);
-		Delivery delivery2 = new Delivery("Kazahstan", "Almata", "bumbum street", "999");
-		deliveryService.save(delivery2);
-		Delivery deliveryPickup = new Delivery("USA", "Springfield", "Gomer street", "123", true);
-		deliveryService.save(deliveryPickup);
-		Delivery deliveryPickup2 = new Delivery("Canada", "Toronto", "NHL street", "321", true);
-		deliveryService.save(deliveryPickup2);
-		//Customer//
-		Customer customer1 = new Customer("Piter", "Parker", "spider@mail.ru", "+7-777-777-79-11", delivery1);
-		customerService.save(customer1);
-		Customer customer2 = new Customer("Bruce", "Wayne", "batman@mail.ru", "+7-777-777-70-02", delivery2);
-		customerService.save(customer2);
-		//Product//
-		Product product1 = new Product("Case");
-		productService.save(product1);
-		Product product2 = new Product("Box");
-		productService.save(product2);
-		//Phone Model//
-		PhoneModel phoneModel1 = new PhoneModel("iPhone X");
-		phoneModelService.save(phoneModel1);
-		PhoneModel phoneModel2 = new PhoneModel("Samsung One Note");
-		phoneModelService.save(phoneModel2);
-		PhoneModel phoneModel3 = new PhoneModel("Sony Experia Z");
-		phoneModelService.save(phoneModel3);
-		PhoneModel phoneModel4 = new PhoneModel("GOOGLE PIXEL 2");
-		phoneModelService.save(phoneModel4);
-		PhoneModel phoneModel5 = new PhoneModel("HTC U ULTRA");
-		phoneModelService.save(phoneModel5);
-		PhoneModel phoneModel6 = new PhoneModel("HUAWEI MATE 10");
-		phoneModelService.save(phoneModel6);
-		PhoneModel phoneModel7 = new PhoneModel("MEIZU MX7");
-		phoneModelService.save(phoneModel7);
-		//Item//
-		Item item1 = new Item(product1, phoneModel1, "metal", "метал должен быть матовым", 1, 100d, false);
-		Item item2 = new Item(product1, phoneModel2, "wood", "my comment...", 2, 200d, false);
-		Item item3 = new Item(product2, phoneModel3, "plastic", "my comment...", 1, 100d, false);
-		Item item4 = new Item(product2, phoneModel4, "wood", "my comment...", 2, 200d, false);
-		Item item5 = new Item(product1, phoneModel5, "wood", "через гравировка", 5, 230d, false);
-		Item item6 = new Item(product1, phoneModel6, "plastic", "матовый пластик найдешь на складе", 3, 130d, false);
-		//Order//
-		Date createDate = new Date();
-		String date1 = "03/10/2017";
-		String date2 = "10/10/2017";
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		Date d1 = dateFormat.parse(date1);
-		Date d2 = dateFormat.parse(date2);
-		Order order1 = new Order("1", false, false, createDate, toAddress, payment1, status1, customer1, item1, user1,
-			user2, user3);
-		orderService.save(order1);
-		Order order2 = new Order("2", false, false, createDate, toAddress, payment2, status2, customer2, item2, user1,
-			user2, user3);
-		orderService.save(order2);
-		Order order3 = new Order("3", false, false, createDate, pickup, payment1, status3, customer2, item3, user1,
-			user2, user3, deliveryPickup2);
-		orderService.save(order3);
-		Order order4 = new Order("4", false, false, createDate, pickup, payment2, status4, customer1, item4, user1,
-			user2, user3, deliveryPickup);
-		orderService.save(order4);
-		Order order5 = new Order("5", false, false, d1, toAddress, payment2, status3, customer1, item5, user1, user2,
-			user3);
-		orderService.save(order5);
-		Order order6 = new Order("6", false, false, d2, toAddress, payment2, status3, customer1, item6, user1, user2,
-			user3);
-		orderService.save(order6);
+
 	}
 }
